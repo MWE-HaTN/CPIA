@@ -110,4 +110,4 @@ The syllabus is divided into **six knowledge groups** (Appendices A to F), each 
 
 ---
 
-> **Ghi chú:** Tất cả các mục đánh dấu **MC** đều thuộc dạng Multiple Choice trong bài thi CPIA. Mục D12 (Web Based Attacks) không có cột CPIA được đánh dấu trong tài liệu gốc.
+> **Note:** All items marked “MC” are Multiple Choice questions in the CPIA exam. Item D12 (Web Based Attacks) does not have the CPIA column marked in the original document.
