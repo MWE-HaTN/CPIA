@@ -1992,7 +1992,7 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
   });
 })();
 
-/* Scrollspy — highlight active section in sidebar */
+/* Scrollspy — highlight active section + sync sidebar scroll */
 (function(){
   const navLinks=Array.from(document.querySelectorAll('.nav a[href^="#"]'));
   const sections=[];
@@ -2002,8 +2002,11 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
     if(el) sections.push({el:el,link:a});
   });
   if(!sections.length) return;
+  const sidebar=document.getElementById('sidebar');
   let current=null;
+  let ticking=false;
   function update(){
+    ticking=false;
     const offset=80;
     let active=null;
     for(var i=sections.length-1;i>=0;i--){
@@ -2012,22 +2015,23 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
         break;
       }
     }
-    if(active&&active.link!==current){
-      if(current) current.classList.remove('active');
-      active.link.classList.add('active');
-      /* Scroll active link into sidebar view */
-      var sb=document.getElementById('sidebar');
-      if(sb){
-        var r=active.link.getBoundingClientRect();
-        var sr=sb.getBoundingClientRect();
-        if(r.top<sr.top||r.bottom>sr.bottom){
-          active.link.scrollIntoView({block:'nearest',behavior:'smooth'});
-        }
-      }
-      current=active.link;
+    if(!active||active.link===current) return;
+    if(current) current.classList.remove('active');
+    active.link.classList.add('active');
+    current=active.link;
+    /* Scroll sidebar to keep active link centered */
+    if(sidebar){
+      var linkTop=active.link.offsetTop;
+      var linkH=active.link.offsetHeight;
+      var sbH=sidebar.clientHeight;
+      var target=linkTop-sbH/2+linkH/2;
+      sidebar.scrollTo({top:Math.max(0,target),behavior:'smooth'});
     }
   }
-  window.addEventListener('scroll',update,{passive:true});
+  function onScroll(){
+    if(!ticking){ticking=true;requestAnimationFrame(update)}
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
   update();
 })();
 </script>
