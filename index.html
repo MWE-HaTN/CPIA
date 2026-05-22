@@ -79,6 +79,9 @@ section[id],.section-page[id]{scroll-margin-top:60px}
 .print-mini th,.print-mini td{padding:6px 8px;word-break:break-word}
 .print-mini ol{padding-left:18px}
 .print-mini li{word-break:break-word}
+/* Icon-style callouts need flex layout so icon aligns beside body content */
+.callout:has(.callout-icon){display:flex;align-items:flex-start;gap:10px}
+
 @media print{
   .sidebar,.topbar{display:none!important}
   .layout{display:block!important}
@@ -1330,19 +1333,18 @@ bcdedit /set {default} recoveryenabled No</pre>
 
 <h3>Memory analysis details for CPIA</h3>
 <div class="table-wrap"><table><tr><th>Topic</th><th>What to look for</th><th>Typical tool/output</th></tr><tr><td>Profile / symbol selection</td><td>Correct OS version/build to parse structures accurately.</td><td>Volatility 2 profiles; Volatility 3 symbols/automagic.</td></tr><tr><td>Process hollowing</td><td>Process image path appears legitimate but memory contains unmapped executable code.</td><td>malfind shows suspicious VAD with PAGE_EXECUTE_READWRITE or MZ header.</td></tr><tr><td>Injected DLL</td><td>DLL loaded from suspicious path or memory-only region.</td><td>dlllist, ldrmodules, malfind, handles.</td></tr><tr><td>Credentials</td><td>LSASS memory, hashes, cached secrets.</td><td>hashdump, lsadump, mimikatz-style artefacts where legally authorised.</td></tr><tr><td>Network connections</td><td>Suspicious remote IPs, unusual ports, unexpected process ownership.</td><td>netscan / connscan output: local address, foreign address, PID, process.</td></tr></table></div>
-<pre># Volatility 3 examples (current syntax)
-vol.py -f memory.raw --profile=Win10x64_19041 pslist      # list active processes
-vol.py -f memory.raw --profile=Win10x64_19041 pstree      # parent/child process relationships
-vol.py -f memory.raw --profile=Win10x64_19041 netscan     # identify network connections
-vol.py -f memory.raw --profile=Win10x64_19041 malfind     # find injected or suspicious executable memory
-vol.py -f memory.raw --profile=Win10x64_19041 dlllist -p 1234  # list DLLs loaded by a process
-vol.py -f memory.raw --profile=Win10x64_19041 cmdline     # recover process command lines
-vol.py -f memory.raw --profile=Win10x64_19041 hashdump    # extract SAM password hashes
-vol.py -f memory.raw --profile=Win10x64_19041 handles -p 1234  # open handles (files, keys, mutexes)
+<pre># Volatility 3 examples (current syntax — no --profile needed, auto-detected)
+vol.py -f memory.raw windows.pslist      # list active processes
+vol.py -f memory.raw windows.pstree     # parent/child process relationships
+vol.py -f memory.raw windows.netscan    # identify network connections
+vol.py -f memory.raw windows.malfind    # find injected or suspicious executable memory
+vol.py -f memory.raw windows.dlllist --pid 1234  # list DLLs loaded by a process
+vol.py -f memory.raw windows.cmdline    # recover process command lines
+vol.py -f memory.raw windows.hashdump   # extract SAM password hashes
+vol.py -f memory.raw windows.handles --pid 1234  # open handles (files, keys, mutexes)
 
-# Note: Volatility 2 uses plugin-style commands such as:
-# volatility -f memory.raw --profile=Win10x64_19041 pslist
-# volatility -f memory.raw windows.netscan (V3-style plugin names in some builds)</pre>
+# Note: Volatility 2 requires explicit --profile and uses short plugin names (no windows. prefix):
+# volatility -f memory.raw --profile=Win10x64_19041 pslist</pre>
 <ul>
 <li>Analyse running processes, parent/child relationships, DLLs, handles, sockets, command lines, and injected memory.</li>
 <li>Process acquisition extracts suspicious process memory for offline analysis.</li>
