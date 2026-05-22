@@ -308,7 +308,7 @@ body.light-mode .sidebar-overlay.active{background:rgba(15,23,42,.5)}
 
 }
 
-</style></head><body>
+</style></head><body><script>try{var _l=localStorage.getItem('cpia-lang'),_t=localStorage.getItem('cpia-theme');if(_t==='light')document.body.classList.add('light-mode');document.body.classList.add('lang-'+((_l==='vi')?'vi':'en'))}catch(_e){document.body.classList.add('lang-en')}</script>
 
 <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
 
@@ -720,7 +720,7 @@ body.light-mode .sidebar-overlay.active{background:rgba(15,23,42,.5)}
 
 </ul>
 
-<div class="callout info"><strong>DNS port 53 — UDP vs TCP</strong><p><span class="en">DNS queries use <strong>UDP</strong>. Zone transfers (AXFR) and responses &gt;512 bytes use <strong>TCP</strong>. This is why DNS C2 bypasses firewalls — attackers exploit UDP port 53 because most firewalls allow outbound DNS unconditionally.</span><span class="vi">Truy vấn DNS dùng <strong>UDP</strong>. Zone transfer (AXFR) và response &gt;512 byte dùng <strong>TCP</strong>. Đây là lý do DNS C2 vượt được tường lửa — kẻ tấn công khai thác UDP port 53 vì hầu hết tường lửa đều cho phép DNS ra ngoài vô điều kiện.</span></p></div>
+<div class="callout info"><strong>DNS port 53 — UDP vs TCP</strong><p><span class="en">DNS queries use <strong>UDP</strong>. Zone transfers (AXFR) use <strong>TCP</strong>. Responses &gt;512 bytes also fall back to TCP (unless EDNS0 is negotiated, which allows larger UDP payloads). This is why DNS C2 bypasses firewalls — attackers exploit UDP port 53 because most firewalls allow outbound DNS unconditionally.</span><span class="vi">Truy vấn DNS dùng <strong>UDP</strong>. Zone transfer (AXFR) dùng <strong>TCP</strong>. Response &gt;512 byte cũng chuyển sang TCP (trừ khi EDNS0 được thương lượng, cho phép UDP payload lớn hơn). Đây là lý do DNS C2 vượt được tường lửa — kẻ tấn công khai thác UDP port 53 vì hầu hết tường lửa đều cho phép DNS ra ngoài vô điều kiện.</span></p></div>
 
 <div class="callout info"><strong>SMTP port 587 vs 25</strong><p><span class="en">Port <strong>587</strong> = submission (client → server, requires authentication). Port <strong>25</strong> = server-to-server relay (no auth required). Distinguish these when analysing email routing and investigating phishing / spam origin.</span><span class="vi">Port <strong>587</strong> = gửi thư (client → server, cần xác thực). Port <strong>25</strong> = chuyển tiếp giữa các server (không cần auth). Phân biệt hai port này khi phân tích định tuyến email và điều tra nguồn gốc phishing / spam.</span></p></div>
 
@@ -2116,17 +2116,17 @@ alert dns any any -&gt; any 53 (msg:"Possible DNS tunneling - long subdomain"; \
 
 </ul>
 
-<p class="sub-heading">Web Shell Access Patterns and Authentication Failures</p><ul><li><strong>Web shell in logs:</strong> POST request to static-looking file (.php/.aspx in /images/ or /upload/) followed by large response body. Command: <code>grep "POST.*200" access.log</code> filter by high response bytes.</li><li><strong>RCE confirmation:</strong> Web server process (w3wp.exe, httpd, nginx) spawning cmd.exe, bash, or powershell — Event 4688 parent-child pattern.</li><li><strong>Email authentication failures = phishing:</strong> SPF FAIL = sending IP not in domain SPF record. DKIM FAIL = message modified or key mismatch. DMARC FAIL = neither SPF nor DKIM aligned → likely spoofed sender.</li><li><strong>BEC indicators:</strong> Display name spoofing, lookalike domain (micros0ft.com), unusual sending time, financial urgency, changed reply-to address.</li></ul>
+<p class="sub-heading"><span class="en">Web Shell Access Patterns and Authentication Failures</span><span class="vi">Mẫu truy cập Web Shell và lỗi xác thực</span></p><ul><li><strong>Web shell in logs:</strong> <span class="en">POST request to static-looking file (.php / .aspx in /images/ or /upload/) followed by large response body. Command: <code>grep "POST.*200" access.log</code> filter by high response bytes.</span><span class="vi">Request POST đến file trông như tĩnh (.php / .aspx trong /images/ hoặc /upload/) theo sau bởi response body lớn. Lệnh: <code>grep "POST.*200" access.log</code> lọc theo bytes phản hồi cao.</span></li><li><strong>RCE confirmation:</strong> <span class="en">Web server process (w3wp.exe, httpd, nginx) spawning cmd.exe, bash, or powershell — Event 4688 parent-child pattern.</span><span class="vi">Tiến trình web server (w3wp.exe, httpd, nginx) tạo cmd.exe, bash hoặc powershell — mẫu cha-con Event 4688.</span></li><li><strong><span class="en">Email authentication failures = phishing:</span><span class="vi">Lỗi xác thực email = phishing:</span></strong> <span class="en">SPF FAIL = sending IP not in domain SPF record. DKIM FAIL = message modified or key mismatch. DMARC FAIL = neither SPF nor DKIM aligned → likely spoofed sender.</span><span class="vi">SPF FAIL = IP gửi không có trong bản ghi SPF của domain. DKIM FAIL = tin nhắn bị sửa đổi hoặc khóa không khớp. DMARC FAIL = cả SPF và DKIM đều không phù hợp → khả năng cao người gửi bị giả mạo.</span></li><li><strong>BEC indicators:</strong> <span class="en">Display name spoofing, lookalike domain (micros0ft.com), unusual sending time, financial urgency, changed reply-to address.</span><span class="vi">Giả mạo tên hiển thị, domain tương tự (micros0ft.com), thời gian gửi bất thường, tính cấp bách tài chính, địa chỉ reply-to bị thay đổi.</span></li></ul>
 
-<p class="sub-heading">Web Application Attack Evidence</p>
+<p class="sub-heading"><span class="en">Web Application Attack Evidence</span><span class="vi">Bằng chứng tấn công ứng dụng web</span></p>
 
-<p class="sub-heading">SQL Injection in Web Logs</p><ul><li>Normal: <code>GET /products?id=42 HTTP/1.1</code></li><li>Malicious: <code>GET /products?id=42' UNION SELECT username, password FROM users-- HTTP/1.1</code></li><li>Detection: WAF logs, repeated 500 errors, unusual parameter length, SQL keywords in query strings.</li></ul>
+<p class="sub-heading"><span class="en">SQL Injection in Web Logs</span><span class="vi">SQL Injection trong web log</span></p><ul><li>Normal: <code>GET /products?id=42 HTTP/1.1</code></li><li>Malicious: <code>GET /products?id=42' UNION SELECT username, password FROM users-- HTTP/1.1</code></li><li><span class="en">Detection: WAF logs, repeated 500 errors, unusual parameter length, SQL keywords in query strings.</span><span class="vi">Phát hiện: log WAF, lỗi 500 lặp lại, độ dài tham số bất thường, từ khóa SQL trong query string.</span></li></ul>
 
-<p class="sub-heading">Cross-Site Scripting (XSS)</p><ul><li><strong>Reflected:</strong> <code>GET /search?q=&lt;script&gt;alert(1)&lt;/script&gt; HTTP/1.1</code></li><li><strong>Stored:</strong> POST to comment field, then GET renders payload for other users.</li><li>Detection: script tags in parameters, event handlers (<code>onerror</code>, <code>onload</code>), encoded variants.</li></ul>
+<p class="sub-heading"><span class="en">Cross-Site Scripting (XSS)</span><span class="vi">Tấn công XSS (Cross-Site Scripting)</span></p><ul><li><strong>Reflected:</strong> <code>GET /search?q=&lt;script&gt;alert(1)&lt;/script&gt; HTTP/1.1</code></li><li><strong>Stored:</strong> <span class="en">POST to comment field, then GET renders payload for other users.</span><span class="vi">POST vào trường bình luận, sau đó GET hiển thị payload cho người dùng khác.</span></li><li><span class="en">Detection: script tags in parameters, event handlers (<code>onerror</code>, <code>onload</code>), encoded variants.</span><span class="vi">Phát hiện: thẻ script trong tham số, event handler (<code>onerror</code>, <code>onload</code>), các biến thể mã hóa.</span></li></ul>
 
-<p class="sub-heading">SSRF</p><ul><li>Evidence: internal request to cloud metadata endpoint (<code>169.254.169.254</code>), internal IP ranges, localhost.</li><li>Detection: outbound connections from web server to unexpected internal destinations.</li></ul>
+<p class="sub-heading">SSRF</p><ul><li><strong>Evidence:</strong> <span class="en">internal request to cloud metadata endpoint (<code>169.254.169.254</code>), internal IP ranges, localhost.</span><span class="vi">request nội bộ đến endpoint metadata cloud (<code>169.254.169.254</code>), dải IP nội bộ, localhost.</span></li><li><span class="en">Detection: outbound connections from web server to unexpected internal destinations.</span><span class="vi">Phát hiện: kết nối ra ngoài từ web server đến đích nội bộ không mong đợi.</span></li></ul>
 
-<p class="sub-heading">Deserialisation</p><ul><li>Evidence: serialised objects in request body (Java: <code>rO0AB...</code>, PHP: <code>O:...</code>, .NET: <code>AAEAAAD...</code>).</li><li>Detection: unusual content types, known gadget chain patterns, new processes spawned by web server.</li></ul>
+<p class="sub-heading"><span class="en">Deserialisation</span><span class="vi">Tấn công Deserialisation</span></p><ul><li><strong>Evidence:</strong> <span class="en">serialised objects in request body (Java: <code>rO0AB...</code>, PHP: <code>O:...</code>, .NET: <code>AAEAAAD...</code>).</span><span class="vi">đối tượng được serialize trong body request (Java: <code>rO0AB...</code>, PHP: <code>O:...</code>, .NET: <code>AAEAAAD...</code>).</span></li><li><span class="en">Detection: unusual content types, known gadget chain patterns, new processes spawned by web server.</span><span class="vi">Phát hiện: content type bất thường, mẫu gadget chain đã biết, tiến trình mới được tạo bởi web server.</span></li></ul>
 
 </section><hr/><section id="d10"><h2>D10 — Reconnaissance</h2><ul>
 
@@ -2140,13 +2140,13 @@ alert dns any any -&gt; any 53 (msg:"Possible DNS tunneling - long subdomain"; \
 
 <p class="sub-heading">What Scan Evidence Looks Like in Logs</p>
 
-<p class="sub-heading">Port scan evidence in firewall / IDS logs</p><ul><li>Sequential connection attempts to ports 1-1024 on a single host.</li><li>SYN packets without corresponding ACK completion (half-open scan).</li><li>Connection fan-out: single source IP contacting many internal IPs on the same port within a short timeframe.</li><li>IDS signatures: "SCAN nmap SYN", "PROTOCOL-ICMP PING NMAP".</li></ul>
+<p class="sub-heading"><span class="en">Port scan evidence in firewall / IDS logs</span><span class="vi">Bằng chứng quét cổng trong log firewall / IDS</span></p><ul><li><span class="en">Sequential connection attempts to ports 1-1024 on a single host.</span><span class="vi">Nỗ lực kết nối tuần tự đến cổng 1-1024 trên một host.</span></li><li><span class="en">SYN packets without corresponding ACK completion (half-open scan).</span><span class="vi">Gói SYN không có ACK hoàn tất tương ứng (quét half-open).</span></li><li><span class="en">Connection fan-out: single source IP contacting many internal IPs on the same port within a short timeframe.</span><span class="vi">Fan-out kết nối: một IP nguồn liên hệ nhiều IP nội bộ trên cùng cổng trong thời gian ngắn.</span></li><li><span class="en">IDS signatures: "SCAN nmap SYN", "PROTOCOL-ICMP PING NMAP".</span><span class="vi">Chữ ký IDS: "SCAN nmap SYN", "PROTOCOL-ICMP PING NMAP".</span></li></ul>
 
-<p class="sub-heading">Service enumeration evidence</p><ul><li>Banner grabbing attempts: connections to services that immediately disconnect after receiving the banner.</li><li>DNS zone transfer attempts (AXFR queries from non-authoritative sources).</li><li>SNMP queries with common community strings (public, private).</li><li>LDAP anonymous bind attempts.</li></ul>
+<p class="sub-heading"><span class="en">Service enumeration evidence</span><span class="vi">Bằng chứng liệt kê dịch vụ</span></p><ul><li><span class="en">Banner grabbing attempts: connections to services that immediately disconnect after receiving the banner.</span><span class="vi">Nỗ lực lấy banner: kết nối đến dịch vụ rồi ngắt kết nối ngay sau khi nhận banner.</span></li><li><span class="en">DNS zone transfer attempts (AXFR queries from non-authoritative sources).</span><span class="vi">Nỗ lực zone transfer DNS (truy vấn AXFR từ nguồn không có thẩm quyền).</span></li><li><span class="en">SNMP queries with common community strings (public, private).</span><span class="vi">Truy vấn SNMP với community string phổ biến (public, private).</span></li><li><span class="en">LDAP anonymous bind attempts.</span><span class="vi">Nỗ lực kết nối LDAP ẩn danh.</span></li></ul>
 
-<p class="sub-heading">Web reconnaissance evidence</p><ul><li>Rapid 404 responses indicating directory brute force (gobuster, dirb, dirbuster patterns).</li><li>Requests for common admin paths (/admin, /wp-admin, /phpmyadmin).</li><li>User-Agent strings matching known scanning tools.</li><li>HTTP HEAD requests probing for HTTP methods.</li></ul>
+<p class="sub-heading"><span class="en">Web reconnaissance evidence</span><span class="vi">Bằng chứng trinh sát web</span></p><ul><li><span class="en">Rapid 404 responses indicating directory brute force (gobuster, dirb, dirbuster patterns).</span><span class="vi">Phản hồi 404 dồn dập chỉ ra brute force thư mục (mẫu gobuster, dirb, dirbuster).</span></li><li><span class="en">Requests for common admin paths (/admin, /wp-admin, /phpmyadmin).</span><span class="vi">Request đến các đường dẫn admin phổ biến (/admin, /wp-admin, /phpmyadmin).</span></li><li><span class="en">User-Agent strings matching known scanning tools.</span><span class="vi">Chuỗi User-Agent khớp với các công cụ quét đã biết.</span></li><li><span class="en">HTTP HEAD requests probing for HTTP methods.</span><span class="vi">Request HTTP HEAD thăm dò các phương thức HTTP được hỗ trợ.</span></li></ul>
 
-<p class="sub-heading">Internal recon evidence</p><ul><li>ARP requests for large IP ranges.</li><li>NetBIOS name queries (UDP 137) or LDAP searches for users / computers.</li><li>SMB null session enumeration attempts.</li><li>nltest /domain_trusts style queries visible in Windows Event Logs.</li></ul>
+<p class="sub-heading"><span class="en">Internal recon evidence</span><span class="vi">Bằng chứng trinh sát nội bộ</span></p><ul><li><span class="en">ARP requests for large IP ranges.</span><span class="vi">Request ARP cho dải IP lớn.</span></li><li><span class="en">NetBIOS name queries (UDP 137) or LDAP searches for users / computers.</span><span class="vi">Truy vấn tên NetBIOS (UDP 137) hoặc tìm kiếm LDAP cho người dùng / máy tính.</span></li><li><span class="en">SMB null session enumeration attempts.</span><span class="vi">Nỗ lực liệt kê SMB qua null session.</span></li><li><span class="en"><code>nltest /domain_trusts</code> style queries visible in Windows Event Logs.</span><span class="vi">Truy vấn kiểu <code>nltest /domain_trusts</code> hiển thị trong Windows Event Logs.</span></li></ul>
 
 <h3>Slow and Distributed Scanning Detection</h3><ul><li><strong>Slow scan:</strong> Same scan spread over hours or days to stay below per-minute IDS thresholds. Detection: aggregate connection data over long windows; single source scanning many ports slowly over time.</li><li><strong>Distributed scan:</strong> Coordinated across many source IPs (botnet) — each individual source looks normal. Detection: aggregate by destination across all sources; many IPs scanning same target in sequence.</li><li><strong>Detection challenges:</strong> Both techniques deliberately evade threshold-based IDS. Require: long-window correlation, reputation scoring, ML anomaly detection, or honeypot-triggered alerting.</li><li><strong>Indicators despite evasion:</strong> Sequential port / IP destination patterns across sources; matching tool fingerprints; honeypot host touched by multiple distributed IPs.</li></ul>
 
@@ -2428,7 +2428,7 @@ alert tcp !$TRUSTED_SCANNERS any -> $HOME_NET any (msg:"Port scan";
 
 <h3>Evidence volatility order</h3>
 
-<ol><li>CPU registers and cache</li><li>RAM / memory</li><li>Network state and active connections</li><li>Running processes</li><li>Disk data</li><li>Archival media</li><li>Remote logging and monitoring systems</li></ol>
+<ol><li><span class="en">CPU registers and cache</span><span class="vi">Thanh ghi và cache CPU</span></li><li><span class="en">RAM / memory</span><span class="vi">RAM / bộ nhớ</span></li><li><span class="en">Network state and active connections</span><span class="vi">Trạng thái mạng và kết nối đang hoạt động</span></li><li><span class="en">Running processes</span><span class="vi">Các tiến trình đang chạy</span></li><li><span class="en">Disk data</span><span class="vi">Dữ liệu đĩa</span></li><li><span class="en">Archival media</span><span class="vi">Phương tiện lưu trữ lâu dài</span></li><li><span class="en">Remote logging and monitoring systems</span><span class="vi">Hệ thống ghi log và giám sát từ xa</span></li></ol>
 
 <div class="callout warning"><strong>Exam tip:</strong><p><span class="en">Collect the most volatile evidence first when it is safe and within scope. Powering off may destroy RAM, processes, and network state.</span><span class="vi">Thu thập bằng chứng dễ mất trước khi có thể và trong phạm vi. Tắt nguồn có thể phá hủy RAM, tiến trình và trạng thái mạng.</span></p></div>
 
@@ -2548,13 +2548,13 @@ alert tcp !$TRUSTED_SCANNERS any -> $HOME_NET any (msg:"Port scan";
 
 <ul>
 
-<li><strong>Variants:</strong> FAT12 (floppy), FAT16 (old hard drives), FAT32 (USB / memory cards, max 4GB file), exFAT (flash media, no 4GB limit)</li>
+<li><strong>Variants:</strong> <span class="en">FAT12 (floppy), FAT16 (old hard drives), FAT32 (USB / memory cards, max 4GB file), exFAT (flash media, no 4GB limit)</span><span class="vi">FAT12 (đĩa mềm), FAT16 (ổ cứng cũ), FAT32 (USB / thẻ nhớ, giới hạn file tối đa 4GB), exFAT (bộ nhớ flash, không giới hạn 4GB)</span></li>
 
-<li><strong>Structure:</strong> Boot sector → FAT table (cluster allocation map) → Root directory entries → Data area</li>
+<li><strong>Structure:</strong> <span class="en">Boot sector → FAT table (cluster allocation map) → Root directory entries → Data area</span><span class="vi">Boot sector → Bảng FAT (bản đồ phân bổ cluster) → Mục thư mục gốc → Vùng dữ liệu</span></li>
 
-<li><strong>Directory entries:</strong> Fixed 32-byte records: 8.3 filename, attributes, first cluster, file size, created/modified/accessed timestamps</li>
+<li><strong>Directory entries:</strong> <span class="en">Fixed 32-byte records: 8.3 filename, attributes, first cluster, file size, created / modified / accessed timestamps</span><span class="vi">Bản ghi cố định 32 byte: tên file 8.3, thuộc tính, cluster đầu tiên, kích thước file, timestamp tạo / sửa đổi / truy cập</span></li>
 
-<li><strong>Long File Names (LFN):</strong> Multiple consecutive entries with attribute 0x0F store names up to 255 chars</li>
+<li><strong>Long File Names (LFN):</strong> <span class="en">Multiple consecutive entries with attribute 0x0F store names up to 255 chars</span><span class="vi">Nhiều mục liên tiếp với thuộc tính 0x0F lưu tên lên đến 255 ký tự</span></li>
 
 <li><strong>Deletion:</strong> First byte of directory entry set to 0xE5. Data clusters marked free in FAT but NOT zeroed → recoverable until overwritten.</li>
 
@@ -2588,9 +2588,9 @@ alert tcp !$TRUSTED_SCANNERS any -> $HOME_NET any (msg:"Port scan";
 
 <ul>
 
-<li>Every NTFS file / folder has a security descriptor containing DACL (who can access), SACL (what to audit), owner SID</li>
+<li><span class="en">Every NTFS file / folder has a security descriptor containing DACL (who can access), SACL (what to audit), owner SID</span><span class="vi">Mọi file / thư mục NTFS đều có security descriptor chứa DACL (ai có thể truy cập), SACL (những gì cần kiểm tra), SID chủ sở hữu</span></li>
 
-<li><strong>Forensic check:</strong> Unexpected SID with Full Control on sensitive files = backdoor permission</li>
+<li><strong>Forensic check:</strong> <span class="en">Unexpected SID with Full Control on sensitive files = backdoor permission</span><span class="vi">SID không mong đợi có Full Control trên file nhạy cảm = quyền truy cập cửa hậu</span></li>
 
 <li><strong>Unallocated space:</strong> Clusters marked free in $Bitmap but may contain deleted file data. Carve with Foremost, Scalpel, or Autopsy.</li>
 
@@ -2710,13 +2710,13 @@ bcdedit /set {default} recoveryenabled No</pre>
 
 <h3><code>$UsnJrnl</code> Forensic Value</h3>
 
-<ul><li>Records file system change <strong>reasons</strong> (create, delete, rename, close, data extend, data truncation) with timestamps.</li><li>Contains: file reference number, parent reference number, USN, reason code, filename.</li><li><strong>Useful for:</strong> detecting timestomping (file activity exists but SI / FN timestamps do not match USN records), recovering timing of deleted file activity, correlating file operations with execution evidence.</li><li><strong>Parse with:</strong> MFTECmd, UsnJrnl2Csv, <code>python-ntfs</code>.</li><li><strong>Caveat:</strong> may not be present on all volumes; can be disabled; wraps and overwrites old entries when full.</li></ul>
+<ul><li><span class="en">Records file system change <strong>reasons</strong> (create, delete, rename, close, data extend, data truncation) with timestamps.</span><span class="vi">Ghi lại <strong>lý do</strong> thay đổi hệ thống file (tạo, xóa, đổi tên, đóng, mở rộng, cắt ngắn dữ liệu) kèm timestamp.</span></li><li><span class="en">Contains: file reference number, parent reference number, USN, reason code, filename.</span><span class="vi">Chứa: số tham chiếu file, số tham chiếu thư mục cha, USN, mã lý do, tên file.</span></li><li><strong>Useful for:</strong> <span class="en">detecting timestomping (file activity exists but SI / FN timestamps do not match USN records), recovering timing of deleted file activity, correlating file operations with execution evidence.</span><span class="vi">phát hiện timestomping (hoạt động file tồn tại nhưng timestamp SI / FN không khớp bản ghi USN), khôi phục thời điểm hoạt động file đã xóa, tương quan thao tác file với bằng chứng thực thi.</span></li><li><strong>Parse with:</strong> MFTECmd, UsnJrnl2Csv, <code>python-ntfs</code>.</li><li><strong>Caveat:</strong> <span class="en">may not be present on all volumes; can be disabled; wraps and overwrites old entries when full.</span><span class="vi">có thể không có trên tất cả volume; có thể bị vô hiệu hóa; ghi đè mục cũ khi đầy.</span></li></ul>
 
 <h3>Windows Event ID 4672 Context</h3>
 
 <p class="sub-heading">Event 4672 — Special Privileges Assigned to New Logon</p>
 
-<ul><li>Appears alongside Event 4624 when the logged-on user holds administrator-level privileges (SeDebugPrivilege, SeBackupPrivilege, SeRestorePrivilege, etc.).</li><li><strong>Correlation:</strong> 4624 (logon type + source IP) + 4672 (privilege list) = privileged access from a specific source.</li><li><strong>Security concern:</strong> unexpected 4672 entries for non-admin users or from unusual source IPs may indicate privilege escalation.</li></ul>
+<ul><li><span class="en">Appears alongside Event 4624 when the logged-on user holds administrator-level privileges (SeDebugPrivilege, SeBackupPrivilege, SeRestorePrivilege, etc.).</span><span class="vi">Xuất hiện cùng Event 4624 khi người dùng đăng nhập có quyền cấp quản trị viên (SeDebugPrivilege, SeBackupPrivilege, SeRestorePrivilege, v.v.).</span></li><li><strong>Correlation:</strong> <span class="en">4624 (logon type + source IP) + 4672 (privilege list) = privileged access from a specific source.</span><span class="vi">4624 (loại đăng nhập + IP nguồn) + 4672 (danh sách quyền) = truy cập đặc quyền từ nguồn cụ thể.</span></li><li><strong>Security concern:</strong> <span class="en">unexpected 4672 entries for non-admin users or from unusual source IPs may indicate privilege escalation.</span><span class="vi">các mục 4672 không mong đợi cho người dùng không phải admin hoặc từ IP nguồn bất thường có thể chỉ ra leo thang đặc quyền.</span></li></ul>
 
 </section><hr/><section id="e5"><h2>E5 — Application File Structures</h2><ul>
 
@@ -2862,29 +2862,29 @@ bcdedit /set {default} recoveryenabled No</pre>
 
 <h3>Registry Run Key Persistence Locations</h3><div class="table-wrap"><table><tr><th>Registry Key</th><th>Scope</th><th>Trigger</th></tr><tr><td><code>HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</code></td><td>All users</td><td>Every logon</td></tr><tr><td><code>HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</code></td><td>Current user</td><td>Every logon</td></tr><tr><td><code>HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce</code></td><td>All users</td><td>Once, then key deleted</td></tr><tr><td><code>HKLM\SYSTEM\CurrentControlSet\Services</code></td><td>System</td><td>Service boot / auto start</td></tr><tr><td><code>HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon</code> (Userinit, Shell)</td><td>System</td><td>All logons — modified values persist</td></tr><tr><td><code>HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\[exe]</code></td><td>System</td><td>Debugger hijacking — target exe runs attacker binary</td></tr><tr><td>Startup folders: <code>%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup</code></td><td>User</td><td>Every logon</td></tr></table></div></section><hr/><section id="e7"><h2>E7 — Identifying Suspect Files</h2><ul>
 
-<li>Hash tables: compare to known-good / known-bad sets; use SHA-256 primarily.</li>
+<li><span class="en">Hash tables: compare to known-good / known-bad sets; use SHA-256 primarily.</span><span class="vi">Bảng hash: so sánh với tập đã biết là tốt / xấu; ưu tiên dùng SHA-256.</span></li>
 
-<li>Strings: URLs, IPs, registry paths, commands, mutexes, user agents, errors.</li>
+<li><span class="en">Strings: URLs, IPs, registry paths, commands, mutexes, user agents, errors.</span><span class="vi">Chuỗi ký tự: URL, IP, đường dẫn registry, lệnh, mutex, user agent, thông báo lỗi.</span></li>
 
-<li>Permissions: writable service paths or executables in unusual writable locations.</li>
+<li><span class="en">Permissions: writable service paths or executables in unusual writable locations.</span><span class="vi">Quyền truy cập: đường dẫn dịch vụ có thể ghi hoặc file thực thi ở vị trí ghi bất thường.</span></li>
 
-<li>Packed executables: high entropy, few imports, unusual sections, small import table.</li>
+<li><span class="en">Packed executables: high entropy, few imports, unusual sections, small import table.</span><span class="vi">File thực thi đóng gói: entropy cao, ít import, section bất thường, bảng import nhỏ.</span></li>
 
-<li>Fuzzy hashing: ssdeep / TLSH helps find related variants.</li>
+<li><span class="en">Fuzzy hashing: ssdeep / TLSH helps find related variants.</span><span class="vi">Fuzzy hashing: ssdeep / TLSH giúp tìm các biến thể liên quan.</span></li>
 
-<li>Signature analysis: Authenticode validity, publisher, timestamp, certificate anomalies.</li>
+<li><span class="en">Signature analysis: Authenticode validity, publisher, timestamp, certificate anomalies.</span><span class="vi">Phân tích chữ ký số: tính hợp lệ Authenticode, nhà xuất bản, timestamp, bất thường chứng chỉ.</span></li>
 
 </ul><h3>NSRL, Import Hash, and FLOSS</h3><ul><li><strong>NSRL (National Software Reference Library):</strong> Database of hashes of legitimate software from known vendors. Use to exclude known-good files from investigation — dramatically reduces noise in large-scale triage. Available as hashset in tools like Autopsy and X-Ways.</li><li><strong>imphash (Import Hash):</strong> Hash of the PE import table in specific order. Same imports in same order = likely same malware family or compiler. Use to cluster related samples and identify variants of the same malware.</li><li><strong>FLOSS (FireEye Labs Obfuscated String Solver):</strong> Extracts obfuscated strings that <code>strings</code> tool misses — stack strings, decoded strings, XOR-encoded strings. Run: <code>floss malware.exe</code></li><li><strong>Triage workflow:</strong> Compute hash → NSRL exclude known-good → VirusTotal lookup → strings + FLOSS → imphash clustering → static analysis</li></ul>
 
 <h3>Malware Packing and Entropy Analysis</h3>
 
-<p class="sub-heading">Packing Indicators</p><ul><li><strong>High entropy</strong> (&gt;7.0) in code sections → likely packed or encrypted.</li><li><strong>Few imports</strong> in the import table (only <code>LoadLibrary</code> / <code>GetProcAddress</code>).</li><li><strong>Section names:</strong> <code>UPX0</code>, <code>UPX1</code>, <code>.aspack</code>, <code>.themida</code>.</li><li>Small original section with large appended section.</li><li>Unusual entry point (not at code section start).</li></ul>
+<p class="sub-heading"><span class="en">Packing Indicators</span><span class="vi">Chỉ báo file đóng gói</span></p><ul><li><strong>High entropy</strong> <span class="en">(&gt;7.0) in code sections → likely packed or encrypted.</span><span class="vi">(&gt;7.0) trong các section code → có thể đã đóng gói hoặc mã hóa.</span></li><li><strong>Few imports</strong> <span class="en">in the import table (only <code>LoadLibrary</code> / <code>GetProcAddress</code>).</span><span class="vi">trong bảng import (chỉ có <code>LoadLibrary</code> / <code>GetProcAddress</code>).</span></li><li><strong>Section names:</strong> <code>UPX0</code>, <code>UPX1</code>, <code>.aspack</code>, <code>.themida</code>.</li><li><span class="en">Small original section with large appended section.</span><span class="vi">Section gốc nhỏ với section được thêm vào lớn.</span></li><li><span class="en">Unusual entry point (not at code section start).</span><span class="vi">Entry point bất thường (không nằm ở đầu section code).</span></li></ul>
 
 <h3>Common Packers (Awareness Level)</h3>
 
 <div class="table-wrap"><table><tr><th>Packer</th><th>Notes</th></tr><tr><td>UPX</td><td>Open source, easy to unpack (<code>upx -d</code>)</td></tr><tr><td>Themida / VMProtect</td><td>Commercial, anti-debug, virtualisation-based</td></tr><tr><td>ASPack</td><td>Older, common in older malware</td></tr><tr><td>Custom packers</td><td>Unique per malware family; requires dynamic analysis</td></tr></table></div>
 
-<h3>Analysis Approach</h3><ol><li>Detect packing via entropy and import-table analysis.</li><li>Attempt automated unpacking (UPX).</li><li>If automated fails: dynamic analysis — run in sandbox, dump unpacked code from memory.</li><li>Static analysis of unpacked code.</li></ol>
+<h3><span class="en">Analysis Approach</span><span class="vi">Phương pháp phân tích</span></h3><ol><li><span class="en">Detect packing via entropy and import-table analysis.</span><span class="vi">Phát hiện đóng gói qua phân tích entropy và bảng import.</span></li><li><span class="en">Attempt automated unpacking (UPX).</span><span class="vi">Thử giải nén tự động (UPX).</span></li><li><span class="en">If automated fails: dynamic analysis — run in sandbox, dump unpacked code from memory.</span><span class="vi">Nếu tự động thất bại: phân tích động — chạy trong sandbox, dump code đã giải nén từ bộ nhớ.</span></li><li><span class="en">Static analysis of unpacked code.</span><span class="vi">Phân tích tĩnh code đã giải nén.</span></li></ol>
 
 <h3>File Permissions and Signature Analysis</h3><ul><li><strong>File permissions (Windows):</strong> Writable service executables = binary planting for privilege escalation. Check with <code>icacls</code> or Sysinternals AccessChk. World-writable directories in service path = DLL hijacking risk.</li><li><strong>File permissions (Linux):</strong> SUID (<code>chmod u+s</code>) — executable runs with file owner's privileges. Malicious SUID binary = instant privilege escalation. Find with: <code>find / -perm -4000 -type f</code>. SGID and world-writable (<code>777</code>) are also suspicious.</li><li><strong>Signature analysis / magic bytes:</strong> File type identified by header bytes, not extension. PE files: <code>4D 5A</code> (MZ). ZIP: <code>50 4B 03 04</code>. PDF: <code>25 50 44 46</code> (%PDF). ELF: <code>7F 45 4C 46</code>. Tool: <code>file filename</code> or Detect-It-Easy (DIE).</li><li><strong>Extension mismatch:</strong> File named <code>image.jpg</code> with MZ magic bytes = disguised executable. Always verify magic bytes, not just extension.</li></ul></section><hr/><section id="e8"><h2>E8 — Storage Media</h2>
 
@@ -2894,17 +2894,17 @@ bcdedit /set {default} recoveryenabled No</pre>
 
 <ul>
 
-<li>Hard disk interfaces: PATA / SATA / SCSI / SAS; understand physical / logical acquisition differences.</li>
+<li><span class="en">Hard disk interfaces: PATA / SATA / SCSI / SAS; understand physical / logical acquisition differences.</span><span class="vi">Giao diện ổ cứng: PATA / SATA / SCSI / SAS; hiểu sự khác biệt giữa thu thập vật lý / logic.</span></li>
 
-<li>HPA / DCO can hide disk areas; forensic tools should detect / report them.</li>
+<li><span class="en">HPA / DCO can hide disk areas; forensic tools should detect / report them.</span><span class="vi">HPA / DCO có thể ẩn vùng đĩa; công cụ điều tra số nên phát hiện / báo cáo chúng.</span></li>
 
-<li>Password protection and full-disk encryption can block acquisition without keys.</li>
+<li><span class="en">Password protection and full-disk encryption can block acquisition without keys.</span><span class="vi">Bảo vệ mật khẩu và mã hóa toàn đĩa có thể chặn việc thu thập nếu không có khóa.</span></li>
 
-<li>SSDs / flash: wear levelling and TRIM affect deleted-data recovery.</li>
+<li><span class="en">SSDs / flash: wear levelling and TRIM affect deleted-data recovery.</span><span class="vi">SSD / flash: cân bằng ghi (wear levelling) và TRIM ảnh hưởng đến khả năng phục hồi dữ liệu đã xóa.</span></li>
 
-<li>RAID: know levels, parity/mirroring/striping, and need for controller / order metadata.</li>
+<li><span class="en">RAID: know levels, parity / mirroring / striping, and need for controller / order metadata.</span><span class="vi">RAID: nắm các cấp độ, parity / mirroring / striping và yêu cầu metadata bộ điều khiển / thứ tự.</span></li>
 
-<li>NAS: network shares, snapshots, logs, user permissions, and remote acquisition considerations.</li>
+<li><span class="en">NAS: network shares, snapshots, logs, user permissions, and remote acquisition considerations.</span><span class="vi">NAS: chia sẻ mạng, snapshot, log, quyền người dùng và các lưu ý thu thập từ xa.</span></li>
 
 </ul>
 
@@ -3146,11 +3146,11 @@ vol.py -f memory.raw cmdline         # All process command lines
 
 <ul>
 
-<li>Files downloaded from internet receive NTFS ADS: <code>:Zone.Identifier</code> with ZoneId=3</li>
+<li><span class="en">Files downloaded from internet receive NTFS ADS: <code>:Zone.Identifier</code> with ZoneId=3</span><span class="vi">File tải xuống từ internet được gán NTFS ADS: <code>:Zone.Identifier</code> với ZoneId=3</span></li>
 
-<li>Office with MOTW → Protected View → macros blocked. Attacker bypass: deliver inside ISO / IMG — contents do NOT inherit MOTW.</li>
+<li><span class="en">Office with MOTW → Protected View → macros blocked. Attacker bypass: deliver inside ISO / IMG — contents do NOT inherit MOTW.</span><span class="vi">Office có MOTW → Protected View → macro bị chặn. Cách vượt qua của kẻ tấn công: phân phối bên trong ISO / IMG — nội dung bên trong KHÔNG kế thừa MOTW.</span></li>
 
-<li><strong>Forensic value:</strong> No Zone.Identifier on executable in Temp = file was written by another process (malware drop), not downloaded by user.</li>
+<li><strong>Forensic value:</strong> <span class="en">No Zone.Identifier on executable in Temp = file was written by another process (malware drop), not downloaded by user.</span><span class="vi">Không có Zone.Identifier trên file thực thi trong Temp = file được ghi bởi tiến trình khác (malware thả xuống), không phải người dùng tải về.</span></li>
 
 </ul>
 
@@ -4219,20 +4219,22 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
   if(!btn||!sidebar||!overlay) return;
 
+  var _scrollPos=0;
   function toggle(open){
-
     const isOpen=open!==undefined?open:!sidebar.classList.contains('open');
-
+    if(isOpen){
+      _scrollPos=window.scrollY||window.pageYOffset||0;
+      document.body.style.top='-'+_scrollPos+'px';
+    }
     sidebar.classList.toggle('open',isOpen);
-
     overlay.classList.toggle('active',isOpen);
-
     btn.classList.toggle('active',isOpen);
-
     btn.setAttribute('aria-expanded',isOpen);
-
     document.body.classList.toggle('sidebar-open',isOpen);
-
+    if(!isOpen){
+      document.body.style.top='';
+      window.scrollTo(0,_scrollPos);
+    }
   }
 
   btn.addEventListener('click',function(){toggle()});
@@ -4319,7 +4321,7 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
     ticking=false;
 
-    const offset=80;
+    const offset=62;
 
     let active=null;
 
