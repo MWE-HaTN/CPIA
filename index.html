@@ -113,6 +113,7 @@
   /* Tables inside callouts: shrink to fit — no forced 420px minimum */
   .callout .table-wrap table{min-width:0}
 }
+@media(min-width:861px){.progress-circle{display:none}}
 
 
 
@@ -272,7 +273,7 @@ body.light-mode .sidebar{box-shadow:2px 0 16px rgba(0,0,0,.1)}
 body.light-mode .sidebar-overlay.active{background:rgba(15,23,42,.5)}
 
 /* ── Progress ring (mobile) ── */
-.progress-circle{display:none;position:relative;width:34px;height:34px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p,0) * 1%),var(--border) 0);flex-shrink:0;align-items:center;justify-content:center}
+.progress-circle{position:relative;width:34px;height:34px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p,0) * 1%),var(--border) 0);flex-shrink:0;align-items:center;justify-content:center}
 .progress-circle::after{content:'';position:absolute;inset:5px;border-radius:50%;background:var(--bg2)}
 .progress-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Consolas,monospace;font-size:8.5px;font-weight:700;color:var(--text3);z-index:1}
 
@@ -1546,6 +1547,39 @@ alert dns any any -&gt; any 53 (msg:"Possible DNS tunneling - long subdomain"; \
 
 </ul>
 
+
+<h3><span class="en">Fast-Flux DNS — In Depth</span><span class="vi">DNS Fast-Flux — Chuyên sâu</span></h3>
+
+<p><span class="en">Fast-flux is a DNS evasion technique used by botnets and criminal hosting providers to rapidly cycle IP addresses behind a single domain, making IP-based blocking and infrastructure takedowns extremely difficult. The domain name stays constant; the IPs behind it change every 60–300 seconds.</span><span class="vi">Fast-flux là kỹ thuật né tránh DNS được botnet và nhà cung cấp hosting tội phạm dùng để luân phiên nhanh địa chỉ IP sau một domain, khiến việc chặn theo IP và gỡ hạ tầng trở nên cực kỳ khó. Tên domain không đổi; IP phía sau thay đổi mỗi 60–300 giây.</span></p>
+
+<div class="table-wrap"><table>
+<tr><th></th><th><span class="en">Single-Flux</span><span class="vi">Single-Flux</span></th><th><span class="en">Double-Flux</span><span class="vi">Double-Flux</span></th></tr>
+<tr><td><span class="en">What rotates</span><span class="vi">Thành phần luân phiên</span></td><td><span class="en">A records only (many IPs per query)</span><span class="vi">Chỉ bản ghi A (nhiều IP mỗi truy vấn)</span></td><td><span class="en">Both A records AND NS records</span><span class="vi">Cả bản ghi A VÀ bản ghi NS</span></td></tr>
+<tr><td>TTL</td><td><span class="en">Very short: 60–300 s</span><span class="vi">Rất ngắn: 60–300 giây</span></td><td><span class="en">Very short at both A and NS level</span><span class="vi">Rất ngắn ở cả cấp A và NS</span></td></tr>
+<tr><td><span class="en">Resilience to takedown</span><span class="vi">Khả năng chống gỡ bỏ</span></td><td><span class="en">Moderate — NS servers are fixed targets</span><span class="vi">Trung bình — NS server vẫn là mục tiêu cố định</span></td><td><span class="en">High — NS records also cycle through compromised hosts</span><span class="vi">Cao — bản ghi NS cũng luân phiên qua host bị xâm phạm</span></td></tr>
+<tr><td><span class="en">Backend location</span><span class="vi">Vị trí backend</span></td><td><span class="en">Flux nodes proxy traffic; real server is hidden</span><span class="vi">Flux node chuyển tiếp lưu lượng; server thật bị ẩn</span></td><td><span class="en">Two flux layers — true origin very hard to locate</span><span class="vi">Hai lớp flux — nguồn gốc thật rất khó định vị</span></td></tr>
+</table></div>
+
+<ul>
+<li><span class="en"><strong>Dynamic DNS (DDNS) abuse:</strong> Legitimate DDNS providers (No-IP, DynDNS, duckdns) map hostnames to changing IPs. Malware embeds a free DDNS hostname in the binary and automatically updates it as the C2 IP rotates — the domain stays constant, eliminating the need for DGA. Detect: monitor known DDNS provider domains as higher-risk; correlate hostnames against threat intel.</span><span class="vi"><strong>Lạm dụng Dynamic DNS:</strong> Nhà cung cấp DDNS hợp lệ (No-IP, DynDNS, duckdns) ánh xạ hostname đến IP thay đổi. Malware nhúng hostname DDNS miễn phí vào binary và tự động cập nhật khi IP C2 thay đổi — domain không đổi, không cần DGA. Phát hiện: giám sát domain nhà cung cấp DDNS đã biết với nguy cơ cao; đối chiếu hostname với threat intel.</span></li>
+<li><span class="en"><strong>Fast-flux vs CDN:</strong> Legitimate CDNs (Cloudflare, Akamai, Fastly) also return many IPs with short TTLs — this is normal behaviour. Distinguish by ASN: CDN IPs belong to well-known CDN ASNs (e.g., AS13335 Cloudflare, AS20940 Akamai); fast-flux IPs scatter across residential and consumer ISP ASNs (compromised home routers and PCs acting as proxies).</span><span class="vi"><strong>Fast-flux vs CDN:</strong> CDN hợp lệ (Cloudflare, Akamai, Fastly) cũng trả về nhiều IP với TTL ngắn — đây là hành vi bình thường. Phân biệt bằng ASN: IP CDN thuộc ASN CDN nổi tiếng (ví dụ AS13335 Cloudflare, AS20940 Akamai); IP fast-flux phân tán qua ASN dân dụng và ISP tiêu dùng (router gia đình và PC đóng vai proxy).</span></li>
+<li><span class="en"><strong>Fast-flux vs DGA:</strong> DGA generates new domain names on a schedule; fast-flux keeps the same domain but rapidly changes its resolved IPs. Both techniques can be combined: a DGA-generated domain using fast-flux to distribute backend IPs, compounding evasion difficulty.</span><span class="vi"><strong>Fast-flux vs DGA:</strong> DGA tạo tên domain mới theo lịch; fast-flux giữ nguyên domain nhưng thay đổi nhanh IP phân giải. Cả hai có thể kết hợp: domain do DGA tạo ra dùng fast-flux để phân tán IP backend, tăng gấp đôi khó khăn né tránh.</span></li>
+</ul>
+
+<h3><span class="en">Fast-Flux Detection Indicators</span><span class="vi">Chỉ báo phát hiện Fast-Flux</span></h3>
+
+<div class="table-wrap"><table>
+<tr><th><span class="en">Indicator</span><span class="vi">Chỉ báo</span></th><th><span class="en">Fast-flux pattern</span><span class="vi">Dấu hiệu fast-flux</span></th><th><span class="en">Investigation source</span><span class="vi">Nguồn điều tra</span></th></tr>
+<tr><td>TTL</td><td><span class="en">&lt;300 s — often 60–120 s</span><span class="vi">&lt;300 giây — thường 60–120 giây</span></td><td>Zeek dns.log, <code>dig +ttl</code></td></tr>
+<tr><td><span class="en">A records per query</span><span class="vi">Bản ghi A mỗi truy vấn</span></td><td><span class="en">&gt;5–10 different IPs for one hostname</span><span class="vi">&gt;5–10 IP khác nhau cho một hostname</span></td><td><code>dig</code>, DNS resolver logs</td></tr>
+<tr><td><span class="en">IP diversity</span><span class="vi">Đa dạng IP</span></td><td><span class="en">IPs span many /24 blocks; residential / consumer ISP ASNs</span><span class="vi">IP trải nhiều /24; ASN ISP dân dụng / tiêu dùng</span></td><td>WHOIS, BGP ASN lookup</td></tr>
+<tr><td><span class="en">NS record rotation</span><span class="vi">Luân phiên bản ghi NS</span></td><td><span class="en">NS records also change between queries (double-flux)</span><span class="vi">Bản ghi NS cũng thay đổi giữa các truy vấn (double-flux)</span></td><td>Passive DNS, <code>dig ns</code></td></tr>
+<tr><td><span class="en">Domain age</span><span class="vi">Tuổi domain</span></td><td><span class="en">Recently registered; no reputation history</span><span class="vi">Mới đăng ký; không có lịch sử danh tiếng</span></td><td>WHOIS, DomainTools</td></tr>
+<tr><td><span class="en">IP history</span><span class="vi">Lịch sử IP</span></td><td><span class="en">IPs not previously associated with this domain</span><span class="vi">IP không từng liên kết với domain này trước đây</span></td><td>Passive DNS, VirusTotal</td></tr>
+</table></div>
+
+<div class="callout warn"><strong><span class="en">Exam tip — Fast-Flux</span><span class="vi">Mẹo thi — Fast-Flux</span></strong><p><span class="en"><strong>Single-flux</strong> rotates A records only. <strong>Double-flux</strong> rotates both A and NS records — significantly harder to take down. The criminal backend hides behind flux nodes acting as proxies. Key indicators: TTL &lt;300 s, many IPs from residential ASNs, IPs differ between repeated queries. Distinguish from CDN by ASN: CDN IPs register to known CDN providers (Cloudflare, Akamai), not residential ISPs.</span><span class="vi"><strong>Single-flux</strong> chỉ luân phiên bản ghi A. <strong>Double-flux</strong> luân phiên cả bản ghi A lẫn NS — khó gỡ bỏ hơn đáng kể. Backend tội phạm ẩn sau flux node đóng vai proxy. Chỉ báo chính: TTL &lt;300 giây, nhiều IP từ ASN dân dụng, IP khác nhau giữa các truy vấn lặp lại. Phân biệt với CDN bằng ASN: IP CDN đăng ký với nhà cung cấp CDN đã biết (Cloudflare, Akamai), không phải ISP dân dụng.</span></p></div>
+
 </section><hr/><section id="c3"><h2>C3 — Open-Source Investigation and Web Enumeration</h2><ul>
 
 <li><span class="en">Use search operators: site:, filetype:, intitle:, inurl:, cache where available.</span><span class="vi">Dùng toán tử tìm kiếm: site:, filetype:, intitle:, inurl:, cache khi có sẵn.</span></li>
@@ -1875,6 +1909,23 @@ alert dns any any -&gt; any 53 (msg:"Possible DNS tunneling - long subdomain"; \
 </ul>
 
 <div class="callout info"><strong>Exam tip</strong><p><span class="en">CPIA tests: "Traffic on UDP port 53 has large structured payloads and shows no standard DNS request / response structure — what does this indicate?" → DNS tunneling / unusual protocol behaviour. Also: "An ARP reply is received with no prior ARP request — what attack does this indicate?" → ARP spoofing / cache poisoning for MITM. Key principle: verify protocol by <strong>payload content</strong>, not port number.</span><span class="vi">CPIA kiểm tra: "Lưu lượng trên UDP port 53 có payload lớn có cấu trúc và không có cấu trúc request / response DNS chuẩn — điều này chỉ ra gì?" → DNS tunneling / hành vi giao thức bất thường. Cũng vậy: "Nhận được ARP reply mà không có ARP request trước đó — điều này chỉ ra tấn công gì?" → ARP spoofing / đầu độc cache để thiết lập MITM. Nguyên tắc chính: xác minh giao thức bằng <strong>nội dung payload</strong>, không phải số cổng.</span></p></div>
+
+
+<h3><span class="en">Illegal Protocol Usage for Vulnerability Exploitation</span><span class="vi">Sử dụng giao thức bất hợp pháp để khai thác lỗ hổng</span></h3>
+
+<p><span class="en">Beyond port mismatch, attackers craft protocol messages that violate RFC specifications to exploit parsing weaknesses in target services. These attacks are detectable because the non-standard message structure itself is the anomaly signal — even when the payload is obfuscated.</span><span class="vi">Ngoài việc dùng sai cổng, kẻ tấn công tạo ra các thông điệp giao thức vi phạm đặc tả RFC để khai thác điểm yếu phân tích cú pháp trong dịch vụ mục tiêu. Các tấn công này có thể phát hiện được vì chính cấu trúc thông điệp không chuẩn là tín hiệu bất thường — ngay cả khi payload bị che giấu.</span></p>
+
+<div class="table-wrap"><table>
+<tr><th><span class="en">Technique</span><span class="vi">Kỹ thuật</span></th><th><span class="en">How it works</span><span class="vi">Cách hoạt động</span></th><th><span class="en">Detection signal</span><span class="vi">Tín hiệu phát hiện</span></th></tr>
+<tr><td><span class="en">HTTP request smuggling</span><span class="vi">Buôn lậu request HTTP</span></td><td><span class="en">Conflicting <code>Content-Length</code> and <code>Transfer-Encoding</code> headers cause front-end and back-end servers to disagree on where one request ends and the next begins</span><span class="vi">Header <code>Content-Length</code> và <code>Transfer-Encoding</code> mâu thuẫn khiến server phía trước và phía sau không đồng ý về điểm kết thúc request</span></td><td><span class="en">Duplicate or conflicting length headers in a single request; IDS rule on header inconsistency</span><span class="vi">Header độ dài trùng lặp hoặc mâu thuẫn trong một request; IDS cảnh báo về không nhất quán header</span></td></tr>
+<tr><td><span class="en">HTTP response splitting</span><span class="vi">Tách response HTTP</span></td><td><span class="en">Attacker injects <code>\r\n</code> (CRLF) sequences into a header value that the server reflects, causing it to inject arbitrary HTTP headers or a second response</span><span class="vi">Kẻ tấn công chèn chuỗi <code>\r\n</code> (CRLF) vào giá trị header mà server phản chiếu, khiến nó chèn header HTTP tùy ý hoặc response thứ hai</span></td><td><span class="en">CRLF characters in URL-encoded parameters; proxy / WAF alert on header injection</span><span class="vi">Ký tự CRLF trong tham số URL-encoded; cảnh báo proxy / WAF về chèn header</span></td></tr>
+<tr><td><span class="en">Double URL encoding</span><span class="vi">Mã hóa URL kép</span></td><td><span class="en"><code>%252e%252e%252f</code> decodes to <code>%2e%2e%2f</code> at the WAF layer, then to <code>../</code> at the application layer — bypasses filters that only decode once</span><span class="vi"><code>%252e%252e%252f</code> giải mã thành <code>%2e%2e%2f</code> ở lớp WAF, rồi thành <code>../</code> ở lớp ứng dụng — vượt bộ lọc chỉ giải mã một lần</span></td><td><span class="en">Double-percent-encoded sequences in request URI; path traversal attempt after normalisation</span><span class="vi">Chuỗi mã hóa phần trăm kép trong URI request; nỗ lực path traversal sau chuẩn hóa</span></td></tr>
+<tr><td><span class="en">Null byte injection</span><span class="vi">Chèn null byte</span></td><td><span class="en"><code>%00</code> in a filename parameter terminates string processing in C-based backends — <code>shell.php%00.jpg</code> passes extension check but executes as PHP</span><span class="vi"><code>%00</code> trong tham số tên file kết thúc xử lý chuỗi ở backend dùng C — <code>shell.php%00.jpg</code> vượt kiểm tra phần mở rộng nhưng chạy như PHP</span></td><td><span class="en"><code>%00</code> in request parameters; file uploads with null in filename</span><span class="vi"><code>%00</code> trong tham số request; tệp tải lên có null trong tên file</span></td></tr>
+<tr><td><span class="en">IP fragmentation overlap</span><span class="vi">Chồng lấp phân mảnh IP</span></td><td><span class="en">Send overlapping IP fragments so the payload is only assembled correctly on the target, not on IDS inspecting fragments — Teardrop (malformed fragments causing crash) is a variant</span><span class="vi">Gửi phân mảnh IP chồng lấp để payload chỉ được lắp ráp đúng ở mục tiêu, không phải trên IDS kiểm tra từng phân mảnh — Teardrop (phân mảnh lỗi gây crash) là biến thể</span></td><td><span class="en">Overlapping fragment offsets in IP headers; IDS must perform full reassembly before inspection</span><span class="vi">Offset phân mảnh chồng lấp trong header IP; IDS phải lắp ráp toàn bộ trước khi kiểm tra</span></td></tr>
+<tr><td><span class="en">TTL manipulation</span><span class="vi">Thao túng TTL</span></td><td><span class="en">Packets sent with TTL just high enough to reach the IDS but expire before reaching the target — IDS sees the payload but target ignores the fragment, allowing IDS evasion</span><span class="vi">Gói tin gửi với TTL vừa đủ để đến IDS nhưng hết hạn trước khi đến mục tiêu — IDS thấy payload nhưng mục tiêu bỏ qua phân mảnh, cho phép né IDS</span></td><td><span class="en">Inconsistent TTL values across a session; baseline TTL analysis per source</span><span class="vi">Giá trị TTL không nhất quán trong một phiên; phân tích TTL cơ sở theo nguồn</span></td></tr>
+</table></div>
+
+<div class="callout info"><strong><span class="en">Exam tip — Illegal protocol usage</span><span class="vi">Mẹo thi — Sử dụng giao thức bất hợp pháp</span></strong><p><span class="en">The key principle: attackers exploit the gap between how different components (WAF, IDS, server, application) interpret the same packet. Sending a technically malformed or ambiguous message lets the attacker's payload pass filtering components while being processed by the vulnerable target. IDS must: (1) fully reassemble fragmented packets before inspection; (2) normalise URL encoding; (3) resolve conflicting headers.</span><span class="vi">Nguyên tắc chính: kẻ tấn công khai thác khoảng cách giữa cách các thành phần khác nhau (WAF, IDS, server, ứng dụng) diễn giải cùng một gói tin. Gửi thông điệp bị định dạng sai hoặc mơ hồ về mặt kỹ thuật cho phép payload vượt các thành phần lọc trong khi được xử lý bởi mục tiêu dễ bị tổn thương. IDS phải: (1) lắp ráp toàn bộ gói tin phân mảnh trước khi kiểm tra; (2) chuẩn hóa mã hóa URL; (3) giải quyết header mâu thuẫn.</span></p></div>
 
 </section><hr/><section id="d5"><h2>D5 — Beaconing</h2><ul>
 
@@ -3531,6 +3582,92 @@ journalctl -o json &gt; journal_export.json</pre>
 </table></div>
 
 <h3>Linux Analysis Commands</h3><div class="table-wrap"><table><tr><th>Command</th><th>What It Shows</th><th>IR Use</th></tr><tr><td><code>ps auxf</code></td><td>All processes as forest (parent-child tree)</td><td>Identify unexpected parent-child: sshd spawning bash = backdoor</td></tr><tr><td><code>lsof -i</code></td><td>All open network connections with process</td><td>Find C2 connections and listening backdoors</td></tr><tr><td><code>lsof -p [PID]</code></td><td>All open files for specific process</td><td>Identify files a suspicious process has open</td></tr><tr><td><code>ss -tulnp</code></td><td>Listening sockets with process names</td><td>Find backdoors on unexpected ports</td></tr><tr><td><code>find / -perm -4000 -type f</code></td><td>All SUID executables</td><td>Find malicious SUID binaries planted for privilege escalation</td></tr><tr><td><code>find /tmp /dev/shm -executable -type f</code></td><td>Executables in world-writable temp dirs</td><td>Malware staging area detection</td></tr></table></div>
+
+
+<h3><span class="en">/proc/ Filesystem — Live System Forensics</span><span class="vi">Hệ thống tệp /proc/ — Pháp y hệ thống trực tiếp</span></h3>
+
+<p><span class="en">The <code>/proc/</code> pseudo-filesystem exposes kernel and process state as files. It is volatile — contents exist only while the system is running and are not stored on disk. Critical for live response; not available in a disk image.</span><span class="vi">Hệ thống tệp giả <code>/proc/</code> hiển thị trạng thái kernel và tiến trình dưới dạng tệp. Nó biến động — nội dung chỉ tồn tại khi hệ thống đang chạy và không được lưu trên đĩa. Quan trọng cho phản ứng trực tiếp; không có sẵn trong image đĩa.</span></p>
+
+<div class="table-wrap"><table>
+<tr><th><span class="en">Path</span><span class="vi">Đường dẫn</span></th><th><span class="en">What it contains</span><span class="vi">Nội dung</span></th><th><span class="en">Forensic use</span><span class="vi">Ứng dụng pháp y</span></th></tr>
+<tr><td><code>/proc/[PID]/cmdline</code></td><td><span class="en">Full command line used to launch the process</span><span class="vi">Dòng lệnh đầy đủ để khởi chạy tiến trình</span></td><td><span class="en">Reveals arguments and flags — catches renamed or obfuscated binaries</span><span class="vi">Tiết lộ đối số và cờ — phát hiện binary đổi tên hoặc che giấu</span></td></tr>
+<tr><td><code>/proc/[PID]/exe</code></td><td><span class="en">Symlink to the executable file on disk</span><span class="vi">Symlink đến file thực thi trên đĩa</span></td><td><span class="en">Points to original binary path; shows <code>(deleted)</code> if binary was removed after execution (fileless indicator)</span><span class="vi">Trỏ đến đường dẫn binary gốc; hiển thị <code>(deleted)</code> nếu binary bị xóa sau khi chạy (chỉ báo fileless)</span></td></tr>
+<tr><td><code>/proc/[PID]/fd/</code></td><td><span class="en">Open file descriptors (files, sockets, pipes)</span><span class="vi">File descriptor đang mở (tệp, socket, pipe)</span></td><td><span class="en">Identify open network connections, log files, and staging files held by the process</span><span class="vi">Xác định kết nối mạng đang mở, tệp log và staging file mà tiến trình đang giữ</span></td></tr>
+<tr><td><code>/proc/[PID]/maps</code></td><td><span class="en">Memory map — all regions loaded into process address space</span><span class="vi">Bản đồ bộ nhớ — tất cả vùng được nạp vào không gian địa chỉ tiến trình</span></td><td><span class="en">Detect injected DLLs (.so) or shellcode regions not backed by a file on disk</span><span class="vi">Phát hiện DLL (.so) hoặc vùng shellcode bị chèn không có tệp tương ứng trên đĩa</span></td></tr>
+<tr><td><code>/proc/[PID]/net/tcp</code></td><td><span class="en">Active TCP connections for the process</span><span class="vi">Kết nối TCP đang hoạt động của tiến trình</span></td><td><span class="en">Identify C2 connections; correlate with <code>lsof -p</code> and <code>ss -tulnp</code></span><span class="vi">Xác định kết nối C2; đối chiếu với <code>lsof -p</code> và <code>ss -tulnp</code></span></td></tr>
+<tr><td><code>/proc/[PID]/environ</code></td><td><span class="en">Environment variables at process launch time</span><span class="vi">Biến môi trường tại thời điểm khởi chạy tiến trình</span></td><td><span class="en">Reveal LD_PRELOAD injections, unusual PATH, or credentials passed as env vars</span><span class="vi">Tiết lộ chèn LD_PRELOAD, PATH bất thường hoặc thông tin xác thực được truyền qua env var</span></td></tr>
+<tr><td><code>/proc/net/tcp</code></td><td><span class="en">System-wide TCP connection table (hex format)</span><span class="vi">Bảng kết nối TCP toàn hệ thống (định dạng hex)</span></td><td><span class="en">Rootkit check: compare against <code>ss</code> / <code>netstat</code> output — discrepancies indicate hidden connections</span><span class="vi">Kiểm tra rootkit: so sánh với output <code>ss</code> / <code>netstat</code> — sự khác biệt cho thấy kết nối bị ẩn</span></td></tr>
+<tr><td><code>/proc/[PID]/status</code></td><td><span class="en">Process metadata: PID, PPID, UID, GID, state</span><span class="vi">Metadata tiến trình: PID, PPID, UID, GID, trạng thái</span></td><td><span class="en">Verify parent-child relationships and effective UID (privilege escalation indicator)</span><span class="vi">Xác minh mối quan hệ cha-con và UID hiệu lực (chỉ báo leo thang đặc quyền)</span></td></tr>
+</table></div>
+
+<pre># Read full command line of PID 1234
+cat /proc/1234/cmdline | tr '\0' ' '; echo
+
+# Check if binary was deleted after execution (fileless malware indicator)
+ls -la /proc/1234/exe
+
+# List all open files for PID 1234
+ls -la /proc/1234/fd/
+
+# Check memory regions — look for rwx anonymous mappings (shellcode)
+grep 'rwx' /proc/1234/maps | grep -v '\.so'
+
+# Compare /proc/net/tcp against ss output (rootkit check)
+cat /proc/net/tcp  # hex-encoded IPs/ports
+ss -tulnp          # userspace view — rootkit may hide entries here but not in /proc</pre>
+
+<h3><span class="en">Linux File Timestamps</span><span class="vi">Timestamps tệp Linux</span></h3>
+
+<p><span class="en">Linux (ext4) tracks three timestamps per file. Understanding them is critical for timeline reconstruction and detecting timestamp tampering (timestomping).</span><span class="vi">Linux (ext4) theo dõi ba timestamp trên mỗi tệp. Hiểu chúng rất quan trọng để tái tạo timeline và phát hiện giả mạo timestamp (timestomping).</span></p>
+
+<div class="table-wrap"><table>
+<tr><th><span class="en">Timestamp</span><span class="vi">Timestamp</span></th><th><span class="en">Updated when</span><span class="vi">Cập nhật khi nào</span></th><th><span class="en">Forensic significance</span><span class="vi">Ý nghĩa pháp y</span></th></tr>
+<tr><td>mtime <span class="en">(modify)</span><span class="vi">(sửa đổi)</span></td><td><span class="en">File contents are written</span><span class="vi">Nội dung tệp được ghi</span></td><td><span class="en">When data last changed; most useful for detecting file creation / modification events</span><span class="vi">Khi dữ liệu thay đổi lần cuối; hữu ích nhất để phát hiện sự kiện tạo / sửa đổi tệp</span></td></tr>
+<tr><td>atime <span class="en">(access)</span><span class="vi">(truy cập)</span></td><td><span class="en">File is read (unless <code>noatime</code> mount option)</span><span class="vi">Tệp được đọc (trừ khi dùng tùy chọn mount <code>noatime</code>)</span></td><td><span class="en">When file was last accessed; often disabled on modern systems for performance — treat as unreliable indicator</span><span class="vi">Khi tệp được truy cập lần cuối; thường bị tắt trên hệ thống hiện đại vì hiệu suất — coi là chỉ báo không đáng tin</span></td></tr>
+<tr><td>ctime <span class="en">(change)</span><span class="vi">(thay đổi)</span></td><td><span class="en">Metadata changes: permissions, ownership, hard link count, mtime itself</span><span class="vi">Thay đổi metadata: quyền, chủ sở hữu, số hard link, bản thân mtime</span></td><td><span class="en">Cannot be directly set by userspace <code>touch</code> — ctime always updates when mtime is changed; timestomping changes mtime but ctime reveals it was tampered with</span><span class="vi">Không thể đặt trực tiếp bằng <code>touch</code> userspace — ctime luôn cập nhật khi mtime thay đổi; timestomping thay đổi mtime nhưng ctime tiết lộ sự giả mạo</span></td></tr>
+</table></div>
+
+<ul>
+<li><span class="en"><strong>Timestomping detection:</strong> If <code>mtime</code> predates <code>ctime</code> by a significant gap, the mtime was likely manipulated (<code>touch -t</code> changes mtime and atime but always updates ctime to now).</span><span class="vi"><strong>Phát hiện timestomping:</strong> Nếu <code>mtime</code> trước <code>ctime</code> một khoảng đáng kể, mtime có thể đã bị thao túng (<code>touch -t</code> thay đổi mtime và atime nhưng luôn cập nhật ctime về hiện tại).</span></li>
+<li><span class="en"><strong>Timeline tool:</strong> <code>stat filename</code> shows all three timestamps. Forensic timeline tools (log2timeline / plaso) correlate file system timestamps with log entries to reconstruct attack sequence.</span><span class="vi"><strong>Công cụ timeline:</strong> <code>stat filename</code> hiển thị cả ba timestamp. Công cụ timeline pháp y (log2timeline / plaso) đối chiếu timestamp hệ thống tệp với mục log để tái tạo trình tự tấn công.</span></li>
+</ul>
+
+<pre># Show all three timestamps for a file
+stat /usr/local/bin/suspicious
+
+# Find files modified in last 24 hours
+find /etc /usr/bin /usr/sbin -newer /tmp/reference_file -ls 2>/dev/null
+
+# Check mtime vs ctime discrepancy (timestomping indicator)
+stat file | grep -E "Modify|Change"</pre>
+
+<h3><span class="en">Package Manager Audit Logs</span><span class="vi">Log kiểm tra trình quản lý gói</span></h3>
+
+<p><span class="en">Package manager logs record software installation, removal, and upgrades — a key source for establishing what software was installed and when, which can identify attacker-installed tools or backdoors.</span><span class="vi">Log trình quản lý gói ghi lại việc cài đặt, gỡ bỏ và nâng cấp phần mềm — nguồn chính để xác định phần mềm nào được cài đặt và khi nào, có thể xác định công cụ hoặc backdoor do kẻ tấn công cài.</span></p>
+
+<div class="table-wrap"><table>
+<tr><th><span class="en">Distribution</span><span class="vi">Bản phân phối</span></th><th><span class="en">Package manager</span><span class="vi">Trình quản lý gói</span></th><th><span class="en">Log / history location</span><span class="vi">Vị trí log / lịch sử</span></th></tr>
+<tr><td>Debian / Ubuntu</td><td>apt / dpkg</td><td><code>/var/log/dpkg.log</code>, <code>/var/log/apt/history.log</code></td></tr>
+<tr><td>RHEL / CentOS 7</td><td>yum</td><td><code>/var/log/yum.log</code>, <code>yum history list</code></td></tr>
+<tr><td>RHEL / CentOS 8+, Fedora</td><td>dnf</td><td><code>/var/log/dnf.log</code>, <code>dnf history list</code></td></tr>
+<tr><td><span class="en">Any (installed packages)</span><span class="vi">Bất kỳ (gói đã cài)</span></td><td>rpm</td><td><code>rpm -qa --last</code> <span class="en">(sorted by install time)</span><span class="vi">(sắp xếp theo thời gian cài đặt)</span></td></tr>
+</table></div>
+
+<pre># Debian/Ubuntu: show recent package installations
+grep " install " /var/log/dpkg.log | tail -50
+
+# RHEL/CentOS: show yum transaction history
+yum history list | head -20
+yum history info [transaction-id]
+
+# RPM: list all packages sorted by installation date (newest first)
+rpm -qa --queryformat '%{INSTALLTIME:date} %{NAME}-%{VERSION}\n' | sort -r | head -30
+
+# Look for tools commonly used by attackers
+rpm -qa | grep -iE 'nmap|netcat|nc|socat|masscan|metasploit'
+dpkg -l | grep -iE 'nmap|netcat|nc|socat|masscan'</pre>
+
+<div class="callout info"><strong><span class="en">Exam tip — Linux forensic evidence chain</span><span class="vi">Mẹo thi — Chuỗi bằng chứng pháp y Linux</span></strong><p><span class="en">Typical Linux compromise timeline evidence: (1) <code>/var/log/auth.log</code> — initial access (SSH brute force or key); (2) <code>/proc/[PID]/exe (deleted)</code> — fileless dropper executed; (3) <code>ctime</code> newer than <code>mtime</code> — timestomping; (4) package manager log — attacker installed tools post-compromise; (5) crontab / systemd service — persistence mechanism. Correlate timestamps across all sources.</span><span class="vi">Chuỗi bằng chứng timeline xâm phạm Linux điển hình: (1) <code>/var/log/auth.log</code> — truy cập ban đầu (SSH brute force hoặc key); (2) <code>/proc/[PID]/exe (deleted)</code> — dropper không cần tệp đã chạy; (3) <code>ctime</code> mới hơn <code>mtime</code> — timestomping; (4) log trình quản lý gói — kẻ tấn công cài công cụ sau khi xâm phạm; (5) crontab / dịch vụ systemd — cơ chế duy trì. Đối chiếu timestamp qua tất cả nguồn.</span></p></div>
 
 <p class="sub-heading">Linux Investigation Patterns</p>
 
