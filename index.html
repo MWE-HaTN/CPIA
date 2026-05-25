@@ -60,7 +60,7 @@
 
   .hamburger{display:flex}
 
-  body.sidebar-open{position:fixed;width:100%;overflow:hidden}
+  html.sidebar-open,body.sidebar-open{overflow:hidden}
 
   /* Sidebar nav: bigger touch targets */
 
@@ -4356,33 +4356,25 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
   if(!btn||!sidebar||!overlay) return;
 
-  var _scrollPos=0;
   function toggle(open){
     const isOpen=open!==undefined?open:!sidebar.classList.contains('open');
-    if(isOpen){
-      _scrollPos=window.scrollY||window.pageYOffset||0;
-      document.body.style.top='-'+_scrollPos+'px';
-    }
     sidebar.classList.toggle('open',isOpen);
     overlay.classList.toggle('active',isOpen);
     btn.classList.toggle('active',isOpen);
     btn.setAttribute('aria-expanded',isOpen);
+    document.documentElement.classList.toggle('sidebar-open',isOpen);
     document.body.classList.toggle('sidebar-open',isOpen);
-    if(!isOpen){
-      document.body.style.top='';
-      window.scrollTo(0,_scrollPos);
-    }
   }
 
   btn.addEventListener('click',function(){toggle()});
 
   overlay.addEventListener('click',function(){toggle(false)});
 
-  /* Close sidebar and navigate when clicking a nav link */
+  /* Close sidebar and navigate when clicking a nav link (mobile) */
 
   sidebar.addEventListener('click',function(e){
 
-    var a=e.target.tagName==='A'?e.target:null;
+    var a=e.target.closest('a');
 
     if(!a) return;
 
@@ -4390,42 +4382,25 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
     if(!href||href.charAt(0)!=='#') return;
 
+    if(window.innerWidth>860) return;
+
+    if(!sidebar.classList.contains('open')) return;
+
+    e.preventDefault();
+
     var targetEl=document.getElementById(href.slice(1));
 
-    if(window.innerWidth<=860&&sidebar.classList.contains('open')){
+    toggle(false);
 
-      /* Mobile: prevent default anchor navigation (avoids 404 / smooth-scroll conflict),
-         close sidebar cleanly, then scrollIntoView (respects scroll-padding-top) */
+    /* Wait for sidebar close animation (300ms) then scroll to target */
 
-      e.preventDefault();
+    if(targetEl){
 
-      sidebar.classList.remove('open');
+      setTimeout(function(){
 
-      overlay.classList.remove('active');
+        targetEl.scrollIntoView({behavior:'smooth',block:'start'});
 
-      btn.classList.remove('active');
-
-      btn.setAttribute('aria-expanded',false);
-
-      document.body.classList.remove('sidebar-open');
-
-      document.body.style.top='';
-
-      /* Instant scroll restore so it doesn't fight the upcoming scrollIntoView */
-
-      window.scrollTo({top:_scrollPos,behavior:'instant'});
-
-      history.pushState(null,'',href);
-
-      if(targetEl){
-
-        setTimeout(function(){
-
-          targetEl.scrollIntoView({behavior:'smooth',block:'start'});
-
-        },50);
-
-      }
+      },320);
 
     }
 
