@@ -4398,7 +4398,7 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
       setTimeout(function(){
 
-        targetEl.scrollIntoView({behavior:'smooth',block:'start'});
+        window.location.hash=href.slice(1);
 
       },320);
 
@@ -4527,6 +4527,15 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
   }
 
   window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* scrollend fires once the animation fully settles (Chrome 114+, Firefox 109+, Safari 17.4+) */
+  window.addEventListener('scrollend',update,{passive:true});
+
+  /* hashchange covers desktop anchor clicks when scrollend isn't supported */
+  window.addEventListener('hashchange',function(){
+    setTimeout(update,50);
+    setTimeout(update,350);
+  });
 
   update();
 
