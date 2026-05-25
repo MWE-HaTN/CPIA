@@ -4472,6 +4472,15 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
   let current=null;
 
+  /* After any nav-link click, poll for settled position across the full
+     smooth-scroll duration window (100 ms → 1.5 s). One of these will
+     always fire after the animation has landed, regardless of distance. */
+  navLinks.forEach(function(a){
+    a.addEventListener('click',function(){
+      [100,300,600,1000,1500].forEach(function(d){setTimeout(update,d);});
+    });
+  });
+
   let ticking=false;
 
   function update(){
@@ -4534,7 +4543,7 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
   /* hashchange covers desktop anchor clicks when scrollend isn't supported */
   window.addEventListener('hashchange',function(){
     setTimeout(update,50);
-    setTimeout(update,350);
+    setTimeout(update,1000);
   });
 
   update();
