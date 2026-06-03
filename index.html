@@ -4477,7 +4477,7 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
 
 
-/* Scrollspy — IntersectionObserver + hash-aware parent/child tracking */
+/* Scrollspy — IntersectionObserver + event-driven parent lock */
 
 (function(){
 
@@ -4489,8 +4489,8 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
     var id=a.getAttribute('href').slice(1);
     var el=document.getElementById(id);
     if(!el) return;
-    if(a.closest('.sub')){children.push({el:el,link:a,ratio:0})}
-    else{parents.push({el:el,link:a})}
+    if(a.closest('.sub')) children.push({el:el,link:a,ratio:0});
+    else parents.push({el:el,link:a});
   });
 
   if(!children.length) return;
@@ -4498,18 +4498,21 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
   var sidebar=document.getElementById('sidebar');
   var current=null;
   var parentLocked=false;
+  var lockTimer=null;
 
-  /* Check if current hash points to a parent section */
-  function hashIsParent(){
-    var h=window.location.hash.slice(1);
-    if(!h) return null;
-    for(var i=0;i<parents.length;i++){
-      if(parents[i].el.id===h) return parents[i];
+  function setActive(item){
+    if(!item||item.link===current) return;
+    if(current) current.classList.remove('active');
+    item.link.classList.add('active');
+    current=item.link;
+    if(sidebar){
+      var t=item.link.offsetTop;
+      var h=item.link.offsetHeight;
+      var s=sidebar.clientHeight;
+      sidebar.scrollTo({top:Math.max(0,t-s/2+h/2),behavior:'smooth'});
     }
-    return null;
   }
 
-  /* Pick the best child based on visibility ratios */
   function pickBest(){
     var best=null;
     var bestRatio=0;
@@ -4528,19 +4531,14 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
     return best;
   }
 
-  function setActive(item){
-    if(!item||item.link===current) return;
-    if(current) current.classList.remove('active');
-    item.link.classList.add('active');
-    current=item.link;
-    if(sidebar){
-      var t=item.link.offsetTop;
-      var h=item.link.offsetHeight;
-      var s=sidebar.clientHeight;
-      sidebar.scrollTo({top:Math.max(0,t-s/2+h/2),behavior:'smooth'});
-    }
+  function lockParent(p){
+    parentLocked=true;
+    setActive(p);
+    clearTimeout(lockTimer);
+    lockTimer=setTimeout(function(){parentLocked=false},3000);
   }
 
+  /* IntersectionObserver — tracks child section visibility */
   var topbar=document.querySelector('.topbar');
   var topH=topbar?topbar.offsetHeight:70;
 
@@ -4556,55 +4554,37 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
   children.forEach(function(c){observer.observe(c.el)});
 
-  /* Click handler: prevent default, lock parent, scroll manually */
+  /* hashchange: detect parent anchor navigation (fires BEFORE browser scrolls) */
+  window.addEventListener('hashchange',function(){
+    var h=window.location.hash.slice(1);
+    var p=parents.find(function(x){return x.el.id===h});
+    if(p) lockParent(p);
+    else parentLocked=false;
+  });
+
+  /* Click handler: only needed for re-clicking same parent (hashchange won't fire) */
   navLinks.forEach(function(a){
-    a.addEventListener('click',function(e){
-      e.preventDefault();
-      var isChild=!!a.closest('.sub');
-      var id=a.getAttribute('href').slice(1);
-      var target=document.getElementById(id);
-      if(isChild){
-        parentLocked=false;
+    a.addEventListener('click',function(){
+      if(!a.closest('.sub')){
+        var p=parents.find(function(x){return x.link===a});
+        if(p) lockParent(p);
       } else {
-        parentLocked=true;
-        var p=parents.find(function(p){return p.link===a});
-        if(p) setActive(p);
-        clearTimeout(parentLockTimer);
-        parentLockTimer=setTimeout(function(){parentLocked=false},2500);
+        parentLocked=false;
       }
-      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
-      if(history.replaceState) history.replaceState(null,'','#'+id);
-      else window.location.hash=id;
     });
   });
-  var parentLockTimer=null;
 
-  /* Hashchange: if hash points to a parent, lock it */
-  window.addEventListener('hashchange',function(){
-    var p=hashIsParent();
-    if(p){
-      parentLocked=true;
-      setActive(p);
-      setTimeout(function(){parentLocked=false},2500);
-    } else {
-      parentLocked=false;
-    }
-  });
-
-  /* On load: check if hash is a parent and lock it */
-  (function(){
-    var p=hashIsParent();
-    if(p){
-      parentLocked=true;
-      setActive(p);
-      setTimeout(function(){parentLocked=false},2500);
-    }
-  })();
-
-  /* At top of page: activate first child */
+  /* At top of page: unlock and activate first child */
   window.addEventListener('scroll',function(){
-    if(window.scrollY<50){parentLocked=false;var f=children[0];if(f) setActive(f)}
+    if(window.scrollY<50){parentLocked=false;setActive(children[0])}
   },{passive:true});
+
+  /* On load: check hash */
+  var h=window.location.hash.slice(1);
+  if(h){
+    var p=parents.find(function(x){return x.el.id===h});
+    if(p) lockParent(p);
+  }
 
 })();
 
