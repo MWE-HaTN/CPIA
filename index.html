@@ -4556,19 +4556,28 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
   children.forEach(function(c){observer.observe(c.el)});
 
-  /* Click handler: lock parent on parent click, unlock on child click */
+  /* Click handler: prevent default, lock parent, scroll manually */
   navLinks.forEach(function(a){
-    a.addEventListener('click',function(){
-      if(!a.closest('.sub')){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var isChild=!!a.closest('.sub');
+      var id=a.getAttribute('href').slice(1);
+      var target=document.getElementById(id);
+      if(isChild){
+        parentLocked=false;
+      } else {
         parentLocked=true;
         var p=parents.find(function(p){return p.link===a});
         if(p) setActive(p);
-        setTimeout(function(){parentLocked=false},2500);
-      } else {
-        parentLocked=false;
+        clearTimeout(parentLockTimer);
+        parentLockTimer=setTimeout(function(){parentLocked=false},2500);
       }
+      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+      if(history.replaceState) history.replaceState(null,'','#'+id);
+      else window.location.hash=id;
     });
   });
+  var parentLockTimer=null;
 
   /* Hashchange: if hash points to a parent, lock it */
   window.addEventListener('hashchange',function(){
