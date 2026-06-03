@@ -190,7 +190,7 @@ blockquote{margin:14px 0 20px;padding:clamp(10px,0.3vw + 8px,14px) 18px;border-l
 
 section + section { border-top: 1px solid var(--border); margin-top: 28px; padding-top: 8px }
 
-section[id],.section-page[id]{scroll-margin-top:60px}
+section[id],.section-page[id]{scroll-margin-top:0}
 
 
 
@@ -4522,7 +4522,8 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
     ticking=false;
 
-    var offset=100;
+    /* Offset = actual scroll-padding-top from CSS (70px desktop, 58px mobile) */
+    var offset=parseInt(getComputedStyle(document.documentElement).scrollPaddingTop)||70;
     var active=null;
 
     /* Priority 1: Find the active child (subsection) — check from end */
