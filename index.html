@@ -4477,7 +4477,7 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
 
 
-/* Scrollspy — IntersectionObserver + click-aware parent/child tracking */
+/* Scrollspy — IntersectionObserver + hash-aware parent/child tracking */
 
 (function(){
 
@@ -4499,15 +4499,17 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
   var current=null;
   var parentLocked=false;
 
-  /* Find the parent that contains a given child element */
-  function findParent(childEl){
+  /* Check if current hash points to a parent section */
+  function hashIsParent(){
+    var h=window.location.hash.slice(1);
+    if(!h) return null;
     for(var i=0;i<parents.length;i++){
-      if(parents[i].el.contains(childEl)) return parents[i];
+      if(parents[i].el.id===h) return parents[i];
     }
     return null;
   }
 
-  /* Pick the best active item based on visibility ratios */
+  /* Pick the best child based on visibility ratios */
   function pickBest(){
     var best=null;
     var bestRatio=0;
@@ -4517,7 +4519,6 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
         bestRatio=children[i].ratio;
       }
     }
-    /* Fallback: nearest child above viewport */
     if(!best){
       for(var i=children.length-1;i>=0;i--){
         if(children[i].el.getBoundingClientRect().top<=0){best=children[i];break}
@@ -4540,7 +4541,6 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
     }
   }
 
-  /* Read topbar height for rootMargin */
   var topbar=document.querySelector('.topbar');
   var topH=topbar?topbar.offsetHeight:70;
 
@@ -4550,32 +4550,51 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
         if(children[i].el===e.target){children[i].ratio=e.intersectionRatio;break}
       }
     });
-    /* If user clicked a parent link, don't override with child */
     if(parentLocked) return;
     setActive(pickBest());
   },{root:null,threshold:[0,0.1,0.25,0.5,0.75,1],rootMargin:'-'+topH+'px 0px 0px 0px'});
 
   children.forEach(function(c){observer.observe(c.el)});
 
-  /* Click handler: distinguish parent vs child clicks */
+  /* Click handler: lock parent on parent click, unlock on child click */
   navLinks.forEach(function(a){
     a.addEventListener('click',function(){
-      var isChild=!!a.closest('.sub');
-      if(!isChild){
-        /* Parent clicked: lock to parent, unlock after scroll settles */
+      if(!a.closest('.sub')){
         parentLocked=true;
-        setActive(parents.find(function(p){return p.link===a})||parents[0]);
-        setTimeout(function(){parentLocked=false},2000);
+        var p=parents.find(function(p){return p.link===a});
+        if(p) setActive(p);
+        setTimeout(function(){parentLocked=false},2500);
       } else {
-        /* Child clicked: unlock parent, let observer take over */
         parentLocked=false;
       }
     });
   });
 
+  /* Hashchange: if hash points to a parent, lock it */
+  window.addEventListener('hashchange',function(){
+    var p=hashIsParent();
+    if(p){
+      parentLocked=true;
+      setActive(p);
+      setTimeout(function(){parentLocked=false},2500);
+    } else {
+      parentLocked=false;
+    }
+  });
+
+  /* On load: check if hash is a parent and lock it */
+  (function(){
+    var p=hashIsParent();
+    if(p){
+      parentLocked=true;
+      setActive(p);
+      setTimeout(function(){parentLocked=false},2500);
+    }
+  })();
+
   /* At top of page: activate first child */
   window.addEventListener('scroll',function(){
-    if(window.scrollY<50){var f=children[0];if(f) setActive(f)}
+    if(window.scrollY<50){parentLocked=false;var f=children[0];if(f) setActive(f)}
   },{passive:true});
 
 })();
