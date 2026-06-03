@@ -4477,7 +4477,7 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
 
 
-/* Scrollspy — IntersectionObserver with rAF-deferred update + parent lock */
+/* Scrollspy — observer DISCONNECT on parent lock, scroll-based fallback */
 
 (function(){
 
@@ -4497,8 +4497,9 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
   var sidebar=document.getElementById('sidebar');
   var current=null;
-  var parentLocked=false;
+  var locked=false;
   var lockTimer=null;
+  var observer=null;
 
   function setActive(item){
     if(!item||item.link===current) return;
@@ -4513,65 +4514,58 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
     }
   }
 
-  function pickBest(){
-    var best=null;
-    var bestRatio=0;
-    for(var i=0;i<children.length;i++){
-      if(children[i].ratio>bestRatio||(children[i].ratio===bestRatio&&children[i].ratio>0)){
-        best=children[i];
-        bestRatio=children[i].ratio;
-      }
-    }
-    if(!best){
-      for(var i=children.length-1;i>=0;i--){
-        if(children[i].el.getBoundingClientRect().top<=0){best=children[i];break}
-      }
-    }
-    if(!best) best=children[0];
-    return best;
-  }
-
-  function lockParent(p){
-    parentLocked=true;
-    setActive(p);
-    clearTimeout(lockTimer);
-    lockTimer=setTimeout(function(){parentLocked=false},3000);
-  }
-
-  /* Deferred observer update — ensures click handler runs first */
-  var rafPending=false;
-
-  function observerUpdate(){
-    rafPending=false;
-    if(parentLocked) return;
-    setActive(pickBest());
-  }
-
-  /* IntersectionObserver — tracks child section visibility */
-  var topbar=document.querySelector('.topbar');
-  var topH=topbar?topbar.offsetHeight:70;
-
-  var observer=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
+  /* Build observer and start observing children */
+  function startObserver(){
+    var topbar=document.querySelector('.topbar');
+    var topH=topbar?topbar.offsetHeight:70;
+    observer=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        for(var i=0;i<children.length;i++){
+          if(children[i].el===e.target){children[i].ratio=e.intersectionRatio;break}
+        }
+      });
+      /* Pick best child */
+      var best=null;
+      var bestRatio=0;
       for(var i=0;i<children.length;i++){
-        if(children[i].el===e.target){children[i].ratio=e.intersectionRatio;break}
+        if(children[i].ratio>bestRatio||(children[i].ratio===bestRatio&&children[i].ratio>0)){
+          best=children[i];bestRatio=children[i].ratio;
+        }
       }
-    });
-    /* Defer update to next frame — click handler runs in current frame */
-    if(!rafPending){rafPending=true;requestAnimationFrame(observerUpdate)}
-  },{root:null,threshold:[0,0.1,0.25,0.5,0.75,1],rootMargin:'-'+topH+'px 0px 0px 0px'});
+      if(!best){
+        for(var i=children.length-1;i>=0;i--){
+          if(children[i].el.getBoundingClientRect().top<=0){best=children[i];break}
+        }
+      }
+      if(!best) best=children[0];
+      setActive(best);
+    },{root:null,threshold:[0,0.1,0.25,0.5,0.75,1],rootMargin:'-'+topH+'px 0px 0px 0px'});
+    children.forEach(function(c){observer.observe(c.el)});
+  }
 
-  children.forEach(function(c){observer.observe(c.el)});
+  function stopObserver(){
+    if(observer){observer.disconnect();observer=null}
+  }
 
-  /* Click handler — SYNCHRONOUS, runs before rAF observer update */
+  function lockTo(item){
+    locked=true;
+    stopObserver();
+    setActive(item);
+    clearTimeout(lockTimer);
+    lockTimer=setTimeout(function(){locked=false;startObserver()},3000);
+  }
+
+  /* Click handler */
   navLinks.forEach(function(a){
     a.addEventListener('click',function(){
+      var id=a.getAttribute('href').slice(1);
       if(!a.closest('.sub')){
-        /* Parent click: lock immediately (sync, before observer rAF) */
-        var p=parents.find(function(x){return x.link===a});
-        if(p) lockParent(p);
+        var p=parents.find(function(x){return x.el.id===id});
+        if(p) lockTo(p);
       } else {
-        parentLocked=false;
+        locked=false;
+        stopObserver();
+        startObserver();
       }
     });
   });
@@ -4580,20 +4574,39 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
   window.addEventListener('hashchange',function(){
     var h=window.location.hash.slice(1);
     var p=parents.find(function(x){return x.el.id===h});
-    if(p) lockParent(p);
-    else parentLocked=false;
+    if(p) lockTo(p);
+    else{locked=false;stopObserver();startObserver()}
   });
 
-  /* At top of page: unlock and activate first child */
+  /* Scroll handler: only active when observer is stopped and not locked */
+  var scrollTimer=null;
   window.addEventListener('scroll',function(){
-    if(window.scrollY<50){parentLocked=false;setActive(children[0])}
+    if(locked||observer) return;
+    clearTimeout(scrollTimer);
+    scrollTimer=setTimeout(function(){
+      var topbar=document.querySelector('.topbar');
+      var offset=topbar?topbar.offsetHeight+10:80;
+      var active=null;
+      for(var i=children.length-1;i>=0;i--){
+        if(children[i].el.getBoundingClientRect().top<=offset){active=children[i];break}
+      }
+      if(active) setActive(active);
+    },100);
+  },{passive:true});
+
+  /* At top of page */
+  window.addEventListener('scroll',function(){
+    if(window.scrollY<50&&!locked){setActive(children[0])}
   },{passive:true});
 
   /* On load: check hash */
   var h=window.location.hash.slice(1);
   if(h){
     var p=parents.find(function(x){return x.el.id===h});
-    if(p) lockParent(p);
+    if(p) lockTo(p);
+    else startObserver();
+  } else {
+    startObserver();
   }
 
 })();
