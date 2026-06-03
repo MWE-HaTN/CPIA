@@ -4477,7 +4477,7 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
 
 
-/* Scrollspy — IntersectionObserver + event-driven parent lock */
+/* Scrollspy — IntersectionObserver with rAF-deferred update + parent lock */
 
 (function(){
 
@@ -4538,6 +4538,15 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
     lockTimer=setTimeout(function(){parentLocked=false},3000);
   }
 
+  /* Deferred observer update — ensures click handler runs first */
+  var rafPending=false;
+
+  function observerUpdate(){
+    rafPending=false;
+    if(parentLocked) return;
+    setActive(pickBest());
+  }
+
   /* IntersectionObserver — tracks child section visibility */
   var topbar=document.querySelector('.topbar');
   var topH=topbar?topbar.offsetHeight:70;
@@ -4548,30 +4557,31 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
         if(children[i].el===e.target){children[i].ratio=e.intersectionRatio;break}
       }
     });
-    if(parentLocked) return;
-    setActive(pickBest());
+    /* Defer update to next frame — click handler runs in current frame */
+    if(!rafPending){rafPending=true;requestAnimationFrame(observerUpdate)}
   },{root:null,threshold:[0,0.1,0.25,0.5,0.75,1],rootMargin:'-'+topH+'px 0px 0px 0px'});
 
   children.forEach(function(c){observer.observe(c.el)});
 
-  /* hashchange: detect parent anchor navigation (fires BEFORE browser scrolls) */
-  window.addEventListener('hashchange',function(){
-    var h=window.location.hash.slice(1);
-    var p=parents.find(function(x){return x.el.id===h});
-    if(p) lockParent(p);
-    else parentLocked=false;
-  });
-
-  /* Click handler: only needed for re-clicking same parent (hashchange won't fire) */
+  /* Click handler — SYNCHRONOUS, runs before rAF observer update */
   navLinks.forEach(function(a){
     a.addEventListener('click',function(){
       if(!a.closest('.sub')){
+        /* Parent click: lock immediately (sync, before observer rAF) */
         var p=parents.find(function(x){return x.link===a});
         if(p) lockParent(p);
       } else {
         parentLocked=false;
       }
     });
+  });
+
+  /* hashchange: detect parent anchor navigation */
+  window.addEventListener('hashchange',function(){
+    var h=window.location.hash.slice(1);
+    var p=parents.find(function(x){return x.el.id===h});
+    if(p) lockParent(p);
+    else parentLocked=false;
   });
 
   /* At top of page: unlock and activate first child */
