@@ -4477,120 +4477,83 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
 
 
-/* Scrollspy — highlight active section + sync sidebar scroll */
+/* Scrollspy — IntersectionObserver-based active section detection */
 
 (function(){
 
-  const navLinks=Array.from(document.querySelectorAll('.nav a[href^="#"]'));
-
-  /* Separate parent (Appendix) and child (subsection) links */
-  const parents=[];
-  const children=[];
+  var navLinks=Array.from(document.querySelectorAll('.nav a[href^="#"]'));
+  var children=[];
 
   navLinks.forEach(function(a){
+    if(!a.closest('.sub')) return;
     var id=a.getAttribute('href').slice(1);
     var el=document.getElementById(id);
-    if(!el) return;
-    if(a.closest('.sub')){
-      children.push({el:el,link:a});
-    } else {
-      parents.push({el:el,link:a});
-    }
+    if(el) children.push({el:el,link:a,ratio:0});
   });
 
-  const allSections=parents.concat(children);
-  if(!allSections.length) return;
+  if(!children.length) return;
 
-  const sidebar=document.getElementById('sidebar');
+  var sidebar=document.getElementById('sidebar');
+  var current=null;
 
-  let current=null;
-
-  /* After any nav-link click, poll for settled position across the full
-     smooth-scroll duration window (100 ms → 1.5 s). One of these will
-     always fire after the animation has landed, regardless of distance.
-     Skip on mobile — the sidebar handler manages navigation there. */
-  navLinks.forEach(function(a){
-    a.addEventListener('click',function(){
-      if(window.innerWidth<=860) return;
-      [100,300,600,1000,1500].forEach(function(d){setTimeout(update,d);});
-    });
-  });
-
-  let ticking=false;
-
-  function update(){
-
-    ticking=false;
-
-    /* Offset = actual scroll-padding-top from CSS (70px desktop, 58px mobile) */
-    var offset=parseInt(getComputedStyle(document.documentElement).scrollPaddingTop)||70;
-    var active=null;
-
-    /* Priority 1: Find the active child (subsection) — check from end */
-    for(var i=children.length-1;i>=0;i--){
-      if(children[i].el.getBoundingClientRect().top<=offset){
-        active=children[i];
-        break;
+  /* Pick the child with the highest visibility ratio.
+     Ties broken by DOM order (last match wins = furthest down the page). */
+  function pickBest(){
+    var best=null;
+    var bestRatio=0;
+    for(var i=0;i<children.length;i++){
+      if(children[i].ratio>bestRatio||(children[i].ratio===bestRatio&&children[i].ratio>0)){
+        best=children[i];
+        bestRatio=children[i].ratio;
       }
     }
-
-    /* Priority 2: No child visible — find the active parent (Appendix) */
-    if(!active){
-      for(var i=parents.length-1;i>=0;i--){
-        if(parents[i].el.getBoundingClientRect().top<=offset){
-          active=parents[i];
-          break;
-        }
+    /* Fallback: if no child is visible, find the nearest one above the viewport */
+    if(!best){
+      for(var i=children.length-1;i>=0;i--){
+        if(children[i].el.getBoundingClientRect().top<=0){best=children[i];break}
       }
     }
+    if(!best) best=children[0];
+    return best;
+  }
 
-    /* Default to first section when at top of page */
-    if(!active) active=allSections[0];
-
-    if(!active||active.link===current) return;
-
+  function setActive(item){
+    if(!item||item.link===current) return;
     if(current) current.classList.remove('active');
-
-    active.link.classList.add('active');
-
-    current=active.link;
-
-    /* Scroll sidebar to keep active link centered */
-
+    item.link.classList.add('active');
+    current=item.link;
     if(sidebar){
-
-      var linkTop=active.link.offsetTop;
-
-      var linkH=active.link.offsetHeight;
-
-      var sbH=sidebar.clientHeight;
-
-      var target=linkTop-sbH/2+linkH/2;
-
-      sidebar.scrollTo({top:Math.max(0,target),behavior:'smooth'});
-
+      var t=item.link.offsetTop;
+      var h=item.link.offsetHeight;
+      var s=sidebar.clientHeight;
+      sidebar.scrollTo({top:Math.max(0,t-s/2+h/2),behavior:'smooth'});
     }
-
   }
 
-  var scrollTimer=null;
+  /* Read actual topbar height for rootMargin */
+  var topbar=document.querySelector('.topbar');
+  var topH=topbar?topbar.offsetHeight:70;
 
-  function onScroll(){
-    clearTimeout(scrollTimer);
-    scrollTimer=setTimeout(update,150);
-  }
-
-  window.addEventListener('scroll',onScroll,{passive:true});
-
-  /* scrollend fires once the animation fully settles (Chrome 114+, Firefox 109+, Safari 17.4+) */
-  window.addEventListener('scrollend',function(){clearTimeout(scrollTimer);update()},{passive:true});
-
-  /* hashchange covers desktop anchor clicks when scrollend isn't supported */
-  window.addEventListener('hashchange',function(){
-    setTimeout(update,350);
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      for(var i=0;i<children.length;i++){
+        if(children[i].el===e.target){children[i].ratio=e.intersectionRatio;break}
+      }
+    });
+    setActive(pickBest());
+  },{
+    root:null,
+    threshold:[0,0.1,0.25,0.5,0.75,1],
+    rootMargin:'-'+topH+'px 0px 0px 0px'
   });
 
-  update();
+  children.forEach(function(c){observer.observe(c.el)});
+
+  /* At top of page: activate first child */
+  function checkTop(){
+    if(window.scrollY<50&&children.length) setActive(children[0]);
+  }
+  window.addEventListener('scroll',function(){if(window.scrollY<50) checkTop()},{passive:true});
 
 })();
 
