@@ -275,6 +275,7 @@ body.light-mode pre{background:#f1f5f9;border-color:#e2e8f0;border-left-color:#7
 body.light-mode code{background:rgba(124,58,237,.1);color:#6d28d9}
 body.light-mode blockquote{background:rgba(2,132,199,.05)}
 body.light-mode .sidebar{box-shadow:2px 0 16px rgba(0,0,0,.1)}
+body.light-mode td{border-bottom:1px solid rgba(0,0,0,.08)}
 body.light-mode .sidebar-overlay.active{background:rgba(15,23,42,.5)}
 
 /* ── Progress ring (mobile) ── */
@@ -296,7 +297,7 @@ body.light-mode .sidebar-overlay.active{background:rgba(15,23,42,.5)}
 
   .printable-final{display:block!important;page-break-before:avoid!important}
 
-  .print-sheet{border:none!important;background:#fff!important;padding:0!important;margin:0!important}
+  .print-sheet{border:none!important;background:#fff!important;padding:0!important;margin:0!important;page-break-before:auto!important}
 
   .print-sheet h2{font-size:16pt!important;margin:0 0 6pt!important}
 
@@ -4337,10 +4338,12 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 (function(){
   var toggle=document.getElementById('themeToggle');
   if(!toggle) return;
-  var saved=localStorage.getItem('cpia-theme')||'dark';
+  var saved;
+  try{saved=localStorage.getItem('cpia-theme')}catch(_e){}
+  saved=saved||'dark';
   function applyTheme(t){
     document.body.classList.toggle('light-mode',t==='light');
-    localStorage.setItem('cpia-theme',t);
+    try{localStorage.setItem('cpia-theme',t)}catch(_e){}
   }
   applyTheme(saved);
   toggle.addEventListener('click',function(){
@@ -4423,6 +4426,14 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
   });
 
+  /* Close sidebar when resizing to desktop */
+
+  window.addEventListener('resize',function(){
+
+    if(window.innerWidth>860&&sidebar.classList.contains('open')) toggle(false);
+
+  },{passive:true});
+
 })();
 
 
@@ -4434,7 +4445,9 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
   var toggle=document.getElementById('langToggle');
   if(!toggle) return;
 
-  var saved=localStorage.getItem('cpia-lang')||'en';
+  var saved;
+  try{saved=localStorage.getItem('cpia-lang')}catch(_e){}
+  saved=saved||'en';
 
   function apply(lang){
 
@@ -4442,7 +4455,7 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
     document.body.classList.toggle('lang-en',lang==='en');
 
-    localStorage.setItem('cpia-lang',lang);
+    try{localStorage.setItem('cpia-lang',lang)}catch(_e){}
 
   }
 
@@ -4520,6 +4533,9 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
       }
 
     }
+
+    /* Default to first section when at top of page */
+    if(!active) active=sections[0];
 
     if(!active||active.link===current) return;
 
