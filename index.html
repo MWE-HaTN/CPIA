@@ -4573,21 +4573,21 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
   }
 
+  var scrollTimer=null;
+
   function onScroll(){
-
-    if(!ticking){ticking=true;requestAnimationFrame(update)}
-
+    clearTimeout(scrollTimer);
+    scrollTimer=setTimeout(update,150);
   }
 
   window.addEventListener('scroll',onScroll,{passive:true});
 
   /* scrollend fires once the animation fully settles (Chrome 114+, Firefox 109+, Safari 17.4+) */
-  window.addEventListener('scrollend',update,{passive:true});
+  window.addEventListener('scrollend',function(){clearTimeout(scrollTimer);update()},{passive:true});
 
   /* hashchange covers desktop anchor clicks when scrollend isn't supported */
   window.addEventListener('hashchange',function(){
-    setTimeout(update,50);
-    setTimeout(update,1000);
+    setTimeout(update,350);
   });
 
   update();
