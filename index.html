@@ -4518,7 +4518,10 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
     ticking=false;
 
-    const offset=80;
+    /* Read actual scroll-padding-top from CSS + buffer for scroll-margin-top */
+    var cssOffset=parseInt(getComputedStyle(document.documentElement).scrollPaddingTop)||70;
+    var marginBuffer=60;
+    var offset=cssOffset+marginBuffer;
 
     let active=null;
 
