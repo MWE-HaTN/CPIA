@@ -4530,11 +4530,12 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
     });
   });
 
-  /* hashchange: detect parent anchor navigation */
+  /* hashchange: detect ANY anchor navigation (parent or child) */
   window.addEventListener('hashchange',function(){
     var h=window.location.hash.slice(1);
-    var p=parents.find(function(x){return x.el.id===h});
-    if(p) lockTo(p);
+    var all=parents.concat(children);
+    var item=all.find(function(x){return x.el.id===h});
+    if(item) lockTo(item);
     else clickedLink=null;
   });
 
