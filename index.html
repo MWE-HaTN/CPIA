@@ -4483,19 +4483,23 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
   const navLinks=Array.from(document.querySelectorAll('.nav a[href^="#"]'));
 
-  const sections=[];
+  /* Separate parent (Appendix) and child (subsection) links */
+  const parents=[];
+  const children=[];
 
   navLinks.forEach(function(a){
-
-    const id=a.getAttribute('href').slice(1);
-
-    const el=document.getElementById(id);
-
-    if(el) sections.push({el:el,link:a});
-
+    var id=a.getAttribute('href').slice(1);
+    var el=document.getElementById(id);
+    if(!el) return;
+    if(a.closest('.sub')){
+      children.push({el:el,link:a});
+    } else {
+      parents.push({el:el,link:a});
+    }
   });
 
-  if(!sections.length) return;
+  const allSections=parents.concat(children);
+  if(!allSections.length) return;
 
   const sidebar=document.getElementById('sidebar');
 
@@ -4518,27 +4522,29 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
     ticking=false;
 
-    /* Read actual scroll-padding-top from CSS + buffer for scroll-margin-top */
-    var cssOffset=parseInt(getComputedStyle(document.documentElement).scrollPaddingTop)||70;
-    var marginBuffer=60;
-    var offset=cssOffset+marginBuffer;
+    var offset=100;
+    var active=null;
 
-    let active=null;
-
-    for(var i=sections.length-1;i>=0;i--){
-
-      if(sections[i].el.getBoundingClientRect().top<=offset){
-
-        active=sections[i];
-
+    /* Priority 1: Find the active child (subsection) — check from end */
+    for(var i=children.length-1;i>=0;i--){
+      if(children[i].el.getBoundingClientRect().top<=offset){
+        active=children[i];
         break;
-
       }
+    }
 
+    /* Priority 2: No child visible — find the active parent (Appendix) */
+    if(!active){
+      for(var i=parents.length-1;i>=0;i--){
+        if(parents[i].el.getBoundingClientRect().top<=offset){
+          active=parents[i];
+          break;
+        }
+      }
     }
 
     /* Default to first section when at top of page */
-    if(!active) active=sections[0];
+    if(!active) active=allSections[0];
 
     if(!active||active.link===current) return;
 
