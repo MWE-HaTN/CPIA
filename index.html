@@ -4477,7 +4477,7 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
 
 
-/* Scrollspy — observer DISCONNECT on parent lock, scroll-based fallback */
+/* Scrollspy — click-locked + scroll-based detection (NO IntersectionObserver) */
 
 (function(){
 
@@ -4489,7 +4489,7 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
     var id=a.getAttribute('href').slice(1);
     var el=document.getElementById(id);
     if(!el) return;
-    if(a.closest('.sub')) children.push({el:el,link:a,ratio:0});
+    if(a.closest('.sub')) children.push({el:el,link:a});
     else parents.push({el:el,link:a});
   });
 
@@ -4497,9 +4497,8 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
 
   var sidebar=document.getElementById('sidebar');
   var current=null;
-  var locked=false;
-  var lockTimer=null;
-  var observer=null;
+  var clickedLink=null;
+  var clickTimer=null;
 
   function setActive(item){
     if(!item||item.link===current) return;
@@ -4514,59 +4513,20 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
     }
   }
 
-  /* Build observer and start observing children */
-  function startObserver(){
-    var topbar=document.querySelector('.topbar');
-    var topH=topbar?topbar.offsetHeight:70;
-    observer=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        for(var i=0;i<children.length;i++){
-          if(children[i].el===e.target){children[i].ratio=e.intersectionRatio;break}
-        }
-      });
-      /* Pick best child */
-      var best=null;
-      var bestRatio=0;
-      for(var i=0;i<children.length;i++){
-        if(children[i].ratio>bestRatio||(children[i].ratio===bestRatio&&children[i].ratio>0)){
-          best=children[i];bestRatio=children[i].ratio;
-        }
-      }
-      if(!best){
-        for(var i=children.length-1;i>=0;i--){
-          if(children[i].el.getBoundingClientRect().top<=0){best=children[i];break}
-        }
-      }
-      if(!best) best=children[0];
-      setActive(best);
-    },{root:null,threshold:[0,0.1,0.25,0.5,0.75,1],rootMargin:'-'+topH+'px 0px 0px 0px'});
-    children.forEach(function(c){observer.observe(c.el)});
-  }
-
-  function stopObserver(){
-    if(observer){observer.disconnect();observer=null}
-  }
-
   function lockTo(item){
-    locked=true;
-    stopObserver();
+    clickedLink=item.link;
     setActive(item);
-    clearTimeout(lockTimer);
-    lockTimer=setTimeout(function(){locked=false;startObserver()},3000);
+    clearTimeout(clickTimer);
+    clickTimer=setTimeout(function(){clickedLink=null},3000);
   }
 
-  /* Click handler */
+  /* Click handler: user's explicit choice takes priority */
   navLinks.forEach(function(a){
     a.addEventListener('click',function(){
       var id=a.getAttribute('href').slice(1);
-      if(!a.closest('.sub')){
-        var p=parents.find(function(x){return x.el.id===id});
-        if(p) lockTo(p);
-      } else {
-        locked=false;
-        stopObserver();
-        startObserver();
-      }
+      var all=parents.concat(children);
+      var item=all.find(function(x){return x.el.id===id});
+      if(item) lockTo(item);
     });
   });
 
@@ -4575,38 +4535,44 @@ Detection: psscan vs pslist discrepancy = DKOM indicator</pre>
     var h=window.location.hash.slice(1);
     var p=parents.find(function(x){return x.el.id===h});
     if(p) lockTo(p);
-    else{locked=false;stopObserver();startObserver()}
+    else clickedLink=null;
   });
 
-  /* Scroll handler: only active when observer is stopped and not locked */
+  /* Scroll handler: update active based on viewport position */
   var scrollTimer=null;
   window.addEventListener('scroll',function(){
-    if(locked||observer) return;
+    if(clickedLink) return;
     clearTimeout(scrollTimer);
     scrollTimer=setTimeout(function(){
       var topbar=document.querySelector('.topbar');
       var offset=topbar?topbar.offsetHeight+10:80;
       var active=null;
+      /* Check children first */
       for(var i=children.length-1;i>=0;i--){
         if(children[i].el.getBoundingClientRect().top<=offset){active=children[i];break}
       }
-      if(active) setActive(active);
+      /* If no child visible, check parents */
+      if(!active){
+        for(var i=parents.length-1;i>=0;i--){
+          if(parents[i].el.getBoundingClientRect().top<=offset){active=parents[i];break}
+        }
+      }
+      if(!active) active=children[0];
+      setActive(active);
     },100);
   },{passive:true});
 
   /* At top of page */
   window.addEventListener('scroll',function(){
-    if(window.scrollY<50&&!locked){setActive(children[0])}
+    if(window.scrollY<50&&!clickedLink){setActive(children[0])}
   },{passive:true});
 
   /* On load: check hash */
   var h=window.location.hash.slice(1);
   if(h){
-    var p=parents.find(function(x){return x.el.id===h});
-    if(p) lockTo(p);
-    else startObserver();
-  } else {
-    startObserver();
+    var all=parents.concat(children);
+    var item=all.find(function(x){return x.el.id===h});
+    if(item) lockTo(item);
   }
 
 })();
