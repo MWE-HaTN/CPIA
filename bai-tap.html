@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>CPIA Practice — Bài tập trắc nghiệm</title>
+<style>
+:root{--bg:#070b14;--bg2:#0d1424;--bg3:#121b2d;--border:#20304d;--text:#e6edf7;--text2:#a8b3c7;--text3:#94a3b8;--accent:#22d3ee;--warn:#f59e0b;--danger:#ef4444;--success:#10b981;--purple:#7c3aed}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:clamp(14.5px,0.12vw + 14px,16.5px);line-height:1.66;-webkit-font-smoothing:antialiased}
+body.light-mode{--bg:#f1f5f9;--bg2:#ffffff;--bg3:#e9eef5;--border:#cbd5e1;--text:#0f172a;--text2:#334155;--text3:#64748b}
+a{color:var(--accent)}
+.en,.vi{}
+body.lang-en .vi{display:none}
+body.lang-vi .en{display:none}
+
+/* Top bar */
+.topbar{position:sticky;top:0;z-index:30;background:rgba(7,11,20,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:10px clamp(14px,2.2vw + 6px,48px);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+body.light-mode .topbar{background:rgba(241,245,249,.92)}
+.brand{display:flex;flex-direction:column;line-height:1.15}
+.brand .cert{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:800}
+.brand b{font-size:15px}
+.controls-group{display:flex;gap:8px;align-items:center}
+.toggle{position:relative;display:inline-flex;align-items:center;background:var(--bg2);border:1.5px solid var(--border);border-radius:999px;padding:3px;cursor:pointer;user-select:none}
+.toggle span{padding:5px 12px;font-size:12px;font-weight:700;border-radius:999px;color:var(--text3);z-index:1;transition:color .25s}
+.toggle .on{color:var(--bg);background:var(--accent)}
+body.light-mode .toggle .on{color:#fff;background:#0284c7}
+.btn{cursor:pointer;border:1px solid var(--border);background:var(--bg2);color:var(--text);border-radius:10px;padding:9px 16px;font-size:14px;font-weight:600;font-family:inherit;transition:all .18s}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--purple));color:#fff;border:none}
+.btn.primary:hover{opacity:.92;color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+.wrap{max-width:920px;margin:0 auto;padding:clamp(20px,1.5vw + 14px,40px) clamp(14px,2.2vw + 6px,40px) 90px}
+
+/* Home */
+.hero{text-align:center;margin-bottom:30px}
+.hero h1{font-size:clamp(24px,1.3vw + 21px,40px);font-weight:900;margin:6px 0 10px}
+.hero p{color:var(--text2);max-width:640px;margin:0 auto}
+.section-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);font-weight:800;margin:30px 0 12px}
+.mode-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:all .18s;text-align:left;position:relative;overflow:hidden}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card .tag{font-size:11px;font-weight:800;letter-spacing:1px;color:var(--accent);text-transform:uppercase}
+.card h3{margin:8px 0 6px;font-size:18px;color:var(--text)}
+.card p{margin:0;color:var(--text3);font-size:13px}
+.card .count{position:absolute;top:16px;right:16px;font-size:12px;color:var(--text3);background:var(--bg3);border:1px solid var(--border);border-radius:999px;padding:3px 10px;font-weight:700}
+.card.big{grid-column:1/-1;background:linear-gradient(135deg,rgba(34,211,238,.1),rgba(124,58,237,.1));border-color:rgba(34,211,238,.35)}
+.card.big h3{font-size:22px}
+
+/* Quiz */
+.qbar{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.qbar .meta{font-family:Consolas,monospace;font-size:13px;color:var(--text3)}
+.qprog-track{flex:1;min-width:120px;height:6px;background:var(--border);border-radius:999px;overflow:hidden}
+.qprog-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--purple));transition:width .3s}
+.score-chip{font-family:Consolas,monospace;font-size:13px;font-weight:700;color:var(--success)}
+
+.qcard{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:clamp(18px,2vw,28px);margin-bottom:16px}
+.qcard .qtag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--accent);background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.25);border-radius:6px;padding:4px 9px;margin-bottom:14px}
+.qtext{font-size:clamp(16px,0.4vw + 15px,19px);font-weight:700;line-height:1.5;margin-bottom:18px}
+.qtext code,.exp code{background:rgba(124,58,237,.18);color:#c4b5fd;padding:1px 6px;border-radius:5px;font-size:.9em}
+body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237,.12);color:#6d28d9}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;cursor:pointer;font-family:inherit;font-size:15px;color:var(--text);transition:all .15s;line-height:1.45}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt .key{flex-shrink:0;width:26px;height:26px;border-radius:7px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:var(--text2)}
+.opt.correct{border-color:var(--success);background:rgba(16,185,129,.12)}
+.opt.correct .key{background:var(--success);color:#fff;border-color:var(--success)}
+.opt.wrong{border-color:var(--danger);background:rgba(239,68,68,.1)}
+.opt.wrong .key{background:var(--danger);color:#fff;border-color:var(--danger)}
+.opt.dim{opacity:.55}
+
+/* Explanation */
+.exp{margin-top:16px;border-radius:12px;border:1px solid var(--border);overflow:hidden;animation:fade .25s}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+.exp .exp-head{padding:11px 16px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px}
+.exp.ok .exp-head{background:rgba(16,185,129,.14);color:var(--success)}
+.exp.no .exp-head{background:rgba(239,68,68,.14);color:var(--danger)}
+.exp .exp-body{padding:14px 16px;color:var(--text2);font-size:14.5px}
+.exp .exp-body p{margin:0 0 10px}
+.exp .exp-body p:last-child{margin:0}
+.exp .note{margin-top:10px;padding:10px 13px;border-radius:9px;background:rgba(245,158,11,.09);border:1px solid rgba(245,158,11,.25);font-size:13.5px;color:var(--text2)}
+.exp .note b{color:var(--warn)}
+.exp .ref{margin-top:12px;display:inline-flex;align-items:center;gap:7px;font-size:13px;text-decoration:none;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--accent);font-weight:600}
+.exp .ref:hover{border-color:var(--accent)}
+
+.qnav{display:flex;justify-content:space-between;gap:12px;align-items:center}
+
+/* Results */
+.result-hero{text-align:center;background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:34px 24px;margin-bottom:20px}
+.result-hero .ring{width:140px;height:140px;border-radius:50%;margin:0 auto 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:conic-gradient(var(--accent) var(--p,0%),var(--bg3) 0)}
+.result-hero .ring .inner{width:116px;height:116px;border-radius:50%;background:var(--bg2);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.result-hero .ring .pct{font-size:32px;font-weight:900}
+.result-hero .ring small{color:var(--text3);font-size:12px}
+.result-hero h2{margin:0 0 6px;font-size:24px}
+.verdict{font-weight:800}
+.review-item{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--danger);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.review-item .ri-q{font-weight:700;margin-bottom:6px}
+.review-item .ri-a{font-size:13.5px;color:var(--text2);margin:3px 0}
+.review-item .ri-a b{color:var(--text)}
+.review-item .ok{color:var(--success)}
+.review-item .no{color:var(--danger);text-decoration:line-through}
+.review-item a{font-size:13px}
+.hide{display:none!important}
+.footer-note{text-align:center;color:var(--text3);font-size:12px;margin-top:40px}
+@media(max-width:560px){.opt{font-size:14px}.qtext{font-size:16px}}
+
+/* --- Added: timer, flag, exam mode, breakdown, prev nav --- */
+.qtimer{font-family:Consolas,monospace;font-size:14px;font-weight:800;color:var(--accent);background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:4px 10px;letter-spacing:.5px}
+.qtimer.warn{color:var(--warn);border-color:rgba(245,158,11,.5)}
+.qtimer.danger{color:var(--danger);border-color:rgba(239,68,68,.6);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.55}}
+.exam-badge{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.35);border-radius:6px;padding:3px 8px}
+.btn.flag{border-color:var(--border)}
+.btn.flag.on{border-color:var(--warn);color:var(--warn);background:rgba(245,158,11,.1)}
+.opt.picked{border-color:var(--accent);background:rgba(34,211,238,.08)}
+.opt.picked .key{background:var(--accent);color:var(--bg)}
+.opt .kbd{margin-left:auto;font-size:10px;color:var(--text3);font-family:Consolas,monospace;align-self:center;opacity:.6}
+.kbd-hint{text-align:center;color:var(--text3);font-size:11.5px;margin-top:10px;font-family:Consolas,monospace}
+.kbd-hint b{color:var(--text2);background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-weight:700}
+/* per-appendix breakdown */
+.breakdown{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:20px}
+.bd-row{display:flex;align-items:center;gap:12px;margin:9px 0}
+.bd-row .bd-lbl{flex:0 0 clamp(120px,30vw,230px);font-size:13px;color:var(--text2)}
+.bd-row .bd-track{flex:1;height:9px;background:var(--bg3);border-radius:999px;overflow:hidden;border:1px solid var(--border)}
+.bd-row .bd-fill{height:100%;border-radius:999px}
+.bd-row .bd-pct{flex:0 0 64px;text-align:right;font-family:Consolas,monospace;font-size:13px;font-weight:700}
+.bd-good{background:var(--success)} .bd-mid{background:var(--warn)} .bd-bad{background:var(--danger)}
+.exam-jump{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.exam-jump button{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;font-family:Consolas,monospace}
+.exam-jump button.cur{border-color:var(--accent);color:var(--accent)}
+.exam-jump button.done{background:rgba(34,211,238,.12);color:var(--text)}
+.exam-jump button.flag{border-color:var(--warn);color:var(--warn)}
+.card.redrill{background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(239,68,68,.08));border-color:rgba(245,158,11,.35)}
+.last-score{text-align:center;color:var(--text3);font-size:12px;margin:-6px 0 14px;font-family:Consolas,monospace}
+</style></head>
+<body>
+<script>try{var _l=localStorage.getItem('cpia-lang'),_t=localStorage.getItem('cpia-theme');if(_t==='light')document.body.classList.add('light-mode');document.body.classList.add('lang-'+((_l==='vi')?'vi':'en'))}catch(e){document.body.classList.add('lang-en')}</script>
+
+<div class="topbar">
+  <div class="brand"><span class="cert">CREST Practitioner Intrusion Analyst</span><b><span class="en">CPIA Practice Questions</span><span class="vi">Bài tập trắc nghiệm CPIA</span></b></div>
+  <div class="controls-group">
+    <a class="btn" href="index.html" style="text-decoration:none"><span class="en">📖 Study Guide</span><span class="vi">📖 Lý thuyết</span></a>
+    <div class="toggle" id="langToggle" role="button" tabindex="0" aria-label="Switch language"><span class="lt-en">EN</span><span class="lt-vi">VI</span></div>
+    <div class="toggle" id="themeToggle" role="button" tabindex="0" aria-label="Toggle theme"><span class="tt-dark">🌙</span><span class="tt-light">☀️</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- HOME -->
+  <div id="home">
+    <div class="hero">
+      <h1><span class="en">CPIA Practice Mode</span><span class="vi">Luyện thi CPIA</span></h1>
+      <p><span class="en">Multiple-choice questions per CREST CPIA syllabus. Every answer — right or wrong — shows a full explanation, a key takeaway, and a link back to the exact theory section to revise.</span><span class="vi">Câu hỏi trắc nghiệm theo đúng syllabus CREST CPIA. Mọi câu trả lời (đúng hay sai) đều có giải thích đầy đủ, lưu ý trọng tâm và liên kết quay lại đúng phần lý thuyết cần đọc lại.</span></p>
+    </div>
+
+    <div class="section-label"><span class="en">Full Mock Exam</span><span class="vi">Đề thi thử đầy đủ</span></div>
+    <div class="mode-grid">
+      <button class="card big" data-mode="mock120">
+        <span class="count" id="cntMock">120</span>
+        <span class="tag"><span class="en">Exam Simulation</span><span class="vi">Mô phỏng kỳ thi</span></span>
+        <h3><span class="en">120 Questions — Mixed</span><span class="vi">120 câu — Trộn đề</span></h3>
+        <p><span class="en">Real exam format: 120 questions / 120 minutes, randomly mixed across all six appendices.</span><span class="vi">Đúng định dạng thật: 120 câu / 120 phút, trộn ngẫu nhiên toàn bộ 6 phụ lục.</span></p>
+      </button>
+    </div>
+
+    <div class="section-label"><span class="en">Quick Practice</span><span class="vi">Luyện nhanh</span></div>
+    <div class="mode-grid">
+      <button class="card" data-mode="random20"><span class="count">20</span><span class="tag"><span class="en">Random</span><span class="vi">Ngẫu nhiên</span></span><h3><span class="en">Quick 20</span><span class="vi">20 câu nhanh</span></h3><p><span class="en">A fast mixed warm-up drawn from every section.</span><span class="vi">Khởi động nhanh, trộn từ mọi phần.</span></p></button>
+    </div>
+
+    <div id="redrillWrap" class="hide">
+      <div class="section-label"><span class="en">Drill Your Weak Spots</span><span class="vi">Luyện điểm yếu</span></div>
+      <div class="mode-grid">
+        <button class="card redrill" data-mode="redrill"><span class="count" id="cntRedrill">0</span><span class="tag"><span class="en">From your mistakes</span><span class="vi">Từ câu bạn đã sai</span></span><h3><span class="en">Re-drill Wrong Answers</span><span class="vi">Làm lại câu đã sai</span></h3><p><span class="en">Questions you previously got wrong, so you can master them.</span><span class="vi">Những câu bạn từng làm sai, để luyện cho thành thạo.</span></p></button>
+        <button class="card" data-mode="flagged" id="cardFlagged"><span class="count" id="cntFlagged">0</span><span class="tag"><span class="en">Saved</span><span class="vi">Đã lưu</span></span><h3><span class="en">Flagged Questions</span><span class="vi">Câu đã đánh dấu</span></h3><p><span class="en">Questions you flagged for later review.</span><span class="vi">Những câu bạn đánh dấu để xem lại.</span></p></button>
+      </div>
+    </div>
+
+    <div class="section-label"><span class="en">Practice by Appendix</span><span class="vi">Luyện theo từng phần (Phụ lục)</span></div>
+    <div class="mode-grid" id="appGrid"></div>
+    <p class="footer-note"><span class="en">Tip: language &amp; theme sync with the main study guide.</span><span class="vi">Mẹo: ngôn ngữ &amp; giao diện được đồng bộ với trang lý thuyết chính.</span></p>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz" class="hide">
+    <div class="qbar">
+      <button class="btn" id="btnQuit">✕ <span class="en">Exit</span><span class="vi">Thoát</span></button>
+      <span class="meta" id="qMeta">1 / 20</span>
+      <span class="exam-badge hide" id="examBadge"><span class="en">Exam</span><span class="vi">Thi</span></span>
+      <div class="qprog-track"><div class="qprog-fill" id="qProg"></div></div>
+      <span class="qtimer hide" id="qTimer">120:00</span>
+      <span class="score-chip" id="qScore">0 ✓</span>
+    </div>
+    <div id="qHost"></div>
+    <div class="qnav">
+      <button class="btn" id="btnPrev"><span class="en">← Prev</span><span class="vi">← Trước</span></button>
+      <button class="btn flag" id="btnFlag">⚑ <span class="en">Flag</span><span class="vi">Đánh dấu</span></button>
+      <button class="btn primary" id="btnNext" disabled><span class="en">Next →</span><span class="vi">Tiếp →</span></button>
+    </div>
+    <div id="examSubmitBar" class="hide" style="margin-top:12px"><button class="btn primary" id="btnSubmit" style="width:100%"><span class="en">Submit exam ✓</span><span class="vi">Nộp bài ✓</span></button></div>
+    <div class="kbd-hint"><span class="en">Keys: <b>1-4</b> answer · <b>Enter</b> next · <b>P</b> prev · <b>F</b> flag</span><span class="vi">Phím: <b>1-4</b> chọn · <b>Enter</b> tiếp · <b>P</b> trước · <b>F</b> đánh dấu</span></div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results" class="hide"></div>
+</div>
+
+<script src="questions/appA.js"></script>
+<script src="questions/appB.js"></script>
+<script src="questions/appC.js"></script>
+<script src="questions/appD.js"></script>
+<script src="questions/appE.js"></script>
+<script src="questions/appF.js"></script>
+<script>
+/* ============================== QUESTION BANK ==============================
+   Each item: { app, sec (theory anchor in index.html), secLabel{en,vi},
+                q{en,vi}, opts:[{en,vi}*4], correct (index),
+                exp{en,vi}, note{en,vi} (optional) }
+=========================================================================== */
+const APPS = {
+  A:{en:'A — Soft Skills & Incident Handling', vi:'A — Kỹ năng mềm & Xử lý sự cố'},
+  B:{en:'B — Core Technical Skills', vi:'B — Kỹ năng kỹ thuật cốt lõi'},
+  C:{en:'C — Background Info Gathering & OSINT', vi:'C — Thu thập thông tin & OSINT'},
+  D:{en:'D — Network Intrusion Analysis', vi:'D — Phân tích xâm nhập mạng'},
+  E:{en:'E — Analysing Host Intrusions', vi:'E — Phân tích xâm nhập máy chủ'},
+  F:{en:'F — Malware Analysis / Reverse Engineering', vi:'F — Phân tích mã độc / Dịch ngược'}
+};
+
+const BANK = (window.CPIA_BANK || []).slice();
+if(!BANK.length){console.error("CPIA: no questions loaded — check questions/app*.js script tags");}
+
+/* ============================== ENGINE ============================== */
+const $ = id => document.getElementById(id);
+const T = o => '<span class="en">'+o.en+'</span><span class="vi">'+o.vi+'</span>';
+const KEYS = ['A','B','C','D','E','F','G','H'];
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+let state = null;
+
+/* ---- Stable per-question id + persistent progress store ---- */
+function hashStr(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))>>>0;return h.toString(36);}
+function qid(q){return q.app+':'+q.sec+':'+hashStr(q.q.en);}
+const STORE_KEY='cpia-quiz';
+function loadStore(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||{};}catch(e){return {};}}
+function saveStore(s){try{localStorage.setItem(STORE_KEY,JSON.stringify(s));}catch(e){}}
+let store=loadStore();
+store.wrong=store.wrong||{}; store.flagged=store.flagged||{}; store.history=store.history||[];
+const qById={}; BANK.forEach(q=>{qById[qid(q)]=q;});
+
+/* ---- Build home: appendix cards ---- */
+(function buildAppGrid(){
+  const grid = $('appGrid');
+  Object.keys(APPS).forEach(k=>{
+    const n = BANK.filter(q=>q.app===k).length;
+    const b = document.createElement('button');
+    b.className='card'; b.dataset.mode='app:'+k;
+    b.innerHTML = '<span class="count">'+n+'</span><span class="tag">Appendix '+k+'</span>'+
+      '<h3>'+T(APPS[k])+'</h3>'+
+      '<p>'+T({en:n+' questions covering this appendix.', vi:n+' câu hỏi cho phụ lục này.'})+'</p>';
+    grid.appendChild(b);
+  });
+  $('cntMock').textContent = Math.min(120, BANK.length);
+})();
+
+/* ---- Refresh home: re-drill / flagged counts + last score ---- */
+function refreshHome(){
+  const wrongIds = Object.keys(store.wrong).filter(id=>qById[id]);
+  const flagIds  = Object.keys(store.flagged).filter(id=>qById[id]);
+  $('cntRedrill').textContent = wrongIds.length;
+  $('cntFlagged').textContent = flagIds.length;
+  $('redrillWrap').classList.toggle('hide', wrongIds.length===0 && flagIds.length===0);
+  $('cardFlagged').classList.toggle('hide', flagIds.length===0);
+  // last-score line under the mock card
+  let ls=$('lastScoreLine');
+  const h=store.history[store.history.length-1];
+  if(h){
+    if(!ls){ls=document.createElement('div');ls.id='lastScoreLine';ls.className='last-score';$('cntMock').closest('.mode-grid').after(ls);}
+    const d=new Date(h.date);
+    ls.innerHTML='<span class="en">Last attempt: '+h.pct+'% ('+h.score+'/'+h.total+') · '+d.toLocaleDateString()+'</span>'+
+                 '<span class="vi">Lần gần nhất: '+h.pct+'% ('+h.score+'/'+h.total+') · '+d.toLocaleDateString()+'</span>';
+  } else if(ls){ ls.remove(); }
+}
+refreshHome();
+
+/* ---- Mode selection ---- */
+document.querySelectorAll('[data-mode]').forEach(el=>{
+  el.addEventListener('click',()=>start(el.dataset.mode));
+});
+
+function start(mode){
+  let list, examMode=false;
+  if(mode==='mock120'){ list = shuffle(BANK).slice(0,120); examMode=true; }
+  else if(mode==='random20'){ list = shuffle(BANK).slice(0,20); }
+  else if(mode.startsWith('app:')){ const k=mode.split(':')[1]; list = shuffle(BANK.filter(q=>q.app===k)); }
+  else if(mode==='redrill'){ list = shuffle(BANK.filter(q=>store.wrong[qid(q)])); }
+  else if(mode==='flagged'){ list = shuffle(BANK.filter(q=>store.flagged[qid(q)])); }
+  else { list = shuffle(BANK); }
+  if(!list.length){
+    alert(document.body.classList.contains('lang-vi')?'Chưa có câu nào cho chế độ này.':'No questions for this mode yet.');
+    return;
+  }
+  // pre-shuffle options per question, remembering correct index
+  list = list.map(q=>{
+    const order = shuffle(q.opts.map((o,i)=>i));
+    return {ref:q, order, correct: order.indexOf(q.correct)};
+  });
+  state = {list, idx:0, mode, examMode, answers:new Array(list.length).fill(null),
+           flagged:new Array(list.length).fill(false), ended:false,
+           durationSec: examMode ? list.length*60 : 0, remaining:0, timerId:null};
+  // pre-flag questions already flagged in the store
+  list.forEach((it,i)=>{ if(store.flagged[qid(it.ref)]) state.flagged[i]=true; });
+  $('home').classList.add('hide');
+  $('results').classList.add('hide');
+  $('quiz').classList.remove('hide');
+  $('examBadge').classList.toggle('hide', !examMode);
+  $('qTimer').classList.toggle('hide', !examMode);
+  if(examMode) startTimer();
+  render();
+  window.scrollTo(0,0);
+}
+
+function startTimer(){
+  state.remaining = state.durationSec;
+  updateTimer();
+  state.timerId = setInterval(()=>{
+    state.remaining--;
+    updateTimer();
+    if(state.remaining<=0){ stopTimer(); finish(); }
+  },1000);
+}
+function stopTimer(){ if(state&&state.timerId){ clearInterval(state.timerId); state.timerId=null; } }
+function updateTimer(){
+  const t=$('qTimer'); if(!t) return;
+  const r=Math.max(0,state.remaining), m=Math.floor(r/60), s=r%60;
+  t.textContent = m+':'+String(s).padStart(2,'0');
+  t.classList.toggle('warn', r<=300 && r>60);
+  t.classList.toggle('danger', r<=60);
+}
+function countCorrect(){ return state.answers.reduce((n,a,i)=> n + (a&&a.pick===state.list[i].correct?1:0), 0); }
+
+function render(){
+  const it = state.list[state.idx], q = it.ref, exam = state.examMode;
+  const answered = state.answers[state.idx];          // {pick} | null
+  const revealed = answered!==null && !exam;          // learn mode shows feedback immediately
+  $('qMeta').textContent = (state.idx+1)+' / '+state.list.length;
+  $('qProg').style.width = ((state.idx)/state.list.length*100)+'%';
+  const answeredCount = state.answers.filter(a=>a!==null).length;
+  const flagCount = state.flagged.filter(Boolean).length;
+  $('qScore').innerHTML = (exam
+      ? '<span class="en">'+answeredCount+'/'+state.list.length+' done</span><span class="vi">'+answeredCount+'/'+state.list.length+' xong</span>'
+      : countCorrect()+' ✓')
+    + (flagCount? ' · ⚑'+flagCount : '');
+
+  let html = '<div class="qcard"><span class="qtag">'+q.app+' · '+q.sec.toUpperCase()+(state.flagged[state.idx]?' · ⚑':'')+'</span>'+
+    '<div class="qtext">'+T(q.q)+'</div><div class="opts">';
+  it.order.forEach((origIdx,pos)=>{
+    let cls='opt';
+    if(revealed){ cls+=' dim';
+      if(pos===it.correct) cls='opt correct';
+      else if(answered&&pos===answered.pick) cls='opt wrong';
+    } else if(answered&&pos===answered.pick){ cls='opt picked'; }
+    const dis = revealed ? 'disabled' : '';
+    html+='<button class="'+cls+'" data-pick="'+pos+'" '+dis+'>'+
+      '<span class="key">'+KEYS[pos]+'</span><span>'+T(q.opts[origIdx])+'</span><span class="kbd">'+(pos+1)+'</span></button>';
+  });
+  html+='</div>';
+
+  if(revealed){
+    const ok = answered.pick===it.correct;
+    html+='<div class="exp '+(ok?'ok':'no')+'">'+
+      '<div class="exp-head">'+(ok?'<span class="en">✓ Correct</span><span class="vi">✓ Chính xác</span>':'<span class="en">✗ Incorrect</span><span class="vi">✗ Chưa đúng</span>')+'</div>'+
+      '<div class="exp-body"><p>'+T(q.exp)+'</p>'+
+      (q.note?'<div class="note"><b><span class="en">⚠ Note: </span><span class="vi">⚠ Lưu ý: </span></b>'+T(q.note)+'</div>':'')+
+      '<a class="ref" href="index.html#'+q.sec+'" target="_blank">📖 <span class="en">Revise theory: </span><span class="vi">Đọc lại lý thuyết: </span>'+T(q.secLabel)+'</a>'+
+      '</div></div>';
+  }
+  // exam navigator + submit
+  if(exam){
+    html+='<div class="exam-jump">';
+    state.list.forEach((_,i)=>{
+      let c='';
+      if(i===state.idx) c+=' cur';
+      if(state.answers[i]!==null) c+=' done';
+      if(state.flagged[i]) c+=' flag';
+      html+='<button class="'+c.trim()+'" data-jump="'+i+'">'+(i+1)+'</button>';
+    });
+    html+='</div>';
+  }
+  html+='</div>';
+  $('qHost').innerHTML = html;
+
+  // wire option clicks (allowed unless revealed)
+  if(!revealed){
+    $('qHost').querySelectorAll('.opt').forEach(btn=>btn.addEventListener('click',()=>pick(parseInt(btn.dataset.pick))));
+  }
+  if(exam){
+    $('qHost').querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>{state.idx=parseInt(b.dataset.jump);render();window.scrollTo(0,0);}));
+  }
+  // exam submit bar (below the Prev/Flag/Next row)
+  $('examSubmitBar').classList.toggle('hide', !exam);
+
+  // flag button state
+  $('btnFlag').classList.toggle('on', state.flagged[state.idx]);
+  // prev
+  $('btnPrev').disabled = state.idx===0;
+  // next
+  const isLast = state.idx===state.list.length-1;
+  $('btnNext').disabled = exam ? false : (answered===null);
+  $('btnNext').innerHTML = isLast
+    ? (exam ? '<span class="en">Submit ✓</span><span class="vi">Nộp bài ✓</span>' : '<span class="en">Finish ✓</span><span class="vi">Hoàn thành ✓</span>')
+    : '<span class="en">Next →</span><span class="vi">Tiếp →</span>';
+}
+
+function pick(p){
+  if(state.ended) return;
+  const answered = state.answers[state.idx];
+  if(answered!==null && !state.examMode) return;   // learn mode: lock after first answer
+  state.answers[state.idx] = {pick:p};
+  render();
+}
+function toggleFlag(){ if(state){ state.flagged[state.idx]=!state.flagged[state.idx]; render(); } }
+function gotoNext(){
+  const isLast = state.idx===state.list.length-1;
+  if(!isLast){ state.idx++; render(); window.scrollTo(0,0); }
+  else if(state.examMode) submitExam();
+  else finish();
+}
+function gotoPrev(){ if(state.idx>0){ state.idx--; render(); window.scrollTo(0,0); } }
+function submitExam(){
+  const left = state.answers.filter(a=>a===null).length;
+  const msg = document.body.classList.contains('lang-vi')
+    ? (left? 'Còn '+left+' câu chưa làm. Nộp bài?' : 'Nộp bài và xem kết quả?')
+    : (left? left+' question(s) unanswered. Submit anyway?' : 'Submit and see results?');
+  if(confirm(msg)){ stopTimer(); finish(); }
+}
+
+$('btnNext').addEventListener('click',gotoNext);
+$('btnPrev').addEventListener('click',gotoPrev);
+$('btnFlag').addEventListener('click',toggleFlag);
+$('btnSubmit').addEventListener('click',submitExam);
+$('btnQuit').addEventListener('click',()=>{
+  const msg=document.body.classList.contains('lang-vi')?'Thoát bài làm? Tiến trình bài này sẽ không được lưu.':'Exit quiz? This attempt will not be saved.';
+  if(confirm(msg)){ stopTimer(); state.ended=true; $('quiz').classList.add('hide'); $('home').classList.remove('hide'); refreshHome(); window.scrollTo(0,0);}
+});
+
+/* ---- Keyboard navigation ---- */
+document.addEventListener('keydown',e=>{
+  if($('quiz').classList.contains('hide') || !state || state.ended) return;
+  if(e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+  if(e.key>='1' && e.key<='4'){ const p=parseInt(e.key)-1; if(p<state.list[state.idx].order.length){ pick(p); e.preventDefault(); } }
+  else if(e.key==='Enter'){ if(!$('btnNext').disabled){ gotoNext(); e.preventDefault(); } }
+  else if(e.key==='p'||e.key==='P'){ gotoPrev(); e.preventDefault(); }
+  else if(e.key==='f'||e.key==='F'){ toggleFlag(); e.preventDefault(); }
+});
+
+function finish(){
+  stopTimer();
+  state.ended = true;
+  const total = state.list.length, score = countCorrect();
+  const pct = Math.round(score/total*100);
+  const pass = pct>=70;
+  const verdict = pass
+    ? '<span class="verdict" style="color:var(--success)"><span class="en">PASS — well above the line</span><span class="vi">ĐẠT — vững vàng</span></span>'
+    : (pct>=55
+      ? '<span class="verdict" style="color:var(--warn)"><span class="en">BORDERLINE — keep drilling</span><span class="vi">CẬN NGƯỠNG — luyện thêm</span></span>'
+      : '<span class="verdict" style="color:var(--danger)"><span class="en">NEEDS WORK — revise theory</span><span class="vi">CẦN CỐ GẮNG — ôn lại lý thuyết</span></span>');
+
+  // per-appendix breakdown
+  const per={};
+  state.list.forEach((it,i)=>{ const k=it.ref.app; per[k]=per[k]||{c:0,t:0}; per[k].t++; if(state.answers[i]&&state.answers[i].pick===it.correct) per[k].c++; });
+
+  // ---- persist progress: wrong set, flagged set, history ----
+  state.list.forEach((it,i)=>{
+    const id=qid(it.ref), a=state.answers[i];
+    const correct = a && a.pick===it.correct;
+    if(correct) delete store.wrong[id]; else store.wrong[id]=1;   // unanswered or wrong → keep for re-drill
+    if(state.flagged[i]) store.flagged[id]=1; else delete store.flagged[id];
+  });
+  store.history.push({date:Date.now(), mode:state.mode, pct, score, total, perApp:per});
+  if(store.history.length>30) store.history=store.history.slice(-30);
+  saveStore(store);
+
+  let html = '<div class="result-hero"><div class="ring" style="--p:'+pct+'%"><div class="inner"><span class="pct">'+pct+'%</span><small>'+score+' / '+total+'</small></div></div>'+
+    '<h2><span class="en">Quiz Complete</span><span class="vi">Hoàn thành bài</span></h2><p>'+verdict+'</p>'+
+    '<div style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'+
+    '<button class="btn primary" id="btnHome"><span class="en">← Back to menu</span><span class="vi">← Về menu</span></button>'+
+    '<button class="btn" id="btnRetry"><span class="en">↻ Retry</span><span class="vi">↻ Làm lại</span></button></div></div>';
+
+  // ---- per-appendix breakdown ----
+  html+='<div class="breakdown"><div class="section-label" style="margin:0 0 8px"><span class="en">Score by Appendix</span><span class="vi">Điểm theo từng phụ lục</span></div>';
+  Object.keys(per).sort().forEach(k=>{
+    const p=per[k], pc=Math.round(p.c/p.t*100), cls=pc>=70?'bd-good':(pc>=50?'bd-mid':'bd-bad');
+    html+='<div class="bd-row"><span class="bd-lbl">'+T(APPS[k])+'</span>'+
+      '<span class="bd-track"><span class="bd-fill '+cls+'" style="width:'+pc+'%"></span></span>'+
+      '<span class="bd-pct">'+pc+'% ('+p.c+'/'+p.t+')</span></div>';
+  });
+  html+='</div>';
+
+  function reviewItem(it,i){
+    const q=it.ref, a=state.answers[i];
+    const yours = a ? '<span class="no">'+T(q.opts[it.order[a.pick]])+'</span>'
+                    : '<span class="no"><span class="en">(blank)</span><span class="vi">(bỏ trống)</span></span>';
+    return '<div class="review-item"><div class="ri-q">'+(state.flagged[i]?'⚑ ':'')+T(q.q)+'</div>'+
+      '<div class="ri-a"><b><span class="en">Your answer: </span><span class="vi">Bạn chọn: </span></b>'+yours+'</div>'+
+      '<div class="ri-a"><b><span class="en">Correct: </span><span class="vi">Đáp án đúng: </span></b><span class="ok">'+T(q.opts[it.order[it.correct]])+'</span></div>'+
+      '<div class="ri-a" style="margin-top:6px">'+T(q.exp)+'</div>'+
+      (q.note?'<div class="ri-a"><b><span class="en">⚠ </span><span class="vi">⚠ </span></b>'+T(q.note)+'</div>':'')+
+      '<a href="index.html#'+q.sec+'" target="_blank">📖 '+T(q.secLabel)+'</a></div>';
+  }
+
+  // ---- wrong answers review ----
+  const wrong = state.list.map((it,i)=>({it,i})).filter(x=>!(state.answers[x.i] && state.answers[x.i].pick===x.it.correct));
+  if(wrong.length){
+    html+='<div class="section-label"><span class="en">Review your '+wrong.length+' missed question(s)</span><span class="vi">Xem lại '+wrong.length+' câu sai</span></div>';
+    wrong.forEach(({it,i})=>{ html+=reviewItem(it,i); });
+  } else {
+    html+='<div class="review-item" style="border-left-color:var(--success)"><span class="en">Perfect score — no questions to review. 🎉</span><span class="vi">Điểm tuyệt đối — không có câu nào cần xem lại. 🎉</span></div>';
+  }
+
+  // ---- flagged review (excluding ones already shown as wrong) ----
+  const flagged = state.list.map((it,i)=>({it,i})).filter(x=>state.flagged[x.i] && (state.answers[x.i] && state.answers[x.i].pick===x.it.correct));
+  if(flagged.length){
+    html+='<div class="section-label"><span class="en">⚑ '+flagged.length+' flagged (answered correctly)</span><span class="vi">⚑ '+flagged.length+' câu đánh dấu (đã trả lời đúng)</span></div>';
+    flagged.forEach(({it,i})=>{ html+=reviewItem(it,i); });
+  }
+
+  $('quiz').classList.add('hide');
+  const r=$('results'); r.classList.remove('hide'); r.innerHTML=html; window.scrollTo(0,0);
+  const retryMode = state.mode;
+  $('btnHome').addEventListener('click',()=>{ r.classList.add('hide'); $('home').classList.remove('hide'); refreshHome(); window.scrollTo(0,0);});
+  $('btnRetry').addEventListener('click',()=>{ start(retryMode); });
+}
+
+/* ---- Language & theme toggles (synced with main guide) ---- */
+function setLang(v){
+  document.body.classList.remove('lang-en','lang-vi');
+  document.body.classList.add('lang-'+v);
+  document.documentElement.lang = v;
+  try{localStorage.setItem('cpia-lang',v);}catch(e){}
+  paintToggles();
+}
+function setTheme(t){
+  document.body.classList.toggle('light-mode', t==='light');
+  try{localStorage.setItem('cpia-theme',t);}catch(e){}
+  paintToggles();
+}
+function paintToggles(){
+  const vi = document.body.classList.contains('lang-vi');
+  document.querySelector('.lt-en').classList.toggle('on',!vi);
+  document.querySelector('.lt-vi').classList.toggle('on',vi);
+  const light = document.body.classList.contains('light-mode');
+  document.querySelector('.tt-dark').classList.toggle('on',!light);
+  document.querySelector('.tt-light').classList.toggle('on',light);
+}
+$('langToggle').addEventListener('click',()=>setLang(document.body.classList.contains('lang-vi')?'en':'vi'));
+$('themeToggle').addEventListener('click',()=>setTheme(document.body.classList.contains('light-mode')?'dark':'light'));
+$('langToggle').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('langToggle').click();}});
+$('themeToggle').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('themeToggle').click();}});
+paintToggles();
+</script>
+</body></html>
