@@ -197,7 +197,7 @@ body.light-mode .modal-overlay{background:rgba(15,23,42,.42)}
         <span class="count" id="cntMock">120</span>
         <span class="tag"><span class="en">Exam Simulation</span><span class="vi">Mô phỏng kỳ thi</span></span>
         <h3><span class="en"><span id="examCardN">120</span> Questions — Mixed</span><span class="vi"><span id="examCardNv">120</span> câu — Trộn đề</span></h3>
-        <p><span class="en">Real exam pace — 1 minute per question, mixed across all six appendices. Pick a size, then click the card to start.</span><span class="vi">Đúng nhịp đề thật — 1 phút/câu, trộn cả 6 phụ lục. Chọn số câu rồi bấm vào thẻ để bắt đầu.</span></p>
+        <p><span class="en">High-pressure pace — 45 seconds per question, mixed across all six appendices. Pick a size, then click the card to start.</span><span class="vi">Nhịp áp lực cao — 45 giây/câu, trộn cả 6 phụ lục. Chọn số câu rồi bấm vào thẻ để bắt đầu.</span></p>
         <div class="exam-config" id="examConfig">
           <span class="lbl"><span class="en">Questions:</span><span class="vi">Số câu:</span></span>
           <button class="ec" data-count="30">30</button>
@@ -345,20 +345,22 @@ document.querySelectorAll('[data-mode]').forEach(el=>{
   el.addEventListener('click',()=>start(el.dataset.mode));
 });
 
-/* ---- Exam size chooser (time auto-scales at 1 min/question) ---- */
+/* ---- Exam size chooser (time scales at 45 seconds/question for extra pressure) ---- */
+const SECS_PER_Q = 45;
 let selectedExamCount = 120;
+function fmtExamTime(count){ const s=count*SECS_PER_Q, m=Math.floor(s/60), ss=s%60; return ss? m+'m '+ss+'s' : m+' min'; }
 function updateExamConfig(){
   document.querySelectorAll('.ec').forEach(b=>b.classList.toggle('sel', +b.dataset.count===selectedExamCount));
   $('cntMock').textContent = selectedExamCount;
   $('examCardN').textContent = selectedExamCount;
   $('examCardNv').textContent = selectedExamCount;
-  const mins = selectedExamCount; // real-exam pace: 1 minute per question
-  $('examTimeNote').innerHTML = '<span class="en">→ '+mins+' min · 1 min/question</span><span class="vi">→ '+mins+' phút · 1 phút/câu</span>';
+  const t = fmtExamTime(selectedExamCount);
+  $('examTimeNote').innerHTML = '<span class="en">→ '+t+' · 45s/question</span><span class="vi">→ '+t+' · 45s/câu</span>';
 }
 document.querySelectorAll('.ec').forEach(b=>b.addEventListener('click',()=>{ selectedExamCount=+b.dataset.count; $('examCustom').value=''; updateExamConfig(); }));
 $('examCustom').addEventListener('input',e=>{
   const v=parseInt(e.target.value);
-  if(v>=5){ selectedExamCount=Math.min(v, BANK.length); document.querySelectorAll('.ec').forEach(b=>b.classList.remove('sel')); $('cntMock').textContent=selectedExamCount; $('examCardN').textContent=selectedExamCount; $('examCardNv').textContent=selectedExamCount; $('examTimeNote').innerHTML='<span class="en">→ '+selectedExamCount+' min · 1 min/question</span><span class="vi">→ '+selectedExamCount+' phút · 1 phút/câu</span>'; }
+  if(v>=5){ selectedExamCount=Math.min(v, BANK.length); updateExamConfig(); }
 });
 $('examConfig').addEventListener('click',e=>e.stopPropagation()); // clicks inside the chooser must not start the exam
 $('examCard').addEventListener('click',()=>start('mock', selectedExamCount));
@@ -383,7 +385,7 @@ function start(mode, count){
   });
   state = {list, idx:0, mode, examMode, answers:new Array(list.length).fill(null),
            flagged:new Array(list.length).fill(false), ended:false,
-           durationSec: examMode ? list.length*60 : 0, remaining:0, timerId:null};
+           durationSec: examMode ? list.length*45 : 0, remaining:0, timerId:null};
   // pre-flag questions already flagged in the store
   list.forEach((it,i)=>{ if(store.flagged[qid(it.ref)]) state.flagged[i]=true; });
   $('home').classList.add('hide');
