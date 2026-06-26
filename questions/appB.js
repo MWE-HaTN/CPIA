@@ -135,16 +135,16 @@
         "vi": "Giả mạo / đầu độc ARP"
       },
       {
-        "en": "Subnetting",
-        "vi": "Chia mạng con (subnetting)"
+        "en": "Static ARP table entries",
+        "vi": "Mục ARP tĩnh trong bảng"
       },
       {
-        "en": "NAT",
-        "vi": "NAT"
+        "en": "DHCP lease renewal",
+        "vi": "Gia hạn lease DHCP"
       },
       {
-        "en": "DHCP renewal",
-        "vi": "Gia hạn DHCP"
+        "en": "Spanning Tree reconfiguration",
+        "vi": "Cấu hình lại Spanning Tree"
       }
     ],
     "correct": 0,
@@ -203,23 +203,23 @@
     },
     "opts": [
       {
-        "en": "Encoding requires a secret key; encryption does not",
-        "vi": "Encoding cần khóa bí mật; encryption thì không"
+        "en": "Encryption needs a key; encoding is reversible with no secret",
+        "vi": "Mã hóa cần khóa; encoding đảo ngược được không cần bí mật"
       },
       {
-        "en": "Encryption requires a key for confidentiality; encoding is reversible with no secret",
-        "vi": "Encryption cần khóa để bảo mật; encoding đảo ngược được mà không cần bí mật"
+        "en": "Encoding needs a secret key but encryption does not",
+        "vi": "Encoding cần khóa bí mật còn encryption thì không"
       },
       {
-        "en": "They are identical",
-        "vi": "Chúng giống hệt nhau"
+        "en": "They are identical operations with different names",
+        "vi": "Chúng là cùng một thao tác với tên khác"
       },
       {
         "en": "Encoding is always stronger than encryption",
         "vi": "Encoding luôn mạnh hơn encryption"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Encoding (Base64, hex, URL-encoding) only changes representation for transport and is trivially reversible by anyone — it provides NO confidentiality. Encryption uses a key so only key-holders can recover plaintext. Malware often Base64-encodes payloads to evade simple signatures, not to protect them.",
       "vi": "Encoding (Base64, hex, URL-encoding) chỉ đổi cách biểu diễn để truyền và ai cũng có thể đảo ngược — KHÔNG bảo mật. Encryption dùng khóa nên chỉ người có khóa mới khôi phục được plaintext. Mã độc thường Base64 hóa payload để né signature đơn giản, không phải để bảo vệ."
@@ -279,23 +279,23 @@
     },
     "opts": [
       {
-        "en": "Encrypt the image",
-        "vi": "Mã hóa image"
-      },
-      {
-        "en": "Compress the image",
-        "vi": "Nén image"
-      },
-      {
         "en": "Verify integrity (detect any change)",
-        "vi": "Xác minh tính toàn vẹn (phát hiện thay đổi)"
+        "vi": "Xác minh toàn vẹn (phát hiện thay đổi)"
       },
       {
-        "en": "Hide the image contents",
-        "vi": "Che giấu nội dung image"
+        "en": "Encrypt the image for confidentiality",
+        "vi": "Mã hóa image để bảo mật"
+      },
+      {
+        "en": "Compress the image to save space",
+        "vi": "Nén image để tiết kiệm dung lượng"
+      },
+      {
+        "en": "Conceal the image's contents from view",
+        "vi": "Che giấu nội dung image khỏi bị xem"
       }
     ],
-    "correct": 2,
+    "correct": 0,
     "exp": {
       "en": "Hashes provide an integrity fingerprint: any single-bit change produces a completely different hash. They do NOT encrypt or compress. MD5 is still seen but is collision-weak; SHA-256 is preferred for forensic integrity.",
       "vi": "Hash tạo dấu vân tay toàn vẹn: chỉ một bit thay đổi sẽ cho hash hoàn toàn khác. Hash KHÔNG mã hóa hay nén. MD5 vẫn gặp nhưng yếu va chạm; SHA-256 được ưu tiên cho toàn vẹn forensic."
@@ -359,16 +359,16 @@
         "vi": "Banner dịch vụ tiết lộ phần mềm và phiên bản"
       },
       {
-        "en": "An encrypted payload",
-        "vi": "Một payload đã mã hóa"
+        "en": "An encrypted application-layer payload",
+        "vi": "Một payload tầng ứng dụng đã mã hóa"
       },
       {
-        "en": "A digital signature",
-        "vi": "Một chữ ký số"
+        "en": "A digital signature over the response",
+        "vi": "Một chữ ký số trên phản hồi"
       },
       {
-        "en": "A DNS record",
-        "vi": "Một bản ghi DNS"
+        "en": "A DNS resource record for the host",
+        "vi": "Một bản ghi tài nguyên DNS của host"
       }
     ],
     "correct": 0,
@@ -391,23 +391,23 @@
     },
     "opts": [
       {
-        "en": "Actively sending crafted probes",
-        "vi": "Chủ động gửi các gói thăm dò chế tạo riêng"
+        "en": "TCP/IP stack quirks — TTL, window size, TCP option order",
+        "vi": "Đặc thù stack TCP/IP — TTL, window size, thứ tự TCP option"
       },
       {
-        "en": "TCP/IP stack quirks like TTL, window size and TCP options in observed packets",
-        "vi": "Các đặc thù stack TCP/IP như TTL, window size và TCP options trong gói quan sát được"
+        "en": "Actively sending crafted TCP/IP probes",
+        "vi": "Chủ động gửi các gói thăm dò TCP/IP"
       },
       {
-        "en": "Reading the hostname from DNS",
-        "vi": "Đọc hostname từ DNS"
+        "en": "Reading the hostname from a DNS lookup",
+        "vi": "Đọc hostname từ một tra cứu DNS"
       },
       {
-        "en": "Querying the registry",
-        "vi": "Truy vấn registry"
+        "en": "Querying the remote system's registry",
+        "vi": "Truy vấn registry của hệ thống từ xa"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Passive fingerprinting only observes existing traffic and infers OS from default TTL (64 Linux, 128 Windows), TCP window size and option ordering — no packets are sent, so it is stealthy. Active fingerprinting (nmap -O) sends probes.",
       "vi": "Passive fingerprinting chỉ quan sát lưu lượng có sẵn và suy ra OS từ TTL mặc định (64 Linux, 128 Windows), TCP window size và thứ tự option — không gửi gói nào nên rất ẩn. Active fingerprinting (nmap -O) gửi gói thăm dò."
@@ -467,23 +467,23 @@
     },
     "opts": [
       {
-        "en": "Read & Execute on the file",
-        "vi": "Read & Execute trên file"
-      },
-      {
         "en": "Write/Modify on the service executable or its folder",
-        "vi": "Write/Modify trên file thực thi của service hoặc thư mục chứa nó"
+        "vi": "Write/Modify trên file thực thi của service hoặc thư mục"
       },
       {
-        "en": "List folder contents",
-        "vi": "Liệt kê nội dung thư mục"
+        "en": "Read & Execute on the service executable",
+        "vi": "Read & Execute trên file thực thi của service"
       },
       {
-        "en": "Read attributes",
-        "vi": "Đọc thuộc tính"
+        "en": "List Folder Contents on the directory",
+        "vi": "List Folder Contents trên thư mục"
+      },
+      {
+        "en": "Read Attributes on the service file",
+        "vi": "Read Attributes trên file của service"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "If a non-admin has Write/Modify on a binary that runs as SYSTEM (or its directory), they can overwrite it and gain SYSTEM execution — a classic weak-permissions privilege escalation. Read/Execute alone cannot replace the file.",
       "vi": "Nếu non-admin có Write/Modify trên binary chạy dưới quyền SYSTEM (hoặc thư mục của nó), họ có thể ghi đè và đạt thực thi SYSTEM — leo thang đặc quyền kinh điển do quyền yếu. Read/Execute thuần túy không thể thay file."
@@ -503,23 +503,23 @@
     },
     "opts": [
       {
-        "en": "The \"From:\" header",
-        "vi": "Tiêu đề \"From:\""
+        "en": "The bottom-most Received: line, added by your own servers",
+        "vi": "Dòng Received: dưới cùng, do server của chính bạn thêm"
       },
       {
-        "en": "The bottom-most \"Received:\" line added by your own infrastructure",
-        "vi": "Dòng \"Received:\" dưới cùng do hạ tầng của chính bạn thêm vào"
+        "en": "The From: address shown to the recipient",
+        "vi": "Địa chỉ From: hiển thị cho người nhận"
       },
       {
-        "en": "The \"Subject:\" header",
-        "vi": "Tiêu đề \"Subject:\""
+        "en": "The Subject: line set by the sender",
+        "vi": "Dòng Subject: do người gửi đặt"
       },
       {
-        "en": "The \"Reply-To:\" header",
-        "vi": "Tiêu đề \"Reply-To:\""
+        "en": "The Reply-To: header in the message",
+        "vi": "Header Reply-To: trong thông điệp"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "\"From:\" and \"Reply-To:\" are trivially spoofed. Received: lines are stamped by each MTA and read bottom-up (oldest first); the lines added by trusted infrastructure you control are the most reliable. Earlier (top) Received lines from untrusted hops can be forged.",
       "vi": "\"From:\" và \"Reply-To:\" dễ giả mạo. Các dòng Received: do từng MTA đóng dấu, đọc từ dưới lên (cũ nhất trước); những dòng do hạ tầng tin cậy của bạn thêm vào là đáng tin nhất. Các dòng Received phía trên từ hop không tin cậy có thể bị giả."
@@ -583,16 +583,16 @@
         "vi": "Discover → Offer → Request → Acknowledge (DORA)"
       },
       {
-        "en": "SYN → ACK → FIN",
-        "vi": "SYN → ACK → FIN"
+        "en": "Request → Grant → Acknowledge → Renew",
+        "vi": "Request → Grant → Acknowledge → Renew"
       },
       {
-        "en": "Request → Reply only",
-        "vi": "Chỉ Request → Reply"
+        "en": "Solicit → Advertise → Bind → Release",
+        "vi": "Solicit → Advertise → Bind → Release"
       },
       {
-        "en": "Hello → Bye",
-        "vi": "Hello → Bye"
+        "en": "Hello → Lease → Confirm → Goodbye",
+        "vi": "Hello → Lease → Confirm → Goodbye"
       }
     ],
     "correct": 0,
@@ -615,23 +615,23 @@
     },
     "opts": [
       {
-        "en": "It is a reliable transport like TCP",
-        "vi": "Nó là vận chuyển tin cậy như TCP"
+        "en": "It carries control/error messages and can be abused for tunnelling",
+        "vi": "Nó mang thông điệp điều khiển/lỗi và có thể bị lạm dụng để tunnel"
       },
       {
-        "en": "It carries control/error messages (e.g. echo, unreachable) and can be abused for tunnelling",
-        "vi": "Nó mang thông điệp điều khiển/lỗi (vd echo, unreachable) và có thể bị lạm dụng để tunnel"
+        "en": "It is a reliable, connection-oriented transport like TCP",
+        "vi": "Nó là vận chuyển tin cậy, hướng kết nối như TCP"
       },
       {
-        "en": "It uses ports like TCP/UDP",
-        "vi": "Nó dùng cổng như TCP/UDP"
+        "en": "It uses source and destination ports like TCP and UDP",
+        "vi": "Nó dùng cổng nguồn và đích như TCP và UDP"
       },
       {
-        "en": "It always indicates an attack",
-        "vi": "Nó luôn cho biết một cuộc tấn công"
+        "en": "Its presence on a network always indicates an attack",
+        "vi": "Sự hiện diện của nó trên mạng luôn là tấn công"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "ICMP is a control protocol (ping echo/reply, destination unreachable, TTL exceeded) with no ports. It is legitimate but oversized or high-volume echo payloads can hide ICMP tunnelling/exfiltration — inspect payload, not just type.",
       "vi": "ICMP là giao thức điều khiển (ping echo/reply, destination unreachable, TTL exceeded) không có cổng. Nó hợp lệ nhưng payload echo quá lớn hoặc lưu lượng cao có thể giấu ICMP tunnelling/exfil — hãy soi payload, không chỉ loại."
@@ -651,23 +651,23 @@
     },
     "opts": [
       {
-        "en": "It encrypts all traffic",
-        "vi": "Nó mã hóa toàn bộ lưu lượng"
+        "en": "Many hosts share one public IP, hiding the true source",
+        "vi": "Nhiều host dùng chung một IP công khai, che nguồn thật"
       },
       {
-        "en": "Many internal hosts may share one public IP, hiding the true source",
-        "vi": "Nhiều host nội bộ có thể dùng chung một IP công khai, che nguồn thật"
+        "en": "It encrypts all traffic passing through the gateway",
+        "vi": "Nó mã hóa mọi lưu lượng qua gateway"
       },
       {
-        "en": "It blocks all logging",
-        "vi": "Nó chặn mọi logging"
+        "en": "It blocks the firewall from logging connections",
+        "vi": "Nó chặn firewall ghi log kết nối"
       },
       {
-        "en": "It speeds up attacks",
-        "vi": "Nó tăng tốc tấn công"
+        "en": "It accelerates the attacker's outbound transfers",
+        "vi": "Nó tăng tốc truyền ra ngoài của kẻ tấn công"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "With NAT/PAT, many internal hosts appear as a single public IP, so external logs alone cannot identify the real internal source. You must correlate with NAT/firewall translation logs and internal DHCP to resolve the true host.",
       "vi": "Với NAT/PAT, nhiều host nội bộ xuất hiện dưới một IP công khai, nên log bên ngoài đơn lẻ không xác định được nguồn nội bộ thật. Phải đối chiếu với log dịch NAT/firewall và DHCP nội bộ để xác định host thật."
@@ -687,20 +687,20 @@
     },
     "opts": [
       {
-        "en": "Identify which network/organisation owns a block of routed IP space",
-        "vi": "Xác định mạng/tổ chức nào sở hữu một khối không gian IP được định tuyến"
+        "en": "Identify the network/organisation owning a block of IP space",
+        "vi": "Xác định mạng/tổ chức sở hữu một khối không gian IP"
       },
       {
-        "en": "Decrypt TLS",
-        "vi": "Giải mã TLS"
+        "en": "Decrypt TLS sessions to that organisation's servers",
+        "vi": "Giải mã phiên TLS tới server của tổ chức đó"
       },
       {
-        "en": "Store passwords",
-        "vi": "Lưu mật khẩu"
+        "en": "Recover stored passwords from the target's hosts",
+        "vi": "Khôi phục mật khẩu lưu trên host mục tiêu"
       },
       {
-        "en": "Assign MAC addresses",
-        "vi": "Gán địa chỉ MAC"
+        "en": "Assign MAC addresses to devices on the network",
+        "vi": "Gán địa chỉ MAC cho thiết bị trên mạng"
       }
     ],
     "correct": 0,
@@ -723,20 +723,20 @@
     },
     "opts": [
       {
-        "en": "A protocol analyser / packet capture tool (Wireshark, tcpdump)",
-        "vi": "Trình phân tích giao thức / bắt gói (Wireshark, tcpdump)"
+        "en": "A protocol analyser / packet capture tool (Wireshark)",
+        "vi": "Trình phân tích giao thức / bắt gói (Wireshark)"
       },
       {
-        "en": "A disk defragmenter",
-        "vi": "Một trình chống phân mảnh đĩa"
+        "en": "A disk defragmentation and cleanup tool",
+        "vi": "Một công cụ chống phân mảnh và dọn đĩa"
       },
       {
-        "en": "A spreadsheet only",
-        "vi": "Chỉ một bảng tính"
+        "en": "A spreadsheet application alone",
+        "vi": "Chỉ một ứng dụng bảng tính"
       },
       {
-        "en": "A screensaver",
-        "vi": "Một screensaver"
+        "en": "A subnet and CIDR calculator",
+        "vi": "Một máy tính subnet và CIDR"
       }
     ],
     "correct": 0,
@@ -795,20 +795,20 @@
     },
     "opts": [
       {
-        "en": "A public key to an identity, vouched for by a CA signature",
-        "vi": "Một khóa công khai với một danh tính, được CA ký bảo chứng"
+        "en": "A public key to an identity, signed by a CA",
+        "vi": "Một khóa công khai với một danh tính, do CA ký"
       },
       {
-        "en": "A password to a username",
-        "vi": "Một mật khẩu với một username"
+        "en": "A user password to a username",
+        "vi": "Một mật khẩu người dùng với một username"
       },
       {
-        "en": "An IP to a MAC",
-        "vi": "Một IP với một MAC"
+        "en": "An IP address to a MAC address",
+        "vi": "Một địa chỉ IP với một địa chỉ MAC"
       },
       {
-        "en": "A file to a folder",
-        "vi": "Một file với một thư mục"
+        "en": "A file to its containing folder",
+        "vi": "Một file với thư mục chứa nó"
       }
     ],
     "correct": 0,
@@ -835,16 +835,16 @@
         "vi": "wmic qfe list  /  systeminfo"
       },
       {
-        "en": "ping -t",
-        "vi": "ping -t"
+        "en": "driverquery /v /fo list",
+        "vi": "driverquery /v /fo list"
       },
       {
-        "en": "cls",
-        "vi": "cls"
+        "en": "net config workstation",
+        "vi": "net config workstation"
       },
       {
-        "en": "color 0a",
-        "vi": "color 0a"
+        "en": "ipconfig /allcompartments",
+        "vi": "ipconfig /allcompartments"
       }
     ],
     "correct": 0,
@@ -867,23 +867,23 @@
     },
     "opts": [
       {
-        "en": "Confidentiality of data",
-        "vi": "Tính bảo mật của dữ liệu"
+        "en": "Message integrity and authenticity via a keyed hash",
+        "vi": "Toàn vẹn và xác thực thông điệp qua hash có khóa"
       },
       {
-        "en": "Message integrity and authenticity using a shared secret + hash",
-        "vi": "Toàn vẹn và xác thực thông điệp dùng bí mật chung + hàm băm"
+        "en": "Confidentiality of the data being sent",
+        "vi": "Bảo mật dữ liệu đang gửi"
       },
       {
-        "en": "Compression",
-        "vi": "Nén dữ liệu"
+        "en": "Lossless compression of the message",
+        "vi": "Nén không mất dữ liệu của thông điệp"
       },
       {
-        "en": "Faster routing",
-        "vi": "Định tuyến nhanh hơn"
+        "en": "Faster routing of the traffic",
+        "vi": "Định tuyến lưu lượng nhanh hơn"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "HMAC (Hash-based Message Authentication Code) combines a hash (e.g. SHA-256) with a shared secret to prove a message was not altered AND came from someone holding the key. It gives integrity + authenticity, not confidentiality.",
       "vi": "HMAC (Mã xác thực thông điệp dựa trên hàm băm) kết hợp một hàm băm (vd SHA-256) với bí mật chung để chứng minh thông điệp không bị thay đổi VÀ đến từ người giữ khóa. Nó cho toàn vẹn + xác thực, không phải bảo mật."
@@ -903,20 +903,20 @@
     },
     "opts": [
       {
-        "en": "IPv6 uses 128-bit addresses and no broadcast (uses multicast/NDP instead of ARP)",
-        "vi": "IPv6 dùng địa chỉ 128-bit và không có broadcast (dùng multicast/NDP thay cho ARP)"
+        "en": "128-bit addresses and no broadcast (uses NDP, not ARP)",
+        "vi": "Địa chỉ 128-bit và không broadcast (dùng NDP, không ARP)"
       },
       {
-        "en": "IPv6 is unencryptable",
-        "vi": "IPv6 không thể mã hóa"
+        "en": "IPv6 traffic cannot be encrypted at all",
+        "vi": "Lưu lượng IPv6 không thể mã hóa"
       },
       {
-        "en": "IPv6 has no addresses",
-        "vi": "IPv6 không có địa chỉ"
+        "en": "IPv6 hosts do not use IP addresses",
+        "vi": "Host IPv6 không dùng địa chỉ IP"
       },
       {
-        "en": "IPv6 cannot be routed",
-        "vi": "IPv6 không thể định tuyến"
+        "en": "IPv6 packets cannot be routed online",
+        "vi": "Gói IPv6 không thể định tuyến"
       }
     ],
     "correct": 0,
@@ -939,20 +939,20 @@
     },
     "opts": [
       {
-        "en": "Misconfigured trunk ports / default native VLAN allowing traffic to cross VLANs",
-        "vi": "Cổng trunk cấu hình sai / native VLAN mặc định cho phép lưu lượng vượt VLAN"
+        "en": "Misconfigured trunk ports or a default native VLAN crossing VLANs",
+        "vi": "Cổng trunk cấu hình sai hoặc native VLAN mặc định cho vượt VLAN"
       },
       {
-        "en": "Using fibre cables",
-        "vi": "Dùng cáp quang"
+        "en": "Using fibre-optic cabling instead of copper",
+        "vi": "Dùng cáp quang thay vì cáp đồng"
       },
       {
-        "en": "Encrypting traffic",
-        "vi": "Mã hóa lưu lượng"
+        "en": "Encrypting traffic between switches and routers",
+        "vi": "Mã hóa lưu lượng giữa switch và router"
       },
       {
-        "en": "Having too few hosts",
-        "vi": "Có quá ít host"
+        "en": "Having too few hosts assigned to each VLAN",
+        "vi": "Gán quá ít host cho mỗi VLAN"
       }
     ],
     "correct": 0,
@@ -1011,20 +1011,20 @@
     },
     "opts": [
       {
-        "en": "The likely client browser and OS (here, an ancient IE6 on Windows XP)",
-        "vi": "Trình duyệt và OS client khả dĩ (ở đây là IE6 rất cũ trên Windows XP)"
+        "en": "The likely client browser and OS (here IE6 on Windows XP)",
+        "vi": "Trình duyệt và OS client khả dĩ (ở đây IE6 trên Windows XP)"
       },
       {
-        "en": "The server's password",
-        "vi": "Mật khẩu của server"
+        "en": "The web server's administrator password",
+        "vi": "Mật khẩu quản trị của web server"
       },
       {
-        "en": "The encryption key",
-        "vi": "Khóa mã hóa"
+        "en": "The negotiated TLS session key",
+        "vi": "Khóa phiên TLS đã đàm phán"
       },
       {
-        "en": "The MAC address",
-        "vi": "Địa chỉ MAC"
+        "en": "The client's hardware MAC address",
+        "vi": "Địa chỉ MAC phần cứng của client"
       }
     ],
     "correct": 0,
@@ -1047,20 +1047,20 @@
     },
     "opts": [
       {
-        "en": "The connection was abruptly reset/refused (e.g. closed port or abort)",
-        "vi": "Kết nối bị reset/từ chối đột ngột (vd cổng đóng hoặc hủy)"
+        "en": "The connection was abruptly reset or refused",
+        "vi": "Kết nối bị reset hoặc từ chối đột ngột"
       },
       {
-        "en": "A normal connection setup",
-        "vi": "Thiết lập kết nối bình thường"
+        "en": "A normal connection being established successfully",
+        "vi": "Một kết nối bình thường đang được thiết lập"
       },
       {
-        "en": "Successful data transfer",
-        "vi": "Truyền dữ liệu thành công"
+        "en": "A large data transfer completing without error",
+        "vi": "Một lần truyền dữ liệu lớn hoàn tất không lỗi"
       },
       {
-        "en": "A graceful four-way close",
-        "vi": "Đóng kết nối êm bằng bốn bước"
+        "en": "A graceful four-way connection teardown in progress",
+        "vi": "Một lần đóng kết nối bốn bước êm đang diễn ra"
       }
     ],
     "correct": 0,
@@ -1087,16 +1087,16 @@
         "vi": "Trao đổi FIN/ACK theo cả hai chiều (bốn bước)"
       },
       {
-        "en": "A single SYN",
-        "vi": "Một SYN duy nhất"
+        "en": "A single SYN segment sent to the server",
+        "vi": "Một segment SYN duy nhất gửi tới server"
       },
       {
-        "en": "An ICMP redirect",
-        "vi": "Một ICMP redirect"
+        "en": "An ICMP redirect issued by the gateway",
+        "vi": "Một ICMP redirect do gateway phát ra"
       },
       {
-        "en": "An ARP reply",
-        "vi": "Một ARP reply"
+        "en": "An unsolicited ARP reply on the segment",
+        "vi": "Một ARP reply không yêu cầu trên đoạn mạng"
       }
     ],
     "correct": 0,
@@ -1123,16 +1123,16 @@
         "vi": "Time Exceeded (type 11), kích hoạt khi TTL giảm về 0"
       },
       {
-        "en": "Echo Reply (type 0)",
-        "vi": "Echo Reply (type 0)"
+        "en": "Echo Reply (type 0), as returned by a ping",
+        "vi": "Echo Reply (type 0), như ping trả về"
       },
       {
-        "en": "Redirect (type 5)",
-        "vi": "Redirect (type 5)"
+        "en": "Redirect (type 5), suggesting a better route",
+        "vi": "Redirect (type 5), gợi ý một tuyến tốt hơn"
       },
       {
-        "en": "Source Quench (type 4)",
-        "vi": "Source Quench (type 4)"
+        "en": "Source Quench (type 4), signalling congestion",
+        "vi": "Source Quench (type 4), báo hiệu tắc nghẽn"
       }
     ],
     "correct": 0,
@@ -1156,19 +1156,19 @@
     "opts": [
       {
         "en": "For zone transfers and responses larger than the UDP size limit",
-        "vi": "Cho zone transfer và các phản hồi lớn hơn giới hạn kích thước UDP"
+        "vi": "Cho zone transfer và phản hồi lớn hơn giới hạn UDP"
       },
       {
-        "en": "Never — DNS is UDP only",
-        "vi": "Không bao giờ — DNS chỉ dùng UDP"
+        "en": "Never — DNS resolution always uses UDP only",
+        "vi": "Không bao giờ — phân giải DNS luôn chỉ dùng UDP"
       },
       {
-        "en": "Only for reverse lookups",
-        "vi": "Chỉ cho tra ngược"
+        "en": "Only when performing reverse PTR lookups",
+        "vi": "Chỉ khi thực hiện tra ngược PTR"
       },
       {
-        "en": "Only over IPv6",
-        "vi": "Chỉ trên IPv6"
+        "en": "Only when the query is sent over IPv6",
+        "vi": "Chỉ khi truy vấn được gửi qua IPv6"
       }
     ],
     "correct": 0,
@@ -1195,16 +1195,16 @@
         "vi": "IRC — xưa hay dùng cho command and control của botnet"
       },
       {
-        "en": "Normal HTTPS browsing",
-        "vi": "Duyệt HTTPS bình thường"
+        "en": "Normal encrypted HTTPS web browsing traffic",
+        "vi": "Lưu lượng duyệt web HTTPS mã hóa bình thường"
       },
       {
-        "en": "DNS resolution",
-        "vi": "Phân giải DNS"
+        "en": "Routine DNS name-resolution queries",
+        "vi": "Truy vấn phân giải tên DNS định kỳ"
       },
       {
-        "en": "NTP time sync",
-        "vi": "Đồng bộ thời gian NTP"
+        "en": "Scheduled NTP clock-synchronisation traffic",
+        "vi": "Lưu lượng đồng bộ đồng hồ NTP theo lịch"
       }
     ],
     "correct": 0,
@@ -1227,20 +1227,20 @@
     },
     "opts": [
       {
-        "en": "Act like passwords and, if unchanged, allow device info disclosure or configuration changes",
-        "vi": "Hoạt động như mật khẩu, nếu không đổi sẽ cho phép lộ thông tin thiết bị hoặc thay đổi cấu hình"
+        "en": "They act like passwords, allowing disclosure or reconfiguration if unchanged",
+        "vi": "Chúng như mật khẩu, cho phép lộ thông tin/cấu hình lại nếu không đổi"
       },
       {
-        "en": "Encrypt all SNMP traffic",
-        "vi": "Mã hóa toàn bộ lưu lượng SNMP"
+        "en": "They encrypt all SNMP traffic between agents and managers",
+        "vi": "Chúng mã hóa mọi lưu lượng SNMP giữa agent và manager"
       },
       {
-        "en": "Are required for DNS",
-        "vi": "Là bắt buộc cho DNS"
+        "en": "They are required for DNS name resolution to work",
+        "vi": "Chúng cần thiết để phân giải tên DNS hoạt động"
       },
       {
-        "en": "Disable the device",
-        "vi": "Vô hiệu hóa thiết bị"
+        "en": "They disable the device until a manager connects",
+        "vi": "Chúng vô hiệu thiết bị tới khi một manager kết nối"
       }
     ],
     "correct": 0,
@@ -1264,19 +1264,19 @@
     "opts": [
       {
         "en": "Link-local address, valid only on the local segment",
-        "vi": "Địa chỉ link-local, chỉ có hiệu lực trên đoạn mạng cục bộ"
+        "vi": "Địa chỉ link-local, chỉ có hiệu lực trên đoạn cục bộ"
       },
       {
-        "en": "A global unicast address",
-        "vi": "Một địa chỉ global unicast"
+        "en": "A globally routable unicast address",
+        "vi": "Một địa chỉ unicast định tuyến toàn cầu"
       },
       {
-        "en": "A multicast address",
-        "vi": "Một địa chỉ multicast"
+        "en": "A multicast group address (ff00::/8)",
+        "vi": "Một địa chỉ nhóm multicast (ff00::/8)"
       },
       {
-        "en": "An IPv4-mapped address",
-        "vi": "Một địa chỉ ánh xạ IPv4"
+        "en": "An IPv4-mapped IPv6 address (::ffff:)",
+        "vi": "Một địa chỉ IPv6 ánh xạ IPv4 (::ffff:)"
       }
     ],
     "correct": 0,
@@ -1375,20 +1375,20 @@
     },
     "opts": [
       {
-        "en": "Hardware vendor/manufacturer",
-        "vi": "Nhà sản xuất/hãng phần cứng"
+        "en": "The hardware vendor / manufacturer",
+        "vi": "Nhà sản xuất / hãng phần cứng"
       },
       {
-        "en": "IP subnet",
-        "vi": "Subnet IP"
+        "en": "The host's IP subnet",
+        "vi": "Subnet IP của host"
       },
       {
-        "en": "TCP port",
-        "vi": "Cổng TCP"
+        "en": "The TCP service port",
+        "vi": "Cổng dịch vụ TCP"
       },
       {
-        "en": "The DNS zone",
-        "vi": "Zone DNS"
+        "en": "The DNS zone of the host",
+        "vi": "Zone DNS của host"
       }
     ],
     "correct": 0,
@@ -1411,20 +1411,20 @@
     },
     "opts": [
       {
-        "en": "Unicast frames are forwarded only to the destination port, limiting passive sniffing",
-        "vi": "Frame unicast chỉ được chuyển tới cổng đích, hạn chế sniff thụ động"
+        "en": "Unicast frames go only to the destination port, limiting sniffing",
+        "vi": "Frame unicast chỉ tới cổng đích, hạn chế sniff"
       },
       {
-        "en": "It encrypts all frames",
-        "vi": "Nó mã hóa mọi frame"
+        "en": "It encrypts every frame sent across the wire",
+        "vi": "Nó mã hóa mọi frame gửi trên đường truyền"
       },
       {
-        "en": "It removes the need for VLANs",
-        "vi": "Nó loại bỏ nhu cầu VLAN"
+        "en": "It removes the need for VLAN segmentation",
+        "vi": "Nó loại bỏ nhu cầu phân đoạn VLAN"
       },
       {
-        "en": "It prevents all ARP attacks",
-        "vi": "Nó ngăn mọi tấn công ARP"
+        "en": "It prevents all ARP-poisoning attacks",
+        "vi": "Nó ngăn mọi tấn công ARP-poisoning"
       }
     ],
     "correct": 0,
@@ -1451,15 +1451,15 @@
         "vi": "Gigabit Ethernet trên cáp đồng xoắn đôi"
       },
       {
-        "en": "A wireless 802.11 standard",
-        "vi": "Một chuẩn không dây 802.11"
+        "en": "A wireless 802.11 networking standard",
+        "vi": "Một chuẩn mạng không dây 802.11"
       },
       {
-        "en": "A fibre-only 10 Gbps link",
-        "vi": "Một liên kết quang 10 Gbps"
+        "en": "A fibre-only 10 Gbps backbone link",
+        "vi": "Một liên kết backbone quang 10 Gbps"
       },
       {
-        "en": "A serial console protocol",
+        "en": "A serial console management protocol",
         "vi": "Một giao thức console nối tiếp"
       }
     ],
@@ -1483,20 +1483,20 @@
     },
     "opts": [
       {
-        "en": "Disassembler (e.g. IDA Pro, Ghidra)",
-        "vi": "Disassembler (vd IDA Pro, Ghidra)"
+        "en": "A disassembler (e.g. IDA Pro, Ghidra)",
+        "vi": "Một disassembler (vd IDA Pro, Ghidra)"
       },
       {
-        "en": "Packet analyser",
-        "vi": "Trình phân tích gói"
+        "en": "A packet analyser like Wireshark",
+        "vi": "Một trình phân tích gói như Wireshark"
       },
       {
-        "en": "A DHCP server",
-        "vi": "Một máy chủ DHCP"
+        "en": "A hex-to-decimal conversion tool",
+        "vi": "Một công cụ chuyển hex sang decimal"
       },
       {
-        "en": "A hex-to-decimal calculator",
-        "vi": "Một máy tính hex sang decimal"
+        "en": "A network port scanner (nmap)",
+        "vi": "Một trình quét cổng mạng (nmap)"
       }
     ],
     "correct": 0,
@@ -1523,16 +1523,16 @@
         "vi": "Một debugger (vd x64dbg, WinDbg, GDB)"
       },
       {
-        "en": "A hex editor",
-        "vi": "Một trình soạn hex"
+        "en": "A static hex / binary editor",
+        "vi": "Một trình soạn hex / nhị phân tĩnh"
       },
       {
-        "en": "A WHOIS client",
-        "vi": "Một client WHOIS"
+        "en": "A WHOIS lookup client",
+        "vi": "Một client tra WHOIS"
       },
       {
-        "en": "A subnet calculator",
-        "vi": "Một máy tính subnet"
+        "en": "A subnet calculator tool",
+        "vi": "Một công cụ tính subnet"
       }
     ],
     "correct": 0,
@@ -1555,19 +1555,19 @@
     },
     "opts": [
       {
-        "en": "A file-carving / forensic suite (e.g. PhotoRec, Autopsy, foremost)",
-        "vi": "Một bộ carving/forensic (vd PhotoRec, Autopsy, foremost)"
+        "en": "A file-carving / forensic suite (PhotoRec, foremost)",
+        "vi": "Một bộ carving / forensic (PhotoRec, foremost)"
       },
       {
-        "en": "A web proxy",
-        "vi": "Một web proxy"
+        "en": "A forward web proxy server (Squid)",
+        "vi": "Một forward web proxy (Squid)"
       },
       {
-        "en": "A port scanner",
-        "vi": "Một trình quét cổng"
+        "en": "A network port scanner (nmap)",
+        "vi": "Một trình quét cổng mạng (nmap)"
       },
       {
-        "en": "A password manager",
+        "en": "A credential / password manager",
         "vi": "Một trình quản lý mật khẩu"
       }
     ],
@@ -1591,20 +1591,20 @@
     },
     "opts": [
       {
-        "en": "Simulated/Internet-services emulators for malware sandboxes",
-        "vi": "Trình giả lập dịch vụ Internet/mạng cho sandbox mã độc"
+        "en": "Internet-service emulators for malware sandboxes",
+        "vi": "Trình giả lập dịch vụ internet cho sandbox mã độc"
       },
       {
-        "en": "Disk imagers",
-        "vi": "Trình tạo image đĩa"
+        "en": "Forensic disk-imaging utilities",
+        "vi": "Công cụ tạo image đĩa forensic"
       },
       {
-        "en": "Disassemblers",
-        "vi": "Disassembler"
+        "en": "Binary disassembler tools",
+        "vi": "Công cụ disassembler nhị phân"
       },
       {
-        "en": "Firewalls",
-        "vi": "Tường lửa"
+        "en": "Network perimeter firewalls",
+        "vi": "Tường lửa biên mạng"
       }
     ],
     "correct": 0,
@@ -1668,19 +1668,19 @@
     "opts": [
       {
         "en": "Sends crafted probes to the target, so it is detectable",
-        "vi": "Gửi gói thăm dò chế tạo riêng tới mục tiêu, nên có thể bị phát hiện"
+        "vi": "Gửi gói thăm dò chế tạo riêng tới mục tiêu nên bị phát hiện"
       },
       {
-        "en": "Never touches the network",
-        "vi": "Không bao giờ chạm mạng"
+        "en": "Never sends any packets onto the network at all",
+        "vi": "Không gửi gói nào lên mạng"
       },
       {
-        "en": "Only reads document metadata",
-        "vi": "Chỉ đọc metadata tài liệu"
+        "en": "Only reads metadata embedded in documents",
+        "vi": "Chỉ đọc metadata nhúng trong tài liệu"
       },
       {
-        "en": "Cannot determine the OS",
-        "vi": "Không thể xác định OS"
+        "en": "Cannot determine the operating system",
+        "vi": "Không thể xác định hệ điều hành"
       }
     ],
     "correct": 0,
@@ -1707,16 +1707,16 @@
         "vi": "Banner grabbing để xác định dịch vụ và phiên bản"
       },
       {
-        "en": "Passive OS fingerprinting",
-        "vi": "Fingerprint OS thụ động"
+        "en": "Passive OS fingerprinting from stack quirks",
+        "vi": "Fingerprint OS thụ động từ đặc thù stack"
       },
       {
-        "en": "A DNS zone transfer",
-        "vi": "Một zone transfer DNS"
+        "en": "A DNS zone transfer (AXFR) request",
+        "vi": "Một yêu cầu zone transfer DNS (AXFR)"
       },
       {
-        "en": "A buffer overflow",
-        "vi": "Một buffer overflow"
+        "en": "A buffer-overflow exploitation attempt",
+        "vi": "Một nỗ lực khai thác buffer-overflow"
       }
     ],
     "correct": 0,
@@ -1740,19 +1740,19 @@
     "opts": [
       {
         "en": "The client software (and version) that composed the message",
-        "vi": "Phần mềm client (và phiên bản) đã soạn thông điệp"
+        "vi": "Phần mềm client (và phiên bản) đã soạn thư"
       },
       {
-        "en": "The recipient's password",
-        "vi": "Mật khẩu người nhận"
+        "en": "The recipient's mailbox account password",
+        "vi": "Mật khẩu tài khoản hộp thư người nhận"
       },
       {
-        "en": "The SMTP server's disk size",
-        "vi": "Dung lượng đĩa của máy chủ SMTP"
+        "en": "The SMTP server's available disk space",
+        "vi": "Dung lượng đĩa còn trống của máy chủ SMTP"
       },
       {
-        "en": "The TLS session key",
-        "vi": "Khóa phiên TLS"
+        "en": "The TLS session key used for delivery",
+        "vi": "Khóa phiên TLS dùng để gửi"
       }
     ],
     "correct": 0,
@@ -1776,19 +1776,19 @@
     "opts": [
       {
         "en": "Anything not explicitly permitted is blocked",
-        "vi": "Bất cứ gì không được cho phép tường minh đều bị chặn"
+        "vi": "Bất cứ gì không được phép tường minh đều bị chặn"
       },
       {
-        "en": "Everything is allowed by default",
-        "vi": "Mọi thứ được phép theo mặc định"
+        "en": "Everything is permitted unless explicitly denied",
+        "vi": "Mọi thứ được phép trừ khi bị từ chối tường minh"
       },
       {
-        "en": "Logging is disabled",
-        "vi": "Logging bị tắt"
+        "en": "All connection logging is silently disabled",
+        "vi": "Mọi ghi log kết nối bị tắt âm thầm"
       },
       {
-        "en": "NAT is bypassed",
-        "vi": "NAT bị bỏ qua"
+        "en": "Network address translation is bypassed",
+        "vi": "Network address translation bị bỏ qua"
       }
     ],
     "correct": 0,
@@ -1811,20 +1811,20 @@
     },
     "opts": [
       {
-        "en": "Tracks connection state, automatically allowing legitimate return traffic",
-        "vi": "Theo dõi trạng thái kết nối, tự động cho phép lưu lượng trả về hợp lệ"
+        "en": "Tracks connection state and auto-allows legitimate replies",
+        "vi": "Theo dõi trạng thái kết nối và tự cho phép phản hồi hợp lệ"
       },
       {
-        "en": "Inspects only the source MAC",
-        "vi": "Chỉ kiểm tra MAC nguồn"
+        "en": "It inspects only the source MAC address",
+        "vi": "Nó chỉ kiểm tra địa chỉ MAC nguồn"
       },
       {
-        "en": "Cannot block any traffic",
-        "vi": "Không thể chặn lưu lượng nào"
+        "en": "It is unable to block any traffic at all",
+        "vi": "Nó không thể chặn lưu lượng nào"
       },
       {
-        "en": "Encrypts every packet",
-        "vi": "Mã hóa mọi gói"
+        "en": "It encrypts every packet that it forwards",
+        "vi": "Nó mã hóa mọi gói mà nó chuyển tiếp"
       }
     ],
     "correct": 0,
@@ -1847,20 +1847,20 @@
     },
     "opts": [
       {
-        "en": "An earlier, broader rule prevents a later rule from ever matching",
-        "vi": "Một rule rộng hơn ở trước khiến rule sau không bao giờ khớp được"
+        "en": "An earlier broader rule stops a later rule ever matching",
+        "vi": "Một rule rộng ở trước chặn rule sau không bao giờ khớp"
       },
       {
-        "en": "A rule is encrypted",
-        "vi": "Một rule được mã hóa"
+        "en": "A rule's contents are stored encrypted",
+        "vi": "Nội dung một rule được lưu mã hóa"
       },
       {
-        "en": "Two firewalls are clustered",
+        "en": "Two firewalls are clustered together",
         "vi": "Hai firewall được gom cụm"
       },
       {
-        "en": "Logging is duplicated",
-        "vi": "Logging bị nhân đôi"
+        "en": "Connection logging is silently duplicated",
+        "vi": "Ghi log kết nối bị nhân đôi âm thầm"
       }
     ],
     "correct": 0,
@@ -1884,15 +1884,15 @@
     "opts": [
       {
         "en": "A stream cipher with known biases, now considered insecure",
-        "vi": "Một stream cipher có thiên lệch đã biết, nay được coi là không an toàn"
+        "vi": "Một stream cipher có thiên lệch đã biết, nay không an toàn"
       },
       {
-        "en": "An asymmetric algorithm",
-        "vi": "Một thuật toán bất đối xứng"
+        "en": "An asymmetric public/private-key algorithm",
+        "vi": "Một thuật toán bất đối xứng công khai/riêng"
       },
       {
-        "en": "A hashing function",
-        "vi": "Một hàm băm"
+        "en": "A one-way cryptographic hash function",
+        "vi": "Một hàm băm mật mã một chiều"
       },
       {
         "en": "A block cipher with 256-bit blocks",
@@ -1919,20 +1919,20 @@
     },
     "opts": [
       {
-        "en": "Own private key (verified with their public key)",
-        "vi": "Khóa riêng của chính họ (xác minh bằng khóa công khai của họ)"
+        "en": "Their own private key (verified with their public key)",
+        "vi": "Khóa riêng của họ (xác minh bằng khóa công khai của họ)"
       },
       {
-        "en": "Own public key",
-        "vi": "Khóa công khai của chính họ"
+        "en": "Their own freely-shared public key",
+        "vi": "Khóa công khai chia sẻ tự do của họ"
       },
       {
-        "en": "The recipient's private key",
-        "vi": "Khóa riêng của người nhận"
+        "en": "The recipient's secret private key",
+        "vi": "Khóa riêng bí mật của người nhận"
       },
       {
-        "en": "A shared symmetric key",
-        "vi": "Một khóa đối xứng dùng chung"
+        "en": "A shared symmetric session key",
+        "vi": "Một khóa phiên đối xứng dùng chung"
       }
     ],
     "correct": 0,
@@ -1959,20 +1959,20 @@
     },
     "opts": [
       {
-        "en": "Identical plaintext blocks produce identical ciphertext, leaking patterns",
-        "vi": "Các khối plaintext giống nhau cho ciphertext giống nhau, làm lộ mẫu hình"
+        "en": "Equal plaintext blocks give equal ciphertext, leaking patterns",
+        "vi": "Khối plaintext bằng nhau cho ciphertext bằng nhau, lộ mẫu"
       },
       {
-        "en": "AES is broken",
-        "vi": "AES đã bị phá"
+        "en": "The AES cipher itself has been fully broken",
+        "vi": "Bản thân AES đã bị phá hoàn toàn"
       },
       {
-        "en": "ECB uses a public key",
-        "vi": "ECB dùng khóa công khai"
+        "en": "ECB mode secretly relies on a public key",
+        "vi": "ECB ngầm dựa vào một khóa công khai"
       },
       {
-        "en": "It compresses the image",
-        "vi": "Nó nén ảnh"
+        "en": "It silently compresses the image data",
+        "vi": "Nó âm thầm nén dữ liệu ảnh"
       }
     ],
     "correct": 0,
@@ -1995,20 +1995,20 @@
     },
     "opts": [
       {
-        "en": "It is collision-prone — different inputs can be crafted to share a hash",
-        "vi": "Nó dễ va chạm — có thể chế tạo các đầu vào khác nhau cùng hash"
+        "en": "It is collision-prone — crafted inputs can share a hash",
+        "vi": "Nó dễ va chạm — đầu vào chế tạo có thể chung hash"
       },
       {
-        "en": "It is too slow",
-        "vi": "Nó quá chậm"
+        "en": "It is far too slow to compute in practice",
+        "vi": "Nó quá chậm để tính trong thực tế"
       },
       {
-        "en": "It encrypts the file",
-        "vi": "Nó mã hóa file"
+        "en": "It encrypts the file rather than hashing it",
+        "vi": "Nó mã hóa file thay vì băm"
       },
       {
-        "en": "It only works on text",
-        "vi": "Nó chỉ chạy với văn bản"
+        "en": "It only works on plain-text input files",
+        "vi": "Nó chỉ chạy với file văn bản thuần"
       }
     ],
     "correct": 0,
@@ -2031,20 +2031,20 @@
     },
     "opts": [
       {
-        "en": "Precomputed rainbow-table attacks and reveals identical passwords as different hashes",
-        "vi": "Tấn công rainbow-table tính trước, và làm các mật khẩu giống nhau cho hash khác nhau"
+        "en": "Precomputed rainbow-table attacks on stored password hashes",
+        "vi": "Tấn công rainbow-table tính trước lên hash mật khẩu lưu"
       },
       {
-        "en": "All brute-force forever",
-        "vi": "Mọi brute-force vĩnh viễn"
+        "en": "All brute-force guessing attacks, permanently",
+        "vi": "Mọi tấn công brute-force, vĩnh viễn"
       },
       {
-        "en": "Network sniffing",
-        "vi": "Nghe lén mạng"
+        "en": "Passive network sniffing of credentials",
+        "vi": "Nghe lén thông tin đăng nhập trên mạng"
       },
       {
-        "en": "SQL injection",
-        "vi": "SQL injection"
+        "en": "SQL-injection attacks against the database",
+        "vi": "Tấn công SQL-injection vào cơ sở dữ liệu"
       }
     ],
     "correct": 0,
@@ -2071,16 +2071,16 @@
         "vi": "ESP (Encapsulating Security Payload)"
       },
       {
-        "en": "AH (Authentication Header)",
-        "vi": "AH (Authentication Header)"
+        "en": "AH (Authentication Header) alone",
+        "vi": "Chỉ AH (Authentication Header)"
       },
       {
-        "en": "IKE only",
-        "vi": "Chỉ IKE"
+        "en": "IKE (Internet Key Exchange) alone",
+        "vi": "Chỉ IKE (Internet Key Exchange)"
       },
       {
-        "en": "GRE",
-        "vi": "GRE"
+        "en": "GRE (Generic Routing Encapsulation)",
+        "vi": "GRE (Generic Routing Encapsulation)"
       }
     ],
     "correct": 0,
@@ -2139,20 +2139,20 @@
     },
     "opts": [
       {
-        "en": "Authenticate the server and securely establish a symmetric session key",
-        "vi": "Xác thực máy chủ và thiết lập an toàn một khóa phiên đối xứng"
+        "en": "Authenticate the server and agree a symmetric session key",
+        "vi": "Xác thực máy chủ và thống nhất khóa phiên đối xứng"
       },
       {
-        "en": "Encrypt the whole session for its entire duration",
+        "en": "Encrypt the entire session for its full duration",
         "vi": "Mã hóa toàn bộ phiên trong suốt thời gian"
       },
       {
-        "en": "Compress the traffic",
-        "vi": "Nén lưu lượng"
+        "en": "Compress the traffic to improve performance",
+        "vi": "Nén lưu lượng để cải thiện hiệu năng"
       },
       {
-        "en": "Resolve DNS",
-        "vi": "Phân giải DNS"
+        "en": "Resolve the server's DNS hostname to an IP",
+        "vi": "Phân giải hostname DNS của máy chủ sang IP"
       }
     ],
     "correct": 0,
@@ -2176,19 +2176,19 @@
     "opts": [
       {
         "en": "Detect server impersonation / MITM on later connections",
-        "vi": "Phát hiện giả mạo máy chủ / MITM ở các lần kết nối sau"
+        "vi": "Phát hiện giả mạo máy chủ / MITM ở các lần sau"
       },
       {
-        "en": "Encrypt the user's password locally",
-        "vi": "Mã hóa cục bộ mật khẩu người dùng"
+        "en": "Encrypt the user's stored password locally",
+        "vi": "Mã hóa cục bộ mật khẩu lưu của người dùng"
       },
       {
-        "en": "Speed up DNS",
-        "vi": "Tăng tốc DNS"
+        "en": "Speed up DNS resolution of the server",
+        "vi": "Tăng tốc phân giải DNS của máy chủ"
       },
       {
-        "en": "Store the user's files",
-        "vi": "Lưu file của người dùng"
+        "en": "Store the user's files on the remote host",
+        "vi": "Lưu file của người dùng trên host từ xa"
       }
     ],
     "correct": 0,
@@ -2212,19 +2212,19 @@
     "opts": [
       {
         "en": "A security principal (user, group or computer)",
-        "vi": "Một chủ thể bảo mật (người dùng, nhóm hoặc máy tính)"
+        "vi": "Một chủ thể bảo mật (user, nhóm hoặc máy tính)"
       },
       {
-        "en": "A TCP port",
-        "vi": "Một cổng TCP"
+        "en": "A TCP/UDP network service port",
+        "vi": "Một cổng dịch vụ mạng TCP/UDP"
       },
       {
-        "en": "A file's size",
-        "vi": "Kích thước của một file"
+        "en": "A file's size in bytes on disk",
+        "vi": "Kích thước file tính bằng byte trên đĩa"
       },
       {
-        "en": "A registry value type",
-        "vi": "Một loại giá trị registry"
+        "en": "A registry value's data type (REG_SZ)",
+        "vi": "Loại dữ liệu của một giá trị registry (REG_SZ)"
       }
     ],
     "correct": 0,
@@ -2283,20 +2283,20 @@
     },
     "opts": [
       {
-        "en": "Redirect the service to a malicious binary that runs with the service's privileges",
-        "vi": "Chuyển hướng service tới một binary độc hại chạy với đặc quyền của service"
+        "en": "Point the service at a malicious binary run at its privilege",
+        "vi": "Trỏ service tới một binary độc hại chạy ở đặc quyền của nó"
       },
       {
-        "en": "Change the desktop wallpaper",
-        "vi": "Đổi hình nền desktop"
+        "en": "Change the desktop wallpaper for all users",
+        "vi": "Đổi hình nền desktop cho mọi người dùng"
       },
       {
-        "en": "Increase screen brightness",
-        "vi": "Tăng độ sáng màn hình"
+        "en": "Increase the display's screen brightness",
+        "vi": "Tăng độ sáng màn hình hiển thị"
       },
       {
-        "en": "Speed up the CPU",
-        "vi": "Tăng tốc CPU"
+        "en": "Make the host's CPU run noticeably faster",
+        "vi": "Làm CPU của host chạy nhanh hơn rõ rệt"
       }
     ],
     "correct": 0,
@@ -2323,16 +2323,16 @@
         "vi": "Sysinternals Autoruns"
       },
       {
-        "en": "ping",
-        "vi": "ping"
+        "en": "Task Manager's Startup tab",
+        "vi": "Tab Startup của Task Manager"
       },
       {
-        "en": "notepad",
-        "vi": "notepad"
+        "en": "The Services console (services.msc)",
+        "vi": "Console Services (services.msc)"
       },
       {
-        "en": "chkdsk",
-        "vi": "chkdsk"
+        "en": "The msconfig startup utility",
+        "vi": "Tiện ích startup msconfig"
       }
     ],
     "correct": 0,
@@ -2355,20 +2355,20 @@
     },
     "opts": [
       {
-        "en": "The web server access/error logs (e.g. IIS, Apache logs)",
-        "vi": "Log access/error của web server (vd log IIS, Apache)"
+        "en": "The web server access and error logs (IIS/Apache)",
+        "vi": "Log access và error của web server (IIS/Apache)"
       },
       {
-        "en": "The desktop wallpaper",
-        "vi": "Hình nền desktop"
+        "en": "The local DNS resolver cache",
+        "vi": "Cache resolver DNS cục bộ"
       },
       {
-        "en": "The font cache",
-        "vi": "Cache phông chữ"
+        "en": "The Windows prefetch folder",
+        "vi": "Thư mục prefetch của Windows"
       },
       {
-        "en": "The screensaver settings",
-        "vi": "Cài đặt screensaver"
+        "en": "The DHCP server lease database",
+        "vi": "Cơ sở dữ liệu lease của máy chủ DHCP"
       }
     ],
     "correct": 0,
@@ -2395,16 +2395,16 @@
         "vi": "schtasks /query  (hoặc Get-ScheduledTask)"
       },
       {
-        "en": "ipconfig /flushdns",
-        "vi": "ipconfig /flushdns"
+        "en": "tasklist /svc to list services",
+        "vi": "tasklist /svc để liệt kê service"
       },
       {
-        "en": "format C:",
-        "vi": "format C:"
+        "en": "net start to list running services",
+        "vi": "net start để liệt kê service đang chạy"
       },
       {
-        "en": "shutdown /r",
-        "vi": "shutdown /r"
+        "en": "sc query to list service states",
+        "vi": "sc query để liệt kê trạng thái service"
       }
     ],
     "correct": 0,
@@ -2427,20 +2427,20 @@
     },
     "opts": [
       {
-        "en": "List which mail servers are authorised to send for a domain",
-        "vi": "Liệt kê các máy chủ mail được ủy quyền gửi thư cho một domain"
+        "en": "List the mail servers authorised to send for a domain",
+        "vi": "Liệt kê máy chủ mail được phép gửi cho một domain"
       },
       {
-        "en": "Encrypt the email body",
-        "vi": "Mã hóa nội dung email"
+        "en": "Encrypt the body of outgoing messages",
+        "vi": "Mã hóa nội dung thư đi"
       },
       {
-        "en": "Store the user's password",
-        "vi": "Lưu mật khẩu người dùng"
+        "en": "Store the user's mailbox password",
+        "vi": "Lưu mật khẩu hộp thư người dùng"
       },
       {
-        "en": "Compress attachments",
-        "vi": "Nén file đính kèm"
+        "en": "Compress large email attachments",
+        "vi": "Nén file đính kèm email lớn"
       }
     ],
     "correct": 0,
@@ -2467,16 +2467,16 @@
         "vi": "Base64 trong các phần MIME"
       },
       {
-        "en": "Raw encrypted AES",
-        "vi": "AES mã hóa thô"
+        "en": "Raw AES-encrypted ciphertext",
+        "vi": "Ciphertext AES mã hóa thô"
       },
       {
-        "en": "A DNS TXT record",
-        "vi": "Một bản ghi DNS TXT"
+        "en": "A DNS TXT resource record",
+        "vi": "Một bản ghi tài nguyên DNS TXT"
       },
       {
-        "en": "A PNG only",
-        "vi": "Chỉ một PNG"
+        "en": "A single embedded PNG image",
+        "vi": "Một ảnh PNG nhúng duy nhất"
       }
     ],
     "correct": 0,
@@ -2499,20 +2499,20 @@
     },
     "opts": [
       {
-        "en": "It chains to a trusted CA, is in-date, and the subject/SAN matches the hostname",
-        "vi": "Nó dây chuyền tới một CA tin cậy, còn hạn, và subject/SAN khớp hostname"
+        "en": "It chains to a trusted CA, is in-date, and matches the hostname",
+        "vi": "Nó dây chuyền tới CA tin cậy, còn hạn, và khớp hostname"
       },
       {
-        "en": "It uses a pretty colour",
-        "vi": "Nó dùng màu đẹp"
+        "en": "It displays a green padlock in the browser",
+        "vi": "Nó hiện ổ khóa xanh trên trình duyệt"
       },
       {
-        "en": "It is larger than 1 KB",
-        "vi": "Nó lớn hơn 1 KB"
+        "en": "It is larger than one kilobyte in size",
+        "vi": "Nó lớn hơn một kilobyte"
       },
       {
-        "en": "It was issued recently",
-        "vi": "Nó vừa được cấp gần đây"
+        "en": "It was issued within the last few days",
+        "vi": "Nó vừa được cấp trong vài ngày qua"
       }
     ],
     "correct": 0,
@@ -2536,19 +2536,19 @@
     "opts": [
       {
         "en": "URL-encoded \"<script>\" — likely an XSS probe",
-        "vi": "\"<script>\" được mã hóa URL — khả năng là thăm dò XSS"
+        "vi": "\"<script>\" mã hóa URL — khả năng thăm dò XSS"
       },
       {
-        "en": "An encrypted payload",
-        "vi": "Một payload đã mã hóa"
+        "en": "An encrypted application payload",
+        "vi": "Một payload ứng dụng đã mã hóa"
       },
       {
-        "en": "A valid hostname",
-        "vi": "Một hostname hợp lệ"
+        "en": "A valid fully-qualified hostname",
+        "vi": "Một hostname đầy đủ hợp lệ"
       },
       {
-        "en": "A MAC address",
-        "vi": "Một địa chỉ MAC"
+        "en": "A hardware MAC address in the URL",
+        "vi": "Một địa chỉ MAC phần cứng trong URL"
       }
     ],
     "correct": 0,
@@ -2607,20 +2607,20 @@
     },
     "opts": [
       {
-        "en": "The server opens a separate inbound data connection back to the client",
-        "vi": "Máy chủ mở một kết nối dữ liệu vào riêng quay lại client"
+        "en": "The server opens an inbound data connection back to the client",
+        "vi": "Server mở một kết nối dữ liệu vào quay lại client"
       },
       {
-        "en": "It uses TLS by default",
-        "vi": "Nó dùng TLS theo mặc định"
+        "en": "It encrypts the control channel with TLS by default",
+        "vi": "Nó mã hóa kênh điều khiển bằng TLS theo mặc định"
       },
       {
-        "en": "It runs over ICMP",
-        "vi": "Nó chạy trên ICMP"
+        "en": "It runs entirely over ICMP rather than TCP",
+        "vi": "Nó chạy hoàn toàn trên ICMP thay vì TCP"
       },
       {
-        "en": "It needs no ports",
-        "vi": "Nó không cần cổng nào"
+        "en": "It needs no open ports on either endpoint",
+        "vi": "Nó không cần cổng mở ở cả hai đầu"
       }
     ],
     "correct": 0,
@@ -2643,20 +2643,20 @@
     },
     "opts": [
       {
-        "en": "Domain controllers authenticate users and enforce centralised policy (e.g. via Kerberos/GPO)",
-        "vi": "Domain controller xác thực người dùng và áp chính sách tập trung (vd qua Kerberos/GPO)"
+        "en": "Domain controllers authenticate users and enforce central policy",
+        "vi": "Domain controller xác thực người dùng và áp chính sách tập trung"
       },
       {
-        "en": "Every workstation is its own authority",
-        "vi": "Mỗi máy trạm là thẩm quyền riêng"
+        "en": "Each workstation acts as its own standalone authority",
+        "vi": "Mỗi máy trạm là thẩm quyền riêng độc lập"
       },
       {
-        "en": "It removes the need for DNS",
-        "vi": "Nó loại bỏ nhu cầu DNS"
+        "en": "It removes the need for DNS on the network",
+        "vi": "Nó loại bỏ nhu cầu DNS trên mạng"
       },
       {
-        "en": "It only works over the internet",
-        "vi": "Nó chỉ chạy qua internet"
+        "en": "It functions only over the public internet",
+        "vi": "Nó chỉ hoạt động qua internet công cộng"
       }
     ],
     "correct": 0,
@@ -2679,20 +2679,20 @@
     },
     "opts": [
       {
-        "en": "Lets you map it to known vulnerabilities (CVEs) for that version",
-        "vi": "Cho phép ánh xạ nó tới các lỗ hổng đã biết (CVE) của phiên bản đó"
+        "en": "Lets you map it to known vulnerabilities (CVEs)",
+        "vi": "Cho phép ánh xạ tới các lỗ hổng đã biết (CVE)"
       },
       {
-        "en": "Changes the IP address",
-        "vi": "Thay đổi địa chỉ IP"
+        "en": "It reveals the host's public IP address",
+        "vi": "Nó tiết lộ IP công khai của host"
       },
       {
-        "en": "Encrypts the connection",
-        "vi": "Mã hóa kết nối"
+        "en": "It encrypts the connection to the service",
+        "vi": "Nó mã hóa kết nối tới dịch vụ"
       },
       {
-        "en": "Resets the password",
-        "vi": "Đặt lại mật khẩu"
+        "en": "It resets the service account password",
+        "vi": "Nó đặt lại mật khẩu tài khoản dịch vụ"
       }
     ],
     "correct": 0,

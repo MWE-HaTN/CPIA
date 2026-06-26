@@ -59,20 +59,20 @@
     },
     "opts": [
       {
-        "en": "Decrypted/in-memory-only malware, live network sockets and injected code",
-        "vi": "Mã độc đã giải mã/chỉ tồn tại trong bộ nhớ, socket mạng đang sống và mã được tiêm"
+        "en": "Fileless malware, live sockets, injected code",
+        "vi": "Mã độc fileless, socket sống, mã được tiêm"
       },
       {
-        "en": "The NTFS $MFT",
-        "vi": "$MFT của NTFS"
+        "en": "The on-disk NTFS Master File Table",
+        "vi": "Master File Table NTFS trên đĩa"
       },
       {
-        "en": "Installed program files",
-        "vi": "Các file chương trình đã cài"
+        "en": "Installed program files on disk",
+        "vi": "Các file chương trình đã cài trên đĩa"
       },
       {
-        "en": "The pagefile on disk",
-        "vi": "Pagefile trên đĩa"
+        "en": "The pagefile stored on the disk",
+        "vi": "Pagefile lưu trên đĩa"
       }
     ],
     "correct": 0,
@@ -99,23 +99,23 @@
     },
     "opts": [
       {
-        "en": "Normal patching",
-        "vi": "Vá lỗi bình thường"
-      },
-      {
         "en": "Process injection / process hollowing",
         "vi": "Tiêm tiến trình / process hollowing"
       },
       {
-        "en": "A disk error",
-        "vi": "Lỗi đĩa"
+        "en": "Routine operating-system patching",
+        "vi": "Vá hệ điều hành định kỳ"
       },
       {
-        "en": "A timezone issue",
-        "vi": "Vấn đề múi giờ"
+        "en": "A transient disk read error",
+        "vi": "Một lỗi đọc đĩa thoáng qua"
+      },
+      {
+        "en": "A simple time-zone mismatch",
+        "vi": "Một lệch múi giờ đơn giản"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "A mismatch between in-memory code and the backing file image is a hallmark of process injection/hollowing, where a legitimate process is started and its memory overwritten with malicious code. Volatility plugins (malfind, hollowfind) detect such anomalies and RWX private memory regions.",
       "vi": "Sự không khớp giữa mã trong bộ nhớ và file gốc là dấu hiệu đặc trưng của process injection/hollowing, khi một tiến trình hợp lệ được khởi chạy rồi ghi đè bộ nhớ bằng mã độc. Các plugin Volatility (malfind, hollowfind) phát hiện các bất thường đó và vùng nhớ riêng RWX."
@@ -175,20 +175,20 @@
     },
     "opts": [
       {
-        "en": "Run / RunOnce keys (HKLM and HKCU ...\\CurrentVersion\\Run)",
-        "vi": "Khóa Run / RunOnce (HKLM và HKCU ...\\CurrentVersion\\Run)"
+        "en": "Run / RunOnce keys (HKLM and HKCU)",
+        "vi": "Khóa Run / RunOnce (HKLM và HKCU)"
       },
       {
-        "en": "The Recycle Bin key",
-        "vi": "Khóa Recycle Bin"
+        "en": "The Recycle Bin registry key",
+        "vi": "Khóa registry của Thùng rác"
       },
       {
-        "en": "The screensaver timeout",
-        "vi": "Thời gian chờ screensaver"
+        "en": "The screensaver timeout value",
+        "vi": "Giá trị thời gian chờ screensaver"
       },
       {
-        "en": "The volume label",
-        "vi": "Nhãn ổ đĩa"
+        "en": "The disk's volume label string",
+        "vi": "Chuỗi nhãn ổ đĩa"
       }
     ],
     "correct": 0,
@@ -211,20 +211,20 @@
     },
     "opts": [
       {
-        "en": "USBSTOR keys under SYSTEM\\CurrentControlSet\\Enum",
-        "vi": "Khóa USBSTOR trong SYSTEM\\CurrentControlSet\\Enum"
+        "en": "USBSTOR keys under CurrentControlSet\\Enum",
+        "vi": "Khóa USBSTOR trong CurrentControlSet\\Enum"
       },
       {
-        "en": "The TypedURLs key",
-        "vi": "Khóa TypedURLs"
+        "en": "The TypedURLs browser-history key",
+        "vi": "Khóa lịch sử TypedURLs của trình duyệt"
       },
       {
         "en": "The desktop wallpaper key",
         "vi": "Khóa hình nền desktop"
       },
       {
-        "en": "The font cache",
-        "vi": "Cache phông chữ"
+        "en": "The system font cache",
+        "vi": "Cache phông chữ hệ thống"
       }
     ],
     "correct": 0,
@@ -251,16 +251,16 @@
         "vi": "Alternate Data Streams (ADS)"
       },
       {
-        "en": "Disk defragmentation",
-        "vi": "Chống phân mảnh đĩa"
+        "en": "Routine disk defragmentation",
+        "vi": "Chống phân mảnh đĩa định kỳ"
       },
       {
-        "en": "File compression",
-        "vi": "Nén tệp"
+        "en": "Standard file compression",
+        "vi": "Nén tệp tiêu chuẩn"
       },
       {
-        "en": "Indexing",
-        "vi": "Lập chỉ mục"
+        "en": "Search content indexing",
+        "vi": "Lập chỉ mục nội dung tìm kiếm"
       }
     ],
     "correct": 0,
@@ -331,16 +331,16 @@
         "vi": "$MFT (Master File Table)"
       },
       {
-        "en": "FAT table",
-        "vi": "Bảng FAT"
+        "en": "The FAT allocation table",
+        "vi": "Bảng cấp phát FAT"
       },
       {
-        "en": "The pagefile",
-        "vi": "Pagefile"
+        "en": "The system pagefile.sys",
+        "vi": "Pagefile.sys hệ thống"
       },
       {
-        "en": "The hosts file",
-        "vi": "File hosts"
+        "en": "The network hosts file",
+        "vi": "File hosts mạng"
       }
     ],
     "correct": 0,
@@ -367,23 +367,23 @@
     },
     "opts": [
       {
-        "en": "A normal background service",
-        "vi": "Một dịch vụ nền bình thường"
+        "en": "A rootkit hiding the process (DKOM / API hooking)",
+        "vi": "Một rootkit đang ẩn tiến trình (DKOM / hook API)"
       },
       {
-        "en": "A rootkit hiding the process (e.g. DKOM / API hooking)",
-        "vi": "Một rootkit đang ẩn tiến trình (vd DKOM / hook API)"
+        "en": "A normal background service host",
+        "vi": "Một service host nền bình thường"
       },
       {
-        "en": "A printer driver",
-        "vi": "Một driver máy in"
+        "en": "A legitimate printer device driver",
+        "vi": "Một driver máy in hợp lệ"
       },
       {
-        "en": "A Windows update",
-        "vi": "Một bản cập nhật Windows"
+        "en": "A routine Windows update task",
+        "vi": "Một tác vụ cập nhật Windows định kỳ"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "When live OS tools hide a process that forensic memory analysis still sees, a rootkit is likely manipulating the view — via API hooking or Direct Kernel Object Manipulation (unlinking the EPROCESS). Cross-view comparison (live vs raw memory) is the standard rootkit detection method.",
       "vi": "Khi công cụ OS trực tiếp ẩn một tiến trình mà phân tích bộ nhớ forensic vẫn thấy, nhiều khả năng rootkit đang thao túng góc nhìn — qua hook API hoặc DKOM (gỡ liên kết EPROCESS). So sánh chéo (live vs raw memory) là cách phát hiện rootkit chuẩn."
@@ -439,23 +439,23 @@
     },
     "opts": [
       {
-        "en": "/etc/hostname",
-        "vi": "/etc/hostname"
-      },
-      {
         "en": "crontab entries (/etc/crontab, /var/spool/cron)",
         "vi": "Các mục crontab (/etc/crontab, /var/spool/cron)"
       },
       {
-        "en": "/etc/motd",
-        "vi": "/etc/motd"
+        "en": "The /etc/hostname config file",
+        "vi": "File cấu hình /etc/hostname"
       },
       {
-        "en": "/proc/cpuinfo",
-        "vi": "/proc/cpuinfo"
+        "en": "The /etc/motd login banner",
+        "vi": "Banner đăng nhập /etc/motd"
+      },
+      {
+        "en": "The /proc/cpuinfo pseudo-file",
+        "vi": "File giả /proc/cpuinfo"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Cron jobs are a primary Linux persistence mechanism; check /etc/crontab, /etc/cron.*, and per-user spools. Also review systemd units, ~/.bashrc, /etc/rc.local and authorized_keys. bash history and auth.log/wtmp aid timeline reconstruction.",
       "vi": "Cron job là cơ chế persistence chính trên Linux; kiểm tra /etc/crontab, /etc/cron.*, và spool theo người dùng. Cũng xem các unit systemd, ~/.bashrc, /etc/rc.local và authorized_keys. bash history và auth.log/wtmp hỗ trợ dựng lại timeline."
@@ -511,20 +511,20 @@
     },
     "opts": [
       {
-        "en": "Live/triage acquisition (memory + targeted artefacts) with documented tools",
-        "vi": "Thu thập live/triage (bộ nhớ + artefact trọng yếu) bằng công cụ có tài liệu"
+        "en": "Live/triage acquisition (memory + targeted artefacts)",
+        "vi": "Thu thập live/triage (bộ nhớ + artefact trọng yếu)"
       },
       {
-        "en": "Refuse to collect anything",
-        "vi": "Từ chối thu thập bất cứ gì"
+        "en": "Refuse to collect any evidence",
+        "vi": "Từ chối thu thập bằng chứng nào"
       },
       {
         "en": "Yank the power cable immediately",
         "vi": "Rút phích cắm điện ngay lập tức"
       },
       {
-        "en": "Format the disk first",
-        "vi": "Format đĩa trước"
+        "en": "Format the disk before imaging",
+        "vi": "Format đĩa trước khi tạo image"
       }
     ],
     "correct": 0,
@@ -547,20 +547,20 @@
     },
     "opts": [
       {
-        "en": "Can contain earlier versions of files/registry deleted or altered by an attacker",
-        "vi": "Có thể chứa phiên bản trước của file/registry đã bị kẻ tấn công xóa hoặc sửa"
+        "en": "Earlier versions of files an attacker deleted/altered",
+        "vi": "Phiên bản trước của file kẻ tấn công đã xóa/sửa"
       },
       {
-        "en": "Encrypt the disk",
-        "vi": "Mã hóa đĩa"
+        "en": "They fully encrypt the system disk",
+        "vi": "Chúng mã hóa toàn bộ đĩa hệ thống"
       },
       {
-        "en": "Speed up boot",
-        "vi": "Tăng tốc boot"
+        "en": "They make the host boot faster",
+        "vi": "Chúng làm host boot nhanh hơn"
       },
       {
-        "en": "Store passwords in plaintext",
-        "vi": "Lưu mật khẩu dạng plaintext"
+        "en": "They store passwords in plaintext",
+        "vi": "Chúng lưu mật khẩu dạng plaintext"
       }
     ],
     "correct": 0,
@@ -583,20 +583,20 @@
     },
     "opts": [
       {
-        "en": "A ZIP archive of XML and media parts (Office Open XML)",
-        "vi": "Một archive ZIP gồm các phần XML và media (Office Open XML)"
+        "en": "A ZIP archive of XML and media parts (OOXML)",
+        "vi": "Một archive ZIP gồm XML và media (OOXML)"
       },
       {
-        "en": "A single encrypted blob",
-        "vi": "Một khối mã hóa duy nhất"
+        "en": "A single large encrypted blob",
+        "vi": "Một khối mã hóa lớn duy nhất"
       },
       {
-        "en": "A PE executable",
-        "vi": "Một file thực thi PE"
+        "en": "A Windows PE executable file",
+        "vi": "Một file thực thi PE Windows"
       },
       {
-        "en": "A registry hive",
-        "vi": "Một hive registry"
+        "en": "A binary registry hive file",
+        "vi": "Một file hive registry nhị phân"
       }
     ],
     "correct": 0,
@@ -623,20 +623,20 @@
     },
     "opts": [
       {
-        "en": "TRIM/garbage collection can wipe deleted blocks automatically",
-        "vi": "TRIM/garbage collection có thể tự động xóa các khối đã xóa"
+        "en": "TRIM/garbage collection can wipe deleted blocks",
+        "vi": "TRIM/garbage collection có thể xóa các khối đã xóa"
       },
       {
-        "en": "They never store data",
-        "vi": "Chúng không bao giờ lưu dữ liệu"
+        "en": "They never actually store any data",
+        "vi": "Chúng không bao giờ thực sự lưu dữ liệu"
       },
       {
         "en": "They are always encrypted by law",
         "vi": "Chúng luôn bị mã hóa theo luật"
       },
       {
-        "en": "They cannot be imaged",
-        "vi": "Không thể tạo image"
+        "en": "They cannot be imaged at all",
+        "vi": "Chúng hoàn toàn không thể tạo image"
       }
     ],
     "correct": 0,
@@ -659,20 +659,20 @@
     },
     "opts": [
       {
-        "en": "Find files that are SIMILAR (variants), not just byte-identical",
-        "vi": "Tìm file TƯƠNG TỰ (biến thể), không chỉ giống hệt từng byte"
+        "en": "Find files that are SIMILAR (variants), not byte-identical",
+        "vi": "Tìm file TƯƠNG TỰ (biến thể), không giống hệt từng byte"
       },
       {
-        "en": "Encrypt files",
-        "vi": "Mã hóa file"
+        "en": "Encrypt the files being compared",
+        "vi": "Mã hóa các file đang so sánh"
       },
       {
-        "en": "Prove perfect integrity",
-        "vi": "Chứng minh toàn vẹn tuyệt đối"
+        "en": "Prove perfect bit-for-bit integrity",
+        "vi": "Chứng minh toàn vẹn từng bit tuyệt đối"
       },
       {
-        "en": "Compress files",
-        "vi": "Nén file"
+        "en": "Compress the files to save space",
+        "vi": "Nén file để tiết kiệm dung lượng"
       }
     ],
     "correct": 0,
@@ -696,18 +696,18 @@
     "opts": [
       {
         "en": "Remnants of deleted files recoverable by carving",
-        "vi": "Tàn dư của file đã xóa, có thể khôi phục bằng carving"
+        "vi": "Tàn dư file đã xóa, khôi phục được bằng carving"
       },
       {
-        "en": "Only zeros, always",
-        "vi": "Chỉ toàn số 0, luôn luôn"
+        "en": "Only zeros, in every single case",
+        "vi": "Chỉ toàn số 0, trong mọi trường hợp"
       },
       {
-        "en": "The current OS kernel",
-        "vi": "Nhân OS hiện hành"
+        "en": "The currently running OS kernel",
+        "vi": "Nhân OS đang chạy hiện tại"
       },
       {
-        "en": "Live processes",
+        "en": "The live, running processes",
         "vi": "Các tiến trình đang chạy"
       }
     ],
@@ -767,20 +767,20 @@
     },
     "opts": [
       {
-        "en": "Exploiting the browser/plugins simply by visiting a malicious or compromised page",
-        "vi": "Khai thác trình duyệt/plugin chỉ bằng việc truy cập một trang độc hại hoặc bị xâm nhập"
+        "en": "Exploiting the browser/plugins by visiting a malicious page",
+        "vi": "Khai thác trình duyệt/plugin chỉ bằng truy cập một trang độc"
       },
       {
         "en": "Requiring the user to install a signed driver",
         "vi": "Yêu cầu người dùng cài một driver đã ký"
       },
       {
-        "en": "Physically swapping the hard disk",
+        "en": "Physically swapping out the hard disk",
         "vi": "Tráo ổ cứng vật lý"
       },
       {
-        "en": "Sending a fax",
-        "vi": "Gửi một bản fax"
+        "en": "Sending the victim a paper fax",
+        "vi": "Gửi nạn nhân một bản fax giấy"
       }
     ],
     "correct": 0,
@@ -843,20 +843,20 @@
     },
     "opts": [
       {
-        "en": "List processes and their parent/child tree, then network connections",
-        "vi": "Liệt kê tiến trình và cây cha/con, rồi tới kết nối mạng"
+        "en": "List the process tree, then network connections",
+        "vi": "Liệt kê cây tiến trình, rồi kết nối mạng"
       },
       {
-        "en": "Format the image",
-        "vi": "Format image"
+        "en": "Immediately format the memory image",
+        "vi": "Format ngay image bộ nhớ"
       },
       {
-        "en": "Encrypt the image",
-        "vi": "Mã hóa image"
+        "en": "Encrypt the captured memory image",
+        "vi": "Mã hóa image bộ nhớ đã bắt"
       },
       {
-        "en": "Delete suspicious strings",
-        "vi": "Xóa các chuỗi đáng ngờ"
+        "en": "Delete any suspicious strings found",
+        "vi": "Xóa mọi chuỗi đáng ngờ tìm thấy"
       }
     ],
     "correct": 0,
@@ -879,20 +879,20 @@
     },
     "opts": [
       {
-        "en": "Sysinternals Process Explorer / handle & TCPView",
-        "vi": "Sysinternals Process Explorer / handle & TCPView"
+        "en": "Process Explorer / handle & TCPView",
+        "vi": "Process Explorer / handle & TCPView"
       },
       {
-        "en": "Calculator",
-        "vi": "Máy tính"
+        "en": "The Windows Calculator app",
+        "vi": "Ứng dụng Calculator của Windows"
       },
       {
-        "en": "Paint",
-        "vi": "Paint"
+        "en": "The Microsoft Paint editor",
+        "vi": "Trình Microsoft Paint"
       },
       {
-        "en": "WordPad",
-        "vi": "WordPad"
+        "en": "The WordPad text editor",
+        "vi": "Trình soạn thảo WordPad"
       }
     ],
     "correct": 0,
@@ -916,19 +916,19 @@
     "opts": [
       {
         "en": "A successful account logon (with logon type)",
-        "vi": "Một lần đăng nhập tài khoản thành công (kèm loại đăng nhập)"
+        "vi": "Một đăng nhập tài khoản thành công (kèm logon type)"
       },
       {
-        "en": "A shutdown",
-        "vi": "Một lần tắt máy"
+        "en": "A system shutdown being logged",
+        "vi": "Một lần tắt máy được ghi log"
       },
       {
-        "en": "A printer error",
-        "vi": "Một lỗi máy in"
+        "en": "A network printer error event",
+        "vi": "Một sự kiện lỗi máy in mạng"
       },
       {
-        "en": "A disk format",
-        "vi": "Một lần format đĩa"
+        "en": "A disk format operation",
+        "vi": "Một thao tác format đĩa"
       }
     ],
     "correct": 0,
@@ -955,20 +955,20 @@
     },
     "opts": [
       {
-        "en": "Evidence that executables existed/were referenced, with path and (often) last-modified time",
-        "vi": "Bằng chứng file thực thi từng tồn tại/được tham chiếu, kèm đường dẫn và (thường là) thời gian sửa đổi cuối"
+        "en": "Evidence executables existed, with path/time",
+        "vi": "Bằng chứng file thực thi từng tồn tại, kèm đường dẫn/thời gian"
       },
       {
-        "en": "The user's password",
-        "vi": "Mật khẩu người dùng"
+        "en": "The logged-in user's password",
+        "vi": "Mật khẩu của người dùng đăng nhập"
       },
       {
-        "en": "Network packet payloads",
-        "vi": "Payload gói mạng"
+        "en": "Captured network packet payloads",
+        "vi": "Payload gói mạng đã bắt được"
       },
       {
-        "en": "The BIOS version",
-        "vi": "Phiên bản BIOS"
+        "en": "The host's BIOS firmware version",
+        "vi": "Phiên bản firmware BIOS của host"
       }
     ],
     "correct": 0,
@@ -995,20 +995,20 @@
     },
     "opts": [
       {
-        "en": "A dead/offline image is unreadable without the recovery key; live imaging or the key is needed",
-        "vi": "Image lúc tắt/offline không đọc được nếu thiếu recovery key; cần image lúc đang chạy hoặc có khóa"
+        "en": "A dead image needs the key; image it live",
+        "vi": "Image dead cần khóa; phải image lúc đang chạy"
       },
       {
-        "en": "It makes the disk bigger",
-        "vi": "Nó làm đĩa to hơn"
+        "en": "It makes the disk capacity bigger",
+        "vi": "Nó làm dung lượng đĩa lớn hơn"
       },
       {
-        "en": "It speeds up imaging",
-        "vi": "Nó tăng tốc tạo image"
+        "en": "It noticeably speeds up imaging",
+        "vi": "Nó tăng tốc tạo image rõ rệt"
       },
       {
-        "en": "It has no effect",
-        "vi": "Nó không ảnh hưởng gì"
+        "en": "It has no effect on acquisition",
+        "vi": "Nó không ảnh hưởng tới thu thập"
       }
     ],
     "correct": 0,
@@ -1031,20 +1031,20 @@
     },
     "opts": [
       {
-        "en": "They can hide sectors from the OS that a forensic imager must be configured to capture",
-        "vi": "Chúng có thể ẩn các sector khỏi OS mà trình tạo image forensic phải được cấu hình để bắt"
+        "en": "They hide sectors the imager must be set to capture",
+        "vi": "Chúng ẩn sector mà trình tạo image phải cấu hình để bắt"
       },
       {
-        "en": "They encrypt the disk",
-        "vi": "Chúng mã hóa đĩa"
+        "en": "They fully encrypt the whole disk",
+        "vi": "Chúng mã hóa toàn bộ đĩa"
       },
       {
-        "en": "They speed up the disk",
-        "vi": "Chúng tăng tốc đĩa"
+        "en": "They make the disk run faster",
+        "vi": "Chúng làm đĩa chạy nhanh hơn"
       },
       {
-        "en": "They are software only",
-        "vi": "Chúng chỉ là phần mềm"
+        "en": "They are purely a software feature",
+        "vi": "Chúng chỉ là tính năng phần mềm"
       }
     ],
     "correct": 0,
@@ -1067,20 +1067,20 @@
     },
     "opts": [
       {
-        "en": "Potentially malicious — it can auto-run script on open",
-        "vi": "Có thể độc hại — nó có thể tự chạy script khi mở"
+        "en": "Potentially malicious — it can auto-run script",
+        "vi": "Có thể độc hại — nó có thể tự chạy script"
       },
       {
-        "en": "Always safe",
-        "vi": "Luôn an toàn"
+        "en": "Always completely safe to open",
+        "vi": "Luôn hoàn toàn an toàn khi mở"
       },
       {
-        "en": "A plain image",
-        "vi": "Một ảnh thuần"
+        "en": "A plain, harmless image file",
+        "vi": "Một file ảnh thuần, vô hại"
       },
       {
-        "en": "A registry hive",
-        "vi": "Một hive registry"
+        "en": "A binary registry hive file",
+        "vi": "Một file hive registry nhị phân"
       }
     ],
     "correct": 0,
@@ -1103,20 +1103,20 @@
     },
     "opts": [
       {
-        "en": "wtmp/btmp/lastlog and /var/log/auth.log (or secure)",
-        "vi": "wtmp/btmp/lastlog và /var/log/auth.log (hoặc secure)"
+        "en": "wtmp/btmp/lastlog and auth.log",
+        "vi": "wtmp/btmp/lastlog và auth.log"
       },
       {
-        "en": "/etc/hostname",
-        "vi": "/etc/hostname"
+        "en": "The /etc/hostname config file",
+        "vi": "File cấu hình /etc/hostname"
       },
       {
-        "en": "/proc/version",
-        "vi": "/proc/version"
+        "en": "The /proc/version pseudo-file",
+        "vi": "File giả /proc/version"
       },
       {
-        "en": "/dev/null",
-        "vi": "/dev/null"
+        "en": "The /dev/null device file",
+        "vi": "File thiết bị /dev/null"
       }
     ],
     "correct": 0,
@@ -1139,20 +1139,20 @@
     },
     "opts": [
       {
-        "en": "E01 stores compression, case metadata and built-in integrity hashes; dd is a bare bit-for-bit copy",
-        "vi": "E01 lưu nén, metadata vụ việc và hash toàn vẹn tích hợp; dd là bản sao từng bit trần"
+        "en": "E01 adds metadata and integrity hashes; dd is raw",
+        "vi": "E01 thêm metadata và hash toàn vẹn; dd là bản thô"
       },
       {
-        "en": "dd cannot be hashed",
-        "vi": "dd không thể băm"
+        "en": "A dd image cannot be hashed at all",
+        "vi": "Image dd hoàn toàn không thể băm"
       },
       {
         "en": "E01 is always smaller and lossy",
         "vi": "E01 luôn nhỏ hơn và mất dữ liệu"
       },
       {
-        "en": "They are identical formats",
-        "vi": "Chúng là cùng một định dạng"
+        "en": "They are exactly identical formats",
+        "vi": "Chúng là hai định dạng giống hệt nhau"
       }
     ],
     "correct": 0,
@@ -1175,20 +1175,20 @@
     },
     "opts": [
       {
-        "en": "Physically prevents any write to the source, independent of the host OS",
-        "vi": "Ngăn vật lý mọi ghi lên nguồn, độc lập với OS của host"
+        "en": "Physically prevents any write to the source",
+        "vi": "Ngăn vật lý mọi ghi lên nguồn"
       },
       {
-        "en": "Is faster at copying",
-        "vi": "Sao chép nhanh hơn"
+        "en": "It copies the source far faster",
+        "vi": "Nó sao chép nguồn nhanh hơn nhiều"
       },
       {
-        "en": "Compresses the image",
-        "vi": "Nén image"
+        "en": "It compresses the resulting image",
+        "vi": "Nó nén image kết quả"
       },
       {
-        "en": "Encrypts the source",
-        "vi": "Mã hóa nguồn"
+        "en": "It encrypts the source drive",
+        "vi": "Nó mã hóa ổ nguồn"
       }
     ],
     "correct": 0,
@@ -1211,20 +1211,20 @@
     },
     "opts": [
       {
-        "en": "Rapidly collect targeted forensic artefacts (triage) rather than a full disk image",
-        "vi": "Thu thập nhanh các artefact forensic trọng yếu (triage) thay vì image toàn đĩa"
+        "en": "Rapidly collect targeted forensic artefacts (triage)",
+        "vi": "Thu thập nhanh các artefact forensic trọng yếu (triage)"
       },
       {
-        "en": "Decrypt BitLocker",
-        "vi": "Giải mã BitLocker"
+        "en": "Decrypt BitLocker-protected volumes",
+        "vi": "Giải mã các volume bảo vệ bằng BitLocker"
       },
       {
-        "en": "Disassemble malware",
-        "vi": "Dịch ngược mã độc"
+        "en": "Disassemble malware executables",
+        "vi": "Dịch ngược file thực thi mã độc"
       },
       {
-        "en": "Route network traffic",
-        "vi": "Định tuyến lưu lượng mạng"
+        "en": "Route traffic across the network",
+        "vi": "Định tuyến lưu lượng qua mạng"
       }
     ],
     "correct": 0,
@@ -1247,20 +1247,20 @@
     },
     "opts": [
       {
-        "en": "Capture volatile memory first, then disk/triage artefacts",
-        "vi": "Bắt bộ nhớ volatile trước, rồi tới đĩa/artefact triage"
+        "en": "Capture volatile memory first, then disk artefacts",
+        "vi": "Bắt bộ nhớ volatile trước, rồi tới artefact đĩa"
       },
       {
-        "en": "Image the disk first, then forget about memory",
-        "vi": "Image đĩa trước, rồi quên bộ nhớ"
+        "en": "Image the disk first and skip memory",
+        "vi": "Image đĩa trước và bỏ qua bộ nhớ"
       },
       {
-        "en": "Reboot, then acquire",
-        "vi": "Reboot, rồi thu thập"
+        "en": "Reboot the host, then acquire it",
+        "vi": "Reboot host, rồi mới thu thập"
       },
       {
-        "en": "Delete logs, then image",
-        "vi": "Xóa log, rồi image"
+        "en": "Delete the logs, then image it",
+        "vi": "Xóa log, rồi mới image"
       }
     ],
     "correct": 0,
@@ -1283,20 +1283,20 @@
     },
     "opts": [
       {
-        "en": "Its data is held inside its $MFT record rather than in separate clusters",
-        "vi": "Dữ liệu của nó nằm ngay trong bản ghi $MFT thay vì các cluster riêng"
+        "en": "Its data is held inside its $MFT record, not in clusters",
+        "vi": "Dữ liệu nằm ngay trong bản ghi $MFT, không ở cluster"
       },
       {
-        "en": "It is encrypted",
-        "vi": "Nó được mã hóa"
+        "en": "It has been individually encrypted",
+        "vi": "Nó đã được mã hóa riêng lẻ"
       },
       {
-        "en": "It is stored in the pagefile",
-        "vi": "Nó được lưu trong pagefile"
+        "en": "It is stored only in the pagefile",
+        "vi": "Nó chỉ được lưu trong pagefile"
       },
       {
-        "en": "It cannot be recovered",
-        "vi": "Không thể khôi phục nó"
+        "en": "It can no longer be recovered",
+        "vi": "Nó không còn khôi phục được"
       }
     ],
     "correct": 0,
@@ -1319,20 +1319,20 @@
     },
     "opts": [
       {
-        "en": "Remnants of previously-stored data between the file end and the cluster end",
-        "vi": "Tàn dư dữ liệu lưu trước đó, nằm giữa cuối file và cuối cluster"
+        "en": "Remnants of older data in the cluster slack",
+        "vi": "Tàn dư dữ liệu cũ trong phần slack của cluster"
       },
       {
-        "en": "The encryption key",
-        "vi": "Khóa mã hóa"
+        "en": "The volume's encryption key",
+        "vi": "Khóa mã hóa của volume"
       },
       {
-        "en": "The current process list",
-        "vi": "Danh sách tiến trình hiện tại"
+        "en": "The current running-process list",
+        "vi": "Danh sách tiến trình đang chạy"
       },
       {
-        "en": "The BIOS version",
-        "vi": "Phiên bản BIOS"
+        "en": "The host's BIOS version string",
+        "vi": "Chuỗi phiên bản BIOS của host"
       }
     ],
     "correct": 0,
@@ -1355,20 +1355,20 @@
     },
     "opts": [
       {
-        "en": "Its MFT entry and clusters are marked free, but the data persists until overwritten",
-        "vi": "Bản ghi MFT và cluster của nó bị đánh dấu trống, nhưng dữ liệu còn tới khi bị ghi đè"
+        "en": "The MFT entry and clusters are freed, but data persists",
+        "vi": "Bản ghi MFT và cluster được giải phóng, nhưng dữ liệu còn"
       },
       {
-        "en": "The bytes are immediately zeroed",
+        "en": "The bytes are immediately zeroed out",
         "vi": "Các byte bị zero hóa ngay"
       },
       {
-        "en": "The disk is reformatted",
-        "vi": "Đĩa bị format lại"
+        "en": "The whole disk is reformatted",
+        "vi": "Toàn bộ đĩa bị format lại"
       },
       {
-        "en": "The data is encrypted",
-        "vi": "Dữ liệu bị mã hóa"
+        "en": "The file's data is encrypted",
+        "vi": "Dữ liệu của file bị mã hóa"
       }
     ],
     "correct": 0,
@@ -1391,20 +1391,20 @@
     },
     "opts": [
       {
-        "en": "Encrypts individual files/folders per user, not the whole volume",
-        "vi": "Mã hóa từng file/thư mục theo người dùng, không phải toàn bộ volume"
+        "en": "Encrypts files/folders per user, not the volume",
+        "vi": "Mã hóa file/thư mục theo người dùng, không phải volume"
       },
       {
         "en": "Encrypts the entire disk at boot",
         "vi": "Mã hóa toàn đĩa lúc boot"
       },
       {
-        "en": "Is a network protocol",
-        "vi": "Là một giao thức mạng"
+        "en": "Is actually a network protocol",
+        "vi": "Thực ra là một giao thức mạng"
       },
       {
-        "en": "Only works on Linux",
-        "vi": "Chỉ chạy trên Linux"
+        "en": "Only works on Linux systems",
+        "vi": "Chỉ chạy trên hệ thống Linux"
       }
     ],
     "correct": 0,
@@ -1427,20 +1427,20 @@
     },
     "opts": [
       {
-        "en": "Journals recent file-system transactions, helping reconstruct recent changes",
-        "vi": "Ghi nhật ký các giao dịch hệ thống tệp gần đây, giúp dựng lại thay đổi gần đây"
+        "en": "Journals recent file-system transactions",
+        "vi": "Ghi nhật ký giao dịch hệ thống tệp gần đây"
       },
       {
-        "en": "Stores user passwords",
-        "vi": "Lưu mật khẩu người dùng"
+        "en": "It stores user account passwords",
+        "vi": "Nó lưu mật khẩu tài khoản người dùng"
       },
       {
-        "en": "Holds the boot loader",
-        "vi": "Chứa boot loader"
+        "en": "It holds the system boot loader",
+        "vi": "Nó chứa boot loader hệ thống"
       },
       {
-        "en": "Encrypts the volume",
-        "vi": "Mã hóa volume"
+        "en": "It encrypts the whole volume",
+        "vi": "Nó mã hóa toàn bộ volume"
       }
     ],
     "correct": 0,
@@ -1463,20 +1463,20 @@
     },
     "opts": [
       {
-        "en": "The target path, timestamps and volume info even after the target is deleted",
-        "vi": "Đường dẫn đích, mốc thời gian và thông tin volume kể cả sau khi đích bị xóa"
+        "en": "The target path and times, even after deletion",
+        "vi": "Đường dẫn đích và thời gian, kể cả sau khi xóa"
       },
       {
-        "en": "The user's password",
-        "vi": "Mật khẩu người dùng"
+        "en": "The logged-in user's password",
+        "vi": "Mật khẩu của người dùng đăng nhập"
       },
       {
-        "en": "Live network sockets",
-        "vi": "Socket mạng sống"
+        "en": "Live, currently-open network sockets",
+        "vi": "Socket mạng đang mở hiện tại"
       },
       {
-        "en": "The CPU temperature",
-        "vi": "Nhiệt độ CPU"
+        "en": "The host's CPU temperature",
+        "vi": "Nhiệt độ CPU của host"
       }
     ],
     "correct": 0,
@@ -1499,20 +1499,20 @@
     },
     "opts": [
       {
-        "en": "Evidence of program presence/execution (paths, and for Amcache, SHA-1 hashes)",
-        "vi": "Bằng chứng chương trình hiện diện/thực thi (đường dẫn, và với Amcache, hash SHA-1)"
+        "en": "Program presence/execution (and Amcache SHA-1)",
+        "vi": "Hiện diện/thực thi chương trình (và SHA-1 của Amcache)"
       },
       {
         "en": "The current network connections",
         "vi": "Các kết nối mạng hiện tại"
       },
       {
-        "en": "The user's emails",
-        "vi": "Email của người dùng"
+        "en": "The user's saved email messages",
+        "vi": "Email đã lưu của người dùng"
       },
       {
-        "en": "The BIOS settings",
-        "vi": "Cài đặt BIOS"
+        "en": "The host's BIOS settings",
+        "vi": "Cài đặt BIOS của host"
       }
     ],
     "correct": 0,
@@ -1539,16 +1539,16 @@
         "vi": "Metadata: đường dẫn gốc, thời gian xóa và kích thước"
       },
       {
-        "en": "The actual file content",
-        "vi": "Nội dung file thực tế"
+        "en": "The actual recovered file content",
+        "vi": "Nội dung file khôi phục thực tế"
       },
       {
-        "en": "The encryption key",
-        "vi": "Khóa mã hóa"
+        "en": "The deleted file's encryption key",
+        "vi": "Khóa mã hóa của file đã xóa"
       },
       {
-        "en": "The CPU model",
-        "vi": "Model CPU"
+        "en": "The host's CPU make and model",
+        "vi": "Hãng và model CPU của host"
       }
     ],
     "correct": 0,
@@ -1572,19 +1572,19 @@
     "opts": [
       {
         "en": "Binary XML, requiring a parser (not plain text)",
-        "vi": "Binary XML, cần một trình phân tích (không phải văn bản thuần)"
+        "vi": "Binary XML, cần một trình phân tích (không phải text thuần)"
       },
       {
-        "en": "Plain ASCII text",
-        "vi": "Văn bản ASCII thuần"
+        "en": "Plain human-readable ASCII text",
+        "vi": "Văn bản ASCII đọc được"
       },
       {
-        "en": "A SQLite database",
-        "vi": "Một cơ sở dữ liệu SQLite"
+        "en": "A standard SQLite database",
+        "vi": "Một cơ sở dữ liệu SQLite chuẩn"
       },
       {
-        "en": "A PE executable",
-        "vi": "Một file thực thi PE"
+        "en": "A Windows PE executable file",
+        "vi": "Một file thực thi PE Windows"
       }
     ],
     "correct": 0,
@@ -1608,19 +1608,19 @@
     "opts": [
       {
         "en": "Recently accessed files/items per application",
-        "vi": "Các file/mục được truy cập gần đây theo từng ứng dụng"
+        "vi": "File/mục truy cập gần đây theo từng ứng dụng"
       },
       {
-        "en": "Open network ports",
-        "vi": "Cổng mạng đang mở"
+        "en": "The host's open network ports",
+        "vi": "Các cổng mạng mở của host"
       },
       {
-        "en": "Installed drivers",
-        "vi": "Driver đã cài"
+        "en": "The currently installed drivers",
+        "vi": "Các driver đang được cài"
       },
       {
-        "en": "BIOS passwords",
-        "vi": "Mật khẩu BIOS"
+        "en": "The BIOS supervisor passwords",
+        "vi": "Mật khẩu supervisor của BIOS"
       }
     ],
     "correct": 0,
@@ -1643,20 +1643,20 @@
     },
     "opts": [
       {
-        "en": "The Active Directory database including domain account password hashes",
-        "vi": "Cơ sở dữ liệu Active Directory gồm cả hash mật khẩu tài khoản miền"
+        "en": "The AD database including all domain password hashes",
+        "vi": "CSDL AD gồm tất cả hash mật khẩu miền"
       },
       {
-        "en": "The desktop wallpapers",
-        "vi": "Hình nền desktop"
+        "en": "The users' desktop wallpapers",
+        "vi": "Hình nền desktop của người dùng"
       },
       {
-        "en": "The print spool",
-        "vi": "Hàng đợi in"
+        "en": "The network print spooler queue",
+        "vi": "Hàng đợi spool máy in mạng"
       },
       {
-        "en": "The page file",
-        "vi": "Pagefile"
+        "en": "The system's pagefile contents",
+        "vi": "Nội dung pagefile của hệ thống"
       }
     ],
     "correct": 0,
@@ -1719,16 +1719,16 @@
         "vi": "Các trang chưa cấp phát, freelist và WAL/journal"
       },
       {
-        "en": "The CPU cache",
-        "vi": "Cache CPU"
+        "en": "The processor's L2/L3 cache",
+        "vi": "Cache L2/L3 của bộ xử lý"
       },
       {
-        "en": "The BIOS",
-        "vi": "BIOS"
+        "en": "The motherboard BIOS chip",
+        "vi": "Chip BIOS trên bo mạch"
       },
       {
-        "en": "The MAC address",
-        "vi": "Địa chỉ MAC"
+        "en": "The interface's MAC address",
+        "vi": "Địa chỉ MAC của giao diện"
       }
     ],
     "correct": 0,
@@ -1751,20 +1751,20 @@
     },
     "opts": [
       {
-        "en": "You can unpack them to inspect embedded macros, objects and relationships without opening them",
-        "vi": "Bạn có thể giải nén để xem macro, đối tượng và quan hệ nhúng mà không cần mở chúng"
+        "en": "Unpack them to inspect macros and objects without opening",
+        "vi": "Giải nén để xem macro và đối tượng mà không cần mở"
       },
       {
-        "en": "They cannot contain malware",
-        "vi": "Chúng không thể chứa mã độc"
+        "en": "They simply cannot contain malware",
+        "vi": "Chúng đơn giản không thể chứa mã độc"
       },
       {
-        "en": "They are always encrypted",
-        "vi": "Chúng luôn được mã hóa"
+        "en": "They are always fully encrypted",
+        "vi": "Chúng luôn được mã hóa hoàn toàn"
       },
       {
-        "en": "They run only on Linux",
-        "vi": "Chúng chỉ chạy trên Linux"
+        "en": "They run only on Linux systems",
+        "vi": "Chúng chỉ chạy trên hệ thống Linux"
       }
     ],
     "correct": 0,
@@ -1787,20 +1787,20 @@
     },
     "opts": [
       {
-        "en": "ROT13-encoded (and include run counts and last-run times)",
-        "vi": "Mã hóa ROT13 (và gồm số lần chạy cùng thời gian chạy cuối)"
+        "en": "ROT13-encoded, with run counts and last-run times",
+        "vi": "Mã hóa ROT13, kèm số lần chạy và thời gian chạy cuối"
       },
       {
-        "en": "AES-encrypted",
-        "vi": "Mã hóa AES"
+        "en": "Encrypted with a strong AES key",
+        "vi": "Mã hóa bằng một khóa AES mạnh"
       },
       {
-        "en": "Stored as images",
-        "vi": "Lưu dưới dạng ảnh"
+        "en": "Stored as embedded bitmap images",
+        "vi": "Lưu dưới dạng ảnh bitmap nhúng"
       },
       {
-        "en": "Compressed with ZIP",
-        "vi": "Nén bằng ZIP"
+        "en": "Compressed inside a ZIP archive",
+        "vi": "Nén bên trong một archive ZIP"
       }
     ],
     "correct": 0,
@@ -1823,20 +1823,20 @@
     },
     "opts": [
       {
-        "en": "Folders a user browsed (including removable/network/now-deleted folders) and view settings",
-        "vi": "Các thư mục người dùng đã duyệt (gồm cả thư mục tháo rời/mạng/đã xóa) và cài đặt hiển thị"
+        "en": "Folders a user browsed and view settings",
+        "vi": "Thư mục người dùng đã duyệt và cài đặt hiển thị"
       },
       {
-        "en": "The user's password hash",
-        "vi": "Hash mật khẩu người dùng"
+        "en": "The user's account password hash",
+        "vi": "Hash mật khẩu tài khoản người dùng"
       },
       {
-        "en": "Open TCP ports",
-        "vi": "Cổng TCP đang mở"
+        "en": "The host's open TCP/UDP ports",
+        "vi": "Các cổng TCP/UDP mở của host"
       },
       {
-        "en": "The boot order",
-        "vi": "Thứ tự boot"
+        "en": "The system's BIOS boot order",
+        "vi": "Thứ tự boot trong BIOS"
       }
     ],
     "correct": 0,
@@ -1895,20 +1895,20 @@
     },
     "opts": [
       {
-        "en": "A file's last-modified timestamp — when the key was last changed",
-        "vi": "Mốc thời gian sửa-cuối của một file — khi khóa được thay đổi lần cuối"
+        "en": "A key's last-modified time — when it last changed",
+        "vi": "Thời gian sửa-cuối của khóa — khi nó thay đổi lần cuối"
       },
       {
-        "en": "The key's creation date only",
-        "vi": "Chỉ ngày tạo của khóa"
+        "en": "Only the key's original creation date",
+        "vi": "Chỉ ngày tạo gốc của khóa"
       },
       {
-        "en": "The user's logon time",
-        "vi": "Thời gian đăng nhập của người dùng"
+        "en": "The user's most recent logon time",
+        "vi": "Thời gian đăng nhập gần nhất của người dùng"
       },
       {
-        "en": "The CPU clock speed",
-        "vi": "Tốc độ xung CPU"
+        "en": "The processor's clock speed",
+        "vi": "Tốc độ xung của bộ xử lý"
       }
     ],
     "correct": 0,
@@ -1931,20 +1931,20 @@
     },
     "opts": [
       {
-        "en": "Services, Winlogon (Shell/Userinit) and Image File Execution Options",
-        "vi": "Services, Winlogon (Shell/Userinit) và Image File Execution Options"
+        "en": "Services, Winlogon and Image File Execution Options",
+        "vi": "Services, Winlogon và Image File Execution Options"
       },
       {
-        "en": "The volume label",
-        "vi": "Nhãn ổ đĩa"
+        "en": "The disk's volume label string",
+        "vi": "Chuỗi nhãn ổ đĩa"
       },
       {
-        "en": "The screen resolution",
-        "vi": "Độ phân giải màn hình"
+        "en": "The screen display resolution",
+        "vi": "Độ phân giải màn hình hiển thị"
       },
       {
-        "en": "The mouse speed",
-        "vi": "Tốc độ chuột"
+        "en": "The mouse pointer speed setting",
+        "vi": "Cài đặt tốc độ con trỏ chuột"
       }
     ],
     "correct": 0,
@@ -1967,20 +1967,20 @@
     },
     "opts": [
       {
-        "en": "Filter out legitimate OS/application files so analysts focus on the unknown",
-        "vi": "Lọc bỏ các file OS/ứng dụng hợp lệ để analyst tập trung vào cái chưa biết"
+        "en": "Filter out legitimate OS/app files to focus on the unknown",
+        "vi": "Lọc bỏ file OS/ứng dụng hợp lệ để tập trung vào cái lạ"
       },
       {
-        "en": "Encrypt suspicious files",
-        "vi": "Mã hóa file đáng ngờ"
+        "en": "Encrypt any suspicious files found",
+        "vi": "Mã hóa mọi file đáng ngờ tìm thấy"
       },
       {
-        "en": "Delete all executables",
-        "vi": "Xóa mọi file thực thi"
+        "en": "Delete all executables on the host",
+        "vi": "Xóa mọi file thực thi trên host"
       },
       {
-        "en": "Speed up the CPU",
-        "vi": "Tăng tốc CPU"
+        "en": "Make the host's CPU run faster",
+        "vi": "Làm CPU của host chạy nhanh hơn"
       }
     ],
     "correct": 0,
@@ -2003,20 +2003,20 @@
     },
     "opts": [
       {
-        "en": "The legitimate svchost.exe lives in System32 — the location/name combination is wrong",
-        "vi": "svchost.exe hợp lệ nằm trong System32 — tổ hợp vị trí/tên này là sai"
+        "en": "The real svchost.exe is in System32 — this path is wrong",
+        "vi": "svchost.exe thật nằm ở System32 — đường dẫn này sai"
       },
       {
-        "en": "svchost.exe is always malware",
-        "vi": "svchost.exe luôn là mã độc"
+        "en": "The name svchost.exe is always malware",
+        "vi": "Tên svchost.exe luôn là mã độc"
       },
       {
-        "en": "Public folders cannot hold files",
-        "vi": "Thư mục Public không thể chứa file"
+        "en": "Public folders cannot hold any files",
+        "vi": "Thư mục Public không thể chứa file nào"
       },
       {
-        "en": "The name is encrypted",
-        "vi": "Tên file bị mã hóa"
+        "en": "The file name itself is encrypted",
+        "vi": "Bản thân tên file đã bị mã hóa"
       }
     ],
     "correct": 0,
@@ -2043,20 +2043,20 @@
     },
     "opts": [
       {
-        "en": "Who signed it and that it has not been modified since — but not that it is benign",
-        "vi": "Ai đã ký và rằng nó không bị sửa từ đó — nhưng không có nghĩa nó lành tính"
+        "en": "Who signed it and that it's unchanged — not that it is safe",
+        "vi": "Ai ký và rằng nó không đổi — chứ không phải nó an toàn"
       },
       {
         "en": "That the file is guaranteed safe",
         "vi": "Rằng file chắc chắn an toàn"
       },
       {
-        "en": "That the file is malware",
-        "vi": "Rằng file là mã độc"
+        "en": "That the file is definitely malware",
+        "vi": "Rằng file chắc chắn là mã độc"
       },
       {
-        "en": "The user's password",
-        "vi": "Mật khẩu người dùng"
+        "en": "The signing user's account password",
+        "vi": "Mật khẩu tài khoản của người ký"
       }
     ],
     "correct": 0,
@@ -2079,20 +2079,20 @@
     },
     "opts": [
       {
-        "en": "Hashing the import table, grouping binaries with the same imported functions/order",
-        "vi": "Băm bảng import, gom các binary có cùng hàm/thứ tự import"
+        "en": "Hashing the import table to group binaries",
+        "vi": "Băm bảng import để gom các binary"
       },
       {
-        "en": "Hashing the whole disk",
-        "vi": "Băm toàn bộ đĩa"
+        "en": "Hashing the entire disk image",
+        "vi": "Băm toàn bộ image đĩa"
       },
       {
-        "en": "Recording network traffic",
-        "vi": "Ghi lưu lượng mạng"
+        "en": "Recording all network traffic",
+        "vi": "Ghi lại toàn bộ lưu lượng mạng"
       },
       {
-        "en": "Measuring CPU usage",
-        "vi": "Đo mức dùng CPU"
+        "en": "Measuring the process's CPU usage",
+        "vi": "Đo mức dùng CPU của tiến trình"
       }
     ],
     "correct": 0,
@@ -2115,20 +2115,20 @@
     },
     "opts": [
       {
-        "en": "It survives — distributed parity allows reconstruction of the missing disk",
-        "vi": "Vẫn còn — parity phân tán cho phép tái dựng đĩa bị thiếu"
+        "en": "It survives — distributed parity rebuilds the missing disk",
+        "vi": "Vẫn còn — parity phân tán tái dựng đĩa bị thiếu"
       },
       {
-        "en": "It is lost immediately",
-        "vi": "Mất ngay lập tức"
+        "en": "It is lost immediately and entirely",
+        "vi": "Mất ngay lập tức và hoàn toàn"
       },
       {
-        "en": "It doubles in size",
-        "vi": "Nó tăng gấp đôi kích thước"
+        "en": "It doubles in total stored size",
+        "vi": "Tăng gấp đôi tổng dung lượng lưu"
       },
       {
-        "en": "It becomes encrypted",
-        "vi": "Nó trở nên mã hóa"
+        "en": "It becomes automatically encrypted",
+        "vi": "Trở nên tự động mã hóa"
       }
     ],
     "correct": 0,
@@ -2151,16 +2151,16 @@
     },
     "opts": [
       {
-        "en": "The controller remaps logical blocks to changing physical cells, hiding old data from normal access",
-        "vi": "Controller ánh xạ lại khối logic tới các cell vật lý thay đổi, giấu dữ liệu cũ khỏi truy cập thường"
+        "en": "The controller remaps blocks, hiding old data",
+        "vi": "Controller ánh xạ lại khối, giấu dữ liệu cũ"
       },
       {
-        "en": "It encrypts everything by law",
-        "vi": "Nó mã hóa mọi thứ theo luật"
+        "en": "It encrypts all data by law",
+        "vi": "Nó mã hóa mọi dữ liệu theo luật"
       },
       {
-        "en": "It makes the disk read-only",
-        "vi": "Nó làm đĩa chỉ-đọc"
+        "en": "It makes the disk fully read-only",
+        "vi": "Nó làm đĩa hoàn toàn chỉ-đọc"
       },
       {
         "en": "It deletes the partition table",
@@ -2187,20 +2187,20 @@
     },
     "opts": [
       {
-        "en": "Can lock the drive so it refuses reads until unlocked",
-        "vi": "Có thể khóa ổ khiến nó từ chối đọc cho tới khi mở khóa"
+        "en": "It can lock the drive until it is unlocked",
+        "vi": "Nó có thể khóa ổ tới khi được mở khóa"
       },
       {
-        "en": "Encrypts the network",
-        "vi": "Mã hóa mạng"
+        "en": "It encrypts the whole network",
+        "vi": "Nó mã hóa toàn bộ mạng"
       },
       {
-        "en": "Deletes the firmware",
-        "vi": "Xóa firmware"
+        "en": "It deletes the drive firmware",
+        "vi": "Nó xóa firmware của ổ"
       },
       {
-        "en": "Speeds up imaging",
-        "vi": "Tăng tốc tạo image"
+        "en": "It speeds up the imaging process",
+        "vi": "Nó tăng tốc quá trình tạo image"
       }
     ],
     "correct": 0,
@@ -2223,20 +2223,20 @@
     },
     "opts": [
       {
-        "en": "Its underlying file system/RAID layout and whether to image disks or acquire over the network",
-        "vi": "Hệ thống tệp/bố cục RAID bên dưới và việc nên image đĩa hay thu thập qua mạng"
+        "en": "Its file system/RAID layout and how to acquire it",
+        "vi": "Bố cục hệ thống tệp/RAID của nó và cách thu thập"
       },
       {
-        "en": "Only the printer settings",
-        "vi": "Chỉ cài đặt máy in"
+        "en": "Only the device's printer settings",
+        "vi": "Chỉ cài đặt máy in của thiết bị"
       },
       {
-        "en": "The monitor brightness",
-        "vi": "Độ sáng màn hình"
+        "en": "The attached monitor's brightness",
+        "vi": "Độ sáng của màn hình gắn kèm"
       },
       {
-        "en": "The keyboard layout",
-        "vi": "Bố cục bàn phím"
+        "en": "The keyboard's regional layout",
+        "vi": "Bố cục bàn phím theo vùng"
       }
     ],
     "correct": 0,
@@ -2259,20 +2259,20 @@
     },
     "opts": [
       {
-        "en": "pslist walks the active process linked list (which DKOM can unlink); psscan scans memory pools for process objects",
-        "vi": "pslist đi theo danh sách liên kết tiến trình đang hoạt động (mà DKOM có thể gỡ liên kết); psscan quét pool bộ nhớ tìm đối tượng tiến trình"
+        "en": "pslist walks the linked list; psscan scans pool",
+        "vi": "pslist đi theo danh sách liên kết; psscan quét pool"
       },
       {
-        "en": "psscan is just slower",
-        "vi": "psscan chỉ chậm hơn"
+        "en": "psscan is just a slower version",
+        "vi": "psscan chỉ là phiên bản chậm hơn"
       },
       {
-        "en": "pslist only shows drivers",
+        "en": "pslist only ever shows drivers",
         "vi": "pslist chỉ hiện driver"
       },
       {
-        "en": "They always agree",
-        "vi": "Chúng luôn khớp nhau"
+        "en": "The two plugins always agree",
+        "vi": "Hai plugin luôn khớp nhau"
       }
     ],
     "correct": 0,
@@ -2295,20 +2295,20 @@
     },
     "opts": [
       {
-        "en": "Injected code in private, executable (RWX) memory regions lacking a backing file",
-        "vi": "Mã được tiêm trong vùng nhớ riêng, thực thi (RWX) không có file gốc"
+        "en": "Injected code in private RWX memory",
+        "vi": "Mã tiêm trong vùng nhớ RWX riêng"
       },
       {
-        "en": "Open TCP ports only",
-        "vi": "Chỉ cổng TCP đang mở"
+        "en": "Only the host's open TCP ports",
+        "vi": "Chỉ các cổng TCP mở của host"
       },
       {
-        "en": "The user's wallpaper",
-        "vi": "Hình nền người dùng"
+        "en": "The user's desktop wallpaper",
+        "vi": "Hình nền desktop của người dùng"
       },
       {
-        "en": "BIOS strings",
-        "vi": "Chuỗi BIOS"
+        "en": "Readable BIOS firmware strings",
+        "vi": "Chuỗi firmware BIOS đọc được"
       }
     ],
     "correct": 0,
@@ -2367,20 +2367,20 @@
     },
     "opts": [
       {
-        "en": "A malicious document executing follow-on commands (macro/exploit chain)",
-        "vi": "Một tài liệu độc hại thực thi các lệnh tiếp theo (chuỗi macro/exploit)"
+        "en": "A malicious document running follow-on commands",
+        "vi": "Một tài liệu độc hại chạy các lệnh tiếp theo"
       },
       {
-        "en": "Normal Office behaviour",
-        "vi": "Hành vi Office bình thường"
+        "en": "Perfectly normal Office behaviour",
+        "vi": "Hành vi Office hoàn toàn bình thường"
       },
       {
-        "en": "A printer driver",
-        "vi": "Một driver máy in"
+        "en": "A standard printer device driver",
+        "vi": "Một driver thiết bị máy in chuẩn"
       },
       {
-        "en": "A DNS lookup",
-        "vi": "Một tra cứu DNS"
+        "en": "An ordinary DNS name lookup",
+        "vi": "Một tra cứu tên DNS thông thường"
       }
     ],
     "correct": 0,
@@ -2407,19 +2407,19 @@
     },
     "opts": [
       {
-        "en": "From a memory image, since they must be in RAM while in use",
-        "vi": "Từ một image bộ nhớ, vì chúng phải ở trong RAM khi đang dùng"
+        "en": "From a memory image — keys live in RAM in use",
+        "vi": "Từ image bộ nhớ — khóa nằm trong RAM khi dùng"
       },
       {
-        "en": "From the printer spool",
-        "vi": "Từ hàng đợi máy in"
+        "en": "From the network printer spool",
+        "vi": "Từ spool của máy in mạng"
       },
       {
-        "en": "From the BIOS logo",
-        "vi": "Từ logo BIOS"
+        "en": "From the BIOS startup splash",
+        "vi": "Từ màn hình splash khởi động BIOS"
       },
       {
-        "en": "They are never recoverable",
+        "en": "They can never be recovered",
         "vi": "Chúng không bao giờ khôi phục được"
       }
     ],
@@ -2443,19 +2443,19 @@
     },
     "opts": [
       {
-        "en": "Mounting the container can bypass Mark-of-the-Web, avoiding SmartScreen/Office warnings",
-        "vi": "Mount container có thể vượt qua Mark-of-the-Web, tránh cảnh báo SmartScreen/Office"
+        "en": "Mounting the container bypasses Mark-of-the-Web warnings",
+        "vi": "Mount container vượt qua cảnh báo Mark-of-the-Web"
       },
       {
         "en": "ISO files cannot contain executables",
         "vi": "File ISO không thể chứa file thực thi"
       },
       {
-        "en": "They are encrypted by default",
-        "vi": "Chúng mã hóa theo mặc định"
+        "en": "They are always encrypted by default",
+        "vi": "Chúng luôn được mã hóa mặc định"
       },
       {
-        "en": "They run only in the cloud",
+        "en": "They only ever run in the cloud",
         "vi": "Chúng chỉ chạy trên đám mây"
       }
     ],
@@ -2479,20 +2479,20 @@
     },
     "opts": [
       {
-        "en": "Living-off-the-land binaries (LOLBins) to execute code while appearing legitimate",
-        "vi": "Living-off-the-land binary (LOLBins) để thực thi mã trong khi trông hợp lệ"
+        "en": "Living-off-the-land binaries that look legit",
+        "vi": "LOLBins trông hợp lệ"
       },
       {
-        "en": "Antivirus engines",
-        "vi": "Engine antivirus"
+        "en": "Built-in antivirus scanning engines",
+        "vi": "Engine quét antivirus tích hợp"
       },
       {
-        "en": "Disk imagers",
-        "vi": "Công cụ tạo image đĩa"
+        "en": "Forensic disk-imaging utilities",
+        "vi": "Tiện ích tạo image đĩa forensic"
       },
       {
-        "en": "DNS servers",
-        "vi": "Máy chủ DNS"
+        "en": "Recursive DNS resolver servers",
+        "vi": "Máy chủ resolver DNS đệ quy"
       }
     ],
     "correct": 0,
@@ -2515,20 +2515,20 @@
     },
     "opts": [
       {
-        "en": "Evade gateway scanning (the AV cannot open the encrypted archive) while the user is given the password",
-        "vi": "Né quét tại gateway (AV không mở được archive mã hóa) trong khi người dùng được cho mật khẩu"
+        "en": "Evade gateway AV (it can't open the encrypted archive)",
+        "vi": "Né AV tại gateway (không mở được archive mã hóa)"
       },
       {
-        "en": "Speed up email delivery",
-        "vi": "Tăng tốc gửi email"
+        "en": "Speed up the email's delivery time",
+        "vi": "Tăng tốc thời gian gửi email"
       },
       {
-        "en": "Compress the network",
-        "vi": "Nén mạng"
+        "en": "Compress the whole network link",
+        "vi": "Nén toàn bộ liên kết mạng"
       },
       {
-        "en": "Encrypt the mail server",
-        "vi": "Mã hóa máy chủ mail"
+        "en": "Encrypt the receiving mail server",
+        "vi": "Mã hóa máy chủ mail nhận"
       }
     ],
     "correct": 0,
@@ -2551,20 +2551,20 @@
     },
     "opts": [
       {
-        "en": "Overwrite data so it cannot be recovered, frustrating forensics",
-        "vi": "Ghi đè dữ liệu để không thể khôi phục, cản trở forensic"
+        "en": "Overwrite data so it cannot be recovered",
+        "vi": "Ghi đè dữ liệu để không thể khôi phục"
       },
       {
-        "en": "Encrypt the network",
-        "vi": "Mã hóa mạng"
+        "en": "Encrypt the whole corporate network",
+        "vi": "Mã hóa toàn bộ mạng doanh nghiệp"
       },
       {
-        "en": "Speed up the disk",
-        "vi": "Tăng tốc đĩa"
+        "en": "Make the disk run noticeably faster",
+        "vi": "Làm đĩa chạy nhanh hơn rõ rệt"
       },
       {
-        "en": "Install patches",
-        "vi": "Cài bản vá"
+        "en": "Install missing security patches",
+        "vi": "Cài các bản vá bảo mật còn thiếu"
       }
     ],
     "correct": 0,
@@ -2587,20 +2587,20 @@
     },
     "opts": [
       {
-        "en": "Anti-forensic / defense-evasion behaviour to hinder detection and investigation",
-        "vi": "Hành vi chống điều tra / né phòng thủ để cản trở phát hiện và điều tra"
+        "en": "Anti-forensic / defense-evasion behaviour",
+        "vi": "Hành vi chống điều tra / né phòng thủ"
       },
       {
-        "en": "Normal maintenance",
-        "vi": "Bảo trì bình thường"
+        "en": "Routine scheduled maintenance",
+        "vi": "Bảo trì theo lịch định kỳ"
       },
       {
-        "en": "A hardware fault",
-        "vi": "Một lỗi phần cứng"
+        "en": "A simple hardware malfunction",
+        "vi": "Một trục trặc phần cứng đơn giản"
       },
       {
-        "en": "A DNS change",
-        "vi": "Một thay đổi DNS"
+        "en": "An ordinary DNS record change",
+        "vi": "Một thay đổi bản ghi DNS thông thường"
       }
     ],
     "correct": 0,
@@ -2623,20 +2623,20 @@
     },
     "opts": [
       {
-        "en": "Hiding data inside another file (e.g. an image) so its presence is concealed",
-        "vi": "Giấu dữ liệu bên trong một file khác (vd một ảnh) để che sự tồn tại của nó"
+        "en": "Hiding data inside another file to conceal it",
+        "vi": "Giấu dữ liệu trong file khác để che nó"
       },
       {
-        "en": "Encrypting the whole disk",
-        "vi": "Mã hóa toàn đĩa"
+        "en": "Encrypting the whole system disk",
+        "vi": "Mã hóa toàn bộ đĩa hệ thống"
       },
       {
-        "en": "Deleting the registry",
-        "vi": "Xóa registry"
+        "en": "Deleting the system registry",
+        "vi": "Xóa registry hệ thống"
       },
       {
-        "en": "Flooding the network",
-        "vi": "Làm ngập mạng"
+        "en": "Flooding the network with traffic",
+        "vi": "Làm ngập mạng bằng lưu lượng"
       }
     ],
     "correct": 0,
@@ -2659,8 +2659,8 @@
     },
     "opts": [
       {
-        "en": "Kernel-mode runs at ring 0 (often via a driver), able to subvert the OS itself and is harder to detect",
-        "vi": "Kernel-mode chạy ở ring 0 (thường qua một driver), có thể lật đổ chính OS và khó phát hiện hơn"
+        "en": "Kernel-mode runs at ring 0 via a driver, harder to detect",
+        "vi": "Kernel-mode chạy ring 0 qua driver, khó phát hiện hơn"
       },
       {
         "en": "User-mode rootkits cannot hide anything",
@@ -2671,8 +2671,8 @@
         "vi": "Rootkit kernel-mode luôn nhìn thấy được"
       },
       {
-        "en": "They are the same",
-        "vi": "Chúng giống nhau"
+        "en": "They are exactly the same thing",
+        "vi": "Chúng giống hệt nhau"
       }
     ],
     "correct": 0,
@@ -2695,20 +2695,20 @@
     },
     "opts": [
       {
-        "en": "Infects the boot process (MBR/VBR/bootloader) to load before the OS and its defences",
-        "vi": "Lây nhiễm quá trình boot (MBR/VBR/bootloader) để nạp trước OS và các biện pháp phòng thủ"
+        "en": "Infects the boot process, loading before the OS",
+        "vi": "Lây nhiễm quá trình boot, nạp trước OS"
       },
       {
-        "en": "Only runs in a browser",
-        "vi": "Chỉ chạy trong trình duyệt"
+        "en": "It only ever runs inside a browser",
+        "vi": "Nó chỉ chạy trong trình duyệt"
       },
       {
-        "en": "Cannot survive reboot",
-        "vi": "Không sống sót qua reboot"
+        "en": "It cannot survive any reboot",
+        "vi": "Nó không sống sót qua bất kỳ reboot nào"
       },
       {
-        "en": "Is always unsigned",
-        "vi": "Luôn không có chữ ký"
+        "en": "It is always completely unsigned",
+        "vi": "Nó luôn hoàn toàn không có chữ ký"
       }
     ],
     "correct": 0,
@@ -2731,20 +2731,20 @@
     },
     "opts": [
       {
-        "en": "Identify exactly which registry keys and files the malware created or modified",
-        "vi": "Xác định chính xác khóa registry và file nào mã độc đã tạo hoặc sửa"
+        "en": "Identify the registry keys and files it changed",
+        "vi": "Xác định khóa registry và file nó đã thay đổi"
       },
       {
-        "en": "Decrypt the malware",
-        "vi": "Giải mã mã độc"
+        "en": "Decrypt the malware sample file",
+        "vi": "Giải mã file mẫu mã độc"
       },
       {
-        "en": "Capture network packets",
-        "vi": "Bắt gói mạng"
+        "en": "Capture live network packets",
+        "vi": "Bắt gói mạng trực tiếp"
       },
       {
-        "en": "Image the disk",
-        "vi": "Tạo image đĩa"
+        "en": "Image the host's full hard disk",
+        "vi": "Tạo image toàn bộ đĩa cứng của host"
       }
     ],
     "correct": 0,
@@ -2767,20 +2767,20 @@
     },
     "opts": [
       {
-        "en": "/etc/passwd (accounts) and /etc/shadow (password hashes)",
-        "vi": "/etc/passwd (tài khoản) và /etc/shadow (hash mật khẩu)"
+        "en": "/etc/passwd and /etc/shadow",
+        "vi": "/etc/passwd và /etc/shadow"
       },
       {
         "en": "/etc/hosts and /etc/motd",
         "vi": "/etc/hosts và /etc/motd"
       },
       {
-        "en": "/proc and /sys",
-        "vi": "/proc và /sys"
+        "en": "/proc and /sys pseudo-dirs",
+        "vi": "Thư mục giả /proc và /sys"
       },
       {
-        "en": "/dev and /tmp",
-        "vi": "/dev và /tmp"
+        "en": "/dev and /tmp directories",
+        "vi": "Thư mục /dev và /tmp"
       }
     ],
     "correct": 0,
@@ -2803,20 +2803,20 @@
     },
     "opts": [
       {
-        "en": "Runs with the privileges of its owner (often root), a common privilege-escalation route",
-        "vi": "Chạy với đặc quyền của chủ sở hữu (thường là root), một con đường leo thang đặc quyền phổ biến"
+        "en": "It runs with the owner's privileges (often root)",
+        "vi": "Nó chạy với đặc quyền của chủ sở hữu (thường root)"
       },
       {
-        "en": "Cannot be executed",
-        "vi": "Không thể thực thi"
+        "en": "It cannot be executed at all",
+        "vi": "Nó hoàn toàn không thể thực thi"
       },
       {
-        "en": "Is always malware",
-        "vi": "Luôn là mã độc"
+        "en": "It is always malware by nature",
+        "vi": "Bản chất nó luôn là mã độc"
       },
       {
-        "en": "Encrypts the disk",
-        "vi": "Mã hóa đĩa"
+        "en": "It encrypts the host's disk",
+        "vi": "Nó mã hóa đĩa của host"
       }
     ],
     "correct": 0,
@@ -2840,19 +2840,19 @@
     "opts": [
       {
         "en": "Persistent passwordless SSH access as that user",
-        "vi": "Truy cập SSH bền bỉ không cần mật khẩu dưới danh nghĩa người dùng đó"
+        "vi": "Truy cập SSH bền bỉ không mật khẩu dưới danh nghĩa người đó"
       },
       {
-        "en": "A faster CPU",
-        "vi": "CPU nhanh hơn"
+        "en": "A noticeably faster host CPU",
+        "vi": "Một CPU host nhanh hơn rõ rệt"
       },
       {
-        "en": "Disk encryption",
-        "vi": "Mã hóa đĩa"
+        "en": "Full system disk encryption",
+        "vi": "Mã hóa toàn bộ đĩa hệ thống"
       },
       {
-        "en": "A DNS record",
-        "vi": "Một bản ghi DNS"
+        "en": "A new DNS resource record",
+        "vi": "Một bản ghi tài nguyên DNS mới"
       }
     ],
     "correct": 0,
@@ -2875,20 +2875,20 @@
     },
     "opts": [
       {
-        "en": "/var/log/auth.log (Debian/Ubuntu) or /var/log/secure (RHEL/CentOS)",
-        "vi": "/var/log/auth.log (Debian/Ubuntu) hoặc /var/log/secure (RHEL/CentOS)"
+        "en": "/var/log/auth.log or /var/log/secure",
+        "vi": "/var/log/auth.log hoặc /var/log/secure"
       },
       {
-        "en": "/etc/hostname",
-        "vi": "/etc/hostname"
+        "en": "The /etc/hostname config file",
+        "vi": "File cấu hình /etc/hostname"
       },
       {
-        "en": "/proc/cpuinfo",
-        "vi": "/proc/cpuinfo"
+        "en": "The /proc/cpuinfo pseudo-file",
+        "vi": "File giả /proc/cpuinfo"
       },
       {
-        "en": "/dev/null",
-        "vi": "/dev/null"
+        "en": "The /dev/null device file",
+        "vi": "File thiết bị /dev/null"
       }
     ],
     "correct": 0,

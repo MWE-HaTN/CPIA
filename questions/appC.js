@@ -19,23 +19,23 @@
     },
     "opts": [
       {
-        "en": "The contents of encrypted traffic",
-        "vi": "Nội dung lưu lượng đã mã hóa"
+        "en": "Domain/IP registration data and abuse contacts",
+        "vi": "Dữ liệu đăng ký domain/IP và liên hệ abuse"
       },
       {
-        "en": "Domain/IP registration details and ownership/abuse contacts",
-        "vi": "Thông tin đăng ký domain/IP và liên hệ chủ sở hữu/abuse"
+        "en": "The decrypted contents of captured traffic",
+        "vi": "Nội dung đã giải mã của lưu lượng bắt được"
       },
       {
-        "en": "The malware family",
-        "vi": "Họ mã độc"
+        "en": "The malware family and variant name",
+        "vi": "Họ và tên biến thể của mã độc"
       },
       {
-        "en": "The OS version of a host",
-        "vi": "Phiên bản OS của một host"
+        "en": "The host's operating-system version",
+        "vi": "Phiên bản hệ điều hành của host"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "WHOIS returns registration metadata: registrant, registrar, creation/expiry dates, name servers, and abuse contacts — useful for attribution and takedown. Note GDPR/privacy redaction now hides much registrant data.",
       "vi": "WHOIS trả về metadata đăng ký: chủ thể đăng ký, registrar, ngày tạo/hết hạn, name server và liên hệ abuse — hữu ích cho attribution và takedown. Lưu ý GDPR/quyền riêng tư nay che nhiều dữ liệu chủ thể."
@@ -91,23 +91,23 @@
     },
     "opts": [
       {
-        "en": "A single static IP for years",
+        "en": "Many rapidly-changing A records with very low TTLs",
+        "vi": "Nhiều bản ghi A thay đổi nhanh với TTL rất thấp"
+      },
+      {
+        "en": "A single static IP address for years",
         "vi": "Một IP tĩnh duy nhất trong nhiều năm"
       },
       {
-        "en": "Rapidly changing A records / many IPs with very low TTL to hide the backend",
-        "vi": "A record thay đổi nhanh / nhiều IP với TTL rất thấp để ẩn backend"
+        "en": "Disabling the domain's DNS entirely",
+        "vi": "Tắt hoàn toàn DNS của domain"
       },
       {
-        "en": "Disabling DNS entirely",
-        "vi": "Tắt hoàn toàn DNS"
-      },
-      {
-        "en": "Only using IPv6",
-        "vi": "Chỉ dùng IPv6"
+        "en": "Serving the site only over IPv6",
+        "vi": "Chỉ phục vụ site qua IPv6"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Fast-flux rotates many IPs (often a botnet of proxies) behind one domain using very low TTLs, making takedown and blocking difficult. Domain-flux/DGA instead rotates the domain names. Both indicate resilient C2 infrastructure.",
       "vi": "Fast-flux xoay vòng nhiều IP (thường là botnet proxy) sau một domain với TTL rất thấp, gây khó cho takedown và chặn. Domain-flux/DGA thì xoay vòng tên miền. Cả hai cho thấy hạ tầng C2 có khả năng kháng cự cao."
@@ -131,23 +131,23 @@
     },
     "opts": [
       {
-        "en": "Encrypts all records",
-        "vi": "Mã hóa toàn bộ bản ghi"
+        "en": "Discloses the entire internal DNS namespace",
+        "vi": "Tiết lộ toàn bộ không gian tên DNS nội bộ"
       },
       {
-        "en": "Discloses the entire internal DNS namespace (host inventory)",
-        "vi": "Tiết lộ toàn bộ không gian tên DNS nội bộ (danh mục host)"
+        "en": "Encrypts all of the zone's records",
+        "vi": "Mã hóa tất cả bản ghi của zone"
       },
       {
-        "en": "Speeds up name resolution",
-        "vi": "Tăng tốc phân giải tên"
+        "en": "Speeds up name resolution for clients",
+        "vi": "Tăng tốc phân giải tên cho client"
       },
       {
-        "en": "Is required for normal operation",
-        "vi": "Là cần thiết cho hoạt động bình thường"
+        "en": "Is required for normal DNS operation",
+        "vi": "Là bắt buộc cho hoạt động DNS bình thường"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "AXFR copies the whole zone. If allowed to arbitrary clients it hands an attacker a full map of hostnames/IPs (reconnaissance gold). Zone transfers should be restricted to authorised secondary name servers only.",
       "vi": "AXFR sao toàn bộ zone. Nếu cho phép client bất kỳ, nó trao cho kẻ tấn công bản đồ đầy đủ hostname/IP (mỏ vàng trinh sát). Zone transfer chỉ nên giới hạn cho các secondary name server được ủy quyền."
@@ -167,23 +167,23 @@
     },
     "opts": [
       {
-        "en": "The recipient's password",
-        "vi": "Mật khẩu của người nhận"
+        "en": "Author, organisation, software version and internal paths",
+        "vi": "Tác giả, tổ chức, phiên bản phần mềm và đường dẫn nội bộ"
       },
       {
-        "en": "Author name, organisation, software version and internal machine/paths",
-        "vi": "Tên tác giả, tổ chức, phiên bản phần mềm và máy/đường dẫn nội bộ"
+        "en": "The password of the document's recipient",
+        "vi": "Mật khẩu của người nhận tài liệu"
       },
       {
-        "en": "The encryption key",
-        "vi": "Khóa mã hóa"
+        "en": "The document's symmetric encryption key",
+        "vi": "Khóa mã hóa đối xứng của tài liệu"
       },
       {
-        "en": "Live network traffic",
-        "vi": "Lưu lượng mạng thời gian thực"
+        "en": "The host's live network traffic flows",
+        "vi": "Các luồng lưu lượng mạng sống của host"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Tools like ExifTool/FOCA pull authors, usernames, software versions, template paths, printer names and internal hostnames from document metadata — valuable for OSINT, attribution and building a target picture.",
       "vi": "Các công cụ như ExifTool/FOCA lấy tác giả, username, phiên bản phần mềm, đường dẫn template, tên máy in và hostname nội bộ từ metadata tài liệu — quý cho OSINT, attribution và dựng bức tranh mục tiêu."
@@ -203,23 +203,23 @@
     },
     "opts": [
       {
-        "en": "Always trust the AV verdict",
-        "vi": "Luôn tin phán quyết của AV"
+        "en": "Corroborate — it may be a false positive or dual-use tool",
+        "vi": "Đối chiếu — có thể là false positive hoặc công cụ lưỡng dụng"
       },
       {
-        "en": "Investigate context and corroborate — it may be a false positive or a dual-use tool",
-        "vi": "Điều tra bối cảnh và đối chiếu — có thể là false positive hoặc công cụ lưỡng dụng"
+        "en": "Always fully trust the AV verdict",
+        "vi": "Luôn hoàn toàn tin phán quyết AV"
       },
       {
-        "en": "Immediately wipe the host",
-        "vi": "Xóa sạch host ngay lập tức"
+        "en": "Immediately wipe the affected host",
+        "vi": "Xóa sạch ngay host bị ảnh hưởng"
       },
       {
-        "en": "Ignore the alert entirely",
-        "vi": "Bỏ qua hoàn toàn cảnh báo"
+        "en": "Ignore the AV alert entirely",
+        "vi": "Bỏ qua hoàn toàn cảnh báo AV"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "AV signatures generate false positives and flag legitimate dual-use tools (PsExec, PowerShell). Analysts must corroborate across sources, eliminate false positives, and judge by context — but not blindly ignore alerts either.",
       "vi": "Signature AV sinh false positive và gắn cờ công cụ lưỡng dụng hợp lệ (PsExec, PowerShell). Analyst phải đối chiếu nhiều nguồn, loại bỏ false positive và phán đoán theo bối cảnh — nhưng cũng không mù quáng bỏ qua cảnh báo."
@@ -239,23 +239,23 @@
     },
     "opts": [
       {
-        "en": "Crash the target server",
-        "vi": "Làm sập server mục tiêu"
+        "en": "Find exposed documents/pages via search-engine indexing",
+        "vi": "Tìm tài liệu/trang bị phơi qua chỉ mục công cụ tìm kiếm"
       },
       {
-        "en": "Find specific exposed documents/pages via search-engine indexing",
-        "vi": "Tìm tài liệu/trang bị lộ cụ thể qua chỉ mục của công cụ tìm kiếm"
+        "en": "Crash the target's web server remotely",
+        "vi": "Làm sập web server mục tiêu từ xa"
       },
       {
-        "en": "Encrypt the website",
-        "vi": "Mã hóa website"
+        "en": "Encrypt the target's website",
+        "vi": "Mã hóa website của mục tiêu"
       },
       {
-        "en": "Reset DNS",
-        "vi": "Đặt lại DNS"
+        "en": "Reset the target's DNS records",
+        "vi": "Đặt lại bản ghi DNS của mục tiêu"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Search operators (dorks) narrow results to specific sites, file types or keywords, surfacing exposed documents, login pages or config files already indexed — passive recon that touches the search engine, not the target directly.",
       "vi": "Toán tử tìm kiếm (dork) thu hẹp kết quả theo site, loại file hay từ khóa cụ thể, làm lộ tài liệu, trang đăng nhập hay file cấu hình đã được lập chỉ mục — trinh sát thụ động chạm vào công cụ tìm kiếm, không trực tiếp vào mục tiêu."
@@ -275,20 +275,20 @@
     },
     "opts": [
       {
-        "en": "A Regional Internet Registry (RIR) WHOIS (ARIN, RIPE, APNIC)",
-        "vi": "WHOIS của một Cơ quan đăng ký Internet khu vực (RIR) (ARIN, RIPE, APNIC)"
+        "en": "A Regional Internet Registry WHOIS (ARIN/RIPE)",
+        "vi": "WHOIS của một Regional Internet Registry (ARIN/RIPE)"
       },
       {
-        "en": "The local hosts file",
-        "vi": "File hosts cục bộ"
+        "en": "The local machine's hosts file",
+        "vi": "File hosts của máy cục bộ"
       },
       {
-        "en": "Task Manager",
-        "vi": "Task Manager"
+        "en": "The Windows Task Manager process list",
+        "vi": "Danh sách tiến trình Task Manager"
       },
       {
-        "en": "The recycle bin",
-        "vi": "Thùng rác"
+        "en": "The browser's deleted-items recycle bin",
+        "vi": "Thùng rác mục đã xóa của trình duyệt"
       }
     ],
     "correct": 0,
@@ -311,20 +311,20 @@
     },
     "opts": [
       {
-        "en": "Submit/search the hash on a multi-engine reputation service (e.g. VirusTotal)",
-        "vi": "Gửi/tra hash trên dịch vụ uy tín đa engine (vd VirusTotal)"
+        "en": "Search the hash on a multi-engine service (VirusTotal)",
+        "vi": "Tra hash trên dịch vụ đa engine (VirusTotal)"
       },
       {
-        "en": "Run it on production",
-        "vi": "Chạy nó trên production"
+        "en": "Run it directly on a production host",
+        "vi": "Chạy trực tiếp trên một host production"
       },
       {
-        "en": "Email it to all staff",
-        "vi": "Gửi email cho toàn bộ nhân viên"
+        "en": "Email the sample to all staff",
+        "vi": "Gửi mẫu qua email cho toàn nhân viên"
       },
       {
-        "en": "Delete it without checking",
-        "vi": "Xóa mà không kiểm tra"
+        "en": "Delete it without any checking",
+        "vi": "Xóa nó mà không kiểm tra gì"
       }
     ],
     "correct": 0,
@@ -387,20 +387,20 @@
     },
     "opts": [
       {
-        "en": "Passive uses third-party/public data with no target contact; active probes the target directly",
-        "vi": "Thụ động dùng dữ liệu bên thứ ba/công khai, không chạm mục tiêu; chủ động thăm dò trực tiếp mục tiêu"
+        "en": "Passive uses public data; active probes the target directly",
+        "vi": "Thụ động dùng dữ liệu công khai; chủ động thăm dò trực tiếp"
       },
       {
-        "en": "They are the same thing",
-        "vi": "Chúng giống hệt nhau"
+        "en": "They are two terms for exactly the same thing",
+        "vi": "Chúng là hai từ cho cùng một thứ"
       },
       {
-        "en": "Passive always touches the target",
-        "vi": "Thụ động luôn chạm mục tiêu"
+        "en": "Passive techniques always contact the target",
+        "vi": "Kỹ thuật thụ động luôn chạm mục tiêu"
       },
       {
-        "en": "Active never touches the target",
-        "vi": "Chủ động không bao giờ chạm mục tiêu"
+        "en": "Active techniques never contact the target",
+        "vi": "Kỹ thuật chủ động không bao giờ chạm mục tiêu"
       }
     ],
     "correct": 0,
@@ -459,20 +459,20 @@
     },
     "opts": [
       {
-        "en": "Newly-registered domains are a common indicator of malicious infrastructure",
-        "vi": "Domain mới đăng ký là chỉ dấu phổ biến của hạ tầng độc hại"
+        "en": "A very recent registration is a common malice indicator",
+        "vi": "Đăng ký rất gần đây là chỉ dấu độc hại phổ biến"
       },
       {
-        "en": "It proves the domain is legitimate",
-        "vi": "Nó chứng minh domain hợp lệ"
+        "en": "A recent date proves the domain is legitimate",
+        "vi": "Ngày gần đây chứng minh domain hợp lệ"
       },
       {
-        "en": "Creation date is never recorded",
-        "vi": "Ngày tạo không bao giờ được ghi"
+        "en": "Domain creation dates are never recorded",
+        "vi": "Ngày tạo domain không bao giờ được ghi"
       },
       {
-        "en": "It means the domain is encrypted",
-        "vi": "Nó nghĩa là domain đã được mã hóa"
+        "en": "It means the domain's traffic is encrypted",
+        "vi": "Nó nghĩa là lưu lượng domain đã mã hóa"
       }
     ],
     "correct": 0,
@@ -499,19 +499,19 @@
     },
     "opts": [
       {
-        "en": "Privacy regulation (e.g. GDPR) and privacy/proxy registration services",
-        "vi": "Quy định quyền riêng tư (vd GDPR) và dịch vụ đăng ký ẩn danh/proxy"
+        "en": "Privacy law (GDPR) and privacy/proxy registration",
+        "vi": "Luật riêng tư (GDPR) và đăng ký ẩn danh/proxy"
       },
       {
-        "en": "A bug in the DNS protocol",
-        "vi": "Một lỗi trong giao thức DNS"
+        "en": "A long-standing bug in the DNS protocol",
+        "vi": "Một lỗi lâu năm trong giao thức DNS"
       },
       {
-        "en": "Encryption of the whole internet",
-        "vi": "Mã hóa toàn bộ internet"
+        "en": "Mandatory encryption of the whole internet",
+        "vi": "Bắt buộc mã hóa toàn bộ internet"
       },
       {
-        "en": "Lack of disk space at registrars",
+        "en": "A lack of disk space at the registrars",
         "vi": "Registrar thiếu dung lượng đĩa"
       }
     ],
@@ -535,20 +535,20 @@
     },
     "opts": [
       {
-        "en": "The registry operates the TLD database; the registrar sells/manages domains to customers",
-        "vi": "Registry vận hành cơ sở dữ liệu của TLD; registrar bán/quản lý tên miền cho khách hàng"
+        "en": "The registry runs the TLD; the registrar resells domains",
+        "vi": "Registry vận hành TLD; registrar bán lại tên miền"
       },
       {
-        "en": "They are the same thing",
-        "vi": "Chúng là một"
+        "en": "They are simply two names for the same thing",
+        "vi": "Chúng chỉ là hai tên cho cùng một thứ"
       },
       {
-        "en": "The registrar owns all IP addresses",
-        "vi": "Registrar sở hữu mọi địa chỉ IP"
+        "en": "The registrar owns all of the IP address space",
+        "vi": "Registrar sở hữu toàn bộ không gian địa chỉ IP"
       },
       {
-        "en": "The registry blocks all malware",
-        "vi": "Registry chặn mọi mã độc"
+        "en": "The registry actively blocks all malware domains",
+        "vi": "Registry chủ động chặn mọi domain mã độc"
       }
     ],
     "correct": 0,
@@ -571,20 +571,20 @@
     },
     "opts": [
       {
-        "en": "Finding other domains registered by the same email/registrant or name servers",
-        "vi": "Tìm các domain khác đăng ký bởi cùng email/người đăng ký hoặc name server"
+        "en": "Finding other domains sharing an email, registrant or NS",
+        "vi": "Tìm domain khác dùng chung email, chủ thể hoặc NS"
       },
       {
-        "en": "Reversing a hash to plaintext",
-        "vi": "Đảo một hash về plaintext"
+        "en": "Reversing a password hash back to plaintext",
+        "vi": "Đảo một hash mật khẩu về plaintext"
       },
       {
-        "en": "Decrypting TLS",
-        "vi": "Giải mã TLS"
+        "en": "Decrypting an organisation's TLS sessions",
+        "vi": "Giải mã các phiên TLS của một tổ chức"
       },
       {
-        "en": "Resolving an IP to a MAC",
-        "vi": "Phân giải IP sang MAC"
+        "en": "Resolving an IP address to a MAC address",
+        "vi": "Phân giải một địa chỉ IP sang MAC"
       }
     ],
     "correct": 0,
@@ -611,16 +611,16 @@
         "vi": "Liên hệ abuse / email abuse của registrar"
       },
       {
-        "en": "The domain creation date",
-        "vi": "Ngày tạo domain"
+        "en": "The domain's recorded creation date",
+        "vi": "Ngày tạo được ghi của domain"
       },
       {
-        "en": "The TTL value",
-        "vi": "Giá trị TTL"
+        "en": "The zone's cached TTL value",
+        "vi": "Giá trị TTL cache của zone"
       },
       {
-        "en": "The serial number",
-        "vi": "Số serial"
+        "en": "The SOA record's serial number",
+        "vi": "Số serial của bản ghi SOA"
       }
     ],
     "correct": 0,
@@ -643,20 +643,20 @@
     },
     "opts": [
       {
-        "en": "The relevant RIR's IP WHOIS (ARIN/RIPE/APNIC etc.)",
-        "vi": "IP WHOIS của RIR liên quan (ARIN/RIPE/APNIC v.v.)"
+        "en": "The relevant RIR's IP WHOIS (ARIN/RIPE/APNIC)",
+        "vi": "IP WHOIS của RIR liên quan (ARIN/RIPE/APNIC)"
       },
       {
-        "en": "The domain registrar only",
-        "vi": "Chỉ registrar tên miền"
+        "en": "The domain registrar's WHOIS only",
+        "vi": "Chỉ WHOIS của registrar tên miền"
       },
       {
-        "en": "The local DHCP server",
-        "vi": "Máy chủ DHCP cục bộ"
+        "en": "The organisation's local DHCP server",
+        "vi": "Máy chủ DHCP cục bộ của tổ chức"
       },
       {
-        "en": "The browser cache",
-        "vi": "Cache trình duyệt"
+        "en": "The analyst's own browser cache",
+        "vi": "Cache trình duyệt của chính analyst"
       }
     ],
     "correct": 0,
@@ -679,20 +679,20 @@
     },
     "opts": [
       {
-        "en": "Reveal who registered a domain before privacy redaction or ownership changed",
-        "vi": "Tiết lộ ai đã đăng ký domain trước khi bị che riêng tư hoặc đổi chủ"
+        "en": "Reveal who registered a domain before redaction or sale",
+        "vi": "Lộ ai đăng ký domain trước khi bị che hoặc đổi chủ"
       },
       {
-        "en": "Decrypt past traffic",
-        "vi": "Giải mã lưu lượng quá khứ"
+        "en": "Decrypt previously captured network traffic",
+        "vi": "Giải mã lưu lượng mạng đã bắt trước đó"
       },
       {
-        "en": "Recover deleted files",
-        "vi": "Khôi phục file đã xóa"
+        "en": "Recover files deleted from the target host",
+        "vi": "Khôi phục file đã xóa khỏi host mục tiêu"
       },
       {
-        "en": "Block future attacks automatically",
-        "vi": "Tự động chặn tấn công tương lai"
+        "en": "Automatically block all future attacks",
+        "vi": "Tự động chặn mọi tấn công tương lai"
       }
     ],
     "correct": 0,
@@ -715,20 +715,20 @@
     },
     "opts": [
       {
-        "en": "Identify and group the routed network blocks under one operator",
-        "vi": "Xác định và gom các khối mạng được định tuyến dưới một nhà vận hành"
+        "en": "Group the routed network blocks under one operator",
+        "vi": "Gom các khối mạng định tuyến dưới một nhà vận hành"
       },
       {
-        "en": "Read the host's files",
-        "vi": "Đọc file của host"
+        "en": "Read the files stored on the target host",
+        "vi": "Đọc các file lưu trên host mục tiêu"
       },
       {
-        "en": "Crack the password",
-        "vi": "Bẻ mật khẩu"
+        "en": "Crack the password of a user account",
+        "vi": "Bẻ mật khẩu của một tài khoản người dùng"
       },
       {
-        "en": "Disable the firewall",
-        "vi": "Vô hiệu hóa firewall"
+        "en": "Disable the organisation's firewall",
+        "vi": "Vô hiệu hóa firewall của tổ chức"
       }
     ],
     "correct": 0,
@@ -755,16 +755,16 @@
         "vi": "Gom chúng thành hạ tầng nhiều khả năng liên quan"
       },
       {
-        "en": "Proving the attacker's real name",
+        "en": "Proving the attacker's real-world name",
         "vi": "Chứng minh tên thật của kẻ tấn công"
       },
       {
-        "en": "Decrypting their C2",
-        "vi": "Giải mã C2 của chúng"
+        "en": "Decrypting their command-and-control",
+        "vi": "Giải mã kênh command-and-control của chúng"
       },
       {
-        "en": "Recovering stolen data",
-        "vi": "Khôi phục dữ liệu bị trộm"
+        "en": "Recovering the stolen data directly",
+        "vi": "Khôi phục trực tiếp dữ liệu bị trộm"
       }
     ],
     "correct": 0,
@@ -787,20 +787,20 @@
     },
     "opts": [
       {
-        "en": "WHOIS/registry lookups are passive; probing the target makes the recon detectable",
-        "vi": "Tra WHOIS/registry là thụ động; thăm dò mục tiêu khiến việc trinh sát bị phát hiện"
+        "en": "WHOIS is passive; probing the target makes recon detectable",
+        "vi": "WHOIS thụ động; thăm dò mục tiêu làm recon bị phát hiện"
       },
       {
-        "en": "WHOIS requires sending exploits",
-        "vi": "WHOIS yêu cầu gửi exploit"
+        "en": "WHOIS lookups require sending exploits",
+        "vi": "Tra WHOIS đòi hỏi gửi exploit"
       },
       {
-        "en": "Probes are always illegal",
-        "vi": "Thăm dò luôn bất hợp pháp"
+        "en": "Sending probes to a target is always illegal",
+        "vi": "Gửi gói thăm dò tới mục tiêu luôn bất hợp pháp"
       },
       {
-        "en": "It speeds up the disk",
-        "vi": "Nó tăng tốc đĩa"
+        "en": "It noticeably speeds up the local disk",
+        "vi": "Nó tăng tốc đáng kể đĩa cục bộ"
       }
     ],
     "correct": 0,
@@ -824,19 +824,19 @@
     "opts": [
       {
         "en": "A country-code TLD (ccTLD) hierarchy",
-        "vi": "Một hệ phân cấp TLD theo mã quốc gia (ccTLD)"
+        "vi": "Một hệ phân cấp ccTLD (TLD theo mã quốc gia)"
       },
       {
-        "en": "A generic TLD like .com",
-        "vi": "Một gTLD chung như .com"
+        "en": "A generic TLD such as .com or .net",
+        "vi": "Một gTLD chung như .com hay .net"
       },
       {
-        "en": "An IP address",
-        "vi": "Một địa chỉ IP"
+        "en": "A raw IPv4 host address",
+        "vi": "Một địa chỉ host IPv4 thô"
       },
       {
-        "en": "A MAC address",
-        "vi": "Một địa chỉ MAC"
+        "en": "A 48-bit hardware MAC address",
+        "vi": "Một địa chỉ MAC phần cứng 48-bit"
       }
     ],
     "correct": 0,
@@ -859,20 +859,20 @@
     },
     "opts": [
       {
-        "en": "Comparing the registered string carefully against the legitimate brand (and checking homoglyphs/punycode)",
-        "vi": "So sánh kỹ chuỗi đã đăng ký với thương hiệu thật (và kiểm tra homoglyph/punycode)"
+        "en": "Compare the string to the brand and check for homoglyphs",
+        "vi": "So chuỗi với thương hiệu và kiểm tra homoglyph"
       },
       {
-        "en": "Its TTL value",
-        "vi": "Giá trị TTL của nó"
+        "en": "Checking the domain's cached TTL value",
+        "vi": "Kiểm tra giá trị TTL cache của domain"
       },
       {
-        "en": "The packet size",
-        "vi": "Kích thước gói"
+        "en": "Measuring the size of its DNS packets",
+        "vi": "Đo kích thước các gói DNS của nó"
       },
       {
-        "en": "The MAC address",
-        "vi": "Địa chỉ MAC"
+        "en": "Reading the hosting server's MAC address",
+        "vi": "Đọc địa chỉ MAC của server hosting"
       }
     ],
     "correct": 0,
@@ -899,16 +899,16 @@
         "vi": "TTL tối thiểu/negative-caching"
       },
       {
-        "en": "The serial number",
-        "vi": "Số serial"
+        "en": "The zone's serial number field",
+        "vi": "Trường số serial của zone"
       },
       {
-        "en": "The refresh interval",
-        "vi": "Khoảng refresh"
+        "en": "The secondary refresh interval",
+        "vi": "Khoảng refresh của secondary"
       },
       {
-        "en": "The MX priority",
-        "vi": "Độ ưu tiên MX"
+        "en": "The MX record's priority value",
+        "vi": "Giá trị ưu tiên của bản ghi MX"
       }
     ],
     "correct": 0,
@@ -931,20 +931,20 @@
     },
     "opts": [
       {
-        "en": "PTR records under in-addr.arpa (IPv4) / ip6.arpa (IPv6)",
-        "vi": "Bản ghi PTR trong in-addr.arpa (IPv4) / ip6.arpa (IPv6)"
+        "en": "PTR records under in-addr.arpa / ip6.arpa",
+        "vi": "Bản ghi PTR trong in-addr.arpa / ip6.arpa"
       },
       {
-        "en": "A records under .com",
-        "vi": "Bản ghi A trong .com"
+        "en": "A records within the .com TLD zone",
+        "vi": "Bản ghi A trong zone TLD .com"
       },
       {
-        "en": "MX records under .net",
-        "vi": "Bản ghi MX trong .net"
+        "en": "MX records under the .net TLD zone",
+        "vi": "Bản ghi MX trong zone TLD .net"
       },
       {
-        "en": "TXT records under .org",
-        "vi": "Bản ghi TXT trong .org"
+        "en": "TXT records under the .org TLD zone",
+        "vi": "Bản ghi TXT trong zone TLD .org"
       }
     ],
     "correct": 0,
@@ -967,20 +967,20 @@
     },
     "opts": [
       {
-        "en": "Malware using a Domain Generation Algorithm (DGA) to find its C2",
-        "vi": "Mã độc dùng Domain Generation Algorithm (DGA) để tìm C2"
+        "en": "Malware using a Domain Generation Algorithm (DGA)",
+        "vi": "Mã độc dùng Domain Generation Algorithm (DGA)"
       },
       {
-        "en": "Normal web browsing",
-        "vi": "Duyệt web bình thường"
+        "en": "Perfectly ordinary user web browsing",
+        "vi": "Duyệt web bình thường của người dùng"
       },
       {
-        "en": "A printer driver update",
-        "vi": "Cập nhật driver máy in"
+        "en": "A routine printer-driver software update",
+        "vi": "Một cập nhật driver máy in định kỳ"
       },
       {
-        "en": "A successful patch",
-        "vi": "Một bản vá thành công"
+        "en": "A successful security patch install",
+        "vi": "Một lần cài bản vá bảo mật thành công"
       }
     ],
     "correct": 0,
@@ -1007,20 +1007,20 @@
     },
     "opts": [
       {
-        "en": "It hides DNS queries inside HTTPS (443), bypassing traditional DNS monitoring",
-        "vi": "Nó giấu truy vấn DNS bên trong HTTPS (443), vượt qua giám sát DNS truyền thống"
+        "en": "It hides DNS inside HTTPS (443), bypassing DNS monitoring",
+        "vi": "Nó giấu DNS trong HTTPS (443), né giám sát DNS"
       },
       {
-        "en": "It makes DNS slower",
-        "vi": "Nó làm DNS chậm hơn"
+        "en": "It makes DNS resolution noticeably slower",
+        "vi": "Nó làm phân giải DNS chậm hơn rõ rệt"
       },
       {
-        "en": "It disables encryption",
-        "vi": "Nó tắt mã hóa"
+        "en": "It disables encryption on the queries",
+        "vi": "Nó tắt mã hóa trên các truy vấn"
       },
       {
-        "en": "It is required by RFC for malware",
-        "vi": "Vì RFC bắt buộc mã độc dùng"
+        "en": "It is required by RFC for all malware",
+        "vi": "RFC bắt buộc mọi mã độc phải dùng"
       }
     ],
     "correct": 0,
@@ -1043,20 +1043,20 @@
     },
     "opts": [
       {
-        "en": "Give a stable hostname while letting the backing IP change frequently and freely",
-        "vi": "Cho một hostname ổn định trong khi IP nền có thể đổi thường xuyên và tự do"
+        "en": "A stable hostname over a freely-changing backing IP",
+        "vi": "Hostname ổn định trên IP nền đổi tự do"
       },
       {
-        "en": "Encrypt all malware traffic",
-        "vi": "Mã hóa mọi lưu lượng mã độc"
+        "en": "They encrypt all of the malware's traffic",
+        "vi": "Chúng mã hóa toàn bộ lưu lượng mã độc"
       },
       {
-        "en": "Are impossible to block",
-        "vi": "Không thể chặn được"
+        "en": "They are completely impossible to block",
+        "vi": "Chúng hoàn toàn không thể chặn"
       },
       {
-        "en": "Require no registration",
-        "vi": "Không cần đăng ký"
+        "en": "They require no registration of any kind",
+        "vi": "Chúng không cần đăng ký gì cả"
       }
     ],
     "correct": 0,
@@ -1115,20 +1115,20 @@
     },
     "opts": [
       {
-        "en": "Restrict which Certificate Authorities may issue certificates for the domain",
-        "vi": "Giới hạn các Certificate Authority nào được cấp chứng chỉ cho domain"
+        "en": "Restrict which CAs may issue certs for the domain",
+        "vi": "Giới hạn CA nào được cấp cert cho domain"
       },
       {
-        "en": "Store the mail server list",
-        "vi": "Lưu danh sách máy chủ mail"
+        "en": "Store the domain's list of mail servers",
+        "vi": "Lưu danh sách máy chủ mail của domain"
       },
       {
-        "en": "Encrypt the website",
-        "vi": "Mã hóa website"
+        "en": "Encrypt the website's content in transit",
+        "vi": "Mã hóa nội dung website khi truyền"
       },
       {
-        "en": "Define the IPv6 address",
-        "vi": "Định nghĩa địa chỉ IPv6"
+        "en": "Define the domain's IPv6 address",
+        "vi": "Định nghĩa địa chỉ IPv6 của domain"
       }
     ],
     "correct": 0,
@@ -1151,20 +1151,20 @@
     },
     "opts": [
       {
-        "en": "Insert a forged record so victims resolve a name to an attacker-controlled IP",
-        "vi": "Chèn một bản ghi giả để nạn nhân phân giải một tên tới IP do kẻ tấn công kiểm soát"
+        "en": "Make victims resolve a name to an attacker-controlled IP",
+        "vi": "Khiến nạn nhân phân giải một tên tới IP của kẻ tấn công"
       },
       {
-        "en": "Speed up legitimate resolution",
-        "vi": "Tăng tốc phân giải hợp lệ"
+        "en": "Speed up legitimate DNS resolution",
+        "vi": "Tăng tốc phân giải DNS hợp lệ"
       },
       {
-        "en": "Encrypt the resolver",
-        "vi": "Mã hóa resolver"
+        "en": "Encrypt the traffic to the resolver",
+        "vi": "Mã hóa lưu lượng tới resolver"
       },
       {
-        "en": "Delete the zone file",
-        "vi": "Xóa file zone"
+        "en": "Delete the authoritative zone file",
+        "vi": "Xóa file zone authoritative"
       }
     ],
     "correct": 0,
@@ -1187,20 +1187,20 @@
     },
     "opts": [
       {
-        "en": "Tampering/forgery of DNS data (e.g. cache poisoning) via cryptographic signatures",
-        "vi": "Giả mạo/can thiệp dữ liệu DNS (vd cache poisoning) bằng chữ ký mật mã"
+        "en": "Forgery of DNS data such as cache poisoning",
+        "vi": "Giả mạo dữ liệu DNS như cache poisoning"
       },
       {
-        "en": "Disk failure",
-        "vi": "Hỏng đĩa"
+        "en": "Hardware disk failure on the server",
+        "vi": "Hỏng đĩa phần cứng trên server"
       },
       {
-        "en": "Email spam",
-        "vi": "Thư rác email"
+        "en": "Inbound spam email to the domain",
+        "vi": "Email spam đi vào domain"
       },
       {
-        "en": "CPU overheating",
-        "vi": "CPU quá nhiệt"
+        "en": "Overheating of the server's CPU",
+        "vi": "Quá nhiệt CPU của server"
       }
     ],
     "correct": 0,
@@ -1223,20 +1223,20 @@
     },
     "opts": [
       {
-        "en": "Provide the IP of a name server that lives within the zone it serves, avoiding a lookup loop",
-        "vi": "Cung cấp IP của một name server nằm ngay trong zone mà nó phục vụ, tránh vòng lặp tra cứu"
+        "en": "Supply the IP of an in-zone name server to avoid a loop",
+        "vi": "Cung cấp IP của name server trong zone để tránh vòng lặp"
       },
       {
-        "en": "Encrypt the zone",
-        "vi": "Mã hóa zone"
+        "en": "Encrypt the entire contents of the zone",
+        "vi": "Mã hóa toàn bộ nội dung của zone"
       },
       {
-        "en": "List mail servers",
-        "vi": "Liệt kê máy chủ mail"
+        "en": "List all of the domain's mail servers",
+        "vi": "Liệt kê mọi máy chủ mail của domain"
       },
       {
-        "en": "Store website content",
-        "vi": "Lưu nội dung website"
+        "en": "Store the website's HTML content",
+        "vi": "Lưu nội dung HTML của website"
       }
     ],
     "correct": 0,
@@ -1259,20 +1259,20 @@
     },
     "opts": [
       {
-        "en": "SPF/DKIM/DMARC data and domain-ownership verification tokens",
-        "vi": "Dữ liệu SPF/DKIM/DMARC và token xác minh quyền sở hữu domain"
+        "en": "SPF/DKIM/DMARC and domain-verification tokens",
+        "vi": "SPF/DKIM/DMARC và token xác minh domain"
       },
       {
-        "en": "The IPv4 address",
-        "vi": "Địa chỉ IPv4"
+        "en": "The domain's primary IPv4 address",
+        "vi": "Địa chỉ IPv4 chính của domain"
       },
       {
-        "en": "The reverse lookup",
-        "vi": "Tra ngược"
+        "en": "The domain's reverse lookup record",
+        "vi": "Bản ghi tra ngược của domain"
       },
       {
-        "en": "The MAC address",
-        "vi": "Địa chỉ MAC"
+        "en": "The server's hardware MAC address",
+        "vi": "Địa chỉ MAC phần cứng của server"
       }
     ],
     "correct": 0,
@@ -1299,16 +1299,16 @@
         "vi": "dig (hoặc nslookup -type=MX)"
       },
       {
-        "en": "ping",
-        "vi": "ping"
+        "en": "ping (to test reachability)",
+        "vi": "ping (kiểm tra khả năng tới)"
       },
       {
-        "en": "traceroute",
-        "vi": "traceroute"
+        "en": "traceroute (to map hops)",
+        "vi": "traceroute (vẽ các hop)"
       },
       {
-        "en": "netstat",
-        "vi": "netstat"
+        "en": "netstat (for local sockets)",
+        "vi": "netstat (cho socket cục bộ)"
       }
     ],
     "correct": 0,
@@ -1331,20 +1331,20 @@
     },
     "opts": [
       {
-        "en": "Records historical domain↔IP resolutions, enabling pivoting over time",
-        "vi": "Ghi lại lịch sử phân giải domain↔IP, cho phép pivot theo thời gian"
+        "en": "Records historical domain↔IP resolutions for pivoting",
+        "vi": "Ghi lịch sử phân giải domain↔IP để pivot"
       },
       {
-        "en": "Blocks all malware",
-        "vi": "Chặn mọi mã độc"
+        "en": "It blocks all known malware domains",
+        "vi": "Nó chặn mọi domain mã độc đã biết"
       },
       {
-        "en": "Encrypts queries",
-        "vi": "Mã hóa truy vấn"
+        "en": "It encrypts the user's DNS queries",
+        "vi": "Nó mã hóa các truy vấn DNS của người dùng"
       },
       {
-        "en": "Replaces WHOIS entirely",
-        "vi": "Thay thế hoàn toàn WHOIS"
+        "en": "It fully replaces all WHOIS lookups",
+        "vi": "Nó thay thế hoàn toàn mọi tra WHOIS"
       }
     ],
     "correct": 0,
@@ -1368,19 +1368,19 @@
     "opts": [
       {
         "en": "Which name servers are authoritative for a zone",
-        "vi": "Các name server nào là authoritative cho một zone"
+        "vi": "Name server nào là authoritative cho một zone"
       },
       {
-        "en": "The website's HTML",
-        "vi": "HTML của website"
+        "en": "The website's rendered HTML content",
+        "vi": "Nội dung HTML hiển thị của website"
       },
       {
-        "en": "The user passwords",
-        "vi": "Mật khẩu người dùng"
+        "en": "The domain's user account passwords",
+        "vi": "Mật khẩu tài khoản người dùng của domain"
       },
       {
-        "en": "The encryption keys",
-        "vi": "Các khóa mã hóa"
+        "en": "The site's TLS encryption keys",
+        "vi": "Khóa mã hóa TLS của site"
       }
     ],
     "correct": 0,
@@ -1407,16 +1407,16 @@
         "vi": "Có thể là hạ tầng fast-flux"
       },
       {
-        "en": "A normal static website",
+        "en": "An ordinary static website",
         "vi": "Một website tĩnh bình thường"
       },
       {
-        "en": "A DNSSEC signature",
-        "vi": "Một chữ ký DNSSEC"
+        "en": "A valid DNSSEC signature",
+        "vi": "Một chữ ký DNSSEC hợp lệ"
       },
       {
-        "en": "A glue record",
-        "vi": "Một glue record"
+        "en": "A standard DNS glue record",
+        "vi": "Một glue record DNS chuẩn"
       }
     ],
     "correct": 0,
@@ -1439,20 +1439,20 @@
     },
     "opts": [
       {
-        "en": "Disclose host hardware/OS information useful for reconnaissance",
-        "vi": "Tiết lộ thông tin phần cứng/OS của host hữu ích cho trinh sát"
+        "en": "Disclose host hardware/OS info useful for recon",
+        "vi": "Lộ thông tin phần cứng/OS của host, hữu ích cho recon"
       },
       {
-        "en": "Encrypt the zone",
-        "vi": "Mã hóa zone"
+        "en": "Encrypt the whole DNS zone file",
+        "vi": "Mã hóa toàn bộ file zone DNS"
       },
       {
-        "en": "Speed up resolution",
-        "vi": "Tăng tốc phân giải"
+        "en": "Speed up the name resolution",
+        "vi": "Tăng tốc phân giải tên"
       },
       {
-        "en": "Block scanning",
-        "vi": "Chặn quét"
+        "en": "Block network scanning attempts",
+        "vi": "Chặn các nỗ lực quét mạng"
       }
     ],
     "correct": 0,
@@ -1475,20 +1475,20 @@
     },
     "opts": [
       {
-        "en": "Recursive query (resolver chases referrals for the client)",
-        "vi": "Đệ quy (resolver tự đi theo các referral thay cho client)"
+        "en": "A recursive query — the resolver chases referrals",
+        "vi": "Truy vấn đệ quy — resolver tự đi theo referral"
       },
       {
-        "en": "Iterative query by the client",
-        "vi": "Lặp (iterative) do client tự làm"
+        "en": "An iterative query done by the client",
+        "vi": "Một truy vấn lặp do client tự làm"
       },
       {
-        "en": "Zone transfer",
-        "vi": "Zone transfer"
+        "en": "A full zone transfer request",
+        "vi": "Một yêu cầu zone transfer đầy đủ"
       },
       {
-        "en": "Reverse lookup",
-        "vi": "Tra ngược"
+        "en": "A reverse PTR name lookup",
+        "vi": "Một tra ngược tên PTR"
       }
     ],
     "correct": 0,
@@ -1511,20 +1511,20 @@
     },
     "opts": [
       {
-        "en": "Querying pre-collected internet-wide scan/banner data about exposed services",
-        "vi": "Truy vấn dữ liệu quét/banner toàn internet đã thu thập sẵn về các dịch vụ bị phơi"
+        "en": "Querying pre-collected scan/banner data on exposed services",
+        "vi": "Truy vấn dữ liệu quét/banner đã thu sẵn về dịch vụ bị phơi"
       },
       {
-        "en": "Editing the target's files",
-        "vi": "Sửa file của mục tiêu"
+        "en": "Editing the files on the target host",
+        "vi": "Sửa các file trên host mục tiêu"
       },
       {
-        "en": "Decrypting TLS sessions",
-        "vi": "Giải mã phiên TLS"
+        "en": "Decrypting the target's TLS sessions",
+        "vi": "Giải mã các phiên TLS của mục tiêu"
       },
       {
-        "en": "Sending phishing emails",
-        "vi": "Gửi email phishing"
+        "en": "Sending phishing emails to the staff",
+        "vi": "Gửi email phishing cho nhân viên"
       }
     ],
     "correct": 0,
@@ -1547,20 +1547,20 @@
     },
     "opts": [
       {
-        "en": "Discover subdomains by finding certificates issued for them",
-        "vi": "Phát hiện subdomain bằng cách tìm chứng chỉ đã cấp cho chúng"
+        "en": "Find subdomains via certificates issued for them",
+        "vi": "Tìm subdomain qua các cert đã cấp cho chúng"
       },
       {
-        "en": "Crack TLS private keys",
-        "vi": "Bẻ khóa riêng TLS"
+        "en": "Crack the server's TLS private keys",
+        "vi": "Bẻ khóa riêng TLS của server"
       },
       {
-        "en": "Reset DNS records",
-        "vi": "Đặt lại bản ghi DNS"
+        "en": "Reset the target's DNS records",
+        "vi": "Đặt lại bản ghi DNS của mục tiêu"
       },
       {
-        "en": "Read encrypted traffic",
-        "vi": "Đọc lưu lượng đã mã hóa"
+        "en": "Read the encrypted traffic itself",
+        "vi": "Đọc chính lưu lượng đã mã hóa"
       }
     ],
     "correct": 0,
@@ -1587,20 +1587,20 @@
     },
     "opts": [
       {
-        "en": "Emails, subdomains and hostnames for a target from public sources",
-        "vi": "Email, subdomain và hostname của một mục tiêu từ nguồn công khai"
+        "en": "Emails, subdomains and hostnames from public sources",
+        "vi": "Email, subdomain và hostname từ nguồn công khai"
       },
       {
-        "en": "Kernel memory dumps",
-        "vi": "Dump bộ nhớ kernel"
+        "en": "Kernel memory dumps from the host",
+        "vi": "Dump bộ nhớ kernel từ host"
       },
       {
-        "en": "Disk images",
-        "vi": "Image đĩa"
+        "en": "Forensic disk images of the servers",
+        "vi": "Image đĩa forensic của các server"
       },
       {
-        "en": "Firewall rules",
-        "vi": "Quy tắc firewall"
+        "en": "The firewall's configured rule base",
+        "vi": "Bộ rule được cấu hình của firewall"
       }
     ],
     "correct": 0,
@@ -1659,20 +1659,20 @@
     },
     "opts": [
       {
-        "en": "Showing historical snapshots of a site, including content since removed",
-        "vi": "Hiển thị ảnh chụp lịch sử của một site, gồm cả nội dung đã bị gỡ"
+        "en": "Showing past snapshots of a site, including removed content",
+        "vi": "Hiển thị ảnh chụp cũ của site, gồm nội dung đã gỡ"
       },
       {
-        "en": "Decrypting HTTPS",
-        "vi": "Giải mã HTTPS"
+        "en": "Decrypting the site's HTTPS traffic",
+        "vi": "Giải mã lưu lượng HTTPS của site"
       },
       {
-        "en": "Editing the live site",
-        "vi": "Sửa site đang chạy"
+        "en": "Editing the live production website",
+        "vi": "Sửa website production đang chạy"
       },
       {
-        "en": "Brute-forcing logins",
-        "vi": "Brute-force đăng nhập"
+        "en": "Brute-forcing the site's login page",
+        "vi": "Brute-force trang đăng nhập của site"
       }
     ],
     "correct": 0,
@@ -1695,20 +1695,20 @@
     },
     "opts": [
       {
-        "en": "List \"disallowed\" paths that inadvertently point to sensitive areas",
-        "vi": "Liệt kê các đường dẫn \"disallow\" vô tình trỏ tới khu vực nhạy cảm"
+        "en": "List disallowed paths that point to sensitive areas",
+        "vi": "Liệt kê đường dẫn disallow trỏ tới khu vực nhạy cảm"
       },
       {
-        "en": "Contain user passwords",
-        "vi": "Chứa mật khẩu người dùng"
+        "en": "Contain plaintext user passwords",
+        "vi": "Chứa mật khẩu người dùng dạng plaintext"
       },
       {
-        "en": "Encrypt the website",
-        "vi": "Mã hóa website"
+        "en": "Encrypt the whole website's content",
+        "vi": "Mã hóa toàn bộ nội dung website"
       },
       {
-        "en": "Block all hackers",
-        "vi": "Chặn mọi hacker"
+        "en": "Block all hackers from the site",
+        "vi": "Chặn mọi hacker khỏi site"
       }
     ],
     "correct": 0,
@@ -1731,20 +1731,20 @@
     },
     "opts": [
       {
-        "en": "It reveals org structure, roles and technologies, aiding spear-phishing and pretexting",
-        "vi": "Nó lộ cấu trúc tổ chức, vai trò và công nghệ, hỗ trợ spear-phishing và pretexting"
+        "en": "Reveals org structure, roles and tech for spear-phishing",
+        "vi": "Lộ cấu trúc tổ chức, vai trò và công nghệ cho spear-phishing"
       },
       {
-        "en": "It decrypts internal email",
-        "vi": "Nó giải mã email nội bộ"
+        "en": "It decrypts the company's internal email",
+        "vi": "Nó giải mã email nội bộ của công ty"
       },
       {
-        "en": "It grants VPN access",
-        "vi": "Nó cấp quyền VPN"
+        "en": "It grants direct access to the VPN",
+        "vi": "Nó cấp truy cập trực tiếp vào VPN"
       },
       {
-        "en": "It disables MFA",
-        "vi": "Nó tắt MFA"
+        "en": "It disables the organisation's MFA",
+        "vi": "Nó vô hiệu hóa MFA của tổ chức"
       }
     ],
     "correct": 0,
@@ -1767,20 +1767,20 @@
     },
     "opts": [
       {
-        "en": "Accidentally committed secrets like API keys, credentials and internal hostnames",
-        "vi": "Bí mật vô tình commit như API key, thông tin đăng nhập và hostname nội bộ"
+        "en": "Committed secrets — API keys, credentials, hostnames",
+        "vi": "Bí mật bị commit — API key, credential, hostname"
       },
       {
-        "en": "The target's RAM contents",
-        "vi": "Nội dung RAM của mục tiêu"
+        "en": "The live contents of the target's RAM",
+        "vi": "Nội dung sống của RAM mục tiêu"
       },
       {
-        "en": "Live packet captures",
-        "vi": "Bản bắt gói trực tiếp"
+        "en": "Live captures of network packets",
+        "vi": "Bản bắt gói mạng trực tiếp"
       },
       {
-        "en": "The CPU temperature",
-        "vi": "Nhiệt độ CPU"
+        "en": "The server's CPU temperature",
+        "vi": "Nhiệt độ CPU của server"
       }
     ],
     "correct": 0,
@@ -1804,19 +1804,19 @@
     "opts": [
       {
         "en": "Active — it sends queries the target/resolver may log",
-        "vi": "Chủ động — nó gửi truy vấn mà mục tiêu/resolver có thể ghi log"
+        "vi": "Chủ động — gửi truy vấn mà mục tiêu/resolver có thể ghi log"
       },
       {
-        "en": "Always illegal",
-        "vi": "Luôn bất hợp pháp"
+        "en": "Always strictly illegal to carry out",
+        "vi": "Luôn hoàn toàn bất hợp pháp khi thực hiện"
       },
       {
-        "en": "Unable to find anything",
-        "vi": "Không thể tìm thấy gì"
+        "en": "Completely unable to find any subdomains",
+        "vi": "Hoàn toàn không thể tìm thấy subdomain nào"
       },
       {
-        "en": "A form of encryption",
-        "vi": "Một dạng mã hóa"
+        "en": "Merely a form of traffic encryption",
+        "vi": "Chỉ là một dạng mã hóa lưu lượng"
       }
     ],
     "correct": 0,
@@ -1839,20 +1839,20 @@
     },
     "opts": [
       {
-        "en": "Visual link analysis / graphing relationships between OSINT entities",
-        "vi": "Phân tích liên kết trực quan / vẽ đồ thị quan hệ giữa các thực thể OSINT"
+        "en": "Visual link analysis of relationships between entities",
+        "vi": "Phân tích liên kết trực quan giữa các thực thể"
       },
       {
-        "en": "Disassembling binaries",
-        "vi": "Dịch ngược binary"
+        "en": "Disassembling binary executables",
+        "vi": "Dịch ngược file thực thi nhị phân"
       },
       {
-        "en": "Imaging disks",
-        "vi": "Tạo image đĩa"
+        "en": "Forensically imaging hard disks",
+        "vi": "Tạo image đĩa cứng forensic"
       },
       {
-        "en": "Capturing packets",
-        "vi": "Bắt gói tin"
+        "en": "Capturing network packets live",
+        "vi": "Bắt gói mạng trực tiếp"
       }
     ],
     "correct": 0,
@@ -1875,20 +1875,20 @@
     },
     "opts": [
       {
-        "en": "Combined with employee names from OSINT, valid addresses can be inferred for phishing",
-        "vi": "Kết hợp tên nhân viên từ OSINT, có thể suy ra địa chỉ hợp lệ để phishing"
+        "en": "With harvested names, valid addresses can be inferred",
+        "vi": "Với tên thu thập được, có thể suy ra địa chỉ hợp lệ"
       },
       {
-        "en": "It decrypts the mailbox",
-        "vi": "Nó giải mã hộp thư"
+        "en": "It decrypts the target mailbox",
+        "vi": "Nó giải mã hộp thư mục tiêu"
       },
       {
-        "en": "It grants admin rights",
-        "vi": "Nó cấp quyền admin"
+        "en": "It grants direct administrator rights",
+        "vi": "Nó cấp quyền quản trị trực tiếp"
       },
       {
-        "en": "It disables SPF",
-        "vi": "Nó tắt SPF"
+        "en": "It disables the domain's SPF record",
+        "vi": "Nó vô hiệu hóa bản ghi SPF của domain"
       }
     ],
     "correct": 0,
@@ -1911,20 +1911,20 @@
     },
     "opts": [
       {
-        "en": "Whether staff credentials have appeared in past breaches (password-reuse risk)",
-        "vi": "Liệu thông tin đăng nhập của nhân viên đã xuất hiện trong các vụ rò rỉ trước (rủi ro dùng lại mật khẩu)"
+        "en": "Whether staff credentials appear in past breaches",
+        "vi": "Liệu credential của nhân viên có trong các vụ rò rỉ trước"
       },
       {
-        "en": "The current RAM contents",
-        "vi": "Nội dung RAM hiện tại"
+        "en": "The live contents of the target's RAM",
+        "vi": "Nội dung sống của RAM mục tiêu"
       },
       {
-        "en": "The firewall ruleset",
-        "vi": "Bộ rule firewall"
+        "en": "The firewall's configured rule base",
+        "vi": "Bộ rule được cấu hình của firewall"
       },
       {
-        "en": "The disk serial number",
-        "vi": "Số serial đĩa"
+        "en": "The host's hard-disk serial number",
+        "vi": "Số serial đĩa cứng của host"
       }
     ],
     "correct": 0,
@@ -1947,20 +1947,20 @@
     },
     "opts": [
       {
-        "en": "Public data can be outdated, planted or wrong, leading to false conclusions",
-        "vi": "Dữ liệu công khai có thể lỗi thời, bị cài cắm hoặc sai, dẫn tới kết luận sai"
+        "en": "Public data can be outdated, planted or simply wrong",
+        "vi": "Dữ liệu công khai có thể cũ, bị cài hoặc đơn giản là sai"
       },
       {
         "en": "OSINT is always perfectly accurate",
         "vi": "OSINT luôn chính xác tuyệt đối"
       },
       {
-        "en": "It is encrypted",
-        "vi": "Nó được mã hóa"
+        "en": "All OSINT data is encrypted",
+        "vi": "Mọi dữ liệu OSINT đều được mã hóa"
       },
       {
-        "en": "It cannot be searched",
-        "vi": "Không thể tìm kiếm"
+        "en": "OSINT cannot be searched at all",
+        "vi": "OSINT không thể tìm kiếm được"
       }
     ],
     "correct": 0,
@@ -1984,19 +1984,19 @@
     "opts": [
       {
         "en": "The latitude/longitude where it was taken",
-        "vi": "Vĩ độ/kinh độ nơi chụp"
+        "vi": "Vĩ độ/kinh độ nơi chụp ảnh"
       },
       {
-        "en": "The viewer's password",
-        "vi": "Mật khẩu người xem"
+        "en": "The photo viewer's account password",
+        "vi": "Mật khẩu tài khoản người xem ảnh"
       },
       {
-        "en": "The server's private key",
-        "vi": "Khóa riêng của máy chủ"
+        "en": "The web server's private key",
+        "vi": "Khóa riêng của web server"
       },
       {
-        "en": "The TLS cipher",
-        "vi": "Bộ mã TLS"
+        "en": "The TLS cipher suite in use",
+        "vi": "Bộ mã TLS đang dùng"
       }
     ],
     "correct": 0,
@@ -2019,20 +2019,20 @@
     },
     "opts": [
       {
-        "en": "Template/network paths and machine/user names embedded by the application",
-        "vi": "Đường dẫn template/mạng và tên máy/người dùng do ứng dụng nhúng"
+        "en": "Template/network paths and machine/user names",
+        "vi": "Đường dẫn template/mạng và tên máy/người dùng"
       },
       {
-        "en": "The font colour",
-        "vi": "Màu phông chữ"
+        "en": "The body text's font colour",
+        "vi": "Màu phông của nội dung"
       },
       {
-        "en": "The page count",
-        "vi": "Số trang"
+        "en": "The document's total page count",
+        "vi": "Tổng số trang của tài liệu"
       },
       {
-        "en": "The zoom level",
-        "vi": "Mức zoom"
+        "en": "The default view zoom level",
+        "vi": "Mức zoom hiển thị mặc định"
       }
     ],
     "correct": 0,
@@ -2055,20 +2055,20 @@
     },
     "opts": [
       {
-        "en": "A failed redaction — the underlying text was never actually removed",
-        "vi": "Một lần che thất bại — chữ bên dưới chưa hề bị xóa thật"
+        "en": "A failed redaction — the text was never removed",
+        "vi": "Che thất bại — chữ chưa hề bị xóa"
       },
       {
-        "en": "Strong encryption",
-        "vi": "Mã hóa mạnh"
+        "en": "Strong, modern document encryption",
+        "vi": "Mã hóa tài liệu mạnh, hiện đại"
       },
       {
-        "en": "A digital signature",
-        "vi": "Một chữ ký số"
+        "en": "A valid embedded digital signature",
+        "vi": "Một chữ ký số nhúng hợp lệ"
       },
       {
-        "en": "A compressed image",
-        "vi": "Một ảnh nén"
+        "en": "A heavily-compressed image layer",
+        "vi": "Một lớp ảnh nén nặng"
       }
     ],
     "correct": 0,
@@ -2095,16 +2095,16 @@
     },
     "opts": [
       {
-        "en": "Expose earlier wording, comments and author identities the sender intended to remove",
-        "vi": "Lộ câu chữ trước đó, nhận xét và danh tính tác giả mà người gửi định bỏ"
+        "en": "Expose earlier wording, comments and author identities",
+        "vi": "Lộ câu chữ trước, nhận xét và danh tính tác giả"
       },
       {
-        "en": "Encrypt the file",
-        "vi": "Mã hóa file"
+        "en": "Encrypt the document's contents",
+        "vi": "Mã hóa nội dung tài liệu"
       },
       {
-        "en": "Increase the file's security",
-        "vi": "Tăng bảo mật của file"
+        "en": "Increase the document's security",
+        "vi": "Tăng bảo mật của tài liệu"
       },
       {
         "en": "Delete the metadata automatically",
@@ -2135,16 +2135,16 @@
         "vi": "Đọc và ghi metadata trên nhiều định dạng file"
       },
       {
-        "en": "Captures network packets",
-        "vi": "Bắt gói mạng"
+        "en": "Captures packets off the network",
+        "vi": "Bắt gói tin từ mạng"
       },
       {
-        "en": "Brute-forces passwords",
-        "vi": "Brute-force mật khẩu"
+        "en": "Brute-forces account passwords",
+        "vi": "Brute-force mật khẩu tài khoản"
       },
       {
-        "en": "Images hard disks",
-        "vi": "Tạo image ổ cứng"
+        "en": "Forensically images hard disks",
+        "vi": "Tạo image đĩa cứng forensic"
       }
     ],
     "correct": 0,
@@ -2167,20 +2167,20 @@
     },
     "opts": [
       {
-        "en": "Suggests the software version (and thus likely patch level/vulnerabilities) on the author's machine",
-        "vi": "Gợi ý phiên bản phần mềm (và do đó mức vá/lỗ hổng khả dĩ) trên máy tác giả"
+        "en": "Suggests the software version (and likely patch level)",
+        "vi": "Gợi ý phiên bản phần mềm (và mức vá khả dĩ)"
       },
       {
-        "en": "Decrypts the document",
-        "vi": "Giải mã tài liệu"
+        "en": "It decrypts the document's contents",
+        "vi": "Nó giải mã nội dung tài liệu"
       },
       {
-        "en": "Reveals the WiFi password",
-        "vi": "Lộ mật khẩu WiFi"
+        "en": "It reveals the author's WiFi password",
+        "vi": "Nó lộ mật khẩu WiFi của tác giả"
       },
       {
-        "en": "Lists open ports",
-        "vi": "Liệt kê cổng mở"
+        "en": "It lists the host's open network ports",
+        "vi": "Nó liệt kê cổng mạng mở của host"
       }
     ],
     "correct": 0,
@@ -2203,20 +2203,20 @@
     },
     "opts": [
       {
-        "en": "Use a metadata-sanitisation/inspection process to strip it deliberately",
-        "vi": "Dùng quy trình làm sạch/kiểm tra metadata để loại bỏ có chủ đích"
+        "en": "Use a sanitisation/inspection step to strip it",
+        "vi": "Dùng bước làm sạch/kiểm tra để loại bỏ nó"
       },
       {
-        "en": "Rename the file",
-        "vi": "Đổi tên file"
+        "en": "Simply rename the file before sending",
+        "vi": "Chỉ đổi tên file trước khi gửi"
       },
       {
-        "en": "Change the file icon",
-        "vi": "Đổi icon file"
+        "en": "Change the file's displayed icon",
+        "vi": "Đổi icon hiển thị của file"
       },
       {
-        "en": "Zip the file",
-        "vi": "Nén file"
+        "en": "Put the file inside a ZIP archive",
+        "vi": "Đặt file vào một archive ZIP"
       }
     ],
     "correct": 0,
@@ -2239,20 +2239,20 @@
     },
     "opts": [
       {
-        "en": "Harvesting public documents from a target domain and extracting their metadata",
-        "vi": "Thu thập tài liệu công khai từ một domain mục tiêu và trích metadata của chúng"
+        "en": "Harvest public documents and extract their metadata",
+        "vi": "Thu thập tài liệu công khai và trích metadata"
       },
       {
-        "en": "Imaging the target's disks",
-        "vi": "Tạo image đĩa của mục tiêu"
+        "en": "Imaging all of the target's disks",
+        "vi": "Tạo image mọi đĩa của mục tiêu"
       },
       {
-        "en": "Decrypting their VPN",
-        "vi": "Giải mã VPN của họ"
+        "en": "Decrypting the target's VPN tunnel",
+        "vi": "Giải mã đường hầm VPN của mục tiêu"
       },
       {
-        "en": "Sniffing internal traffic",
-        "vi": "Nghe lén lưu lượng nội bộ"
+        "en": "Sniffing the internal network traffic",
+        "vi": "Nghe lén lưu lượng mạng nội bộ"
       }
     ],
     "correct": 0,
@@ -2275,20 +2275,20 @@
     },
     "opts": [
       {
-        "en": "As a low-confidence heuristic/generic detection needing further analysis to confirm behaviour",
-        "vi": "Là phát hiện heuristic/chung độ tin cậy thấp, cần phân tích thêm để xác nhận hành vi"
+        "en": "A low-confidence heuristic detection needing confirmation",
+        "vi": "Phát hiện heuristic độ tin thấp, cần xác nhận thêm"
       },
       {
-        "en": "As a precise, authoritative family identification",
-        "vi": "Là định danh họ chính xác, có thẩm quyền"
+        "en": "A precise, authoritative family name",
+        "vi": "Một định danh họ chính xác, có thẩm quyền"
       },
       {
-        "en": "As proof the file is safe",
-        "vi": "Là bằng chứng file an toàn"
+        "en": "Definitive proof the file is safe",
+        "vi": "Bằng chứng dứt khoát rằng file an toàn"
       },
       {
-        "en": "As an encryption type",
-        "vi": "Là một loại mã hóa"
+        "en": "The sample's encryption algorithm",
+        "vi": "Thuật toán mã hóa của mẫu"
       }
     ],
     "correct": 0,
@@ -2311,20 +2311,20 @@
     },
     "opts": [
       {
-        "en": "Community feeds of malicious URLs, malware samples and botnet C2 indicators",
-        "vi": "Nguồn cấp cộng đồng về URL độc hại, mẫu mã độc và chỉ dấu C2 botnet"
+        "en": "Feeds of malicious URLs, samples and C2 indicators",
+        "vi": "Nguồn cấp URL độc hại, mẫu và chỉ dấu C2"
       },
       {
-        "en": "Free VPN access",
-        "vi": "Truy cập VPN miễn phí"
+        "en": "Free anonymising VPN access for analysts",
+        "vi": "Truy cập VPN ẩn danh miễn phí cho analyst"
       },
       {
-        "en": "Disk recovery",
-        "vi": "Khôi phục đĩa"
+        "en": "Forensic disk-data recovery utilities",
+        "vi": "Tiện ích khôi phục dữ liệu đĩa forensic"
       },
       {
-        "en": "Password cracking",
-        "vi": "Bẻ mật khẩu"
+        "en": "Offline password-cracking dictionaries",
+        "vi": "Từ điển bẻ mật khẩu offline"
       }
     ],
     "correct": 0,
@@ -2348,18 +2348,18 @@
     "opts": [
       {
         "en": "For named recipients only — do not share further",
-        "vi": "Chỉ dành cho người nhận được nêu tên — không chia sẻ tiếp"
+        "vi": "Chỉ cho người nhận được nêu tên — không chia sẻ tiếp"
       },
       {
-        "en": "Share freely with the public",
+        "en": "Share freely with the general public",
         "vi": "Chia sẻ tự do với công chúng"
       },
       {
-        "en": "Share with the whole company",
-        "vi": "Chia sẻ với toàn công ty"
+        "en": "Share within the whole company",
+        "vi": "Chia sẻ trong toàn công ty"
       },
       {
-        "en": "Share with the whole community",
+        "en": "Share with the entire community",
         "vi": "Chia sẻ với cả cộng đồng"
       }
     ],
@@ -2387,20 +2387,20 @@
     },
     "opts": [
       {
-        "en": "Public submission may leak victim data and alert the attacker that they are detected",
-        "vi": "Việc gửi công khai có thể rò dữ liệu nạn nhân và báo cho kẻ tấn công biết chúng đã bị phát hiện"
+        "en": "It may leak victim data and alert the attacker",
+        "vi": "Nó có thể rò dữ liệu nạn nhân và báo động kẻ tấn công"
       },
       {
-        "en": "The sandbox is too fast",
-        "vi": "Sandbox quá nhanh"
+        "en": "The sandbox runs the sample too fast",
+        "vi": "Sandbox chạy mẫu quá nhanh"
       },
       {
-        "en": "It encrypts the sample",
-        "vi": "Nó mã hóa mẫu"
+        "en": "It encrypts your only sample copy",
+        "vi": "Nó mã hóa bản sao mẫu duy nhất của bạn"
       },
       {
-        "en": "It deletes your disk",
-        "vi": "Nó xóa đĩa của bạn"
+        "en": "It wipes your analysis disk",
+        "vi": "Nó xóa đĩa phân tích của bạn"
       }
     ],
     "correct": 0,
@@ -2423,20 +2423,20 @@
     },
     "opts": [
       {
-        "en": "Detect files/memory matching patterns characteristic of a malware family",
-        "vi": "Phát hiện file/bộ nhớ khớp các mẫu đặc trưng của một họ mã độc"
+        "en": "Detect files/memory matching malware-family patterns",
+        "vi": "Phát hiện file/bộ nhớ khớp mẫu của họ mã độc"
       },
       {
-        "en": "Encrypt malware",
-        "vi": "Mã hóa mã độc"
+        "en": "Encrypt a malware sample file",
+        "vi": "Mã hóa một file mẫu mã độc"
       },
       {
-        "en": "Route network traffic",
-        "vi": "Định tuyến lưu lượng mạng"
+        "en": "Route traffic across a network",
+        "vi": "Định tuyến lưu lượng qua mạng"
       },
       {
-        "en": "Allocate IP addresses",
-        "vi": "Cấp phát địa chỉ IP"
+        "en": "Allocate IP addresses to hosts",
+        "vi": "Cấp phát địa chỉ IP cho host"
       }
     ],
     "correct": 0,
@@ -2459,20 +2459,20 @@
     },
     "opts": [
       {
-        "en": "Corroborate across independent sources and analyse the actual behaviour/context",
-        "vi": "Đối chiếu nhiều nguồn độc lập và phân tích hành vi/bối cảnh thực tế"
+        "en": "Corroborate across sources and analyse the behaviour",
+        "vi": "Đối chiếu nhiều nguồn và phân tích hành vi"
       },
       {
-        "en": "Trust a single engine's verdict",
+        "en": "Trust one single engine's verdict",
         "vi": "Tin phán quyết của một engine duy nhất"
       },
       {
-        "en": "Assume every alert is real",
+        "en": "Assume every alert is a real one",
         "vi": "Cho rằng mọi cảnh báo đều thật"
       },
       {
-        "en": "Disable the sensor",
-        "vi": "Tắt cảm biến"
+        "en": "Disable the noisy detection sensor",
+        "vi": "Tắt cảm biến phát hiện gây nhiễu"
       }
     ],
     "correct": 0,
@@ -2495,20 +2495,20 @@
     },
     "opts": [
       {
-        "en": "Match identified software versions to known vulnerabilities and likely exploitation",
-        "vi": "Khớp phiên bản phần mềm đã xác định với lỗ hổng đã biết và khả năng bị khai thác"
+        "en": "Map software versions to known vulnerabilities",
+        "vi": "Ánh xạ phiên bản phần mềm tới lỗ hổng đã biết"
       },
       {
-        "en": "Decrypt traffic",
-        "vi": "Giải mã lưu lượng"
+        "en": "Decrypt captured network traffic",
+        "vi": "Giải mã lưu lượng mạng đã bắt"
       },
       {
-        "en": "Recover deleted files",
-        "vi": "Khôi phục file đã xóa"
+        "en": "Recover files deleted from disk",
+        "vi": "Khôi phục file đã xóa khỏi đĩa"
       },
       {
-        "en": "Assign IP addresses",
-        "vi": "Cấp phát địa chỉ IP"
+        "en": "Assign IP addresses to the hosts",
+        "vi": "Cấp phát địa chỉ IP cho host"
       }
     ],
     "correct": 0,
@@ -2531,20 +2531,20 @@
     },
     "opts": [
       {
-        "en": "Searching reveals prior knowledge without exposing the sample or tipping off the attacker",
-        "vi": "Tra cho biết thông tin đã có mà không phơi mẫu hay đánh động kẻ tấn công"
+        "en": "Searching reveals what's known without exposing the sample",
+        "vi": "Tra cứu cho biết điều đã biết mà không phơi mẫu"
       },
       {
-        "en": "Hashes are encrypted and files are not",
+        "en": "Hashes are encrypted but files are not",
         "vi": "Hash được mã hóa còn file thì không"
       },
       {
-        "en": "Uploading is impossible",
-        "vi": "Upload là bất khả thi"
+        "en": "Uploading a file is technically impossible",
+        "vi": "Upload một file là bất khả thi kỹ thuật"
       },
       {
-        "en": "Searching modifies the file",
-        "vi": "Tra cứu làm thay đổi file"
+        "en": "Searching modifies the original file",
+        "vi": "Tra cứu làm thay đổi file gốc"
       }
     ],
     "correct": 0,

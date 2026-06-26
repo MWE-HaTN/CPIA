@@ -59,23 +59,23 @@
     },
     "opts": [
       {
-        "en": "Double-click it on your analysis laptop to see what happens",
-        "vi": "Nhấp đúp trên laptop phân tích để xem điều gì xảy ra"
-      },
-      {
         "en": "Store and transfer it password-protected/zipped, analyse only in an isolated sandbox",
         "vi": "Lưu và truyền dưới dạng nén có mật khẩu, chỉ phân tích trong sandbox cách ly"
       },
       {
-        "en": "Email it to a colleague for a second opinion",
-        "vi": "Gửi email cho đồng nghiệp để xin ý kiến"
+        "en": "Rename its extension to .txt so it cannot execute, then open it normally",
+        "vi": "Đổi đuôi thành .txt để nó không chạy được, rồi mở bình thường"
       },
       {
-        "en": "Rename the extension to .txt so it cannot run",
-        "vi": "Đổi đuôi file thành .txt để nó không chạy được"
+        "en": "Submit it to a public sandbox so the whole team can watch it run",
+        "vi": "Gửi lên sandbox công khai để cả nhóm cùng xem nó chạy"
+      },
+      {
+        "en": "Run it once on a networked VM to capture its live network behaviour",
+        "vi": "Chạy một lần trên VM có mạng để bắt hành vi mạng trực tiếp"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Malware must be contained: store/transfer it inside a password-protected archive (commonly password \"infected\") to avoid accidental execution and AV deletion, and detonate only in an isolated VM/sandbox with no production access.",
       "vi": "Mã độc phải được cô lập: lưu/truyền trong archive có mật khẩu (thường dùng mật khẩu \"infected\") để tránh chạy nhầm và bị AV xóa, và chỉ kích nổ trong VM/sandbox cách ly không kết nối môi trường production."
@@ -99,23 +99,23 @@
     },
     "opts": [
       {
-        "en": "The attacker forged one of the timestamps",
-        "vi": "Kẻ tấn công đã giả mạo một trong các mốc thời gian"
-      },
-      {
         "en": "One source logs in UTC and the other in local time",
         "vi": "Một nguồn ghi theo UTC, nguồn kia theo giờ địa phương"
       },
       {
-        "en": "One log file is corrupted",
-        "vi": "Một file log bị hỏng"
+        "en": "One of the two log files has become silently corrupted",
+        "vi": "Một trong hai file log đã hỏng một cách âm thầm"
       },
       {
-        "en": "The events are unrelated",
-        "vi": "Hai sự kiện không liên quan"
+        "en": "The attacker forged the timestamp on one of the sources",
+        "vi": "Kẻ tấn công đã giả mạo mốc thời gian trên một nguồn"
+      },
+      {
+        "en": "The two events are unrelated and only coincidentally similar",
+        "vi": "Hai sự kiện không liên quan, chỉ trùng hợp giống nhau"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Time-zone differences (UTC vs local) are the most common cause of timeline skew. Before alleging tampering, normalise every source to a single timezone (usually UTC) and account for DST.",
       "vi": "Chênh lệch múi giờ (UTC vs giờ địa phương) là nguyên nhân lệch timeline phổ biến nhất. Trước khi kết luận bị giả mạo, hãy chuẩn hóa mọi nguồn về một múi giờ chung (thường là UTC) và tính cả giờ tiết kiệm ánh sáng (DST)."
@@ -139,23 +139,23 @@
     },
     "opts": [
       {
-        "en": "Speed up the analysis",
-        "vi": "Tăng tốc quá trình phân tích"
-      },
-      {
         "en": "Prove evidence was not altered and track who handled it, when",
         "vi": "Chứng minh bằng chứng không bị thay đổi và ghi lại ai xử lý, khi nào"
       },
       {
-        "en": "Reduce the cost of the engagement",
-        "vi": "Giảm chi phí thực hiện"
+        "en": "Speed up the analysis by indexing exhibits for searching",
+        "vi": "Tăng tốc phân tích bằng cách lập chỉ mục tang vật để tìm kiếm"
       },
       {
-        "en": "Satisfy the antivirus vendor",
-        "vi": "Thỏa mãn yêu cầu của nhà cung cấp antivirus"
+        "en": "Reduce the cost of the engagement by reusing prior exhibits",
+        "vi": "Giảm chi phí engagement bằng cách tái dùng tang vật trước"
+      },
+      {
+        "en": "Satisfy the antivirus vendor's sample-submission requirements",
+        "vi": "Đáp ứng yêu cầu nộp mẫu của nhà cung cấp antivirus"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Chain of custody records every person who handled an exhibit, with times and integrity hashes, so evidence is admissible and demonstrably unaltered in court. Breaks in the chain can render evidence inadmissible.",
       "vi": "Chain of custody ghi lại mọi người đã tiếp xúc tang vật, kèm thời gian và hash toàn vẹn, để bằng chứng được chấp nhận và chứng minh không bị thay đổi tại tòa. Đứt gãy chuỗi có thể khiến bằng chứng bị loại."
@@ -255,20 +255,20 @@
     },
     "opts": [
       {
-        "en": "Tactics (the why) and Techniques (the how)",
-        "vi": "Tactics (tại sao) và Techniques (cách thức)"
+        "en": "Tactics — the adversary's goal — and the Techniques used",
+        "vi": "Tactics — mục tiêu của kẻ tấn công — và các Techniques dùng"
       },
       {
-        "en": "Vendor product names",
-        "vi": "Tên sản phẩm của nhà cung cấp"
+        "en": "The vendor product names and their version numbers",
+        "vi": "Tên sản phẩm của nhà cung cấp và số phiên bản"
       },
       {
-        "en": "OSI layers",
-        "vi": "Các tầng OSI"
+        "en": "The seven numbered layers of the OSI network model",
+        "vi": "Bảy tầng được đánh số của mô hình mạng OSI"
       },
       {
-        "en": "CVE severity scores",
-        "vi": "Điểm nghiêm trọng CVE"
+        "en": "CVE identifiers ordered by their severity score",
+        "vi": "Các mã CVE sắp theo điểm nghiêm trọng"
       }
     ],
     "correct": 0,
@@ -291,23 +291,23 @@
     },
     "opts": [
       {
-        "en": "Disabling all logging to save space",
-        "vi": "Tắt mọi logging để tiết kiệm dung lượng"
-      },
-      {
         "en": "Maintaining asset inventories, baselines and an IR plan in advance",
         "vi": "Duy trì sẵn danh mục tài sản, baseline và kế hoạch IR"
       },
       {
-        "en": "Waiting until a breach to define roles",
-        "vi": "Đợi đến khi bị xâm nhập mới phân vai"
+        "en": "Disabling verbose logging so the SIEM is not overwhelmed in an incident",
+        "vi": "Tắt logging chi tiết để SIEM không quá tải khi có sự cố"
       },
       {
-        "en": "Sharing admin passwords widely",
-        "vi": "Chia sẻ rộng rãi mật khẩu admin"
+        "en": "Granting all responders standing domain-admin to speed up response",
+        "vi": "Cấp sẵn quyền domain-admin cho mọi người xử lý để ứng phó nhanh"
+      },
+      {
+        "en": "Waiting until an incident occurs to define team roles and escalation",
+        "vi": "Đợi tới khi sự cố xảy ra mới phân vai và lập quy trình leo thang"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Preparation — inventories, known-good baselines, log retention, defined roles and a tested IR plan — is what makes detection and analysis fast and defensible. Defining roles only after a breach wastes critical early time.",
       "vi": "Chuẩn bị — danh mục tài sản, baseline known-good, lưu trữ log, phân vai rõ ràng và kế hoạch IR đã kiểm thử — là thứ giúp phát hiện và phân tích nhanh, có thể bảo vệ. Đợi xảy ra sự cố mới phân vai sẽ lãng phí thời gian sớm quý giá."
@@ -327,23 +327,23 @@
     },
     "opts": [
       {
-        "en": "They are only for billing",
-        "vi": "Chỉ để tính tiền"
-      },
-      {
         "en": "They support reproducibility, accuracy and stand up to legal scrutiny",
         "vi": "Hỗ trợ tái lập, độ chính xác và chịu được soi xét pháp lý"
       },
       {
-        "en": "They replace the need for evidence",
-        "vi": "Thay thế nhu cầu bằng chứng"
+        "en": "They are required only for billing and time-tracking purposes",
+        "vi": "Chúng chỉ cần cho mục đích tính tiền và theo dõi thời gian"
       },
       {
-        "en": "They speed up malware execution",
-        "vi": "Tăng tốc thực thi mã độc"
+        "en": "They remove the need to preserve the underlying evidence",
+        "vi": "Chúng loại bỏ nhu cầu bảo toàn bằng chứng gốc"
+      },
+      {
+        "en": "They speed up how quickly malware can be detonated safely",
+        "vi": "Chúng tăng tốc việc kích nổ mã độc một cách an toàn"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Accurate, timestamped records of every action taken let another analyst reproduce findings and let the work withstand legal challenge. Notes complement — never replace — the underlying evidence and chain of custody.",
       "vi": "Bản ghi chính xác, có dấu thời gian cho từng hành động giúp analyst khác tái lập kết quả và giúp công việc chịu được thách thức pháp lý. Ghi chép bổ trợ — không bao giờ thay thế — bằng chứng gốc và chain of custody."
@@ -363,20 +363,20 @@
     },
     "opts": [
       {
-        "en": "Coordination, advisories and incident handling support within its constituency",
-        "vi": "Điều phối, khuyến cáo và hỗ trợ xử lý sự cố trong phạm vi của mình"
+        "en": "Coordination, advisories and incident-handling support",
+        "vi": "Điều phối, khuyến cáo và hỗ trợ xử lý sự cố"
       },
       {
-        "en": "Legal prosecution powers",
-        "vi": "Quyền truy tố pháp lý"
+        "en": "Legal authority to prosecute attackers and seize assets",
+        "vi": "Thẩm quyền pháp lý truy tố kẻ tấn công và tịch thu tài sản"
       },
       {
-        "en": "Antivirus licences",
-        "vi": "Giấy phép antivirus"
+        "en": "Discounted antivirus and endpoint-protection licences",
+        "vi": "Giấy phép antivirus và bảo vệ endpoint giá ưu đãi"
       },
       {
-        "en": "Internet bandwidth",
-        "vi": "Băng thông internet"
+        "en": "Dedicated internet bandwidth for members in an incident",
+        "vi": "Băng thông internet riêng cho thành viên khi có sự cố"
       }
     ],
     "correct": 0,
@@ -399,23 +399,23 @@
     },
     "opts": [
       {
-        "en": "Certain once one IoC matches",
-        "vi": "Chắc chắn ngay khi một IoC trùng khớp"
+        "en": "A probabilistic judgement from many corroborating indicators",
+        "vi": "Một phán đoán xác suất từ nhiều chỉ dấu củng cố"
       },
       {
-        "en": "A probabilistic judgement built from multiple corroborating indicators (TTPs, infrastructure)",
-        "vi": "Một phán đoán xác suất dựng từ nhiều chỉ dấu củng cố lẫn nhau (TTP, hạ tầng)"
+        "en": "A certainty as soon as one indicator of compromise matches",
+        "vi": "Một sự chắc chắn ngay khi một IoC trùng khớp"
       },
       {
-        "en": "Irrelevant to response",
-        "vi": "Không liên quan đến xử lý"
+        "en": "An irrelevant detail that does not affect the response",
+        "vi": "Một chi tiết không liên quan, không ảnh hưởng việc xử lý"
       },
       {
-        "en": "Based solely on source IP",
-        "vi": "Chỉ dựa trên IP nguồn"
+        "en": "A conclusion resting solely on the observed source IP",
+        "vi": "Một kết luận chỉ dựa vào IP nguồn quan sát được"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "Attribution is rarely certain — source IPs are spoofable/proxied and tools are shared. Confidence is built from converging TTPs, infrastructure overlaps and targeting, weighed against false-flag possibilities. A single matching IoC is weak evidence.",
       "vi": "Attribution hiếm khi chắc chắn — IP nguồn có thể giả/đi qua proxy và công cụ thường dùng chung. Độ tin cậy được dựng từ TTP hội tụ, hạ tầng trùng lặp và mục tiêu, cân nhắc khả năng false-flag. Một IoC trùng đơn lẻ là bằng chứng yếu."
@@ -439,16 +439,16 @@
         "vi": "Chuẩn hóa mọi nguồn về UTC và ghi rõ nguồn của từng sự kiện"
       },
       {
-        "en": "Use whatever local time each log shows",
-        "vi": "Dùng giờ địa phương mà mỗi log hiển thị"
+        "en": "Convert everything to the analyst's own local time zone",
+        "vi": "Quy mọi thứ về múi giờ địa phương của chính analyst"
       },
       {
-        "en": "Only keep events you find interesting",
-        "vi": "Chỉ giữ những sự kiện bạn thấy thú vị"
+        "en": "Keep only the events that look immediately relevant",
+        "vi": "Chỉ giữ những sự kiện trông có vẻ liên quan ngay"
       },
       {
-        "en": "Ignore timestamps entirely",
-        "vi": "Bỏ qua hoàn toàn mốc thời gian"
+        "en": "Trust each system's local clock without any adjustment",
+        "vi": "Tin đồng hồ cục bộ của mỗi hệ thống mà không hiệu chỉnh"
       }
     ],
     "correct": 0,
@@ -475,16 +475,16 @@
         "vi": "Log có thể không đầy đủ, bị xoay vòng, bị tắt hoặc bị kẻ tấn công can thiệp"
       },
       {
-        "en": "Logs are always perfectly reliable",
-        "vi": "Log luôn hoàn toàn đáng tin"
+        "en": "Logs are stored only in binary formats that humans cannot interpret",
+        "vi": "Log chỉ lưu ở định dạng nhị phân mà con người không đọc được"
       },
       {
-        "en": "Logs cannot be read by humans",
-        "vi": "Con người không đọc được log"
+        "en": "Logs always use the analyst's local time zone and never UTC",
+        "vi": "Log luôn dùng múi giờ địa phương của analyst, không bao giờ UTC"
       },
       {
-        "en": "Logs replace all other evidence",
-        "vi": "Log thay thế mọi bằng chứng khác"
+        "en": "Logs are encrypted at rest and unreadable without the SIEM",
+        "vi": "Log được mã hóa khi lưu và không đọc được nếu thiếu SIEM"
       }
     ],
     "correct": 0,
@@ -551,16 +551,16 @@
         "vi": "Thanh ghi CPU, cache và nội dung RAM"
       },
       {
-        "en": "Archived backup tapes",
-        "vi": "Băng sao lưu lưu trữ"
+        "en": "The pagefile and hibernation file on the system disk",
+        "vi": "Pagefile và file ngủ đông trên đĩa hệ thống"
       },
       {
-        "en": "Data on the hard disk",
-        "vi": "Dữ liệu trên ổ cứng"
+        "en": "Archived backup tapes held off-site for retention",
+        "vi": "Băng sao lưu lưu trữ ngoài cơ sở để giữ dài hạn"
       },
       {
-        "en": "Printed documents",
-        "vi": "Tài liệu in ra"
+        "en": "Router and switch configuration files on the network",
+        "vi": "File cấu hình router và switch trên mạng"
       }
     ],
     "correct": 0,
@@ -587,16 +587,16 @@
         "vi": "Chặn truy cập của kẻ tấn công mà vẫn bảo toàn bằng chứng bộ nhớ volatile"
       },
       {
-        "en": "Deletes the malware",
-        "vi": "Xóa mã độc"
+        "en": "It forces the malware to delete itself, cleaning the host automatically",
+        "vi": "Nó buộc mã độc tự xóa, làm sạch host tự động"
       },
       {
-        "en": "Patches the vulnerability",
-        "vi": "Vá lỗ hổng"
+        "en": "It immediately patches the vulnerability the attacker exploited",
+        "vi": "Nó vá ngay lỗ hổng mà kẻ tấn công đã khai thác"
       },
       {
-        "en": "Encrypts the disk",
-        "vi": "Mã hóa đĩa"
+        "en": "It guarantees the disk image will hash identically afterwards",
+        "vi": "Nó đảm bảo image đĩa sẽ có hash giống hệt sau đó"
       }
     ],
     "correct": 0,
@@ -619,20 +619,20 @@
     },
     "opts": [
       {
-        "en": "Remove the attacker's artefacts and root cause (malware, accounts, persistence) from the environment",
-        "vi": "Loại bỏ artefact và nguyên nhân gốc của kẻ tấn công (mã độc, tài khoản, persistence) khỏi môi trường"
+        "en": "Remove the malware, rogue accounts, persistence and root cause",
+        "vi": "Loại bỏ mã độc, tài khoản giả, persistence và nguyên nhân gốc"
       },
       {
-        "en": "Write the final report",
-        "vi": "Viết báo cáo cuối"
+        "en": "Restore the affected systems and resume normal monitoring",
+        "vi": "Khôi phục các hệ thống bị ảnh hưởng và giám sát bình thường"
       },
       {
-        "en": "Collect RAM",
-        "vi": "Thu thập RAM"
+        "en": "Capture volatile memory before any evidence can be lost",
+        "vi": "Bắt bộ nhớ volatile trước khi mất bất kỳ bằng chứng nào"
       },
       {
-        "en": "Notify the press",
-        "vi": "Thông báo cho báo chí"
+        "en": "Produce the final report and brief senior management",
+        "vi": "Lập báo cáo cuối và báo cáo cho lãnh đạo cấp cao"
       }
     ],
     "correct": 0,
@@ -659,16 +659,16 @@
         "vi": "Nó đưa các cải tiến trở lại Preparation, vá các lỗ hổng cho lần sau"
       },
       {
-        "en": "It deletes the evidence",
-        "vi": "Nó xóa bằng chứng"
+        "en": "It is the phase where volatile evidence is finally acquired",
+        "vi": "Đó là giai đoạn cuối cùng thu thập bằng chứng volatile"
       },
       {
-        "en": "It is only for billing",
-        "vi": "Chỉ để tính tiền"
+        "en": "It legally clears the organisation of any breach liability",
+        "vi": "Nó miễn trừ pháp lý cho tổ chức khỏi mọi trách nhiệm vi phạm"
       },
       {
-        "en": "It restarts the attack",
-        "vi": "Nó khởi động lại cuộc tấn công"
+        "en": "It restores the last clean backup and reconnects the systems",
+        "vi": "Nó khôi phục bản sao lưu sạch cuối và kết nối lại hệ thống"
       }
     ],
     "correct": 0,
@@ -695,16 +695,16 @@
         "vi": "Các khoảng 100-nano-giây kể từ 1/1/1601 (UTC)"
       },
       {
-        "en": "Seconds since 1 Jan 1970",
-        "vi": "Số giây kể từ 1/1/1970"
+        "en": "Seconds elapsed since 1 January 1970 (the Unix epoch)",
+        "vi": "Số giây kể từ 1 tháng 1 năm 1970 (Unix epoch)"
       },
       {
-        "en": "Days since 1 Jan 1900",
-        "vi": "Số ngày kể từ 1/1/1900"
+        "en": "Milliseconds elapsed since the system was last powered on",
+        "vi": "Số mili-giây kể từ lần bật máy gần nhất"
       },
       {
-        "en": "Milliseconds since boot",
-        "vi": "Mili-giây kể từ khi khởi động"
+        "en": "Days elapsed since 1 January 1900 (the OLE epoch)",
+        "vi": "Số ngày kể từ 1 tháng 1 năm 1900 (OLE epoch)"
       }
     ],
     "correct": 0,
@@ -727,20 +727,20 @@
     },
     "opts": [
       {
-        "en": "Modified, Accessed, Changed (MFT), Born (created)",
-        "vi": "Modified, Accessed, Changed (MFT), Born (created)"
+        "en": "Modified, Accessed, metadata-Changed and Born/created",
+        "vi": "Modified, Accessed, Changed (metadata) và Born/created"
       },
       {
-        "en": "Made, Archived, Copied, Backed-up",
-        "vi": "Made, Archived, Copied, Backed-up"
+        "en": "Made, Archived, Copied and Backed-up by the OS",
+        "vi": "Made, Archived, Copied và Backed-up bởi OS"
       },
       {
-        "en": "Memory, Acquisition, Cache, Buffer",
-        "vi": "Memory, Acquisition, Cache, Buffer"
+        "en": "Memory, Acquisition, Cache and Buffer offsets",
+        "vi": "Memory, Acquisition, Cache và Buffer offset"
       },
       {
-        "en": "Master, Allocation, Cluster, Block",
-        "vi": "Master, Allocation, Cluster, Block"
+        "en": "Master, Allocation, Cluster and Block tables",
+        "vi": "Master, Allocation, Cluster và Block table"
       }
     ],
     "correct": 0,
@@ -771,16 +771,16 @@
         "vi": "Không hành động nào được làm thay đổi dữ liệu có thể được dùng làm bằng chứng tại tòa"
       },
       {
-        "en": "Always edit the original to speed analysis",
-        "vi": "Luôn sửa bản gốc để phân tích nhanh hơn"
+        "en": "The original media must always be edited to speed up analysis",
+        "vi": "Phải luôn sửa phương tiện gốc để tăng tốc phân tích"
       },
       {
-        "en": "Evidence integrity is optional",
-        "vi": "Tính toàn vẹn bằng chứng là tùy chọn"
+        "en": "Evidence integrity is optional if the analyst is experienced",
+        "vi": "Toàn vẹn bằng chứng là tùy chọn nếu analyst có kinh nghiệm"
       },
       {
-        "en": "No audit trail is needed",
-        "vi": "Không cần audit trail"
+        "en": "No audit trail is needed as long as hashes are recorded",
+        "vi": "Không cần audit trail miễn là đã ghi lại hash"
       }
     ],
     "correct": 0,
@@ -807,16 +807,16 @@
         "vi": "Ràng buộc pháp lý quanh việc dịch ngược / vượt qua cơ chế bảo vệ"
       },
       {
-        "en": "Wireless encryption",
-        "vi": "Mã hóa không dây"
+        "en": "Mandatory breach-notification timelines for personal data",
+        "vi": "Thời hạn bắt buộc thông báo vi phạm cho dữ liệu cá nhân"
       },
       {
-        "en": "Email routing",
-        "vi": "Định tuyến email"
+        "en": "Security requirements for storing and processing card data",
+        "vi": "Yêu cầu bảo mật khi lưu và xử lý dữ liệu thẻ"
       },
       {
-        "en": "Disk partitioning",
-        "vi": "Phân vùng đĩa"
+        "en": "Encryption standards for wireless (802.11) networks",
+        "vi": "Tiêu chuẩn mã hóa cho mạng không dây (802.11)"
       }
     ],
     "correct": 0,
@@ -839,20 +839,20 @@
     },
     "opts": [
       {
-        "en": "Follow the agreed escalation path and advise the client on engaging law enforcement, preserving evidence",
-        "vi": "Theo quy trình leo thang đã thống nhất và tư vấn khách hàng về việc liên hệ cơ quan hành pháp, bảo toàn bằng chứng"
+        "en": "Preserve evidence and advise the client on involving law enforcement",
+        "vi": "Bảo toàn bằng chứng và tư vấn khách hàng về việc liên hệ hành pháp"
       },
       {
-        "en": "Publicly post the findings",
-        "vi": "Đăng công khai phát hiện"
+        "en": "Publish the findings so the community can respond quickly",
+        "vi": "Công bố phát hiện để cộng đồng ứng phó nhanh"
       },
       {
-        "en": "Delete the evidence",
-        "vi": "Xóa bằng chứng"
+        "en": "Confront the suspected individual to obtain a confession",
+        "vi": "Đối chất người bị nghi để lấy lời thú nhận"
       },
       {
-        "en": "Confront the suspect directly",
-        "vi": "Đối chất trực tiếp với nghi phạm"
+        "en": "Delete the illegal material to limit the client's liability",
+        "vi": "Xóa tài liệu bất hợp pháp để giảm trách nhiệm cho khách"
       }
     ],
     "correct": 0,
@@ -875,20 +875,20 @@
     },
     "opts": [
       {
-        "en": "With an executive summary for management plus detailed technical evidence for responders",
-        "vi": "Có executive summary cho lãnh đạo cùng bằng chứng kỹ thuật chi tiết cho đội xử lý"
+        "en": "An executive summary plus detailed technical evidence",
+        "vi": "Một executive summary cùng bằng chứng kỹ thuật chi tiết"
       },
       {
-        "en": "Only as raw tool output",
-        "vi": "Chỉ là output thô của công cụ"
+        "en": "Raw tool output so readers can interpret it themselves",
+        "vi": "Output thô của công cụ để người đọc tự diễn giải"
       },
       {
-        "en": "Without any conclusions",
-        "vi": "Không có kết luận nào"
+        "en": "A single unlabelled block of text, to save on space",
+        "vi": "Một khối văn bản không nhãn duy nhất, để tiết kiệm chỗ"
       },
       {
-        "en": "As a single unlabelled wall of text",
-        "vi": "Là một khối chữ không nhãn"
+        "en": "The findings without conclusions, for the reader to decide",
+        "vi": "Các phát hiện không kết luận, để người đọc tự quyết"
       }
     ],
     "correct": 0,
@@ -947,20 +947,20 @@
     },
     "opts": [
       {
-        "en": "TTPs (tools, tactics, techniques and procedures)",
-        "vi": "TTP (công cụ, chiến thuật, kỹ thuật và quy trình)"
+        "en": "TTPs — tools, tactics, techniques and procedures",
+        "vi": "TTP — công cụ, chiến thuật, kỹ thuật và quy trình"
       },
       {
-        "en": "Hash values",
-        "vi": "Giá trị hash"
+        "en": "The file hash values of the malware samples",
+        "vi": "Giá trị hash file của các mẫu mã độc"
       },
       {
-        "en": "IP addresses",
-        "vi": "Địa chỉ IP"
+        "en": "The IP addresses used by the command server",
+        "vi": "Các địa chỉ IP mà máy chủ điều khiển dùng"
       },
       {
-        "en": "Domain names",
-        "vi": "Tên miền"
+        "en": "The domain names registered for the campaign",
+        "vi": "Các tên miền đăng ký cho chiến dịch"
       }
     ],
     "correct": 0,
@@ -1023,20 +1023,20 @@
     },
     "opts": [
       {
-        "en": "Whaling (a form of spear-phishing)",
-        "vi": "Whaling (một dạng spear-phishing)"
+        "en": "Whaling — a form of spear-phishing aimed at executives",
+        "vi": "Whaling — một dạng spear-phishing nhắm lãnh đạo"
       },
       {
-        "en": "Smishing",
-        "vi": "Smishing"
+        "en": "Smishing — phishing delivered over SMS messages",
+        "vi": "Smishing — phishing gửi qua tin nhắn SMS"
       },
       {
-        "en": "A drive-by download",
-        "vi": "Drive-by download"
+        "en": "A drive-by download from a compromised website",
+        "vi": "Một drive-by download từ trang web bị xâm nhập"
       },
       {
-        "en": "A watering hole",
-        "vi": "Watering hole"
+        "en": "A watering-hole attack on a frequently-visited site",
+        "vi": "Một watering-hole vào trang hay được truy cập"
       }
     ],
     "correct": 0,
@@ -1095,20 +1095,20 @@
     },
     "opts": [
       {
-        "en": "An IoC is evidence a breach already happened; an IoA reflects attacker behaviour/intent in progress",
-        "vi": "IoC là bằng chứng vi phạm đã xảy ra; IoA phản ánh hành vi/ý đồ của kẻ tấn công đang diễn ra"
+        "en": "An IoC evidences a past breach; an IoA, behaviour in progress",
+        "vi": "IoC chứng tỏ vi phạm đã xảy ra; IoA, hành vi đang diễn ra"
       },
       {
-        "en": "They are identical",
-        "vi": "Chúng giống hệt nhau"
+        "en": "An IoC is always a file hash; an IoA, always an IP address",
+        "vi": "IoC luôn là hash file; IoA, luôn là một địa chỉ IP"
       },
       {
-        "en": "An IoC is always a hash and an IoA is always an IP",
-        "vi": "IoC luôn là hash còn IoA luôn là IP"
+        "en": "They are two names for exactly the same forensic artefact",
+        "vi": "Chúng là hai tên cho cùng một artefact forensic"
       },
       {
-        "en": "IoAs are only used after recovery",
-        "vi": "IoA chỉ dùng sau khi khôi phục"
+        "en": "An IoA is only used once recovery is fully complete",
+        "vi": "IoA chỉ dùng khi recovery đã hoàn tất hoàn toàn"
       }
     ],
     "correct": 0,
@@ -1131,20 +1131,20 @@
     },
     "opts": [
       {
-        "en": "They alter system state and may overwrite evidence; use trusted, statically-linked tools from known media",
-        "vi": "Chúng làm thay đổi trạng thái hệ thống và có thể ghi đè bằng chứng; hãy dùng công cụ tin cậy, liên kết tĩnh từ phương tiện đã biết"
+        "en": "They alter system state and may overwrite vital evidence",
+        "vi": "Chúng làm thay đổi trạng thái và có thể ghi đè bằng chứng quan trọng"
       },
       {
-        "en": "They run too slowly",
-        "vi": "Chúng chạy quá chậm"
+        "en": "They run too slowly to be useful in a time-critical response",
+        "vi": "Chúng chạy quá chậm để hữu ích trong tình huống gấp"
       },
       {
-        "en": "They cost money",
-        "vi": "Chúng tốn tiền"
+        "en": "They require local admin rights responders rarely have",
+        "vi": "Chúng cần quyền admin cục bộ mà người xử lý hiếm khi có"
       },
       {
-        "en": "They require a GUI",
-        "vi": "Chúng yêu cầu giao diện đồ họa"
+        "en": "They cannot read files locked by running processes",
+        "vi": "Chúng không đọc được file đang bị tiến trình khóa"
       }
     ],
     "correct": 0,
@@ -1171,16 +1171,16 @@
         "vi": "Quy cả hai về một mốc tham chiếu chung (vd UTC) trước khi so sánh"
       },
       {
-        "en": "Assume they are already aligned",
-        "vi": "Cho rằng chúng đã khớp sẵn"
+        "en": "Assume the two clocks are already aligned and compare directly",
+        "vi": "Giả định hai đồng hồ đã khớp và so sánh trực tiếp"
       },
       {
-        "en": "Ignore the firewall log",
-        "vi": "Bỏ qua log firewall"
+        "en": "Discard the workstation log because it uses local time",
+        "vi": "Loại bỏ log máy trạm vì nó dùng giờ địa phương"
       },
       {
-        "en": "Delete the workstation log",
-        "vi": "Xóa log máy trạm"
+        "en": "Add seven hours to the firewall log to match the workstation",
+        "vi": "Cộng bảy giờ vào log firewall để khớp với máy trạm"
       }
     ],
     "correct": 0,
@@ -1203,20 +1203,20 @@
     },
     "opts": [
       {
-        "en": "Lets the client make timely containment/business decisions before the final report",
-        "vi": "Cho phép khách hàng ra quyết định cô lập/kinh doanh kịp thời trước báo cáo cuối"
+        "en": "It lets the client make timely containment decisions early",
+        "vi": "Nó cho khách hàng ra quyết định cô lập kịp thời, sớm"
       },
       {
-        "en": "Replaces the need for evidence",
-        "vi": "Thay thế nhu cầu bằng chứng"
+        "en": "It removes the need to preserve evidence for the report",
+        "vi": "Nó loại bỏ nhu cầu bảo toàn bằng chứng cho báo cáo"
       },
       {
-        "en": "Is purely decorative",
-        "vi": "Chỉ mang tính trang trí"
+        "en": "It replaces the detailed technical findings entirely",
+        "vi": "Nó thay thế hoàn toàn các phát hiện kỹ thuật chi tiết"
       },
       {
-        "en": "Ends the engagement early",
-        "vi": "Kết thúc engagement sớm"
+        "en": "It lets the engagement end early once an update is sent",
+        "vi": "Nó cho phép kết thúc engagement sớm khi đã gửi cập nhật"
       }
     ],
     "correct": 0,
@@ -1239,20 +1239,20 @@
     },
     "opts": [
       {
-        "en": "Four phases; \"Containment, Eradication & Recovery\" is one combined phase",
-        "vi": "Bốn giai đoạn; \"Containment, Eradication & Recovery\" là một giai đoạn gộp"
+        "en": "Four phases; containment, eradication and recovery combine",
+        "vi": "Bốn giai đoạn; containment, eradication và recovery gộp lại"
       },
       {
-        "en": "Six phases, each fully separate",
-        "vi": "Sáu giai đoạn, mỗi cái tách rời"
+        "en": "Six phases, with each activity kept fully separate",
+        "vi": "Sáu giai đoạn, mỗi hoạt động được tách rời hoàn toàn"
       },
       {
-        "en": "Three phases, ending at Eradication",
-        "vi": "Ba giai đoạn, kết thúc ở Eradication"
+        "en": "Three phases, ending once the threat is eradicated",
+        "vi": "Ba giai đoạn, kết thúc khi mối đe dọa bị loại bỏ"
       },
       {
-        "en": "Five phases, starting at Detection",
-        "vi": "Năm giai đoạn, bắt đầu từ Detection"
+        "en": "Five phases, beginning with Detection not Preparation",
+        "vi": "Năm giai đoạn, bắt đầu bằng Detection không phải Preparation"
       }
     ],
     "correct": 0,
@@ -1311,20 +1311,20 @@
     },
     "opts": [
       {
-        "en": "To first scope all footholds; premature eradication tips off the attacker and may miss persistence",
-        "vi": "Để khoanh vùng hết các chỗ đứng trước; eradication vội đánh động kẻ tấn công và có thể bỏ sót persistence"
+        "en": "To scope all footholds first; acting early tips off the attacker",
+        "vi": "Để khoanh vùng hết chỗ đứng trước; hành động sớm đánh động kẻ tấn công"
       },
       {
-        "en": "Because eradication is illegal",
-        "vi": "Vì eradication là bất hợp pháp"
+        "en": "Because eradication may only be done by law enforcement",
+        "vi": "Vì eradication chỉ được làm bởi cơ quan hành pháp"
       },
       {
-        "en": "To increase the bill",
-        "vi": "Để tăng hóa đơn"
+        "en": "To let the malware finish so its full payload is recovered",
+        "vi": "Để mã độc chạy xong nhằm khôi phục toàn bộ payload"
       },
       {
-        "en": "Because RAM must be wiped first",
-        "vi": "Vì phải xóa RAM trước"
+        "en": "Because volatile memory must be wiped before cleanup",
+        "vi": "Vì phải xóa bộ nhớ volatile trước khi dọn dẹp"
       }
     ],
     "correct": 0,
@@ -1351,20 +1351,20 @@
     },
     "opts": [
       {
-        "en": "The attacker may be reading internal email/chat and could learn the response plan",
-        "vi": "Kẻ tấn công có thể đang đọc email/chat nội bộ và biết được kế hoạch ứng phó"
+        "en": "The attacker may read internal email/chat and learn the plan",
+        "vi": "Kẻ tấn công có thể đọc email/chat nội bộ và biết kế hoạch"
       },
       {
-        "en": "It is faster than email",
-        "vi": "Nó nhanh hơn email"
+        "en": "Out-of-band channels deliver messages faster than email",
+        "vi": "Kênh ngoài luồng gửi tin nhanh hơn email"
       },
       {
-        "en": "It is required by GDPR",
-        "vi": "Vì GDPR bắt buộc"
+        "en": "Regulators require breach communications to avoid email",
+        "vi": "Cơ quan quản lý yêu cầu liên lạc vi phạm tránh email"
       },
       {
-        "en": "To reduce mailbox storage",
-        "vi": "Để giảm dung lượng hộp thư"
+        "en": "It reduces load on the mail servers during the incident",
+        "vi": "Nó giảm tải cho máy chủ mail trong lúc sự cố"
       }
     ],
     "correct": 0,
@@ -1391,16 +1391,16 @@
         "vi": "Bản sao lưu có trước thời điểm xâm nhập và bản thân nó sạch"
       },
       {
-        "en": "That the backup is the newest available",
-        "vi": "Bản sao lưu là mới nhất hiện có"
+        "en": "That the backup is the most recent one available before recovery",
+        "vi": "Bản sao lưu là bản mới nhất hiện có trước khi khôi phục"
       },
       {
-        "en": "That the backup is compressed",
-        "vi": "Bản sao lưu được nén"
+        "en": "That the backup is compressed so it restores as quickly as possible",
+        "vi": "Bản sao lưu được nén để khôi phục nhanh nhất có thể"
       },
       {
-        "en": "That the backup is on tape",
-        "vi": "Bản sao lưu nằm trên băng từ"
+        "en": "That the backup is stored on tape rather than on disk",
+        "vi": "Bản sao lưu được giữ trên băng từ thay vì trên đĩa"
       }
     ],
     "correct": 0,
@@ -1427,16 +1427,16 @@
         "vi": "Bộ nhớ và các artefact triage trọng yếu khi volume còn mở khóa"
       },
       {
-        "en": "A dead-box full disk image after shutdown",
-        "vi": "Một image full disk dead-box sau khi tắt máy"
+        "en": "A dead-box full-disk image taken immediately after shutdown",
+        "vi": "Một image full-disk dead-box ngay sau khi tắt máy"
       },
       {
-        "en": "Only the event logs by email",
-        "vi": "Chỉ log sự kiện gửi qua email"
+        "en": "Only the Windows event logs, exported and emailed to the team",
+        "vi": "Chỉ log sự kiện Windows, xuất ra và gửi email cho nhóm"
       },
       {
-        "en": "Nothing until a maintenance window",
-        "vi": "Không gì cả cho tới cửa sổ bảo trì"
+        "en": "Nothing at all until a scheduled maintenance window opens",
+        "vi": "Không gì cả cho tới khi có cửa sổ bảo trì theo lịch"
       }
     ],
     "correct": 0,
@@ -1499,16 +1499,16 @@
         "vi": "Tác động kinh doanh và mức độ trọng yếu của tài sản/dữ liệu bị ảnh hưởng"
       },
       {
-        "en": "Alphabetical order of hostnames",
-        "vi": "Thứ tự chữ cái của hostname"
+        "en": "The chronological order in which the alerts were first raised",
+        "vi": "Thứ tự thời gian các cảnh báo được nêu ra đầu tiên"
       },
       {
-        "en": "Which alert fired first by milliseconds",
-        "vi": "Cảnh báo nào kêu trước theo mili-giây"
+        "en": "The number of separate alerts generated on each host",
+        "vi": "Số lượng cảnh báo riêng lẻ sinh ra trên mỗi host"
       },
       {
-        "en": "The colour of the alert in the console",
-        "vi": "Màu của cảnh báo trên console"
+        "en": "Which systems are physically closest to the response team",
+        "vi": "Hệ thống nào gần đội xử lý nhất về mặt vật lý"
       }
     ],
     "correct": 0,
@@ -1535,16 +1535,16 @@
         "vi": "Hệ thống/người dùng bị xâm nhập đầu tiên — điểm xâm nhập của cuộc tấn công"
       },
       {
-        "en": "The most senior victim",
-        "vi": "Nạn nhân cấp cao nhất"
+        "en": "The most senior employee affected by the incident",
+        "vi": "Nhân viên cấp cao nhất bị ảnh hưởng bởi sự cố"
       },
       {
-        "en": "The last host cleaned",
-        "vi": "Host được làm sạch cuối cùng"
+        "en": "The last host confirmed clean during the recovery phase",
+        "vi": "Host cuối cùng được xác nhận sạch trong giai đoạn recovery"
       },
       {
-        "en": "The backup server",
-        "vi": "Máy chủ sao lưu"
+        "en": "The server that holds the organisation's primary backups",
+        "vi": "Máy chủ giữ bản sao lưu chính của tổ chức"
       }
     ],
     "correct": 0,
@@ -1567,20 +1567,20 @@
     },
     "opts": [
       {
-        "en": "Leaves a small footprint (loads the tool into RAM) — which must be documented",
-        "vi": "Để lại dấu chân nhỏ (nạp công cụ vào RAM) — cần được ghi nhận lại"
+        "en": "It leaves a small, documented footprint by loading into RAM",
+        "vi": "Nó để lại dấu chân nhỏ, có ghi chép, do nạp vào RAM"
       },
       {
-        "en": "Has zero effect on the system",
-        "vi": "Không ảnh hưởng gì đến hệ thống"
+        "en": "It has no measurable effect on the system being acquired",
+        "vi": "Nó không có tác động đo được lên hệ thống đang thu thập"
       },
       {
-        "en": "Encrypts the disk",
-        "vi": "Mã hóa đĩa"
+        "en": "It permanently encrypts the contents of captured memory",
+        "vi": "Nó mã hóa vĩnh viễn nội dung bộ nhớ đã bắt"
       },
       {
-        "en": "Removes all malware",
-        "vi": "Loại bỏ toàn bộ mã độc"
+        "en": "It removes any malware that is resident only in memory",
+        "vi": "Nó loại bỏ mọi mã độc chỉ tồn tại trong bộ nhớ"
       }
     ],
     "correct": 0,
@@ -1603,20 +1603,20 @@
     },
     "opts": [
       {
-        "en": "You cannot be fully certain every implant/persistence mechanism was found and removed",
-        "vi": "Không thể chắc chắn hoàn toàn đã tìm và loại bỏ mọi implant/cơ chế persistence"
+        "en": "You cannot be certain every persistence mechanism was removed",
+        "vi": "Không thể chắc mọi cơ chế persistence đã được loại bỏ"
       },
       {
-        "en": "Cleaning is illegal",
-        "vi": "Làm sạch là bất hợp pháp"
+        "en": "Reimaging is always faster than scanning and cleaning",
+        "vi": "Cài lại luôn nhanh hơn quét và làm sạch"
       },
       {
-        "en": "Reimaging is always faster",
-        "vi": "Reimage luôn nhanh hơn"
+        "en": "Antivirus cannot scan a mounted forensic disk image",
+        "vi": "Antivirus không quét được image đĩa forensic đã mount"
       },
       {
-        "en": "Antivirus cannot scan disks",
-        "vi": "Antivirus không quét được đĩa"
+        "en": "Cleaning a compromised host is prohibited by regulation",
+        "vi": "Làm sạch host bị xâm nhập bị quy định cấm"
       }
     ],
     "correct": 0,
@@ -1643,16 +1643,16 @@
         "vi": "Cô lập khỏi mạng và bắt bộ nhớ volatile trước khi mất dữ liệu"
       },
       {
-        "en": "Run a full antivirus scan that deletes detections",
-        "vi": "Chạy quét antivirus toàn bộ và xóa các phát hiện"
+        "en": "Run a full antivirus scan and quarantine whatever it detects",
+        "vi": "Chạy quét antivirus toàn bộ và cách ly những gì nó phát hiện"
       },
       {
-        "en": "Reboot to clear the infection",
-        "vi": "Khởi động lại để xóa lây nhiễm"
+        "en": "Reboot the machine to clear the infection from memory",
+        "vi": "Khởi động lại máy để xóa lây nhiễm khỏi bộ nhớ"
       },
       {
-        "en": "Delete the attachment and move on",
-        "vi": "Xóa file đính kèm và bỏ qua"
+        "en": "Delete the attachment and ask the user to change their password",
+        "vi": "Xóa file đính kèm và yêu cầu người dùng đổi mật khẩu"
       }
     ],
     "correct": 0,
@@ -1679,16 +1679,16 @@
         "vi": "Thời gian $STANDARD_INFORMATION với thời gian $FILE_NAME trong MFT"
       },
       {
-        "en": "The file size against the disk label",
-        "vi": "Kích thước file với nhãn đĩa"
+        "en": "The file's size in the MFT against its actual size on disk",
+        "vi": "Kích thước file trong MFT với kích thước thực trên đĩa"
       },
       {
-        "en": "The Recycle Bin against the pagefile",
-        "vi": "Thùng rác với pagefile"
+        "en": "The Recycle Bin $I record against its matching $R record",
+        "vi": "Bản ghi $I của Thùng rác với bản ghi $R tương ứng"
       },
       {
-        "en": "The hostname against the IP",
-        "vi": "Hostname với IP"
+        "en": "The Prefetch last-run time against the registry LastWrite time",
+        "vi": "Thời gian chạy cuối của Prefetch với LastWrite của registry"
       }
     ],
     "correct": 0,
@@ -1719,16 +1719,16 @@
         "vi": "Lệch hàng thế kỷ — dấu hiệu rõ ràng đã dùng sai epoch/đơn vị"
       },
       {
-        "en": "A few seconds off only",
-        "vi": "Chỉ lệch vài giây"
+        "en": "A few seconds early, well within normal clock drift",
+        "vi": "Sớm vài giây, vẫn trong giới hạn lệch đồng hồ bình thường"
       },
       {
-        "en": "Perfectly correct",
-        "vi": "Hoàn toàn chính xác"
+        "en": "Exactly one hour off, as if a time zone were ignored",
+        "vi": "Lệch đúng một giờ, như thể bỏ qua một múi giờ"
       },
       {
-        "en": "In the future by one hour",
-        "vi": "Lệch về tương lai đúng một giờ"
+        "en": "Correct, since both formats share the same 1970 epoch",
+        "vi": "Chính xác, vì cả hai định dạng dùng chung epoch 1970"
       }
     ],
     "correct": 0,
@@ -1755,16 +1755,16 @@
         "vi": "Đo độ lệch đồng hồ và áp dụng như một hiệu chỉnh cho các sự kiện của host đó"
       },
       {
-        "en": "Discard the host's logs entirely",
-        "vi": "Loại bỏ hoàn toàn log của host đó"
+        "en": "Discard the host's logs entirely as unreliable evidence",
+        "vi": "Loại bỏ hoàn toàn log của host vì là bằng chứng không tin cậy"
       },
       {
-        "en": "Assume the network devices are wrong",
-        "vi": "Giả định thiết bị mạng sai"
+        "en": "Treat the network devices as the ones that are wrong",
+        "vi": "Coi các thiết bị mạng mới là bên bị sai"
       },
       {
-        "en": "Ignore the drift",
-        "vi": "Bỏ qua độ lệch"
+        "en": "Ignore the three-minute drift as within acceptable tolerance",
+        "vi": "Bỏ qua độ lệch ba phút vì nằm trong dung sai chấp nhận được"
       }
     ],
     "correct": 0,
@@ -1787,20 +1787,20 @@
     },
     "opts": [
       {
-        "en": "Corroborate with external sources (network logs, $LogFile/USN journal, MFT sequence) not under attacker control",
-        "vi": "Đối chiếu với nguồn ngoài (log mạng, $LogFile/USN journal, trình tự MFT) không nằm trong tầm kiểm soát của kẻ tấn công"
+        "en": "Corroborate with external sources outside the attacker's control",
+        "vi": "Đối chiếu nguồn ngoài, ngoài tầm kiểm soát của kẻ tấn công"
       },
       {
-        "en": "Trust only the local system clock",
-        "vi": "Chỉ tin đồng hồ hệ thống cục bộ"
+        "en": "Trust the local system clock as the primary time source",
+        "vi": "Tin đồng hồ hệ thống cục bộ làm nguồn thời gian chính"
       },
       {
-        "en": "Re-set the clock and re-run events",
-        "vi": "Đặt lại đồng hồ và chạy lại sự kiện"
+        "en": "Reset the clock to the correct time and re-run events",
+        "vi": "Đặt lại đồng hồ về đúng giờ rồi chạy lại sự kiện"
       },
       {
-        "en": "Give up on the timeline",
-        "vi": "Bỏ luôn việc dựng timeline"
+        "en": "Abandon the timeline since the order cannot be set",
+        "vi": "Bỏ timeline vì không thể xác lập thứ tự"
       }
     ],
     "correct": 0,
@@ -1827,16 +1827,16 @@
         "vi": "Xác định múi giờ/độ lệch của máy ảnh trước khi so sánh"
       },
       {
-        "en": "Assume EXIF is always UTC",
-        "vi": "Giả định EXIF luôn là UTC"
+        "en": "Assume the EXIF time is already recorded in UTC",
+        "vi": "Giả định thời gian EXIF đã được ghi theo UTC"
       },
       {
-        "en": "Treat the offset as zero",
-        "vi": "Coi độ lệch bằng 0"
+        "en": "Treat the camera's offset as zero for the comparison",
+        "vi": "Coi độ lệch của máy ảnh bằng 0 khi so sánh"
       },
       {
-        "en": "Ignore the photo",
-        "vi": "Bỏ qua bức ảnh"
+        "en": "Exclude the photo, since image times are never reliable",
+        "vi": "Loại bỏ ảnh, vì thời gian ảnh không bao giờ tin cậy"
       }
     ],
     "correct": 0,
@@ -1863,16 +1863,16 @@
         "vi": "NTFS USN change journal ($UsnJrnl)"
       },
       {
-        "en": "The desktop wallpaper",
-        "vi": "Hình nền desktop"
+        "en": "The pagefile, which records writes in chronological order",
+        "vi": "Pagefile, vốn ghi các lần ghi theo thứ tự thời gian"
       },
       {
-        "en": "The page file",
-        "vi": "Pagefile"
+        "en": "The Prefetch folder, ordered by program execution",
+        "vi": "Thư mục Prefetch, sắp theo việc chạy chương trình"
       },
       {
-        "en": "The BIOS clock",
-        "vi": "Đồng hồ BIOS"
+        "en": "The Recycle Bin, ordered by file deletion timestamp",
+        "vi": "Thùng rác, sắp theo mốc thời gian xóa file"
       }
     ],
     "correct": 0,
@@ -1899,16 +1899,16 @@
         "vi": "72 giờ kể từ khi biết"
       },
       {
-        "en": "24 hours of the breach occurring",
-        "vi": "24 giờ kể từ khi vi phạm xảy ra"
+        "en": "24 hours of the breach first occurring",
+        "vi": "24 giờ kể từ khi vi phạm bắt đầu xảy ra"
       },
       {
-        "en": "30 days",
-        "vi": "30 ngày"
+        "en": "30 days of completing the investigation",
+        "vi": "30 ngày kể từ khi hoàn tất điều tra"
       },
       {
-        "en": "One year",
-        "vi": "Một năm"
+        "en": "One calendar year of the financial year-end",
+        "vi": "Một năm dương lịch kể từ cuối năm tài chính"
       }
     ],
     "correct": 0,
@@ -1931,20 +1931,20 @@
     },
     "opts": [
       {
-        "en": "Be competent to do so and able to explain the relevance and implications of their actions",
-        "vi": "Đủ năng lực và có thể giải trình mức độ liên quan và hệ quả của hành động"
+        "en": "Be competent and able to justify the relevance of their actions",
+        "vi": "Đủ năng lực và biện giải được mức độ liên quan của hành động"
       },
       {
-        "en": "Avoid documenting anything",
-        "vi": "Tránh ghi chép bất cứ gì"
+        "en": "Avoid documenting the access to keep the report concise",
+        "vi": "Tránh ghi chép việc truy cập để báo cáo ngắn gọn"
       },
       {
-        "en": "Delete the data afterwards",
-        "vi": "Xóa dữ liệu sau đó"
+        "en": "Securely delete the original data once it is copied",
+        "vi": "Xóa an toàn dữ liệu gốc ngay khi đã sao chép"
       },
       {
-        "en": "Get a refund",
-        "vi": "Xin hoàn tiền"
+        "en": "Obtain written sign-off from the antivirus vendor first",
+        "vi": "Lấy phê duyệt văn bản từ nhà cung cấp antivirus trước"
       }
     ],
     "correct": 0,
@@ -1967,20 +1967,20 @@
     },
     "opts": [
       {
-        "en": "Who handled the exhibit, what they did, when, and where — with integrity hashes",
-        "vi": "Ai xử lý tang vật, làm gì, khi nào và ở đâu — kèm hash toàn vẹn"
+        "en": "Who handled it, what, when and where, with integrity hashes",
+        "vi": "Ai xử lý, làm gì, khi nào, ở đâu, kèm hash toàn vẹn"
       },
       {
-        "en": "Only the analyst's name",
-        "vi": "Chỉ tên của analyst"
+        "en": "Only the lead analyst's name and professional certification",
+        "vi": "Chỉ tên và chứng chỉ chuyên môn của analyst chính"
       },
       {
-        "en": "Just the file size",
-        "vi": "Chỉ kích thước file"
+        "en": "Just the file size and format of each acquired exhibit",
+        "vi": "Chỉ kích thước và định dạng của mỗi tang vật"
       },
       {
-        "en": "The price of the hardware",
-        "vi": "Giá của phần cứng"
+        "en": "The purchase price and warranty status of the hardware",
+        "vi": "Giá mua và tình trạng bảo hành của phần cứng"
       }
     ],
     "correct": 0,
@@ -2007,16 +2007,16 @@
         "vi": "Image không thay đổi kể từ lúc thu thập (toàn vẹn)"
       },
       {
-        "en": "The data is encrypted",
-        "vi": "Dữ liệu đã được mã hóa"
+        "en": "That the image has been securely encrypted while at rest",
+        "vi": "Rằng image đã được mã hóa an toàn khi lưu trữ"
       },
       {
-        "en": "The analyst is certified",
-        "vi": "Analyst đã được chứng nhận"
+        "en": "That the analyst holds a recognised forensic certification",
+        "vi": "Rằng analyst có một chứng chỉ forensic được công nhận"
       },
       {
-        "en": "The disk is faster",
-        "vi": "Đĩa nhanh hơn"
+        "en": "That the disk was read at its maximum supported speed",
+        "vi": "Rằng đĩa được đọc ở tốc độ tối đa hỗ trợ"
       }
     ],
     "correct": 0,
@@ -2043,16 +2043,16 @@
         "vi": "Bảo toàn dữ liệu có thể liên quan và tạm dừng việc xóa/xoay vòng định kỳ"
       },
       {
-        "en": "Immediately delete all logs",
-        "vi": "Xóa ngay toàn bộ log"
+        "en": "Immediately delete all logs once the case has been reported",
+        "vi": "Xóa ngay toàn bộ log khi vụ việc đã được báo cáo"
       },
       {
-        "en": "Encrypt all backups",
-        "vi": "Mã hóa mọi bản sao lưu"
+        "en": "Encrypt every backup before handing it to investigators",
+        "vi": "Mã hóa mọi bản sao lưu trước khi giao cho điều tra viên"
       },
       {
-        "en": "Publish the incident publicly",
-        "vi": "Công bố sự cố ra công chúng"
+        "en": "Publicly disclose the incident within the statutory deadline",
+        "vi": "Công bố sự cố ra công chúng trong thời hạn luật định"
       }
     ],
     "correct": 0,
@@ -2075,20 +2075,20 @@
     },
     "opts": [
       {
-        "en": "Which incidents they can coordinate on and which other teams to hand off to",
-        "vi": "Sự cố nào họ có thể điều phối và đội nào khác cần chuyển giao"
+        "en": "Which incidents they coordinate and when to hand off",
+        "vi": "Sự cố nào họ điều phối và khi nào chuyển giao"
       },
       {
-        "en": "The encryption they must use",
-        "vi": "Loại mã hóa họ phải dùng"
+        "en": "Which encryption algorithms their analysts may use",
+        "vi": "Các thuật toán mã hóa mà analyst của họ được dùng"
       },
       {
-        "en": "Their office location only",
-        "vi": "Chỉ vị trí văn phòng của họ"
+        "en": "The physical location of their main operations centre",
+        "vi": "Vị trí vật lý của trung tâm vận hành chính"
       },
       {
-        "en": "The brand of their laptops",
-        "vi": "Hãng laptop của họ"
+        "en": "The brand of forensic hardware they are funded to buy",
+        "vi": "Hãng phần cứng forensic mà họ được cấp tiền mua"
       }
     ],
     "correct": 0,
@@ -2111,20 +2111,20 @@
     },
     "opts": [
       {
-        "en": "Minimise access, handle only what is relevant, and follow data-protection obligations",
-        "vi": "Hạn chế truy cập, chỉ xử lý phần liên quan, và tuân thủ nghĩa vụ bảo vệ dữ liệu"
+        "en": "Access only what is relevant and follow data-protection duties",
+        "vi": "Chỉ truy cập phần liên quan và tuân nghĩa vụ bảo vệ dữ liệu"
       },
       {
-        "en": "Copy it all for later use",
-        "vi": "Sao chép toàn bộ để dùng sau"
+        "en": "Copy all of it in case it is useful later in the case",
+        "vi": "Sao toàn bộ phòng khi hữu ích về sau trong vụ việc"
       },
       {
-        "en": "Share it with colleagues for interest",
-        "vi": "Chia sẻ cho đồng nghiệp vì tò mò"
+        "en": "Share it with colleagues who might find it interesting",
+        "vi": "Chia sẻ cho đồng nghiệp có thể thấy thú vị"
       },
       {
-        "en": "Post it online",
-        "vi": "Đăng lên mạng"
+        "en": "Publish it to demonstrate the extent of the exposure",
+        "vi": "Công bố để chứng minh mức độ phơi nhiễm"
       }
     ],
     "correct": 0,
@@ -2147,20 +2147,20 @@
     },
     "opts": [
       {
-        "en": "ACPO Good Practice Guide for Computer-Based Electronic Evidence",
-        "vi": "ACPO Good Practice Guide for Computer-Based Electronic Evidence"
+        "en": "The ACPO Good Practice Guide for digital evidence",
+        "vi": "ACPO Good Practice Guide cho bằng chứng số"
       },
       {
-        "en": "The PCI DSS standard",
-        "vi": "Tiêu chuẩn PCI DSS"
+        "en": "The PCI DSS payment-card data security standard",
+        "vi": "Tiêu chuẩn bảo mật dữ liệu thẻ PCI DSS"
       },
       {
-        "en": "RFC 1918",
-        "vi": "RFC 1918"
+        "en": "RFC 1918 on private IPv4 network addressing",
+        "vi": "RFC 1918 về cấp địa chỉ mạng IPv4 riêng"
       },
       {
-        "en": "The OWASP Top 10",
-        "vi": "OWASP Top 10"
+        "en": "The OWASP Top 10 web-application risk list",
+        "vi": "Danh sách rủi ro ứng dụng web OWASP Top 10"
       }
     ],
     "correct": 0,
@@ -2187,16 +2187,16 @@
         "vi": "Sự kiện/bằng chứng quan sát được với suy luận/đánh giá của analyst"
       },
       {
-        "en": "The font from the colour",
-        "vi": "Phông chữ với màu sắc"
+        "en": "The report's font and colour from its heading styles",
+        "vi": "Phông và màu của báo cáo với kiểu tiêu đề"
       },
       {
-        "en": "The header from the footer",
-        "vi": "Phần đầu trang với chân trang"
+        "en": "The header section from the footer section",
+        "vi": "Phần đầu trang với phần chân trang"
       },
       {
-        "en": "English from numbers",
-        "vi": "Tiếng Anh với số"
+        "en": "English-language text from numerical data",
+        "vi": "Văn bản tiếng Anh với dữ liệu dạng số"
       }
     ],
     "correct": 0,
@@ -2227,16 +2227,16 @@
         "vi": "Cho phép một analyst đủ năng lực khác tái lập và kiểm chứng phát hiện"
       },
       {
-        "en": "Fills page count",
-        "vi": "Lấp đầy số trang"
+        "en": "It increases the page count to meet the contract length",
+        "vi": "Nó tăng số trang để đạt độ dài hợp đồng"
       },
       {
-        "en": "Hides the tools used",
-        "vi": "Che giấu công cụ đã dùng"
+        "en": "It conceals which tools were used from the client",
+        "vi": "Nó che giấu công cụ đã dùng với khách hàng"
       },
       {
-        "en": "Replaces the evidence",
-        "vi": "Thay thế bằng chứng"
+        "en": "It removes the need to include the underlying evidence",
+        "vi": "Nó loại bỏ nhu cầu đưa bằng chứng gốc vào"
       }
     ],
     "correct": 0,
@@ -2263,16 +2263,16 @@
         "vi": "\"Log đã bị xoay vòng nên không thể xác nhận hoạt động trước <ngày>.\""
       },
       {
-        "en": "\"The attacker definitely started exactly on <date>.\"",
-        "vi": "\"Kẻ tấn công chắc chắn bắt đầu đúng vào <ngày>.\""
+        "en": "\"The attacker definitely began their activity exactly on <date>.\"",
+        "vi": "\"Kẻ tấn công chắc chắn bắt đầu hoạt động đúng vào <ngày>.\""
       },
       {
-        "en": "\"Nothing happened before <date>.\"",
-        "vi": "\"Không có gì xảy ra trước <ngày>.\""
+        "en": "\"Nothing of any kind happened before <date> on this host.\"",
+        "vi": "\"Không có gì xảy ra trước <ngày> trên host này.\""
       },
       {
-        "en": "Omit the limitation entirely",
-        "vi": "Bỏ qua hoàn toàn giới hạn đó"
+        "en": "\"The limitation is minor and need not appear in the report.\"",
+        "vi": "\"Giới hạn này nhỏ và không cần xuất hiện trong báo cáo.\""
       }
     ],
     "correct": 0,
@@ -2332,19 +2332,19 @@
     "opts": [
       {
         "en": "Credential Access",
-        "vi": "Credential Access (Truy cập thông tin xác thực)"
+        "vi": "Credential Access"
       },
       {
-        "en": "Exfiltration",
-        "vi": "Exfiltration (Trích xuất)"
+        "en": "Data Exfiltration",
+        "vi": "Data Exfiltration"
       },
       {
         "en": "Reconnaissance",
-        "vi": "Reconnaissance (Trinh sát)"
+        "vi": "Reconnaissance"
       },
       {
-        "en": "Impact",
-        "vi": "Impact (Tác động)"
+        "en": "Defence Evasion",
+        "vi": "Defence Evasion"
       }
     ],
     "correct": 0,
@@ -2403,20 +2403,20 @@
     },
     "opts": [
       {
-        "en": "APTs are well-resourced, targeted and persistent, often pursuing long-term strategic objectives",
-        "vi": "APT có nguồn lực dồi dào, nhắm mục tiêu và bền bỉ, thường theo đuổi mục tiêu chiến lược dài hạn"
+        "en": "APTs are well-resourced, targeted and persistent over time",
+        "vi": "APT có nguồn lực dồi dào, nhắm mục tiêu và bền bỉ lâu dài"
       },
       {
-        "en": "APTs only use known viruses",
-        "vi": "APT chỉ dùng virus đã biết"
+        "en": "APTs rely only on widely-available off-the-shelf malware",
+        "vi": "APT chỉ dùng mã độc bán sẵn phổ biến rộng rãi"
       },
       {
-        "en": "APTs never use phishing",
-        "vi": "APT không bao giờ dùng phishing"
+        "en": "APTs avoid phishing and use only network-based exploits",
+        "vi": "APT tránh phishing và chỉ dùng khai thác qua mạng"
       },
       {
-        "en": "APTs are always automated and untargeted",
-        "vi": "APT luôn tự động và không nhắm mục tiêu"
+        "en": "APTs are fully automated and never select specific targets",
+        "vi": "APT hoàn toàn tự động và không chọn mục tiêu cụ thể"
       }
     ],
     "correct": 0,
@@ -2443,16 +2443,16 @@
         "vi": "TTP và IoC có thể đưa vào vận hành thành các quy tắc phát hiện"
       },
       {
-        "en": "Board-level geopolitical trends",
-        "vi": "Xu hướng địa chính trị cấp hội đồng quản trị"
+        "en": "Board-level geopolitical and industry-trend briefings",
+        "vi": "Bản tóm tắt địa chính trị và xu hướng ngành cấp hội đồng"
       },
       {
-        "en": "Marketing material",
-        "vi": "Tài liệu tiếp thị"
+        "en": "Long-term strategic forecasts for executive planning",
+        "vi": "Dự báo chiến lược dài hạn cho việc hoạch định của lãnh đạo"
       },
       {
-        "en": "Stock prices",
-        "vi": "Giá cổ phiếu"
+        "en": "Vendor marketing material about emerging threats",
+        "vi": "Tài liệu tiếp thị của nhà cung cấp về mối đe dọa mới nổi"
       }
     ],
     "correct": 0,
@@ -2475,20 +2475,20 @@
     },
     "opts": [
       {
-        "en": "A possible false-flag; tools/strings are shared and can be planted to mislead attribution",
-        "vi": "Khả năng false-flag; công cụ/chuỗi thường dùng chung và có thể bị cài để đánh lạc hướng attribution"
+        "en": "A possible false-flag; tools and strings can be planted",
+        "vi": "Có thể là false-flag; công cụ và chuỗi có thể bị cài"
       },
       {
-        "en": "That attribution is now certain",
-        "vi": "Rằng attribution giờ đã chắc chắn"
+        "en": "That attribution to Group X is now conclusively proven",
+        "vi": "Rằng việc quy cho Nhóm X đã được chứng minh dứt khoát"
       },
       {
-        "en": "That language strings prove nationality",
-        "vi": "Rằng chuỗi ngôn ngữ chứng minh quốc tịch"
+        "en": "That language strings reliably prove the actor's nationality",
+        "vi": "Rằng chuỗi ngôn ngữ chứng minh đáng tin quốc tịch tác nhân"
       },
       {
-        "en": "Ignoring the targeting data",
-        "vi": "Bỏ qua dữ liệu mục tiêu"
+        "en": "That the targeting data should be disregarded entirely",
+        "vi": "Rằng dữ liệu mục tiêu nên bị bỏ qua hoàn toàn"
       }
     ],
     "correct": 0,
@@ -2515,20 +2515,20 @@
     },
     "opts": [
       {
-        "en": "A watering-hole attack",
-        "vi": "Tấn công watering-hole"
+        "en": "A watering-hole attack on a trusted site",
+        "vi": "Một watering-hole vào một trang tin cậy"
       },
       {
-        "en": "Whaling",
-        "vi": "Whaling"
+        "en": "A whaling attack on a senior executive",
+        "vi": "Một whaling nhắm một lãnh đạo cấp cao"
       },
       {
-        "en": "A brute-force attack",
-        "vi": "Tấn công brute-force"
+        "en": "A brute-force attack on the login page",
+        "vi": "Một brute-force vào trang đăng nhập"
       },
       {
-        "en": "A SYN flood",
-        "vi": "SYN flood"
+        "en": "A SYN-flood denial-of-service attack",
+        "vi": "Một SYN-flood gây từ chối dịch vụ"
       }
     ],
     "correct": 0,
@@ -2551,20 +2551,20 @@
     },
     "opts": [
       {
-        "en": "Legitimate credentials accessing unusual data volumes during normal hours from a normal workstation",
-        "vi": "Thông tin đăng nhập hợp lệ truy cập lượng dữ liệu bất thường trong giờ làm việc từ một máy trạm bình thường"
+        "en": "Legitimate credentials accessing unusual data in normal hours",
+        "vi": "Thông tin đăng nhập hợp lệ truy cập dữ liệu bất thường trong giờ làm"
       },
       {
-        "en": "External brute-force against the VPN",
-        "vi": "Brute-force từ bên ngoài vào VPN"
+        "en": "External brute-force attempts against the VPN gateway",
+        "vi": "Các nỗ lực brute-force từ ngoài vào cổng VPN"
       },
       {
-        "en": "Exploitation of an internet-facing web server",
-        "vi": "Khai thác một web server hướng internet"
+        "en": "Exploitation of an unpatched internet-facing web server",
+        "vi": "Khai thác một web server hướng internet chưa vá"
       },
       {
-        "en": "A phishing email from an external domain",
-        "vi": "Một email phishing từ domain bên ngoài"
+        "en": "A phishing email from an unfamiliar external domain",
+        "vi": "Một email phishing từ domain ngoài xa lạ"
       }
     ],
     "correct": 0,
@@ -2587,20 +2587,20 @@
     },
     "opts": [
       {
-        "en": "Which critical assets, data and processes this threat actually endangers, and the impact if realised",
-        "vi": "Mối đe dọa này thực sự gây nguy cho tài sản, dữ liệu và quy trình trọng yếu nào, và tác động nếu xảy ra"
+        "en": "Which critical assets and data the threat endangers, and the impact",
+        "vi": "Mối đe dọa gây nguy cho tài sản/dữ liệu trọng yếu nào, và tác động"
       },
       {
-        "en": "Which antivirus brand to buy",
-        "vi": "Nên mua hãng antivirus nào"
+        "en": "Which antivirus vendor offers the best detection rate",
+        "vi": "Nhà cung cấp antivirus nào có tỉ lệ phát hiện tốt nhất"
       },
       {
-        "en": "What colour to make the dashboard",
-        "vi": "Nên tô dashboard màu gì"
+        "en": "How the security dashboard should be colour-coded",
+        "vi": "Dashboard bảo mật nên được tô màu thế nào"
       },
       {
-        "en": "How fast the CPU is",
-        "vi": "CPU nhanh đến đâu"
+        "en": "How fast the affected servers' processors run",
+        "vi": "Bộ xử lý của các server bị ảnh hưởng chạy nhanh ra sao"
       }
     ],
     "correct": 0,
@@ -2623,20 +2623,20 @@
     },
     "opts": [
       {
-        "en": "Higher-resolution sources or sequence identifiers (sub-second times, record/event numbers, USN)",
-        "vi": "Nguồn độ phân giải cao hơn hoặc định danh trình tự (thời gian dưới giây, số bản ghi/sự kiện, USN)"
+        "en": "Higher-resolution times or monotonic sequence numbers",
+        "vi": "Thời gian độ phân giải cao hơn hoặc số trình tự tăng đơn điệu"
       },
       {
-        "en": "A coin flip",
-        "vi": "Tung đồng xu"
+        "en": "The order the two files appear in the directory listing",
+        "vi": "Thứ tự hai file xuất hiện khi liệt kê thư mục"
       },
       {
-        "en": "Alphabetical event names",
-        "vi": "Tên sự kiện theo bảng chữ cái"
+        "en": "The larger event payload, assumed to be written second",
+        "vi": "Payload sự kiện lớn hơn, giả định được ghi sau"
       },
       {
-        "en": "The largest file first",
-        "vi": "File lớn nhất trước"
+        "en": "The default order shown by the log-viewer application",
+        "vi": "Thứ tự mặc định mà trình xem log hiển thị"
       }
     ],
     "correct": 0,
@@ -2659,20 +2659,20 @@
     },
     "opts": [
       {
-        "en": "Recorded at the time of the action, making them accurate and credible later",
-        "vi": "Được ghi ngay tại thời điểm hành động, nên chính xác và đáng tin về sau"
+        "en": "Recorded at the time of the action, making them accurate and credible",
+        "vi": "Được ghi ngay tại thời điểm hành động, nên chính xác và đáng tin"
       },
       {
-        "en": "Written months afterwards",
-        "vi": "Viết sau đó nhiều tháng"
+        "en": "Written up months afterwards, once the full picture has become clear",
+        "vi": "Viết lại sau đó nhiều tháng, khi đã rõ toàn bộ bức tranh"
       },
       {
-        "en": "Kept only in memory",
-        "vi": "Chỉ lưu trong trí nhớ"
+        "en": "Kept only in the analyst's memory until the final report is written",
+        "vi": "Chỉ lưu trong trí nhớ analyst tới khi viết báo cáo cuối"
       },
       {
-        "en": "Anonymous and undated",
-        "vi": "Ẩn danh và không ghi ngày"
+        "en": "Left deliberately anonymous and undated to protect the analyst",
+        "vi": "Cố ý để ẩn danh và không ghi ngày để bảo vệ analyst"
       }
     ],
     "correct": 0,
@@ -2695,20 +2695,20 @@
     },
     "opts": [
       {
-        "en": "A single host rarely tells the full story; scoping should consider lateral movement and shared accounts",
-        "vi": "Một host đơn lẻ hiếm khi kể trọn câu chuyện; phạm vi nên xét lateral movement và tài khoản dùng chung"
+        "en": "A single host rarely tells the full story — check for lateral movement",
+        "vi": "Một host hiếm khi kể trọn câu chuyện — phải xét lateral movement"
       },
       {
-        "en": "One laptop is always sufficient",
-        "vi": "Một laptop luôn là đủ"
+        "en": "One host is sufficient to investigate provided it is fully imaged",
+        "vi": "Một host là đủ để điều tra miễn là được tạo image đầy đủ"
       },
       {
-        "en": "Network logs are irrelevant",
-        "vi": "Log mạng không liên quan"
+        "en": "Network logs add little value once the infected host is found",
+        "vi": "Log mạng ít giá trị khi đã tìm ra host nhiễm"
       },
       {
-        "en": "No other host could be affected",
-        "vi": "Không host nào khác có thể bị ảnh hưởng"
+        "en": "No other host can be affected if antivirus is fully up to date",
+        "vi": "Không host nào khác bị ảnh hưởng nếu antivirus được cập nhật đầy đủ"
       }
     ],
     "correct": 0,
@@ -2731,20 +2731,20 @@
     },
     "opts": [
       {
-        "en": "Acquiring bank/card schemes (PCI), and possibly regulators and affected individuals",
-        "vi": "Ngân hàng thanh toán/tổ chức thẻ (PCI), và có thể cả cơ quan quản lý lẫn cá nhân bị ảnh hưởng"
+        "en": "Acquiring bank/card schemes (PCI), regulators and individuals",
+        "vi": "Ngân hàng/tổ chức thẻ (PCI), cơ quan quản lý và cá nhân"
       },
       {
-        "en": "No one — card data is exempt",
-        "vi": "Không ai — dữ liệu thẻ được miễn"
+        "en": "No one at all, because cardholder data is exempt from notification",
+        "vi": "Không ai cả, vì dữ liệu chủ thẻ được miễn thông báo"
       },
       {
-        "en": "Only the software vendor",
-        "vi": "Chỉ nhà cung cấp phần mềm"
+        "en": "Only the software vendor whose exploited product was at fault",
+        "vi": "Chỉ nhà cung cấp phần mềm có sản phẩm bị khai thác"
       },
       {
-        "en": "Only internal IT",
-        "vi": "Chỉ bộ phận IT nội bộ"
+        "en": "Only the internal IT department that owns the affected system",
+        "vi": "Chỉ bộ phận IT nội bộ sở hữu hệ thống bị ảnh hưởng"
       }
     ],
     "correct": 0,
