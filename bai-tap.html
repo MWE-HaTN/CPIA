@@ -136,12 +136,12 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
 .exam-config{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:16px 0 0;padding:14px 0 2px;border-top:1px solid var(--border)}
 .exam-config .lbl{font-size:13px;color:var(--text2);font-weight:700;margin-right:2px}
 .exam-config .spacer{flex:1}
-.home-cards{display:grid;grid-template-columns:1.6fr 1fr;gap:14px;align-items:start;margin-bottom:4px}
+.home-cards{display:grid;grid-template-columns:1.6fr 1fr;gap:14px;align-items:stretch;margin-bottom:4px}
 .home-cards .card{margin:0}
 .home-cards .card.big{grid-column:auto}
 .home-side{display:flex;flex-direction:column;gap:14px;min-width:0}
-.home-side .card{margin:0}
-@media(max-width:680px){.home-cards{grid-template-columns:1fr}}
+.home-side .card{flex:1;margin:0;display:flex;flex-direction:column;justify-content:center}
+@media(max-width:680px){.home-cards{grid-template-columns:1fr}.home-side .card{flex:0 0 auto;display:block}}
 
 /* --- custom confirm/alert modal --- */
 .modal-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(7,11,20,.66);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);padding:20px}
