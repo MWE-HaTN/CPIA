@@ -130,11 +130,12 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
 .exam-jump button.done{background:rgba(34,211,238,.12);color:var(--text)}
 .exam-jump button.flag{border-color:var(--warn);color:var(--warn)}
 .card.redrill{background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(239,68,68,.08));border-color:rgba(245,158,11,.35)}
-.last-score{text-align:center;color:var(--text3);font-size:12px;margin:-6px 0 14px;font-family:Consolas,monospace}
+.last-score{text-align:left;color:var(--text3);font-size:12px;margin:14px 2px 4px;font-family:Consolas,monospace}
 
 /* --- exam count config + 2-column exam layout --- */
-.exam-config{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0 4px}
-.exam-config .lbl{font-size:13px;color:var(--text2);font-weight:700}
+.exam-config{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0 4px;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px}
+.exam-config .lbl{font-size:13px;color:var(--text2);font-weight:700;margin-right:2px}
+.exam-config .spacer{flex:1}
 .ec{cursor:pointer;border:1px solid var(--border);background:var(--bg2);color:var(--text2);border-radius:8px;padding:6px 14px;font-size:14px;font-weight:700;font-family:Consolas,monospace}
 .ec:hover{border-color:var(--accent)}
 .ec.sel{border-color:var(--accent);color:var(--accent);background:rgba(34,211,238,.1)}
@@ -183,13 +184,14 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
         <p><span class="en">Real exam pace — 1 minute per question — randomly mixed across all six appendices. Pick a size below; the timer scales to keep the pressure.</span><span class="vi">Đúng nhịp đề thật — 1 phút/câu — trộn ngẫu nhiên cả 6 phụ lục. Chọn số câu bên dưới; đồng hồ tự co theo để giữ áp lực.</span></p>
       </button>
     </div>
-    <div class="exam-config">
+    <div class="exam-config" id="examConfig">
       <span class="lbl"><span class="en">Questions:</span><span class="vi">Số câu:</span></span>
       <button class="ec" data-count="30">30</button>
       <button class="ec" data-count="60">60</button>
       <button class="ec" data-count="90">90</button>
       <button class="ec sel" data-count="120">120</button>
       <input type="number" id="examCustom" class="ec-input" min="5" max="448" placeholder="…"/>
+      <span class="spacer"></span>
       <span class="exam-time-note" id="examTimeNote"></span>
     </div>
 
@@ -312,7 +314,7 @@ function refreshHome(){
   let ls=$('lastScoreLine');
   const h=store.history[store.history.length-1];
   if(h){
-    if(!ls){ls=document.createElement('div');ls.id='lastScoreLine';ls.className='last-score';$('cntMock').closest('.mode-grid').after(ls);}
+    if(!ls){ls=document.createElement('div');ls.id='lastScoreLine';ls.className='last-score';$('examConfig').after(ls);}
     const d=new Date(h.date);
     ls.innerHTML='<span class="en">Last attempt: '+h.pct+'% ('+h.score+'/'+h.total+') · '+d.toLocaleDateString()+'</span>'+
                  '<span class="vi">Lần gần nhất: '+h.pct+'% ('+h.score+'/'+h.total+') · '+d.toLocaleDateString()+'</span>';
