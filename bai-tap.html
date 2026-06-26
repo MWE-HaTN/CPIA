@@ -136,10 +136,20 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
 .exam-config{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:16px 0 0;padding:14px 0 2px;border-top:1px solid var(--border)}
 .exam-config .lbl{font-size:13px;color:var(--text2);font-weight:700;margin-right:2px}
 .exam-config .spacer{flex:1}
-.home-pair{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;align-items:stretch;margin-bottom:4px}
-.home-pair .card.big{grid-column:auto}
-.home-pair .card{margin:0}
-@media(max-width:680px){.home-pair{grid-template-columns:1fr}}
+.home-cards{display:flex;flex-wrap:wrap;gap:14px;align-items:start;margin-bottom:4px}
+.home-cards .card{flex:1 1 230px;margin:0}
+.home-cards .card.big{flex:2.4 1 360px;grid-column:auto}
+@media(max-width:680px){.home-cards .card,.home-cards .card.big{flex-basis:100%}}
+
+/* --- custom confirm/alert modal --- */
+.modal-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(7,11,20,.66);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);padding:20px}
+body.light-mode .modal-overlay{background:rgba(15,23,42,.42)}
+.modal-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;max-width:430px;width:100%;padding:24px 24px 20px;box-shadow:0 24px 70px rgba(0,0,0,.55);animation:modalIn .18s ease}
+@keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+.modal-icon{font-size:24px;margin-bottom:8px}
+.modal-msg{font-size:16px;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:22px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end}
+.modal-actions .btn{min-width:96px;justify-content:center;text-align:center;display:inline-flex;align-items:center}
 .ec{cursor:pointer;border:1px solid var(--border);background:var(--bg2);color:var(--text2);border-radius:8px;padding:6px 14px;font-size:14px;font-weight:700;font-family:Consolas,monospace}
 .ec:hover{border-color:var(--accent)}
 .ec.sel{border-color:var(--accent);color:var(--accent);background:rgba(34,211,238,.1)}
@@ -179,8 +189,8 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
       <p><span class="en">Multiple-choice questions per CREST CPIA syllabus. Every answer — right or wrong — shows a full explanation, a key takeaway, and a link back to the exact theory section to revise.</span><span class="vi">Câu hỏi trắc nghiệm theo đúng syllabus CREST CPIA. Mọi câu trả lời (đúng hay sai) đều có giải thích đầy đủ, lưu ý trọng tâm và liên kết quay lại đúng phần lý thuyết cần đọc lại.</span></p>
     </div>
 
-    <div class="section-label"><span class="en">Mock Exam &amp; Quick Practice</span><span class="vi">Đề thi thử &amp; Luyện nhanh</span></div>
-    <div class="home-pair" id="examRow">
+    <div class="section-label"><span class="en">Start Practising</span><span class="vi">Bắt đầu luyện</span></div>
+    <div class="home-cards" id="homeCards">
       <div class="card big" id="examCard">
         <span class="count" id="cntMock">120</span>
         <span class="tag"><span class="en">Exam Simulation</span><span class="vi">Mô phỏng kỳ thi</span></span>
@@ -198,14 +208,8 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
         </div>
       </div>
       <button class="card" data-mode="random20"><span class="count">20</span><span class="tag"><span class="en">Random</span><span class="vi">Ngẫu nhiên</span></span><h3><span class="en">Quick 20</span><span class="vi">20 câu nhanh</span></h3><p><span class="en">A fast mixed warm-up drawn from every section.</span><span class="vi">Khởi động nhanh, trộn từ mọi phần.</span></p></button>
-    </div>
-
-    <div id="redrillWrap" class="hide">
-      <div class="section-label"><span class="en">Drill Your Weak Spots</span><span class="vi">Luyện điểm yếu</span></div>
-      <div class="home-pair">
-        <button class="card redrill" data-mode="redrill"><span class="count" id="cntRedrill">0</span><span class="tag"><span class="en">From your mistakes</span><span class="vi">Từ câu bạn đã sai</span></span><h3><span class="en">Re-drill Wrong Answers</span><span class="vi">Làm lại câu đã sai</span></h3><p><span class="en">Questions you previously got wrong, so you can master them.</span><span class="vi">Những câu bạn từng làm sai, để luyện cho thành thạo.</span></p></button>
-        <button class="card" data-mode="flagged" id="cardFlagged"><span class="count" id="cntFlagged">0</span><span class="tag"><span class="en">Saved</span><span class="vi">Đã lưu</span></span><h3><span class="en">Flagged Questions</span><span class="vi">Câu đã đánh dấu</span></h3><p><span class="en">Questions you flagged for later review.</span><span class="vi">Những câu bạn đánh dấu để xem lại.</span></p></button>
-      </div>
+      <button class="card redrill hide" data-mode="redrill" id="cardRedrill"><span class="count" id="cntRedrill">0</span><span class="tag"><span class="en">From your mistakes</span><span class="vi">Từ câu bạn đã sai</span></span><h3><span class="en">Re-drill Wrong Answers</span><span class="vi">Làm lại câu đã sai</span></h3><p><span class="en">Questions you previously got wrong, so you can master them.</span><span class="vi">Những câu bạn từng làm sai, để luyện cho thành thạo.</span></p></button>
+      <button class="card hide" data-mode="flagged" id="cardFlagged"><span class="count" id="cntFlagged">0</span><span class="tag"><span class="en">Saved</span><span class="vi">Đã lưu</span></span><h3><span class="en">Flagged Questions</span><span class="vi">Câu đã đánh dấu</span></h3><p><span class="en">Questions you flagged for later review.</span><span class="vi">Những câu bạn đánh dấu để xem lại.</span></p></button>
     </div>
 
     <div class="section-label"><span class="en">Practice by Appendix</span><span class="vi">Luyện theo từng phần (Phụ lục)</span></div>
@@ -245,6 +249,16 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
   <div id="results" class="hide"></div>
 </div>
 
+<div class="modal-overlay hide" id="modal" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">❓</div>
+    <div class="modal-msg" id="modalMsg"></div>
+    <div class="modal-actions">
+      <button class="btn" id="modalCancel"><span class="en">Cancel</span><span class="vi">Huỷ</span></button>
+      <button class="btn primary" id="modalOk"><span class="en">OK</span><span class="vi">OK</span></button>
+    </div>
+  </div>
+</div>
 <script src="questions/appA.js"></script>
 <script src="questions/appB.js"></script>
 <script src="questions/appC.js"></script>
@@ -308,13 +322,13 @@ function refreshHome(){
   const flagIds  = Object.keys(store.flagged).filter(id=>qById[id]);
   $('cntRedrill').textContent = wrongIds.length;
   $('cntFlagged').textContent = flagIds.length;
-  $('redrillWrap').classList.toggle('hide', wrongIds.length===0 && flagIds.length===0);
+  $('cardRedrill').classList.toggle('hide', wrongIds.length===0);
   $('cardFlagged').classList.toggle('hide', flagIds.length===0);
-  // last-score line under the mock card
+  // last-score line under the cards row
   let ls=$('lastScoreLine');
   const h=store.history[store.history.length-1];
   if(h){
-    if(!ls){ls=document.createElement('div');ls.id='lastScoreLine';ls.className='last-score';$('examRow').after(ls);}
+    if(!ls){ls=document.createElement('div');ls.id='lastScoreLine';ls.className='last-score';$('homeCards').after(ls);}
     const d=new Date(h.date);
     ls.innerHTML='<span class="en">Last attempt: '+h.pct+'% ('+h.score+'/'+h.total+') · '+d.toLocaleDateString()+'</span>'+
                  '<span class="vi">Lần gần nhất: '+h.pct+'% ('+h.score+'/'+h.total+') · '+d.toLocaleDateString()+'</span>';
@@ -355,7 +369,7 @@ function start(mode, count){
   else if(mode==='flagged'){ list = shuffle(BANK.filter(q=>store.flagged[qid(q)])); }
   else { list = shuffle(BANK); }
   if(!list.length){
-    alert(document.body.classList.contains('lang-vi')?'Chưa có câu nào cho chế độ này.':'No questions for this mode yet.');
+    showModal({ msg:document.body.classList.contains('lang-vi')?'Chưa có câu nào cho chế độ này.':'No questions for this mode yet.', icon:'ℹ️', cancel:false });
     return;
   }
   // pre-shuffle options per question, remembering correct index
@@ -488,12 +502,35 @@ function gotoNext(){
   else finish();
 }
 function gotoPrev(){ if(state.idx>0){ state.idx--; render(); window.scrollTo(0,0); } }
+/* ---- custom modal (replaces native confirm/alert) ---- */
+let modalOnOk=null;
+function showModal(o){
+  $('modalMsg').textContent = o.msg;
+  $('modalIcon').textContent = o.icon || '❓';
+  $('modalOk').innerHTML = o.ok || '<span class="en">OK</span><span class="vi">OK</span>';
+  $('modalCancel').classList.toggle('hide', o.cancel===false);
+  modalOnOk = o.onOk||null;
+  $('modal').classList.remove('hide');
+  setTimeout(()=>$('modalOk').focus(),0);
+}
+function closeModal(){ $('modal').classList.add('hide'); modalOnOk=null; }
+$('modalOk').addEventListener('click',()=>{ const cb=modalOnOk; closeModal(); if(cb) cb(); });
+$('modalCancel').addEventListener('click',closeModal);
+$('modal').addEventListener('click',e=>{ if(e.target===$('modal')) closeModal(); });
+document.addEventListener('keydown',e=>{
+  if($('modal').classList.contains('hide')) return;
+  if(e.key==='Enter'){ e.preventDefault(); $('modalOk').click(); }
+  else if(e.key==='Escape'){ e.preventDefault(); ($('modalCancel').classList.contains('hide')?$('modalOk'):$('modalCancel')).click(); }
+});
+
 function submitExam(){
   const left = state.answers.filter(a=>a===null).length;
   const msg = document.body.classList.contains('lang-vi')
-    ? (left? 'Còn '+left+' câu chưa làm. Nộp bài?' : 'Nộp bài và xem kết quả?')
-    : (left? left+' question(s) unanswered. Submit anyway?' : 'Submit and see results?');
-  if(confirm(msg)){ stopTimer(); finish(); }
+    ? (left? 'Còn '+left+' câu chưa làm. Nộp bài và xem kết quả?' : 'Nộp bài và xem kết quả?')
+    : (left? left+' question(s) unanswered. Submit and see results?' : 'Submit and see results?');
+  showModal({ msg, icon:'📝',
+    ok:'<span class="en">Submit ✓</span><span class="vi">Nộp bài ✓</span>',
+    onOk:()=>{ stopTimer(); finish(); } });
 }
 
 $('btnNext').addEventListener('click',gotoNext);
@@ -502,11 +539,14 @@ $('btnFlag').addEventListener('click',toggleFlag);
 $('btnSubmit').addEventListener('click',submitExam);
 $('btnQuit').addEventListener('click',()=>{
   const msg=document.body.classList.contains('lang-vi')?'Thoát bài làm? Tiến trình bài này sẽ không được lưu.':'Exit quiz? This attempt will not be saved.';
-  if(confirm(msg)){ stopTimer(); state.ended=true; $('quiz').classList.add('hide'); $('home').classList.remove('hide'); refreshHome(); window.scrollTo(0,0);}
+  showModal({ msg, icon:'⚠️',
+    ok:'<span class="en">Exit</span><span class="vi">Thoát</span>',
+    onOk:()=>{ stopTimer(); state.ended=true; $('quiz').classList.add('hide'); $('home').classList.remove('hide'); refreshHome(); window.scrollTo(0,0);} });
 });
 
 /* ---- Keyboard navigation ---- */
 document.addEventListener('keydown',e=>{
+  if(!$('modal').classList.contains('hide')) return;          // modal open: let modal keys win
   if($('quiz').classList.contains('hide') || !state || state.ended) return;
   if(e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
   if(e.key>='1' && e.key<='4'){ const p=parseInt(e.key)-1; if(p<state.list[state.idx].order.length){ pick(p); e.preventDefault(); } }
