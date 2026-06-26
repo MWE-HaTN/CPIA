@@ -131,6 +131,28 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
 .exam-jump button.flag{border-color:var(--warn);color:var(--warn)}
 .card.redrill{background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(239,68,68,.08));border-color:rgba(245,158,11,.35)}
 .last-score{text-align:center;color:var(--text3);font-size:12px;margin:-6px 0 14px;font-family:Consolas,monospace}
+
+/* --- exam count config + 2-column exam layout --- */
+.exam-config{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0 4px}
+.exam-config .lbl{font-size:13px;color:var(--text2);font-weight:700}
+.ec{cursor:pointer;border:1px solid var(--border);background:var(--bg2);color:var(--text2);border-radius:8px;padding:6px 14px;font-size:14px;font-weight:700;font-family:Consolas,monospace}
+.ec:hover{border-color:var(--accent)}
+.ec.sel{border-color:var(--accent);color:var(--accent);background:rgba(34,211,238,.1)}
+.ec-input{width:74px;border:1px solid var(--border);background:var(--bg2);color:var(--text);border-radius:8px;padding:6px 10px;font-size:14px;font-family:Consolas,monospace}
+.exam-time-note{font-size:13px;color:var(--accent);font-family:Consolas,monospace;font-weight:700}
+.exam-wrap{display:flex;gap:18px;align-items:flex-start}
+.exam-side{flex:0 0 clamp(170px,20vw,240px);position:sticky;top:64px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px 14px 16px}
+.exam-content{flex:1;min-width:0}
+.side-timer{font-family:Consolas,monospace;font-size:28px;font-weight:800;text-align:center;color:var(--accent);letter-spacing:1px;margin-bottom:10px}
+.side-timer.warn{color:var(--warn)}
+.side-timer.danger{color:var(--danger);animation:pulse 1s infinite}
+.side-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:800;margin-bottom:9px;text-align:center}
+#examJump{display:flex;flex-wrap:wrap;gap:6px;max-height:48vh;overflow-y:auto;scrollbar-width:thin}
+#examJump button{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;font-family:Consolas,monospace}
+#examJump button.cur{border-color:var(--accent);color:var(--accent)}
+#examJump button.done{background:rgba(34,211,238,.14);color:var(--text)}
+#examJump button.flag{border-color:var(--warn);color:var(--warn)}
+@media(max-width:760px){.exam-wrap{flex-direction:column}.exam-side{position:static;width:100%;flex-basis:auto;order:-1}#examJump{max-height:120px}}
 </style></head>
 <body>
 <script>try{var _l=localStorage.getItem('cpia-lang'),_t=localStorage.getItem('cpia-theme');if(_t==='light')document.body.classList.add('light-mode');document.body.classList.add('lang-'+((_l==='vi')?'vi':'en'))}catch(e){document.body.classList.add('lang-en')}</script>
@@ -154,12 +176,21 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
 
     <div class="section-label"><span class="en">Full Mock Exam</span><span class="vi">Đề thi thử đầy đủ</span></div>
     <div class="mode-grid">
-      <button class="card big" data-mode="mock120">
+      <button class="card big" id="examCard">
         <span class="count" id="cntMock">120</span>
         <span class="tag"><span class="en">Exam Simulation</span><span class="vi">Mô phỏng kỳ thi</span></span>
-        <h3><span class="en">120 Questions — Mixed</span><span class="vi">120 câu — Trộn đề</span></h3>
-        <p><span class="en">Real exam format: 120 questions / 120 minutes, randomly mixed across all six appendices.</span><span class="vi">Đúng định dạng thật: 120 câu / 120 phút, trộn ngẫu nhiên toàn bộ 6 phụ lục.</span></p>
+        <h3><span class="en"><span id="examCardN">120</span> Questions — Mixed</span><span class="vi"><span id="examCardNv">120</span> câu — Trộn đề</span></h3>
+        <p><span class="en">Real exam pace — 1 minute per question — randomly mixed across all six appendices. Pick a size below; the timer scales to keep the pressure.</span><span class="vi">Đúng nhịp đề thật — 1 phút/câu — trộn ngẫu nhiên cả 6 phụ lục. Chọn số câu bên dưới; đồng hồ tự co theo để giữ áp lực.</span></p>
       </button>
+    </div>
+    <div class="exam-config">
+      <span class="lbl"><span class="en">Questions:</span><span class="vi">Số câu:</span></span>
+      <button class="ec" data-count="30">30</button>
+      <button class="ec" data-count="60">60</button>
+      <button class="ec" data-count="90">90</button>
+      <button class="ec sel" data-count="120">120</button>
+      <input type="number" id="examCustom" class="ec-input" min="5" max="448" placeholder="…"/>
+      <span class="exam-time-note" id="examTimeNote"></span>
     </div>
 
     <div class="section-label"><span class="en">Quick Practice</span><span class="vi">Luyện nhanh</span></div>
@@ -187,17 +218,25 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
       <span class="meta" id="qMeta">1 / 20</span>
       <span class="exam-badge hide" id="examBadge"><span class="en">Exam</span><span class="vi">Thi</span></span>
       <div class="qprog-track"><div class="qprog-fill" id="qProg"></div></div>
-      <span class="qtimer hide" id="qTimer">120:00</span>
       <span class="score-chip" id="qScore">0 ✓</span>
     </div>
-    <div id="qHost"></div>
-    <div class="qnav">
-      <button class="btn" id="btnPrev"><span class="en">← Prev</span><span class="vi">← Trước</span></button>
-      <button class="btn flag" id="btnFlag">⚑ <span class="en">Flag</span><span class="vi">Đánh dấu</span></button>
-      <button class="btn primary" id="btnNext" disabled><span class="en">Next →</span><span class="vi">Tiếp →</span></button>
+    <div class="exam-wrap">
+      <aside class="exam-side hide" id="examSide">
+        <div class="side-timer hide" id="qTimer">120:00</div>
+        <div class="side-label"><span class="en">Question map</span><span class="vi">Danh sách câu</span></div>
+        <div id="examJump"></div>
+        <button class="btn primary" id="btnSubmit" style="width:100%;margin-top:14px"><span class="en">Submit exam ✓</span><span class="vi">Nộp bài ✓</span></button>
+      </aside>
+      <div class="exam-content">
+        <div id="qHost"></div>
+        <div class="qnav">
+          <button class="btn" id="btnPrev"><span class="en">← Prev</span><span class="vi">← Trước</span></button>
+          <button class="btn flag" id="btnFlag">⚑ <span class="en">Flag</span><span class="vi">Đánh dấu</span></button>
+          <button class="btn primary" id="btnNext" disabled><span class="en">Next →</span><span class="vi">Tiếp →</span></button>
+        </div>
+        <div class="kbd-hint"><span class="en">Keys: <b>1-4</b> answer · <b>Enter</b> next · <b>P</b> prev · <b>F</b> flag</span><span class="vi">Phím: <b>1-4</b> chọn · <b>Enter</b> tiếp · <b>P</b> trước · <b>F</b> đánh dấu</span></div>
+      </div>
     </div>
-    <div id="examSubmitBar" class="hide" style="margin-top:12px"><button class="btn primary" id="btnSubmit" style="width:100%"><span class="en">Submit exam ✓</span><span class="vi">Nộp bài ✓</span></button></div>
-    <div class="kbd-hint"><span class="en">Keys: <b>1-4</b> answer · <b>Enter</b> next · <b>P</b> prev · <b>F</b> flag</span><span class="vi">Phím: <b>1-4</b> chọn · <b>Enter</b> tiếp · <b>P</b> trước · <b>F</b> đánh dấu</span></div>
   </div>
 
   <!-- RESULTS -->
@@ -286,9 +325,27 @@ document.querySelectorAll('[data-mode]').forEach(el=>{
   el.addEventListener('click',()=>start(el.dataset.mode));
 });
 
-function start(mode){
+/* ---- Exam size chooser (time auto-scales at 1 min/question) ---- */
+let selectedExamCount = 120;
+function updateExamConfig(){
+  document.querySelectorAll('.ec').forEach(b=>b.classList.toggle('sel', +b.dataset.count===selectedExamCount));
+  $('cntMock').textContent = selectedExamCount;
+  $('examCardN').textContent = selectedExamCount;
+  $('examCardNv').textContent = selectedExamCount;
+  const mins = selectedExamCount; // real-exam pace: 1 minute per question
+  $('examTimeNote').innerHTML = '<span class="en">→ '+mins+' min · 1 min/question</span><span class="vi">→ '+mins+' phút · 1 phút/câu</span>';
+}
+document.querySelectorAll('.ec').forEach(b=>b.addEventListener('click',()=>{ selectedExamCount=+b.dataset.count; $('examCustom').value=''; updateExamConfig(); }));
+$('examCustom').addEventListener('input',e=>{
+  const v=parseInt(e.target.value);
+  if(v>=5){ selectedExamCount=Math.min(v, BANK.length); document.querySelectorAll('.ec').forEach(b=>b.classList.remove('sel')); $('cntMock').textContent=selectedExamCount; $('examCardN').textContent=selectedExamCount; $('examCardNv').textContent=selectedExamCount; $('examTimeNote').innerHTML='<span class="en">→ '+selectedExamCount+' min · 1 min/question</span><span class="vi">→ '+selectedExamCount+' phút · 1 phút/câu</span>'; }
+});
+$('examCard').addEventListener('click',()=>start('mock', selectedExamCount));
+updateExamConfig();
+
+function start(mode, count){
   let list, examMode=false;
-  if(mode==='mock120'){ list = shuffle(BANK).slice(0,120); examMode=true; }
+  if(mode==='mock'){ const n=Math.max(5, Math.min(count||selectedExamCount||120, BANK.length)); list = shuffle(BANK).slice(0,n); examMode=true; }
   else if(mode==='random20'){ list = shuffle(BANK).slice(0,20); }
   else if(mode.startsWith('app:')){ const k=mode.split(':')[1]; list = shuffle(BANK.filter(q=>q.app===k)); }
   else if(mode==='redrill'){ list = shuffle(BANK.filter(q=>store.wrong[qid(q)])); }
@@ -337,6 +394,24 @@ function updateTimer(){
 }
 function countCorrect(){ return state.answers.reduce((n,a,i)=> n + (a&&a.pick===state.list[i].correct?1:0), 0); }
 
+/* ---- left-side exam navigator (question map) ---- */
+function renderNav(){
+  const exam = state.examMode;
+  $('examSide').classList.toggle('hide', !exam);
+  if(!exam){ return; }
+  let h='';
+  state.list.forEach((_,i)=>{
+    let c='';
+    if(i===state.idx) c+=' cur';
+    if(state.answers[i]!==null) c+=' done';
+    if(state.flagged[i]) c+=' flag';
+    h+='<button class="'+c.trim()+'" data-jump="'+i+'">'+(i+1)+'</button>';
+  });
+  const j=$('examJump');
+  j.innerHTML=h;
+  j.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>{state.idx=parseInt(b.dataset.jump);render();window.scrollTo(0,0);}));
+}
+
 function render(){
   const it = state.list[state.idx], q = it.ref, exam = state.examMode;
   const answered = state.answers[state.idx];          // {pick} | null
@@ -373,18 +448,6 @@ function render(){
       '<a class="ref" href="index.html#'+q.sec+'" target="_blank">📖 <span class="en">Revise theory: </span><span class="vi">Đọc lại lý thuyết: </span>'+T(q.secLabel)+'</a>'+
       '</div></div>';
   }
-  // exam navigator + submit
-  if(exam){
-    html+='<div class="exam-jump">';
-    state.list.forEach((_,i)=>{
-      let c='';
-      if(i===state.idx) c+=' cur';
-      if(state.answers[i]!==null) c+=' done';
-      if(state.flagged[i]) c+=' flag';
-      html+='<button class="'+c.trim()+'" data-jump="'+i+'">'+(i+1)+'</button>';
-    });
-    html+='</div>';
-  }
   html+='</div>';
   $('qHost').innerHTML = html;
 
@@ -392,11 +455,8 @@ function render(){
   if(!revealed){
     $('qHost').querySelectorAll('.opt').forEach(btn=>btn.addEventListener('click',()=>pick(parseInt(btn.dataset.pick))));
   }
-  if(exam){
-    $('qHost').querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>{state.idx=parseInt(b.dataset.jump);render();window.scrollTo(0,0);}));
-  }
-  // exam submit bar (below the Prev/Flag/Next row)
-  $('examSubmitBar').classList.toggle('hide', !exam);
+  // left-side exam navigator (number map + submit), only in exam mode
+  renderNav();
 
   // flag button state
   $('btnFlag').classList.toggle('on', state.flagged[state.idx]);
@@ -525,9 +585,9 @@ function finish(){
 
   $('quiz').classList.add('hide');
   const r=$('results'); r.classList.remove('hide'); r.innerHTML=html; window.scrollTo(0,0);
-  const retryMode = state.mode;
+  const retryMode = state.mode, retryCount = state.list.length;
   $('btnHome').addEventListener('click',()=>{ r.classList.add('hide'); $('home').classList.remove('hide'); refreshHome(); window.scrollTo(0,0);});
-  $('btnRetry').addEventListener('click',()=>{ start(retryMode); });
+  $('btnRetry').addEventListener('click',()=>{ start(retryMode, retryCount); });
 }
 
 /* ---- Language & theme toggles (synced with main guide) ---- */

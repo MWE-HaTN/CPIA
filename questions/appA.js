@@ -988,19 +988,19 @@
     "opts": [
       {
         "en": "Adversary, Capability, Infrastructure, Victim",
-        "vi": "Adversary (kẻ tấn công), Capability (năng lực), Infrastructure (hạ tầng), Victim (nạn nhân)"
+        "vi": "Adversary, Capability, Infrastructure, Victim"
       },
       {
         "en": "People, Process, Technology, Cost",
-        "vi": "Con người, Quy trình, Công nghệ, Chi phí"
+        "vi": "People, Process, Technology, Cost"
       },
       {
-        "en": "Confidentiality, Integrity, Availability, Safety",
-        "vi": "Bảo mật, Toàn vẹn, Sẵn sàng, An toàn"
+        "en": "Strategic, Operational, Tactical, Technical",
+        "vi": "Strategic, Operational, Tactical, Technical"
       },
       {
-        "en": "Detect, Respond, Recover, Report",
-        "vi": "Phát hiện, Phản ứng, Khôi phục, Báo cáo"
+        "en": "Confidentiality, Integrity, Availability, Accountability",
+        "vi": "Confidentiality, Integrity, Availability, Accountability"
       }
     ],
     "correct": 0,
