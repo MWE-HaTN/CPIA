@@ -592,7 +592,8 @@ function finish(){
     '<h2><span class="en">Quiz Complete</span><span class="vi">Hoàn thành bài</span></h2><p>'+verdict+'</p>'+
     '<div style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'+
     '<button class="btn primary" id="btnHome"><span class="en">← Back to menu</span><span class="vi">← Về menu</span></button>'+
-    '<button class="btn" id="btnRetry"><span class="en">↻ Retry</span><span class="vi">↻ Làm lại</span></button></div></div>';
+    '<button class="btn" id="btnRetry"><span class="en">↻ Retry</span><span class="vi">↻ Làm lại</span></button>'+
+    '<button class="btn" id="btnDownload">⬇ <span class="en">Download result (JSON)</span><span class="vi">Tải kết quả (JSON)</span></button></div></div>';
 
   // ---- per-appendix breakdown ----
   html+='<div class="breakdown"><div class="section-label" style="margin:0 0 8px"><span class="en">Score by Appendix</span><span class="vi">Điểm theo từng phụ lục</span></div>';
@@ -637,6 +638,48 @@ function finish(){
   const retryMode = state.mode, retryCount = state.list.length;
   $('btnHome').addEventListener('click',()=>{ r.classList.add('hide'); $('home').classList.remove('hide'); refreshHome(); window.scrollTo(0,0);});
   $('btnRetry').addEventListener('click',()=>{ start(retryMode, retryCount); });
+
+  // ---- downloadable JSON result ----
+  const lt = o => document.body.classList.contains('lang-vi') ? o.vi : o.en;
+  const now = new Date();
+  const result = {
+    title: 'CPIA Practice — Result',
+    date: now.toISOString(),
+    mode: state.mode,
+    examMode: state.examMode,
+    questionsTotal: total,
+    correct: score,
+    incorrect: total - score,
+    percent: pct,
+    verdict: pass ? 'PASS' : (pct>=55 ? 'BORDERLINE' : 'NEEDS_WORK'),
+    timeAllottedSec: state.examMode ? state.durationSec : null,
+    timeUsedSec: state.examMode ? state.durationSec - Math.max(0, state.remaining) : null,
+    byAppendix: {},
+    questions: state.list.map((it,i)=>{
+      const q=it.ref, a=state.answers[i];
+      return {
+        n: i+1,
+        appendix: q.app,
+        section: q.sec,
+        question: lt(q.q),
+        yourAnswer: a ? lt(q.opts[it.order[a.pick]]) : null,
+        correctAnswer: lt(q.opts[q.correct]),
+        isCorrect: !!(a && a.pick===it.correct),
+        flagged: !!state.flagged[i],
+        reviseTheory: 'index.html#'+q.sec
+      };
+    })
+  };
+  Object.keys(per).sort().forEach(k=>{ result.byAppendix[k] = {correct:per[k].c, total:per[k].t, percent:Math.round(per[k].c/per[k].t*100)}; });
+  const pad=n=>String(n).padStart(2,'0');
+  const fname = 'cpia-result-'+now.getFullYear()+pad(now.getMonth()+1)+pad(now.getDate())+'-'+pad(now.getHours())+pad(now.getMinutes())+'.json';
+  $('btnDownload').addEventListener('click',()=>{
+    const blob = new Blob([JSON.stringify(result,null,2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href=url; a.download=fname; document.body.appendChild(a); a.click();
+    setTimeout(()=>{ document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+  });
 }
 
 /* ---- Language & theme toggles (synced with main guide) ---- */
