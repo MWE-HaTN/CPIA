@@ -136,6 +136,10 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
 .exam-config{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:16px 0 0;padding:14px 0 2px;border-top:1px solid var(--border)}
 .exam-config .lbl{font-size:13px;color:var(--text2);font-weight:700;margin-right:2px}
 .exam-config .spacer{flex:1}
+.home-pair{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;align-items:stretch;margin-bottom:4px}
+.home-pair .card.big{grid-column:auto}
+.home-pair .card{margin:0}
+@media(max-width:680px){.home-pair{grid-template-columns:1fr}}
 .ec{cursor:pointer;border:1px solid var(--border);background:var(--bg2);color:var(--text2);border-radius:8px;padding:6px 14px;font-size:14px;font-weight:700;font-family:Consolas,monospace}
 .ec:hover{border-color:var(--accent)}
 .ec.sel{border-color:var(--accent);color:var(--accent);background:rgba(34,211,238,.1)}
@@ -175,8 +179,8 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
       <p><span class="en">Multiple-choice questions per CREST CPIA syllabus. Every answer — right or wrong — shows a full explanation, a key takeaway, and a link back to the exact theory section to revise.</span><span class="vi">Câu hỏi trắc nghiệm theo đúng syllabus CREST CPIA. Mọi câu trả lời (đúng hay sai) đều có giải thích đầy đủ, lưu ý trọng tâm và liên kết quay lại đúng phần lý thuyết cần đọc lại.</span></p>
     </div>
 
-    <div class="section-label"><span class="en">Full Mock Exam</span><span class="vi">Đề thi thử đầy đủ</span></div>
-    <div class="mode-grid">
+    <div class="section-label"><span class="en">Mock Exam &amp; Quick Practice</span><span class="vi">Đề thi thử &amp; Luyện nhanh</span></div>
+    <div class="home-pair" id="examRow">
       <div class="card big" id="examCard">
         <span class="count" id="cntMock">120</span>
         <span class="tag"><span class="en">Exam Simulation</span><span class="vi">Mô phỏng kỳ thi</span></span>
@@ -193,16 +197,12 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
           <span class="exam-time-note" id="examTimeNote"></span>
         </div>
       </div>
-    </div>
-
-    <div class="section-label"><span class="en">Quick Practice</span><span class="vi">Luyện nhanh</span></div>
-    <div class="mode-grid">
       <button class="card" data-mode="random20"><span class="count">20</span><span class="tag"><span class="en">Random</span><span class="vi">Ngẫu nhiên</span></span><h3><span class="en">Quick 20</span><span class="vi">20 câu nhanh</span></h3><p><span class="en">A fast mixed warm-up drawn from every section.</span><span class="vi">Khởi động nhanh, trộn từ mọi phần.</span></p></button>
     </div>
 
     <div id="redrillWrap" class="hide">
       <div class="section-label"><span class="en">Drill Your Weak Spots</span><span class="vi">Luyện điểm yếu</span></div>
-      <div class="mode-grid">
+      <div class="home-pair">
         <button class="card redrill" data-mode="redrill"><span class="count" id="cntRedrill">0</span><span class="tag"><span class="en">From your mistakes</span><span class="vi">Từ câu bạn đã sai</span></span><h3><span class="en">Re-drill Wrong Answers</span><span class="vi">Làm lại câu đã sai</span></h3><p><span class="en">Questions you previously got wrong, so you can master them.</span><span class="vi">Những câu bạn từng làm sai, để luyện cho thành thạo.</span></p></button>
         <button class="card" data-mode="flagged" id="cardFlagged"><span class="count" id="cntFlagged">0</span><span class="tag"><span class="en">Saved</span><span class="vi">Đã lưu</span></span><h3><span class="en">Flagged Questions</span><span class="vi">Câu đã đánh dấu</span></h3><p><span class="en">Questions you flagged for later review.</span><span class="vi">Những câu bạn đánh dấu để xem lại.</span></p></button>
       </div>
@@ -314,7 +314,7 @@ function refreshHome(){
   let ls=$('lastScoreLine');
   const h=store.history[store.history.length-1];
   if(h){
-    if(!ls){ls=document.createElement('div');ls.id='lastScoreLine';ls.className='last-score';$('examCard').closest('.mode-grid').after(ls);}
+    if(!ls){ls=document.createElement('div');ls.id='lastScoreLine';ls.className='last-score';$('examRow').after(ls);}
     const d=new Date(h.date);
     ls.innerHTML='<span class="en">Last attempt: '+h.pct+'% ('+h.score+'/'+h.total+') · '+d.toLocaleDateString()+'</span>'+
                  '<span class="vi">Lần gần nhất: '+h.pct+'% ('+h.score+'/'+h.total+') · '+d.toLocaleDateString()+'</span>';
