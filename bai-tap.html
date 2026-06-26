@@ -136,10 +136,12 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
 .exam-config{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:16px 0 0;padding:14px 0 2px;border-top:1px solid var(--border)}
 .exam-config .lbl{font-size:13px;color:var(--text2);font-weight:700;margin-right:2px}
 .exam-config .spacer{flex:1}
-.home-cards{display:flex;flex-wrap:wrap;gap:14px;align-items:start;margin-bottom:4px}
-.home-cards .card{flex:1 1 230px;margin:0}
-.home-cards .card.big{flex:2.4 1 360px;grid-column:auto}
-@media(max-width:680px){.home-cards .card,.home-cards .card.big{flex-basis:100%}}
+.home-cards{display:grid;grid-template-columns:1.6fr 1fr;gap:14px;align-items:start;margin-bottom:4px}
+.home-cards .card{margin:0}
+.home-cards .card.big{grid-column:auto}
+.home-side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.home-side .card{margin:0}
+@media(max-width:680px){.home-cards{grid-template-columns:1fr}}
 
 /* --- custom confirm/alert modal --- */
 .modal-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(7,11,20,.66);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);padding:20px}
@@ -207,9 +209,11 @@ body.light-mode .modal-overlay{background:rgba(15,23,42,.42)}
           <span class="exam-time-note" id="examTimeNote"></span>
         </div>
       </div>
+      <div class="home-side">
       <button class="card" data-mode="random20"><span class="count">20</span><span class="tag"><span class="en">Random</span><span class="vi">Ngẫu nhiên</span></span><h3><span class="en">Quick 20</span><span class="vi">20 câu nhanh</span></h3><p><span class="en">A fast mixed warm-up drawn from every section.</span><span class="vi">Khởi động nhanh, trộn từ mọi phần.</span></p></button>
       <button class="card redrill hide" data-mode="redrill" id="cardRedrill"><span class="count" id="cntRedrill">0</span><span class="tag"><span class="en">From your mistakes</span><span class="vi">Từ câu bạn đã sai</span></span><h3><span class="en">Re-drill Wrong Answers</span><span class="vi">Làm lại câu đã sai</span></h3><p><span class="en">Questions you previously got wrong, so you can master them.</span><span class="vi">Những câu bạn từng làm sai, để luyện cho thành thạo.</span></p></button>
       <button class="card hide" data-mode="flagged" id="cardFlagged"><span class="count" id="cntFlagged">0</span><span class="tag"><span class="en">Saved</span><span class="vi">Đã lưu</span></span><h3><span class="en">Flagged Questions</span><span class="vi">Câu đã đánh dấu</span></h3><p><span class="en">Questions you flagged for later review.</span><span class="vi">Những câu bạn đánh dấu để xem lại.</span></p></button>
+      </div>
     </div>
 
     <div class="section-label"><span class="en">Practice by Appendix</span><span class="vi">Luyện theo từng phần (Phụ lục)</span></div>
