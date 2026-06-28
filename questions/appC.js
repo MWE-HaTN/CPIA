@@ -203,8 +203,8 @@
     },
     "opts": [
       {
-        "en": "Corroborate — it may be a false positive or dual-use tool",
-        "vi": "Đối chiếu — có thể là false positive hoặc công cụ lưỡng dụng"
+        "en": "Corroborate; it may be benign or dual-use",
+        "vi": "Đối chiếu thêm; có thể lành tính hoặc lưỡng dụng"
       },
       {
         "en": "Always fully trust the AV verdict",
@@ -239,8 +239,8 @@
     },
     "opts": [
       {
-        "en": "Find exposed documents/pages via search-engine indexing",
-        "vi": "Tìm tài liệu/trang bị phơi qua chỉ mục công cụ tìm kiếm"
+        "en": "Find exposed documents via search indexing",
+        "vi": "Tìm tài liệu bị lộ qua chỉ mục tìm kiếm"
       },
       {
         "en": "Crash the target's web server remotely",
@@ -275,20 +275,20 @@
     },
     "opts": [
       {
-        "en": "A Regional Internet Registry WHOIS (ARIN/RIPE)",
-        "vi": "WHOIS của một Regional Internet Registry (ARIN/RIPE)"
+        "en": "A Regional Internet Registry's WHOIS",
+        "vi": "WHOIS của một Regional Internet Registry"
       },
       {
-        "en": "The local machine's hosts file",
-        "vi": "File hosts của máy cục bộ"
+        "en": "The domain registrar's WHOIS",
+        "vi": "WHOIS của nhà đăng ký tên miền"
       },
       {
-        "en": "The Windows Task Manager process list",
-        "vi": "Danh sách tiến trình Task Manager"
+        "en": "A forward DNS A-record lookup",
+        "vi": "Một tra cứu bản ghi A xuôi"
       },
       {
-        "en": "The browser's deleted-items recycle bin",
-        "vi": "Thùng rác mục đã xóa của trình duyệt"
+        "en": "A BGP route-server looking glass",
+        "vi": "Một looking glass route-server BGP"
       }
     ],
     "correct": 0,
@@ -311,8 +311,8 @@
     },
     "opts": [
       {
-        "en": "Search the hash on a multi-engine service (VirusTotal)",
-        "vi": "Tra hash trên dịch vụ đa engine (VirusTotal)"
+        "en": "Search the hash on a multi-engine reputation service",
+        "vi": "Tra hash trên một dịch vụ uy tín đa engine"
       },
       {
         "en": "Run it directly on a production host",
@@ -499,8 +499,8 @@
     },
     "opts": [
       {
-        "en": "Privacy law (GDPR) and privacy/proxy registration",
-        "vi": "Luật riêng tư (GDPR) và đăng ký ẩn danh/proxy"
+        "en": "Privacy law and privacy/proxy registration services",
+        "vi": "Luật bảo vệ quyền riêng tư và dịch vụ đăng ký ẩn danh/proxy"
       },
       {
         "en": "A long-standing bug in the DNS protocol",
@@ -643,8 +643,8 @@
     },
     "opts": [
       {
-        "en": "The relevant RIR's IP WHOIS (ARIN/RIPE/APNIC)",
-        "vi": "IP WHOIS của RIR liên quan (ARIN/RIPE/APNIC)"
+        "en": "The relevant RIR's IP WHOIS",
+        "vi": "WHOIS IP của RIR liên quan"
       },
       {
         "en": "The domain registrar's WHOIS only",
@@ -967,20 +967,20 @@
     },
     "opts": [
       {
-        "en": "Malware using a Domain Generation Algorithm (DGA)",
-        "vi": "Mã độc dùng Domain Generation Algorithm (DGA)"
+        "en": "Malware using a Domain Generation Algorithm",
+        "vi": "Malware dùng Domain Generation Algorithm (DGA)"
       },
       {
-        "en": "Perfectly ordinary user web browsing",
-        "vi": "Duyệt web bình thường của người dùng"
+        "en": "A misconfigured host with a stale DNS search suffix",
+        "vi": "Một host cấu hình sai với search suffix DNS cũ"
       },
       {
-        "en": "A routine printer-driver software update",
-        "vi": "Một cập nhật driver máy in định kỳ"
+        "en": "Normal browsing with warm DNS caches",
+        "vi": "Duyệt web bình thường với cache DNS còn ấm"
       },
       {
-        "en": "A successful security patch install",
-        "vi": "Một lần cài bản vá bảo mật thành công"
+        "en": "Reputation lookups from an endpoint agent",
+        "vi": "Tra cứu uy tín từ một agent endpoint"
       }
     ],
     "correct": 0,
@@ -1007,8 +1007,8 @@
     },
     "opts": [
       {
-        "en": "It hides DNS inside HTTPS (443), bypassing DNS monitoring",
-        "vi": "Nó giấu DNS trong HTTPS (443), né giám sát DNS"
+        "en": "It hides DNS inside HTTPS traffic, bypassing DNS monitoring",
+        "vi": "Nó giấu DNS trong lưu lượng HTTPS, vượt qua giám sát DNS"
       },
       {
         "en": "It makes DNS resolution noticeably slower",
@@ -1187,8 +1187,8 @@
     },
     "opts": [
       {
-        "en": "Forgery of DNS data such as cache poisoning",
-        "vi": "Giả mạo dữ liệu DNS như cache poisoning"
+        "en": "Forgery of DNS data, including cache poisoning",
+        "vi": "Giả mạo dữ liệu DNS, gồm cả cache poisoning"
       },
       {
         "en": "Hardware disk failure on the server",
@@ -1475,8 +1475,8 @@
     },
     "opts": [
       {
-        "en": "A recursive query — the resolver chases referrals",
-        "vi": "Truy vấn đệ quy — resolver tự đi theo referral"
+        "en": "A recursive query done by the resolver",
+        "vi": "Một truy vấn đệ quy do resolver thực hiện"
       },
       {
         "en": "An iterative query done by the client",
@@ -1767,8 +1767,8 @@
     },
     "opts": [
       {
-        "en": "Committed secrets — API keys, credentials, hostnames",
-        "vi": "Bí mật bị commit — API key, credential, hostname"
+        "en": "Committed API keys, credentials and hostnames",
+        "vi": "API key, credential và hostname bị commit"
       },
       {
         "en": "The live contents of the target's RAM",
@@ -1803,8 +1803,8 @@
     },
     "opts": [
       {
-        "en": "Active — it sends queries the target/resolver may log",
-        "vi": "Chủ động — gửi truy vấn mà mục tiêu/resolver có thể ghi log"
+        "en": "Active, since it sends queries the target may log",
+        "vi": "Chủ động, vì nó gửi truy vấn mà mục tiêu có thể ghi log"
       },
       {
         "en": "Always strictly illegal to carry out",
@@ -1839,7 +1839,7 @@
     },
     "opts": [
       {
-        "en": "Visual link analysis of relationships between entities",
+        "en": "Visual link analysis between entities",
         "vi": "Phân tích liên kết trực quan giữa các thực thể"
       },
       {
@@ -2055,8 +2055,8 @@
     },
     "opts": [
       {
-        "en": "A failed redaction — the text was never removed",
-        "vi": "Che thất bại — chữ chưa hề bị xóa"
+        "en": "A failed redaction where the text was never removed",
+        "vi": "Một lần che (redaction) thất bại, văn bản chưa hề bị xóa"
       },
       {
         "en": "Strong, modern document encryption",
@@ -2167,8 +2167,8 @@
     },
     "opts": [
       {
-        "en": "Suggests the software version (and likely patch level)",
-        "vi": "Gợi ý phiên bản phần mềm (và mức vá khả dĩ)"
+        "en": "Suggests the software version and likely patch level",
+        "vi": "Gợi ý phiên bản phần mềm và mức vá khả dĩ"
       },
       {
         "en": "It decrypts the document's contents",
@@ -2347,8 +2347,8 @@
     },
     "opts": [
       {
-        "en": "For named recipients only — do not share further",
-        "vi": "Chỉ cho người nhận được nêu tên — không chia sẻ tiếp"
+        "en": "For named recipients only; do not share further",
+        "vi": "Chỉ cho người nhận được nêu tên; không chia sẻ thêm"
       },
       {
         "en": "Share freely with the general public",
@@ -2423,8 +2423,8 @@
     },
     "opts": [
       {
-        "en": "Detect files/memory matching malware-family patterns",
-        "vi": "Phát hiện file/bộ nhớ khớp mẫu của họ mã độc"
+        "en": "Detect files matching malware-family patterns",
+        "vi": "Phát hiện file khớp mẫu của họ malware"
       },
       {
         "en": "Encrypt a malware sample file",

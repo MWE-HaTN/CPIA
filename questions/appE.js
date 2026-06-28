@@ -139,8 +139,8 @@
         "vi": "Một mục cache DNS"
       },
       {
-        "en": "Prefetch (.pf) files",
-        "vi": "File Prefetch (.pf)"
+        "en": "Windows Prefetch files",
+        "vi": "File Prefetch của Windows"
       },
       {
         "en": "The Recycle Bin",
@@ -175,8 +175,8 @@
     },
     "opts": [
       {
-        "en": "Run / RunOnce keys (HKLM and HKCU)",
-        "vi": "Khóa Run / RunOnce (HKLM và HKCU)"
+        "en": "Run and RunOnce keys in HKLM and HKCU",
+        "vi": "Khóa Run và RunOnce trong HKLM và HKCU"
       },
       {
         "en": "The Recycle Bin registry key",
@@ -247,8 +247,8 @@
     },
     "opts": [
       {
-        "en": "Alternate Data Streams (ADS)",
-        "vi": "Alternate Data Streams (ADS)"
+        "en": "NTFS Alternate Data Streams",
+        "vi": "Alternate Data Streams của NTFS"
       },
       {
         "en": "Routine disk defragmentation",
@@ -287,23 +287,23 @@
     },
     "opts": [
       {
-        "en": "A plain text log file",
-        "vi": "Một file log văn bản thuần"
-      },
-      {
         "en": "A packed or encrypted executable",
         "vi": "Một file thực thi đã pack hoặc mã hóa"
       },
       {
-        "en": "An empty file",
-        "vi": "Một file rỗng"
+        "en": "A plain-text application log",
+        "vi": "Một file log ứng dụng dạng text"
       },
       {
-        "en": "A normal Word document",
-        "vi": "Một tài liệu Word bình thường"
+        "en": "An ordinary Word document",
+        "vi": "Một tài liệu Word thông thường"
+      },
+      {
+        "en": "An empty placeholder file",
+        "vi": "Một file rỗng giữ chỗ"
       }
     ],
-    "correct": 1,
+    "correct": 0,
     "exp": {
       "en": "High entropy (near 8 bits/byte) with few meaningful strings is typical of packed/encrypted code (UPX, custom packers) used to defeat signature and string analysis. Detect packers with PEiD/Detect-It-Easy; unpack before deeper static analysis. Fuzzy hashing (ssdeep) can still cluster variants.",
       "vi": "Entropy cao (gần 8 bit/byte) với ít chuỗi có nghĩa là đặc trưng của mã đã pack/mã hóa (UPX, packer tùy biến) nhằm vô hiệu phân tích signature và string. Phát hiện packer bằng PEiD/Detect-It-Easy; giải nén trước khi phân tích tĩnh sâu. Fuzzy hashing (ssdeep) vẫn gom nhóm được các biến thể."
@@ -327,8 +327,8 @@
     },
     "opts": [
       {
-        "en": "$MFT (Master File Table)",
-        "vi": "$MFT (Master File Table)"
+        "en": "$MFT, the Master File Table",
+        "vi": "$MFT, tức Master File Table"
       },
       {
         "en": "The FAT allocation table",
@@ -367,8 +367,8 @@
     },
     "opts": [
       {
-        "en": "A rootkit hiding the process (DKOM / API hooking)",
-        "vi": "Một rootkit đang ẩn tiến trình (DKOM / hook API)"
+        "en": "A rootkit hiding the process",
+        "vi": "Một rootkit đang ẩn tiến trình"
       },
       {
         "en": "A normal background service host",
@@ -439,8 +439,8 @@
     },
     "opts": [
       {
-        "en": "crontab entries (/etc/crontab, /var/spool/cron)",
-        "vi": "Các mục crontab (/etc/crontab, /var/spool/cron)"
+        "en": "crontab and cron-directory entries",
+        "vi": "Các mục crontab và thư mục cron"
       },
       {
         "en": "The /etc/hostname config file",
@@ -511,8 +511,8 @@
     },
     "opts": [
       {
-        "en": "Live/triage acquisition (memory + targeted artefacts)",
-        "vi": "Thu thập live/triage (bộ nhớ + artefact trọng yếu)"
+        "en": "Live/triage acquisition of memory and key artefacts",
+        "vi": "Thu thập live/triage bộ nhớ và artefact trọng yếu"
       },
       {
         "en": "Refuse to collect any evidence",
@@ -583,8 +583,8 @@
     },
     "opts": [
       {
-        "en": "A ZIP archive of XML and media parts (OOXML)",
-        "vi": "Một archive ZIP gồm XML và media (OOXML)"
+        "en": "A ZIP archive of XML and media parts",
+        "vi": "Một archive ZIP gồm XML và media"
       },
       {
         "en": "A single large encrypted blob",
@@ -659,8 +659,8 @@
     },
     "opts": [
       {
-        "en": "Find files that are SIMILAR (variants), not byte-identical",
-        "vi": "Tìm file TƯƠNG TỰ (biến thể), không giống hệt từng byte"
+        "en": "Find similar variant files, not byte-identical ones",
+        "vi": "Tìm file biến thể tương tự, không giống hệt từng byte"
       },
       {
         "en": "Encrypt the files being compared",
@@ -915,8 +915,8 @@
     },
     "opts": [
       {
-        "en": "A successful account logon (with logon type)",
-        "vi": "Một đăng nhập tài khoản thành công (kèm logon type)"
+        "en": "A successful account logon with its logon type",
+        "vi": "Một đăng nhập tài khoản thành công kèm logon type"
       },
       {
         "en": "A system shutdown being logged",
@@ -1067,8 +1067,8 @@
     },
     "opts": [
       {
-        "en": "Potentially malicious — it can auto-run script",
-        "vi": "Có thể độc hại — nó có thể tự chạy script"
+        "en": "Potentially malicious, it can auto-run script",
+        "vi": "Có thể độc hại, nó có thể tự chạy script"
       },
       {
         "en": "Always completely safe to open",
@@ -1211,8 +1211,8 @@
     },
     "opts": [
       {
-        "en": "Rapidly collect targeted forensic artefacts (triage)",
-        "vi": "Thu thập nhanh các artefact forensic trọng yếu (triage)"
+        "en": "Rapidly collect targeted forensic artefacts",
+        "vi": "Thu thập nhanh các artefact forensic trọng yếu"
       },
       {
         "en": "Decrypt BitLocker-protected volumes",
@@ -1283,8 +1283,8 @@
     },
     "opts": [
       {
-        "en": "Its data is held inside its $MFT record, not in clusters",
-        "vi": "Dữ liệu nằm ngay trong bản ghi $MFT, không ở cluster"
+        "en": "Its data sits in the $MFT record, not in clusters",
+        "vi": "Dữ liệu nằm trong bản ghi $MFT, không ở cluster"
       },
       {
         "en": "It has been individually encrypted",
@@ -1355,8 +1355,8 @@
     },
     "opts": [
       {
-        "en": "The MFT entry and clusters are freed, but data persists",
-        "vi": "Bản ghi MFT và cluster được giải phóng, nhưng dữ liệu còn"
+        "en": "The MFT entry and clusters free, but data persists",
+        "vi": "Bản ghi MFT và cluster được giải phóng, dữ liệu vẫn còn"
       },
       {
         "en": "The bytes are immediately zeroed out",
@@ -1499,8 +1499,8 @@
     },
     "opts": [
       {
-        "en": "Program presence/execution (and Amcache SHA-1)",
-        "vi": "Hiện diện/thực thi chương trình (và SHA-1 của Amcache)"
+        "en": "Program presence and execution",
+        "vi": "Sự hiện diện và thực thi chương trình"
       },
       {
         "en": "The current network connections",
@@ -1571,8 +1571,8 @@
     },
     "opts": [
       {
-        "en": "Binary XML, requiring a parser (not plain text)",
-        "vi": "Binary XML, cần một trình phân tích (không phải text thuần)"
+        "en": "Binary XML needing a parser",
+        "vi": "Binary XML cần trình phân tích"
       },
       {
         "en": "Plain human-readable ASCII text",
@@ -1643,8 +1643,8 @@
     },
     "opts": [
       {
-        "en": "The AD database including all domain password hashes",
-        "vi": "CSDL AD gồm tất cả hash mật khẩu miền"
+        "en": "The AD database of all domain password hashes",
+        "vi": "CSDL AD chứa mọi hash mật khẩu miền"
       },
       {
         "en": "The users' desktop wallpapers",
@@ -1715,8 +1715,8 @@
     },
     "opts": [
       {
-        "en": "Unallocated pages, freelist and the WAL/journal",
-        "vi": "Các trang chưa cấp phát, freelist và WAL/journal"
+        "en": "Unallocated pages and the WAL/journal",
+        "vi": "Các trang chưa cấp phát và WAL/journal"
       },
       {
         "en": "The processor's L2/L3 cache",
@@ -1751,8 +1751,8 @@
     },
     "opts": [
       {
-        "en": "Unpack them to inspect macros and objects without opening",
-        "vi": "Giải nén để xem macro và đối tượng mà không cần mở"
+        "en": "Unpack them to inspect macros without opening",
+        "vi": "Giải nén để xem macro mà không cần mở"
       },
       {
         "en": "They simply cannot contain malware",
@@ -1895,8 +1895,8 @@
     },
     "opts": [
       {
-        "en": "A key's last-modified time — when it last changed",
-        "vi": "Thời gian sửa-cuối của khóa — khi nó thay đổi lần cuối"
+        "en": "A key's last-modified time",
+        "vi": "Thời gian sửa-cuối của khóa"
       },
       {
         "en": "Only the key's original creation date",
@@ -1967,8 +1967,8 @@
     },
     "opts": [
       {
-        "en": "Filter out legitimate OS/app files to focus on the unknown",
-        "vi": "Lọc bỏ file OS/ứng dụng hợp lệ để tập trung vào cái lạ"
+        "en": "Filter out known OS/app files to focus on unknowns",
+        "vi": "Lọc bỏ file OS/ứng dụng đã biết để tập trung vào cái lạ"
       },
       {
         "en": "Encrypt any suspicious files found",
@@ -2003,8 +2003,8 @@
     },
     "opts": [
       {
-        "en": "The real svchost.exe is in System32 — this path is wrong",
-        "vi": "svchost.exe thật nằm ở System32 — đường dẫn này sai"
+        "en": "The real svchost.exe is in System32, so this path is wrong",
+        "vi": "svchost.exe thật nằm ở System32, nên đường dẫn này sai"
       },
       {
         "en": "The name svchost.exe is always malware",
@@ -2043,8 +2043,8 @@
     },
     "opts": [
       {
-        "en": "Who signed it and that it's unchanged — not that it is safe",
-        "vi": "Ai ký và rằng nó không đổi — chứ không phải nó an toàn"
+        "en": "Who signed it and that it is unaltered",
+        "vi": "Ai ký và rằng nó không bị sửa"
       },
       {
         "en": "That the file is guaranteed safe",
@@ -2115,8 +2115,8 @@
     },
     "opts": [
       {
-        "en": "It survives — distributed parity rebuilds the missing disk",
-        "vi": "Vẫn còn — parity phân tán tái dựng đĩa bị thiếu"
+        "en": "It survives via distributed parity rebuild",
+        "vi": "Vẫn còn nhờ tái dựng bằng parity phân tán"
       },
       {
         "en": "It is lost immediately and entirely",
@@ -2407,8 +2407,8 @@
     },
     "opts": [
       {
-        "en": "From a memory image — keys live in RAM in use",
-        "vi": "Từ image bộ nhớ — khóa nằm trong RAM khi dùng"
+        "en": "From a memory image, where keys reside",
+        "vi": "Từ image bộ nhớ, nơi khóa cư trú"
       },
       {
         "en": "From the network printer spool",
@@ -2515,8 +2515,8 @@
     },
     "opts": [
       {
-        "en": "Evade gateway AV (it can't open the encrypted archive)",
-        "vi": "Né AV tại gateway (không mở được archive mã hóa)"
+        "en": "Evade gateway AV that can't open the encrypted archive",
+        "vi": "Né AV gateway vốn không mở được archive mã hóa"
       },
       {
         "en": "Speed up the email's delivery time",
@@ -2803,8 +2803,8 @@
     },
     "opts": [
       {
-        "en": "It runs with the owner's privileges (often root)",
-        "vi": "Nó chạy với đặc quyền của chủ sở hữu (thường root)"
+        "en": "It runs with the owner's privileges, often root",
+        "vi": "Nó chạy với đặc quyền của chủ sở hữu, thường là root"
       },
       {
         "en": "It cannot be executed at all",
@@ -2839,8 +2839,8 @@
     },
     "opts": [
       {
-        "en": "Persistent passwordless SSH access as that user",
-        "vi": "Truy cập SSH bền bỉ không mật khẩu dưới danh nghĩa người đó"
+        "en": "Passwordless SSH access as that user",
+        "vi": "Truy cập SSH không mật khẩu với tư cách người đó"
       },
       {
         "en": "A noticeably faster host CPU",

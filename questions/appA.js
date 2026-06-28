@@ -255,8 +255,8 @@
     },
     "opts": [
       {
-        "en": "Tactics — the adversary's goal — and the Techniques used",
-        "vi": "Tactics — mục tiêu của kẻ tấn công — và các Techniques dùng"
+        "en": "Adversary tactics and the techniques used to achieve them",
+        "vi": "Các tactic của kẻ tấn công và các technique dùng để đạt chúng"
       },
       {
         "en": "The vendor product names and their version numbers",
@@ -947,8 +947,8 @@
     },
     "opts": [
       {
-        "en": "TTPs — tools, tactics, techniques and procedures",
-        "vi": "TTP — công cụ, chiến thuật, kỹ thuật và quy trình"
+        "en": "The attacker's tools, tactics, techniques and procedures",
+        "vi": "Công cụ, chiến thuật, kỹ thuật và quy trình của kẻ tấn công"
       },
       {
         "en": "The file hash values of the malware samples",
@@ -1167,8 +1167,8 @@
     },
     "opts": [
       {
-        "en": "Convert both to a common reference (e.g. UTC) before comparing",
-        "vi": "Quy cả hai về một mốc tham chiếu chung (vd UTC) trước khi so sánh"
+        "en": "Convert both to a single common time reference before comparing",
+        "vi": "Quy cả hai về một mốc thời gian chung trước khi so sánh"
       },
       {
         "en": "Assume the two clocks are already aligned and compare directly",
@@ -1531,8 +1531,8 @@
     },
     "opts": [
       {
-        "en": "The first system/user compromised — the entry point of the intrusion",
-        "vi": "Hệ thống/người dùng bị xâm nhập đầu tiên — điểm xâm nhập của cuộc tấn công"
+        "en": "The first system or user compromised in the intrusion",
+        "vi": "Hệ thống hoặc người dùng bị xâm nhập đầu tiên trong vụ tấn công"
       },
       {
         "en": "The most senior employee affected by the incident",
@@ -1715,8 +1715,8 @@
     },
     "opts": [
       {
-        "en": "Centuries off — a clear sign the wrong epoch/units were applied",
-        "vi": "Lệch hàng thế kỷ — dấu hiệu rõ ràng đã dùng sai epoch/đơn vị"
+        "en": "Centuries off, a clear sign the wrong epoch or units were applied",
+        "vi": "Lệch hàng thế kỷ, dấu hiệu rõ ràng đã dùng sai epoch hoặc đơn vị"
       },
       {
         "en": "A few seconds early, well within normal clock drift",
@@ -1859,8 +1859,8 @@
     },
     "opts": [
       {
-        "en": "The NTFS USN change journal ($UsnJrnl)",
-        "vi": "NTFS USN change journal ($UsnJrnl)"
+        "en": "The NTFS USN change journal, which logs each change in order",
+        "vi": "NTFS USN change journal, ghi lại từng thay đổi theo thứ tự"
       },
       {
         "en": "The pagefile, which records writes in chronological order",
@@ -2003,8 +2003,8 @@
     },
     "opts": [
       {
-        "en": "The image has not changed since acquisition (integrity)",
-        "vi": "Image không thay đổi kể từ lúc thu thập (toàn vẹn)"
+        "en": "That the image has not changed since acquisition",
+        "vi": "Image không thay đổi kể từ lúc thu thập"
       },
       {
         "en": "That the image has been securely encrypted while at rest",
@@ -2695,8 +2695,8 @@
     },
     "opts": [
       {
-        "en": "A single host rarely tells the full story — check for lateral movement",
-        "vi": "Một host hiếm khi kể trọn câu chuyện — phải xét lateral movement"
+        "en": "A single host rarely tells the full story, so check for lateral movement",
+        "vi": "Một host hiếm khi kể trọn câu chuyện, nên phải xét lateral movement"
       },
       {
         "en": "One host is sufficient to investigate provided it is fully imaged",
@@ -2731,8 +2731,8 @@
     },
     "opts": [
       {
-        "en": "Acquiring bank/card schemes (PCI), regulators and individuals",
-        "vi": "Ngân hàng/tổ chức thẻ (PCI), cơ quan quản lý và cá nhân"
+        "en": "The acquiring bank and card schemes, regulators and affected individuals",
+        "vi": "Ngân hàng tiếp nhận và các tổ chức thẻ, cơ quan quản lý và cá nhân bị ảnh hưởng"
       },
       {
         "en": "No one at all, because cardholder data is exempt from notification",

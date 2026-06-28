@@ -99,6 +99,19 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
 .review-item .ok{color:var(--success)}
 .review-item .no{color:var(--danger);text-decoration:line-through}
 .review-item a{font-size:13px}
+.review-item.correct{border-left-color:var(--success)}
+.review-item.blank{border-left-color:var(--warn)}
+.ri-top{display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap}
+.ri-n{font-family:Consolas,monospace;font-size:12px;color:var(--text3);font-weight:700}
+.ri-badge{font-size:11px;font-weight:800;border-radius:6px;padding:2px 8px;letter-spacing:.4px}
+.ri-badge.rb-ok{color:var(--success);background:rgba(16,185,129,.13)}
+.ri-badge.rb-no{color:var(--danger);background:rgba(239,68,68,.13)}
+.ri-badge.rb-bl{color:var(--warn);background:rgba(245,158,11,.13)}
+.rev-filter{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 12px}
+.rev-pill{cursor:pointer;border:1px solid var(--border);background:var(--bg2);color:var(--text2);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;font-family:inherit}
+.rev-pill:hover{border-color:var(--accent);color:var(--accent)}
+.rev-pill.active{background:linear-gradient(90deg,var(--accent),var(--purple));color:#fff;border:none}
+.rev-empty{text-align:center;color:var(--text3);font-size:14px;padding:24px;background:var(--bg2);border:1px dashed var(--border);border-radius:10px}
 .hide{display:none!important}
 .footer-note{text-align:center;color:var(--text3);font-size:12px;margin-top:40px}
 @media(max-width:560px){.opt{font-size:14px}.qtext{font-size:16px}}
@@ -303,6 +316,7 @@ function loadStore(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||{};
 function saveStore(s){try{localStorage.setItem(STORE_KEY,JSON.stringify(s));}catch(e){}}
 let store=loadStore();
 store.wrong=store.wrong||{}; store.flagged=store.flagged||{}; store.history=store.history||[];
+store.recent=store.recent||{}; store.examSeq=store.examSeq||0; // rotation: qid -> last-used exam sequence (LRU)
 const qById={}; BANK.forEach(q=>{qById[qid(q)]=q;});
 
 /* ---- Build home: appendix cards ---- */
@@ -366,10 +380,38 @@ $('examConfig').addEventListener('click',e=>e.stopPropagation()); // clicks insi
 $('examCard').addEventListener('click',()=>start('mock', selectedExamCount));
 updateExamConfig();
 
+/* ---- exam builder: anti-repeat rotation (LRU) + appendix stratification ----
+   Each generated exam de-prioritises questions used in recent exams, so two
+   consecutive exams do not overlap until the bank is exhausted, then it rotates
+   oldest-first. Questions are also distributed across appendices like the real exam. */
+function pickRotating(pool, k){
+  // least-recently-used first (recent stamp asc), random tie-break among equals
+  return pool.map(q=>({q, w:store.recent[qid(q)]||0, r:Math.random()}))
+             .sort((a,b)=> a.w-b.w || a.r-b.r)
+             .slice(0, k).map(x=>x.q);
+}
+function buildMock(n){
+  const apps=[...new Set(BANK.map(q=>q.app))].sort();
+  const total=BANK.length, counts={}, quota={}, rema=[]; let assigned=0;
+  apps.forEach(a=>{ counts[a]=BANK.filter(q=>q.app===a).length; });
+  apps.forEach(a=>{ const exact=n*counts[a]/total, f=Math.floor(exact); quota[a]=f; assigned+=f; rema.push({a,frac:exact-f}); });
+  rema.sort((x,y)=>y.frac-x.frac);                         // largest-remainder so quotas sum to exactly n
+  for(let i=0; assigned<n && i<rema.length; i++){ quota[rema[i].a]++; assigned++; }
+  let list=[];
+  apps.forEach(a=>{ const pool=BANK.filter(q=>q.app===a); list=list.concat(pickRotating(pool, Math.min(quota[a], pool.length))); });
+  if(list.length<n){                                        // top up if any appendix was short
+    const have=new Set(list.map(qid)); const rest=BANK.filter(q=>!have.has(qid(q)));
+    list=list.concat(pickRotating(rest, n-list.length));
+  }
+  return shuffle(list).slice(0,n);                          // randomise question order in the paper
+}
+// bump usage stamps so these questions are de-prioritised in the next generation
+function markUsed(qs){ store.examSeq++; qs.forEach(q=>{ store.recent[qid(q)]=store.examSeq; }); saveStore(store); }
+
 function start(mode, count){
   let list, examMode=false;
-  if(mode==='mock'){ const n=Math.max(5, Math.min(count||selectedExamCount||120, BANK.length)); list = shuffle(BANK).slice(0,n); examMode=true; }
-  else if(mode==='random20'){ list = shuffle(BANK).slice(0,20); }
+  if(mode==='mock'){ const n=Math.max(5, Math.min(count||selectedExamCount||120, BANK.length)); list = buildMock(n); examMode=true; markUsed(list); }
+  else if(mode==='random20'){ list = shuffle(pickRotating(BANK, Math.min(20, BANK.length))); markUsed(list); }
   else if(mode.startsWith('app:')){ const k=mode.split(':')[1]; list = shuffle(BANK.filter(q=>q.app===k)); }
   else if(mode==='redrill'){ list = shuffle(BANK.filter(q=>store.wrong[qid(q)])); }
   else if(mode==='flagged'){ list = shuffle(BANK.filter(q=>store.flagged[qid(q)])); }
@@ -607,37 +649,56 @@ function finish(){
 
   function reviewItem(it,i){
     const q=it.ref, a=state.answers[i];
+    const isCorrect = !!(a && a.pick===it.correct);
+    const st = a ? (isCorrect?'correct':'wrong') : 'blank';
+    const badge = isCorrect
+      ? '<span class="ri-badge rb-ok">✓ <span class="en">Correct</span><span class="vi">Đúng</span></span>'
+      : (a ? '<span class="ri-badge rb-no">✗ <span class="en">Wrong</span><span class="vi">Sai</span></span>'
+           : '<span class="ri-badge rb-bl"><span class="en">Blank</span><span class="vi">Bỏ trống</span></span>');
     const yours = a ? '<span class="no">'+T(q.opts[it.order[a.pick]])+'</span>'
                     : '<span class="no"><span class="en">(blank)</span><span class="vi">(bỏ trống)</span></span>';
-    return '<div class="review-item"><div class="ri-q">'+(state.flagged[i]?'⚑ ':'')+T(q.q)+'</div>'+
-      '<div class="ri-a"><b><span class="en">Your answer: </span><span class="vi">Bạn chọn: </span></b>'+yours+'</div>'+
+    return '<div class="review-item '+st+'" data-st="'+st+'" data-fl="'+(state.flagged[i]?1:0)+'">'+
+      '<div class="ri-top"><span class="ri-n">#'+(i+1)+'</span>'+(state.flagged[i]?'<span class="ri-badge rb-bl">⚑</span>':'')+badge+'</div>'+
+      '<div class="ri-q">'+T(q.q)+'</div>'+
+      (isCorrect?'':'<div class="ri-a"><b><span class="en">Your answer: </span><span class="vi">Bạn chọn: </span></b>'+yours+'</div>')+
       '<div class="ri-a"><b><span class="en">Correct: </span><span class="vi">Đáp án đúng: </span></b><span class="ok">'+T(q.opts[it.order[it.correct]])+'</span></div>'+
       '<div class="ri-a" style="margin-top:6px">'+T(q.exp)+'</div>'+
-      (q.note?'<div class="ri-a"><b><span class="en">⚠ </span><span class="vi">⚠ </span></b>'+T(q.note)+'</div>':'')+
+      (q.note?'<div class="ri-a"><b>⚠ </b>'+T(q.note)+'</div>':'')+
       '<a href="index.html#'+q.sec+'" target="_blank">📖 '+T(q.secLabel)+'</a></div>';
   }
 
-  // ---- wrong answers review ----
-  const wrong = state.list.map((it,i)=>({it,i})).filter(x=>!(state.answers[x.i] && state.answers[x.i].pick===x.it.correct));
-  if(wrong.length){
-    html+='<div class="section-label"><span class="en">Review your '+wrong.length+' missed question(s)</span><span class="vi">Xem lại '+wrong.length+' câu sai</span></div>';
-    wrong.forEach(({it,i})=>{ html+=reviewItem(it,i); });
-  } else {
-    html+='<div class="review-item" style="border-left-color:var(--success)"><span class="en">Perfect score — no questions to review. 🎉</span><span class="vi">Điểm tuyệt đối — không có câu nào cần xem lại. 🎉</span></div>';
-  }
-
-  // ---- flagged review (excluding ones already shown as wrong) ----
-  const flagged = state.list.map((it,i)=>({it,i})).filter(x=>state.flagged[x.i] && (state.answers[x.i] && state.answers[x.i].pick===x.it.correct));
-  if(flagged.length){
-    html+='<div class="section-label"><span class="en">⚑ '+flagged.length+' flagged (answered correctly)</span><span class="vi">⚑ '+flagged.length+' câu đánh dấu (đã trả lời đúng)</span></div>';
-    flagged.forEach(({it,i})=>{ html+=reviewItem(it,i); });
-  }
+  // ---- unified review with filter (wrong / flagged / all) ----
+  const wrongN = state.list.filter((it,i)=>!(state.answers[i] && state.answers[i].pick===it.correct)).length;
+  const flagN  = state.list.filter((it,i)=>state.flagged[i]).length;
+  const totalN = state.list.length;
+  html+='<div class="section-label" style="margin-top:6px"><span class="en">Review answers</span><span class="vi">Xem lại đáp án</span></div>'+
+    '<div class="rev-filter">'+
+    '<button class="rev-pill" data-f="wrong">❌ <span class="en">Wrong</span><span class="vi">Câu sai</span> ('+wrongN+')</button>'+
+    '<button class="rev-pill" data-f="flag">⚑ <span class="en">Flagged</span><span class="vi">Đã đánh dấu</span> ('+flagN+')</button>'+
+    '<button class="rev-pill" data-f="all">📋 <span class="en">All</span><span class="vi">Tất cả</span> ('+totalN+')</button></div>';
+  html+='<div id="reviewList">';
+  state.list.forEach((it,i)=>{ html+=reviewItem(it,i); });
+  html+='<div class="rev-empty hide" id="revEmpty"><span class="en">Nothing to show here. 🎉</span><span class="vi">Không có câu nào ở đây. 🎉</span></div></div>';
 
   $('quiz').classList.add('hide');
   const r=$('results'); r.classList.remove('hide'); r.innerHTML=html; window.scrollTo(0,0);
   const retryMode = state.mode, retryCount = state.list.length;
   $('btnHome').addEventListener('click',()=>{ r.classList.add('hide'); $('home').classList.remove('hide'); refreshHome(); window.scrollTo(0,0);});
   $('btnRetry').addEventListener('click',()=>{ start(retryMode, retryCount); });
+
+  // ---- review filter (wrong / flagged / all) ----
+  function applyReviewFilter(f){
+    let shown=0;
+    document.querySelectorAll('#reviewList .review-item').forEach(el=>{
+      const st=el.getAttribute('data-st'), fl=el.getAttribute('data-fl')==='1';
+      const show = f==='all' ? true : (f==='flag' ? fl : st!=='correct');
+      el.style.display = show?'':'none'; if(show) shown++;
+    });
+    const empty=$('revEmpty'); if(empty) empty.classList.toggle('hide', shown>0);
+    document.querySelectorAll('.rev-pill').forEach(p=>p.classList.toggle('active', p.getAttribute('data-f')===f));
+  }
+  document.querySelectorAll('.rev-pill').forEach(p=>p.addEventListener('click',()=>applyReviewFilter(p.getAttribute('data-f'))));
+  applyReviewFilter(wrongN>0 ? 'wrong' : 'all');
 
   // ---- downloadable JSON result ----
   const lt = o => document.body.classList.contains('lang-vi') ? o.vi : o.en;

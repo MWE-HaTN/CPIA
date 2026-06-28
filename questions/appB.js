@@ -279,8 +279,8 @@
     },
     "opts": [
       {
-        "en": "Verify integrity (detect any change)",
-        "vi": "Xác minh toàn vẹn (phát hiện thay đổi)"
+        "en": "Verify integrity by detecting any change",
+        "vi": "Xác minh tính toàn vẹn bằng cách phát hiện mọi thay đổi"
       },
       {
         "en": "Encrypt the image for confidentiality",
@@ -391,8 +391,8 @@
     },
     "opts": [
       {
-        "en": "TCP/IP stack quirks — TTL, window size, TCP option order",
-        "vi": "Đặc thù stack TCP/IP — TTL, window size, thứ tự TCP option"
+        "en": "TCP/IP stack quirks like TTL, window size and option order",
+        "vi": "Các đặc điểm stack TCP/IP như TTL, kích thước window và thứ tự option"
       },
       {
         "en": "Actively sending crafted TCP/IP probes",
@@ -579,8 +579,8 @@
     },
     "opts": [
       {
-        "en": "Discover → Offer → Request → Acknowledge (DORA)",
-        "vi": "Discover → Offer → Request → Acknowledge (DORA)"
+        "en": "Discover → Offer → Request → Acknowledge",
+        "vi": "Discover → Offer → Request → Acknowledge"
       },
       {
         "en": "Request → Grant → Acknowledge → Renew",
@@ -723,20 +723,20 @@
     },
     "opts": [
       {
-        "en": "A protocol analyser / packet capture tool (Wireshark)",
-        "vi": "Trình phân tích giao thức / bắt gói (Wireshark)"
+        "en": "A protocol analyser / packet-capture tool",
+        "vi": "Một công cụ phân tích giao thức / bắt gói"
       },
       {
-        "en": "A disk defragmentation and cleanup tool",
-        "vi": "Một công cụ chống phân mảnh và dọn đĩa"
+        "en": "A host-based forensic triage tool",
+        "vi": "Một công cụ phân loại pháp y trên host"
       },
       {
-        "en": "A spreadsheet application alone",
-        "vi": "Chỉ một ứng dụng bảng tính"
+        "en": "A log-aggregation / SIEM platform",
+        "vi": "Một nền tảng tổng hợp log / SIEM"
       },
       {
-        "en": "A subnet and CIDR calculator",
-        "vi": "Một máy tính subnet và CIDR"
+        "en": "A memory-analysis framework",
+        "vi": "Một framework phân tích bộ nhớ"
       }
     ],
     "correct": 0,
@@ -903,8 +903,8 @@
     },
     "opts": [
       {
-        "en": "128-bit addresses and no broadcast (uses NDP, not ARP)",
-        "vi": "Địa chỉ 128-bit và không broadcast (dùng NDP, không ARP)"
+        "en": "128-bit addresses and no broadcast, using NDP instead of ARP",
+        "vi": "Địa chỉ 128-bit và không có broadcast, dùng NDP thay cho ARP"
       },
       {
         "en": "IPv6 traffic cannot be encrypted at all",
@@ -1011,8 +1011,8 @@
     },
     "opts": [
       {
-        "en": "The likely client browser and OS (here IE6 on Windows XP)",
-        "vi": "Trình duyệt và OS client khả dĩ (ở đây IE6 trên Windows XP)"
+        "en": "The likely client browser and operating system",
+        "vi": "Trình duyệt và hệ điều hành khả dĩ của client"
       },
       {
         "en": "The web server's administrator password",
@@ -1083,8 +1083,8 @@
     },
     "opts": [
       {
-        "en": "A FIN/ACK exchange in both directions (four-way)",
-        "vi": "Trao đổi FIN/ACK theo cả hai chiều (bốn bước)"
+        "en": "A FIN/ACK exchange in both directions",
+        "vi": "Trao đổi FIN/ACK theo cả hai chiều"
       },
       {
         "en": "A single SYN segment sent to the server",
@@ -1191,8 +1191,8 @@
     },
     "opts": [
       {
-        "en": "IRC — historically used for botnet command and control",
-        "vi": "IRC — xưa hay dùng cho command and control của botnet"
+        "en": "IRC, historically used for botnet command and control",
+        "vi": "IRC, trong lịch sử dùng cho command-and-control của botnet"
       },
       {
         "en": "Normal encrypted HTTPS web browsing traffic",
@@ -1519,8 +1519,8 @@
     },
     "opts": [
       {
-        "en": "A debugger (e.g. x64dbg, WinDbg, GDB)",
-        "vi": "Một debugger (vd x64dbg, WinDbg, GDB)"
+        "en": "A run-time debugger",
+        "vi": "Một debugger lúc chạy"
       },
       {
         "en": "A static hex / binary editor",
@@ -1591,8 +1591,8 @@
     },
     "opts": [
       {
-        "en": "Internet-service emulators for malware sandboxes",
-        "vi": "Trình giả lập dịch vụ internet cho sandbox mã độc"
+        "en": "Internet-service emulation tools",
+        "vi": "Công cụ giả lập dịch vụ internet"
       },
       {
         "en": "Forensic disk-imaging utilities",
@@ -1739,8 +1739,8 @@
     },
     "opts": [
       {
-        "en": "The client software (and version) that composed the message",
-        "vi": "Phần mềm client (và phiên bản) đã soạn thư"
+        "en": "The client software and version that composed the message",
+        "vi": "Phần mềm client và phiên bản đã soạn thư"
       },
       {
         "en": "The recipient's mailbox account password",
@@ -1919,8 +1919,8 @@
     },
     "opts": [
       {
-        "en": "Their own private key (verified with their public key)",
-        "vi": "Khóa riêng của họ (xác minh bằng khóa công khai của họ)"
+        "en": "Their own private key, verified with their public key",
+        "vi": "Khóa riêng của chính họ, xác minh bằng khóa công khai của họ"
       },
       {
         "en": "Their own freely-shared public key",
@@ -1995,8 +1995,8 @@
     },
     "opts": [
       {
-        "en": "It is collision-prone — crafted inputs can share a hash",
-        "vi": "Nó dễ va chạm — đầu vào chế tạo có thể chung hash"
+        "en": "It is collision-prone, so crafted inputs can share a hash",
+        "vi": "Nó dễ trùng (collision), nên đầu vào được tạo khéo có thể chung một hash"
       },
       {
         "en": "It is far too slow to compute in practice",
@@ -2355,8 +2355,8 @@
     },
     "opts": [
       {
-        "en": "The web server access and error logs (IIS/Apache)",
-        "vi": "Log access và error của web server (IIS/Apache)"
+        "en": "The web server access and error logs",
+        "vi": "Log truy cập và log lỗi của web server"
       },
       {
         "en": "The local DNS resolver cache",
@@ -2391,8 +2391,8 @@
     },
     "opts": [
       {
-        "en": "schtasks /query  (or Get-ScheduledTask)",
-        "vi": "schtasks /query  (hoặc Get-ScheduledTask)"
+        "en": "schtasks /query to list scheduled tasks",
+        "vi": "schtasks /query để liệt kê scheduled task"
       },
       {
         "en": "tasklist /svc to list services",
@@ -2535,8 +2535,8 @@
     },
     "opts": [
       {
-        "en": "URL-encoded \"<script>\" — likely an XSS probe",
-        "vi": "\"<script>\" mã hóa URL — khả năng thăm dò XSS"
+        "en": "URL-encoded \"<script>\", likely an XSS probe",
+        "vi": "Chuỗi \"<script>\" mã hóa URL, có thể là một thăm dò XSS"
       },
       {
         "en": "An encrypted application payload",
@@ -2679,8 +2679,8 @@
     },
     "opts": [
       {
-        "en": "Lets you map it to known vulnerabilities (CVEs)",
-        "vi": "Cho phép ánh xạ tới các lỗ hổng đã biết (CVE)"
+        "en": "Lets you map it to known vulnerabilities",
+        "vi": "Cho phép ánh xạ nó tới các lỗ hổng đã biết"
       },
       {
         "en": "It reveals the host's public IP address",

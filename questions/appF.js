@@ -59,20 +59,20 @@
     },
     "opts": [
       {
-        "en": "An MD5/SHA-family hash routine",
-        "vi": "Một thủ tục băm họ MD5/SHA"
+        "en": "An MD5/SHA-1 hash routine",
+        "vi": "Một thủ tục băm MD5/SHA-1"
       },
       {
-        "en": "A printer driver routine",
-        "vi": "Một thủ tục driver máy in"
+        "en": "An RC4 stream-cipher setup",
+        "vi": "Thiết lập mã dòng RC4"
       },
       {
-        "en": "A graphical dialog routine",
-        "vi": "Một thủ tục hộp thoại đồ họa"
+        "en": "A CRC32 checksum table",
+        "vi": "Một bảng checksum CRC32"
       },
       {
-        "en": "A registry cleanup routine",
-        "vi": "Một thủ tục dọn dẹp registry"
+        "en": "A Base64 encoding table",
+        "vi": "Một bảng mã hóa Base64"
       }
     ],
     "correct": 0,
@@ -103,16 +103,16 @@
         "vi": "Process hollowing"
       },
       {
-        "en": "Disk defragmentation",
-        "vi": "Chống phân mảnh đĩa"
+        "en": "Reflective DLL injection",
+        "vi": "Reflective DLL injection"
       },
       {
-        "en": "DLL signing",
-        "vi": "Ký DLL"
+        "en": "DLL search-order hijacking",
+        "vi": "Chiếm quyền thứ tự tìm DLL"
       },
       {
-        "en": "Garbage collection",
-        "vi": "Thu gom rác"
+        "en": "Thread execution hijacking",
+        "vi": "Chiếm quyền thực thi luồng"
       }
     ],
     "correct": 0,
@@ -135,20 +135,20 @@
     },
     "opts": [
       {
-        "en": "Procmon capturing API and syscalls",
-        "vi": "Procmon bắt API và syscall"
+        "en": "Procmon capturing file, registry and process events",
+        "vi": "Procmon ghi sự kiện file, registry và tiến trình"
       },
       {
-        "en": "The Windows Notepad editor",
-        "vi": "Trình soạn thảo Notepad của Windows"
+        "en": "Wireshark capturing network packets",
+        "vi": "Wireshark bắt gói mạng"
       },
       {
-        "en": "The Windows Calculator app",
-        "vi": "Ứng dụng Calculator của Windows"
+        "en": "Process Explorer listing live processes",
+        "vi": "Process Explorer liệt kê tiến trình đang chạy"
       },
       {
-        "en": "An ordinary web browser tab",
-        "vi": "Một tab trình duyệt web thông thường"
+        "en": "Autoruns enumerating autostart entries",
+        "vi": "Autoruns liệt kê mục tự khởi động"
       }
     ],
     "correct": 0,
@@ -171,20 +171,20 @@
     },
     "opts": [
       {
-        "en": "Breakpoint the crypto routine, read the key",
-        "vi": "Breakpoint thủ tục crypto, đọc khóa"
+        "en": "Set a breakpoint on the crypto routine and read the key from memory",
+        "vi": "Đặt breakpoint tại thủ tục mã hóa và đọc khóa từ bộ nhớ"
       },
       {
-        "en": "Simply guess the key at random",
-        "vi": "Chỉ đoán khóa một cách ngẫu nhiên"
+        "en": "Brute-force the whole key space offline",
+        "vi": "Brute-force toàn bộ không gian khóa offline"
       },
       {
-        "en": "Delete the binary from disk",
-        "vi": "Xóa binary khỏi đĩa"
+        "en": "Read the strings from the still-packed binary",
+        "vi": "Đọc chuỗi từ binary còn đang bị pack"
       },
       {
-        "en": "Rename the suspicious file",
-        "vi": "Đổi tên file đáng ngờ"
+        "en": "Trust an online sandbox's auto-generated report",
+        "vi": "Tin vào báo cáo tự sinh của sandbox trực tuyến"
       }
     ],
     "correct": 0,
@@ -207,20 +207,20 @@
     },
     "opts": [
       {
-        "en": "Which external API functions/DLLs the binary uses",
-        "vi": "Các hàm API/DLL ngoài mà binary dùng"
+        "en": "Which external API functions and DLLs the binary uses",
+        "vi": "Những hàm API/DLL ngoài mà binary sử dụng"
       },
       {
-        "en": "The logged-in user's password",
-        "vi": "Mật khẩu của người dùng đăng nhập"
+        "en": "Which functions the binary exports to others",
+        "vi": "Những hàm mà binary xuất ra cho module khác"
       },
       {
-        "en": "The hard disk's serial number",
-        "vi": "Số serial của đĩa cứng"
+        "en": "The order in which sections map into memory",
+        "vi": "Thứ tự các section được map vào bộ nhớ"
       },
       {
-        "en": "The display's screen resolution",
-        "vi": "Độ phân giải màn hình hiển thị"
+        "en": "The relocation fixups applied at load time",
+        "vi": "Các fixup relocation áp dụng lúc nạp"
       }
     ],
     "correct": 0,
@@ -243,20 +243,20 @@
     },
     "opts": [
       {
-        "en": "A network receive loop (e.g. reading C2 commands)",
-        "vi": "Một vòng nhận dữ liệu mạng (vd đọc lệnh C2)"
+        "en": "A network receive loop reading C2 commands",
+        "vi": "Vòng lặp nhận dữ liệu mạng đọc lệnh C2"
       },
       {
-        "en": "A document printer spooler",
-        "vi": "Một bộ xếp hàng in tài liệu"
+        "en": "A file-read loop parsing a config file",
+        "vi": "Vòng lặp đọc file phân tích cấu hình"
       },
       {
-        "en": "A screensaver display routine",
-        "vi": "Một thủ tục hiển thị screensaver"
+        "en": "A decompression routine inflating a resource",
+        "vi": "Thủ tục giải nén bung một resource"
       },
       {
-        "en": "A font glyph rendering routine",
-        "vi": "Một thủ tục render glyph phông"
+        "en": "A logging routine flushing buffers to disk",
+        "vi": "Thủ tục ghi log đẩy buffer ra đĩa"
       }
     ],
     "correct": 0,
@@ -283,16 +283,16 @@
         "vi": "Chuyển hướng các mục SSDT sang mã của kẻ tấn công"
       },
       {
-        "en": "Encrypting the system BIOS firmware",
-        "vi": "Mã hóa firmware BIOS của hệ thống"
+        "en": "Patching the IAT of a user-mode process",
+        "vi": "Vá IAT của một tiến trình user-mode"
       },
       {
-        "en": "Formatting the system hard disk",
-        "vi": "Format đĩa cứng hệ thống"
+        "en": "Installing an inline detour inside ntdll",
+        "vi": "Cài đặt inline detour bên trong ntdll"
       },
       {
-        "en": "Changing the desktop wallpaper",
-        "vi": "Đổi hình nền desktop"
+        "en": "Registering a file-system minifilter driver",
+        "vi": "Đăng ký driver minifilter cho hệ thống file"
       }
     ],
     "correct": 0,
@@ -315,20 +315,20 @@
     },
     "opts": [
       {
-        "en": "Sandbox/VM evasion (anti-analysis)",
-        "vi": "Né sandbox/VM (chống phân tích)"
+        "en": "Sandbox/VM evasion",
+        "vi": "Né tránh sandbox/VM"
       },
       {
-        "en": "Faster overall code execution",
-        "vi": "Thực thi mã nhanh hơn"
+        "en": "Environment keying to one target host",
+        "vi": "Khóa môi trường theo một máy mục tiêu"
       },
       {
-        "en": "Better payload compression",
-        "vi": "Nén payload tốt hơn"
+        "en": "License/anti-piracy enforcement",
+        "vi": "Thực thi chống vi phạm bản quyền"
       },
       {
-        "en": "Stronger payload encryption",
-        "vi": "Mã hóa payload mạnh hơn"
+        "en": "Hardware capability detection",
+        "vi": "Phát hiện năng lực phần cứng"
       }
     ],
     "correct": 0,
@@ -352,19 +352,19 @@
     "opts": [
       {
         "en": "It is packed with UPX and should be unpacked first",
-        "vi": "Nó đã pack bằng UPX và nên được giải nén trước"
+        "vi": "Đã được pack bằng UPX, cần giải nén trước khi phân tích"
       },
       {
-        "en": "It is a clean Microsoft file",
-        "vi": "Nó là một file Microsoft sạch"
+        "en": "It is a clean Microsoft-signed binary",
+        "vi": "Là một binary sạch do Microsoft ký"
       },
       {
-        "en": "It is a plain-text data file",
-        "vi": "Nó là một file dữ liệu văn bản thuần"
+        "en": "It contains only debugging symbols",
+        "vi": "Chỉ chứa các ký hiệu debug"
       },
       {
-        "en": "It is a Microsoft-signed driver",
-        "vi": "Nó là một driver do Microsoft ký"
+        "en": "It is a managed .NET assembly",
+        "vi": "Là một assembly .NET managed"
       }
     ],
     "correct": 0,
@@ -392,19 +392,19 @@
     "opts": [
       {
         "en": "A persistence mechanism",
-        "vi": "Một cơ chế persistence (duy trì)"
+        "vi": "Một cơ chế duy trì (persistence)"
       },
       {
-        "en": "A graphics routine",
-        "vi": "Một thủ tục đồ họa"
+        "en": "A privilege-escalation exploit",
+        "vi": "Một khai thác leo thang đặc quyền"
       },
       {
-        "en": "A sound driver",
-        "vi": "Một driver âm thanh"
+        "en": "A credential-dumping routine",
+        "vi": "Một thủ tục dump thông tin đăng nhập"
       },
       {
-        "en": "A spell checker",
-        "vi": "Một bộ kiểm tra chính tả"
+        "en": "A lateral-movement module",
+        "vi": "Một module di chuyển ngang"
       }
     ],
     "correct": 0,
@@ -427,20 +427,20 @@
     },
     "opts": [
       {
-        "en": "A simulated internet service (INetSim/FakeNet) in a lab",
-        "vi": "Một dịch vụ internet mô phỏng (INetSim/FakeNet) trong lab"
+        "en": "A simulated internet service running in the lab",
+        "vi": "Một dịch vụ internet giả lập chạy trong phòng lab"
       },
       {
-        "en": "Your production internet gateway",
-        "vi": "Cổng ra internet production của bạn"
+        "en": "A transparent proxy to the real internet",
+        "vi": "Một proxy trong suốt ra internet thật"
       },
       {
-        "en": "A public Wi-Fi hotspot network",
-        "vi": "Một mạng Wi-Fi công cộng"
+        "en": "A packet sniffer on the host NIC alone",
+        "vi": "Chỉ một bộ bắt gói trên NIC máy chủ"
       },
       {
-        "en": "The client's live production network",
-        "vi": "Mạng production đang chạy của khách hàng"
+        "en": "A host firewall blocking all egress",
+        "vi": "Một tường lửa host chặn toàn bộ egress"
       }
     ],
     "correct": 0,
@@ -467,20 +467,20 @@
     },
     "opts": [
       {
-        "en": "Network communication (likely C2 or download)",
-        "vi": "Giao tiếp mạng (khả năng C2 hoặc tải về)"
+        "en": "Network communication capability",
+        "vi": "Khả năng giao tiếp mạng"
       },
       {
-        "en": "A graphics rendering engine",
-        "vi": "Một engine render đồ họa"
+        "en": "File-encryption capability",
+        "vi": "Khả năng mã hóa file"
       },
       {
-        "en": "A disk defragmentation tool",
-        "vi": "Một công cụ chống phân mảnh đĩa"
+        "en": "Keystroke-logging capability",
+        "vi": "Khả năng ghi phím"
       },
       {
-        "en": "A spell-checking routine",
-        "vi": "Một thủ tục kiểm tra chính tả"
+        "en": "Screen-capture capability",
+        "vi": "Khả năng chụp màn hình"
       }
     ],
     "correct": 0,
@@ -507,16 +507,16 @@
         "vi": "Một keylogger"
       },
       {
-        "en": "A printer driver",
-        "vi": "Một driver máy in"
+        "en": "A clipboard stealer",
+        "vi": "Một bộ đánh cắp clipboard"
       },
       {
-        "en": "A network scanner",
-        "vi": "Một trình quét mạng"
+        "en": "A browser form-grabber",
+        "vi": "Một form-grabber cho trình duyệt"
       },
       {
-        "en": "A file compressor",
-        "vi": "Một trình nén file"
+        "en": "A screenshot grabber",
+        "vi": "Một bộ chụp màn hình"
       }
     ],
     "correct": 0,
@@ -539,20 +539,20 @@
     },
     "opts": [
       {
-        "en": "The AES (Rijndael) S-box",
-        "vi": "S-box của AES (Rijndael)"
+        "en": "The AES / Rijndael S-box",
+        "vi": "S-box của AES / Rijndael"
       },
       {
-        "en": "An MD5 routine",
-        "vi": "Một thủ tục MD5"
+        "en": "The SHA-256 round constants",
+        "vi": "Các hằng vòng của SHA-256"
       },
       {
-        "en": "A JPEG quantisation table",
-        "vi": "Một bảng lượng tử JPEG"
+        "en": "The DES permutation tables",
+        "vi": "Các bảng hoán vị của DES"
       },
       {
-        "en": "A DNS name table",
-        "vi": "Một bảng tên DNS"
+        "en": "A CRC32 lookup table",
+        "vi": "Một bảng tra CRC32"
       }
     ],
     "correct": 0,
@@ -580,19 +580,19 @@
     "opts": [
       {
         "en": "An infection marker to avoid running twice on one host",
-        "vi": "Một dấu lây nhiễm để tránh chạy hai lần trên một host"
+        "vi": "Dấu hiệu lây nhiễm để tránh chạy hai lần trên cùng một máy"
       },
       {
-        "en": "Opening an outbound network connection",
-        "vi": "Mở một kết nối mạng đi ra"
+        "en": "A synchronisation lock for its worker threads",
+        "vi": "Một khóa đồng bộ cho các luồng worker của nó"
       },
       {
-        "en": "Wiping data from the system disk",
-        "vi": "Xóa dữ liệu khỏi đĩa hệ thống"
+        "en": "A named pipe opened for C2 communication",
+        "vi": "Một named pipe mở để liên lạc C2"
       },
       {
-        "en": "Logging a single key press",
-        "vi": "Ghi lại một lần nhấn phím"
+        "en": "A registry key written for persistence",
+        "vi": "Một khóa registry ghi để duy trì"
       }
     ],
     "correct": 0,
@@ -616,19 +616,19 @@
     "opts": [
       {
         "en": "A C2 command-handling loop",
-        "vi": "Một vòng xử lý lệnh C2"
+        "vi": "Một vòng lặp xử lý lệnh C2"
       },
       {
-        "en": "A font glyph rendering routine",
-        "vi": "Một thủ tục render glyph phông"
+        "en": "A network protocol parser on a server",
+        "vi": "Một bộ phân tích giao thức mạng trên server"
       },
       {
-        "en": "A disk defragmenter utility",
-        "vi": "Một tiện ích chống phân mảnh đĩa"
+        "en": "An RPC marshalling routine",
+        "vi": "Một thủ tục marshalling RPC"
       },
       {
-        "en": "A simple calculator routine",
-        "vi": "Một thủ tục máy tính đơn giản"
+        "en": "A message-queue consumer",
+        "vi": "Một bộ tiêu thụ hàng đợi tin nhắn"
       }
     ],
     "correct": 0,
@@ -652,19 +652,19 @@
     "opts": [
       {
         "en": "Persistence via a registry autostart entry",
-        "vi": "Persistence qua một mục tự khởi động trong registry"
+        "vi": "Duy trì qua một mục tự khởi động trong registry"
       },
       {
-        "en": "Network port-scanning activity",
-        "vi": "Hoạt động quét cổng mạng"
+        "en": "Storing decrypted configuration data",
+        "vi": "Lưu dữ liệu cấu hình đã giải mã"
       },
       {
-        "en": "Screen-capture functionality",
-        "vi": "Chức năng chụp màn hình"
+        "en": "Disabling an installed security product",
+        "vi": "Vô hiệu hóa một sản phẩm bảo mật đã cài"
       },
       {
-        "en": "Forensic disk-imaging activity",
-        "vi": "Hoạt động tạo image đĩa forensic"
+        "en": "Reading the system proxy settings",
+        "vi": "Đọc thiết lập proxy của hệ thống"
       }
     ],
     "correct": 0,
@@ -687,20 +687,20 @@
     },
     "opts": [
       {
-        "en": "Packed/obfuscated, resolving APIs dynamically at runtime",
-        "vi": "Đã pack/làm rối, phân giải API động lúc chạy"
+        "en": "Is packed/obfuscated, resolving APIs at runtime",
+        "vi": "Bị pack/obfuscate, phân giải API lúc chạy"
       },
       {
-        "en": "It has no real functionality at all",
-        "vi": "Nó không có chức năng thực sự nào"
+        "en": "Is a statically-linked release build",
+        "vi": "Là một bản build liên kết tĩnh"
       },
       {
-        "en": "It is actually a text document",
-        "vi": "Thực ra nó là một tài liệu văn bản"
+        "en": "Is a small command-line utility",
+        "vi": "Là một tiện ích dòng lệnh nhỏ"
       },
       {
-        "en": "It is actually a JPEG image file",
-        "vi": "Thực ra nó là một file ảnh JPEG"
+        "en": "Was compiled without optimisation",
+        "vi": "Được biên dịch mà không tối ưu"
       }
     ],
     "correct": 0,
@@ -723,8 +723,8 @@
     },
     "opts": [
       {
-        "en": "Downloader capability (fetching a second-stage payload)",
-        "vi": "Khả năng downloader (lấy payload giai đoạn hai)"
+        "en": "Downloader capability fetching a second stage",
+        "vi": "Khả năng tải về, lấy payload giai đoạn hai"
       },
       {
         "en": "Keystroke-logging capability",
@@ -732,7 +732,7 @@
       },
       {
         "en": "Full disk-encryption capability",
-        "vi": "Khả năng mã hóa toàn đĩa"
+        "vi": "Khả năng mã hóa toàn bộ đĩa"
       },
       {
         "en": "Process-memory scanning capability",
@@ -760,19 +760,19 @@
     "opts": [
       {
         "en": "A modified/keyed Base64 to obfuscate data",
-        "vi": "Một Base64 sửa đổi/có khóa để làm rối dữ liệu"
+        "vi": "Một Base64 sửa đổi/có khóa để che dữ liệu"
       },
       {
-        "en": "A strong encryption algorithm",
-        "vi": "Một thuật toán mã hóa mạnh"
+        "en": "A standards-compliant MIME encoder",
+        "vi": "Một bộ mã hóa MIME đúng chuẩn"
       },
       {
-        "en": "A data compression algorithm",
-        "vi": "Một thuật toán nén dữ liệu"
+        "en": "A strong symmetric cipher",
+        "vi": "Một mã đối xứng mạnh"
       },
       {
-        "en": "A cryptographic hash function",
-        "vi": "Một hàm băm mật mã"
+        "en": "A lossless compression scheme",
+        "vi": "Một sơ đồ nén không mất dữ liệu"
       }
     ],
     "correct": 0,
@@ -795,20 +795,20 @@
     },
     "opts": [
       {
-        "en": "Inspects other processes (theft/injection)",
-        "vi": "Soi các tiến trình khác (trộm/tiêm)"
+        "en": "It inspects or injects into other processes",
+        "vi": "Nó kiểm tra hoặc tiêm vào các tiến trình khác"
       },
       {
-        "en": "Renders 3D graphics scenes",
-        "vi": "Render cảnh đồ họa 3D"
+        "en": "It enumerates active network connections",
+        "vi": "Nó liệt kê các kết nối mạng đang hoạt động"
       },
       {
-        "en": "Plays back audio content",
-        "vi": "Phát lại nội dung âm thanh"
+        "en": "It scans the filesystem for documents",
+        "vi": "Nó quét hệ thống file để tìm tài liệu"
       },
       {
-        "en": "Formats the attached disks",
-        "vi": "Format các đĩa gắn kèm"
+        "en": "It monitors registry key changes",
+        "vi": "Nó theo dõi thay đổi các khóa registry"
       }
     ],
     "correct": 0,
@@ -831,20 +831,20 @@
     },
     "opts": [
       {
-        "en": "Screen-capture (screenshot) functionality",
-        "vi": "Chức năng chụp màn hình (screenshot)"
+        "en": "Screen-capture / screenshots",
+        "vi": "Chụp màn hình / screenshot"
       },
       {
-        "en": "Full disk-encryption capability",
-        "vi": "Khả năng mã hóa toàn đĩa"
+        "en": "Microphone audio recording",
+        "vi": "Ghi âm từ micro"
       },
       {
-        "en": "A local network proxy service",
-        "vi": "Một dịch vụ proxy mạng cục bộ"
+        "en": "Webcam image capture",
+        "vi": "Chụp ảnh từ webcam"
       },
       {
-        "en": "A custom keyboard driver",
-        "vi": "Một driver bàn phím tùy biến"
+        "en": "Clipboard monitoring",
+        "vi": "Theo dõi clipboard"
       }
     ],
     "correct": 0,
@@ -867,20 +867,20 @@
     },
     "opts": [
       {
-        "en": "A TEA/XTEA cipher (the delta constant)",
-        "vi": "Một mã TEA/XTEA (hằng delta)"
+        "en": "A TEA/XTEA cipher",
+        "vi": "Một mã TEA/XTEA"
       },
       {
         "en": "An MD5 hashing routine",
         "vi": "Một thủ tục băm MD5"
       },
       {
-        "en": "A PNG image file header",
-        "vi": "Một header file ảnh PNG"
+        "en": "An RC4 key schedule",
+        "vi": "Một lịch khóa RC4"
       },
       {
-        "en": "A DNS TXT record entry",
-        "vi": "Một mục bản ghi DNS TXT"
+        "en": "A CRC32 checksum",
+        "vi": "Một checksum CRC32"
       }
     ],
     "correct": 0,
@@ -903,20 +903,20 @@
     },
     "opts": [
       {
-        "en": "RC4 key scheduling (KSA)",
+        "en": "RC4 key scheduling",
         "vi": "Lập lịch khóa RC4 (KSA)"
       },
       {
-        "en": "The SHA-256 hash function",
-        "vi": "Hàm băm SHA-256"
+        "en": "AES key expansion",
+        "vi": "Mở rộng khóa AES"
       },
       {
-        "en": "A JPEG image decoding loop",
-        "vi": "Một vòng giải mã ảnh JPEG"
+        "en": "A ChaCha20 state setup",
+        "vi": "Thiết lập trạng thái ChaCha20"
       },
       {
-        "en": "A simple linked-list walk",
-        "vi": "Một lần duyệt danh sách liên kết"
+        "en": "A SHA-1 message schedule",
+        "vi": "Lịch thông điệp SHA-1"
       }
     ],
     "correct": 0,
@@ -939,20 +939,20 @@
     },
     "opts": [
       {
-        "en": "Anti-analysis / sandbox evasion (worth noting)",
-        "vi": "Chống phân tích / né sandbox (đáng ghi nhận)"
+        "en": "Anti-analysis / sandbox evasion",
+        "vi": "Chống phân tích / né sandbox"
       },
       {
-        "en": "Outbound network beaconing",
-        "vi": "Beaconing mạng đi ra"
+        "en": "Environment keying to a victim",
+        "vi": "Khóa môi trường theo nạn nhân"
       },
       {
-        "en": "File-content encryption routine",
-        "vi": "Thủ tục mã hóa nội dung file"
+        "en": "Outbound C2 beaconing",
+        "vi": "Beaconing C2 ra ngoài"
       },
       {
-        "en": "Keystroke-logging routine",
-        "vi": "Thủ tục ghi phím"
+        "en": "Hardware feature detection",
+        "vi": "Phát hiện tính năng phần cứng"
       }
     ],
     "correct": 0,
@@ -975,20 +975,20 @@
     },
     "opts": [
       {
-        "en": "Breakpoint after key setup, read the buffer",
-        "vi": "Breakpoint sau thiết lập khóa, đọc buffer"
+        "en": "Set a breakpoint after key setup and read the buffer",
+        "vi": "Đặt breakpoint sau khi thiết lập khóa và đọc buffer"
       },
       {
-        "en": "Simply guess the key value",
-        "vi": "Chỉ đoán giá trị khóa"
+        "en": "Statically guess the key from constants",
+        "vi": "Đoán tĩnh khóa từ các hằng số"
       },
       {
-        "en": "Delete the binary from disk",
-        "vi": "Xóa binary khỏi đĩa"
+        "en": "Brute-force every possible key",
+        "vi": "Brute-force mọi khóa có thể"
       },
       {
-        "en": "Rename the suspicious file",
-        "vi": "Đổi tên file đáng ngờ"
+        "en": "Disassemble the entire binary first",
+        "vi": "Dịch ngược toàn bộ binary trước đã"
       }
     ],
     "correct": 0,
@@ -1011,20 +1011,20 @@
     },
     "opts": [
       {
-        "en": "Know the algorithm and XOR the ciphertext",
-        "vi": "Biết thuật toán và XOR ciphertext"
+        "en": "Know the algorithm and XOR the ciphertext with it",
+        "vi": "Biết thuật toán và XOR ciphertext với khóa đó"
       },
       {
-        "en": "Reboot the affected machine",
-        "vi": "Khởi động lại máy bị ảnh hưởng"
+        "en": "Obtain the malware's private RSA key",
+        "vi": "Lấy được khóa RSA riêng của malware"
       },
       {
-        "en": "Obtain local administrator rights",
-        "vi": "Lấy quyền administrator cục bộ"
+        "en": "Recover the AES initialisation vector",
+        "vi": "Khôi phục IV của AES"
       },
       {
-        "en": "Recompile the binary first",
-        "vi": "Biên dịch lại binary trước"
+        "en": "Find the C2 server's password",
+        "vi": "Tìm mật khẩu của máy chủ C2"
       }
     ],
     "correct": 0,
@@ -1047,20 +1047,20 @@
     },
     "opts": [
       {
-        "en": "Known-plaintext (XOR an 'MZ' header) or brute-force",
-        "vi": "Known-plaintext (XOR header 'MZ') hoặc brute-force"
+        "en": "Use known-plaintext or brute-force all 256 keys",
+        "vi": "Dùng known-plaintext hoặc brute-force cả 256 khóa"
       },
       {
-        "en": "Factor a large semiprime number",
-        "vi": "Phân tích một số bán nguyên tố lớn"
-      },
-      {
-        "en": "Break the RSA private key first",
-        "vi": "Bẻ khóa riêng RSA trước"
+        "en": "Factor the modulus as you would for RSA",
+        "vi": "Phân tích modulus như với RSA"
       },
       {
         "en": "Recover the AES round keys",
-        "vi": "Khôi phục các round key AES"
+        "vi": "Khôi phục các khóa vòng của AES"
+      },
+      {
+        "en": "Perform a meet-in-the-middle attack",
+        "vi": "Thực hiện tấn công meet-in-the-middle"
       }
     ],
     "correct": 0,
@@ -1088,19 +1088,19 @@
     "opts": [
       {
         "en": "Leak relationships between plaintexts",
-        "vi": "Làm lộ quan hệ giữa các plaintext"
+        "vi": "Làm lộ quan hệ giữa các bản rõ"
       },
       {
-        "en": "Make the encryption much stronger",
-        "vi": "Làm mã hóa mạnh hơn nhiều"
+        "en": "Strengthen message authentication",
+        "vi": "Tăng cường xác thực thông điệp"
       },
       {
-        "en": "Speed up the network considerably",
-        "vi": "Tăng tốc mạng đáng kể"
+        "en": "Prevent replay attacks",
+        "vi": "Ngăn các tấn công phát lại"
       },
       {
-        "en": "Compress the data being sent",
-        "vi": "Nén dữ liệu đang gửi"
+        "en": "Provide forward secrecy",
+        "vi": "Cung cấp forward secrecy"
       }
     ],
     "correct": 0,
@@ -1123,20 +1123,20 @@
     },
     "opts": [
       {
-        "en": "To stay small/evade detection — but it adds exploitable flaws",
-        "vi": "Để nhỏ gọn/né phát hiện — nhưng tạo lỗ hổng khai thác được"
+        "en": "To stay small and evade signature detection",
+        "vi": "Để gọn nhẹ và né phát hiện theo chữ ký"
       },
       {
-        "en": "Because custom crypto is always stronger",
-        "vi": "Vì crypto tự viết luôn mạnh hơn"
+        "en": "Because custom crypto is provably stronger",
+        "vi": "Vì mã tự viết chắc chắn mạnh hơn"
       },
       {
-        "en": "To comply with industry standards",
-        "vi": "Để tuân thủ tiêu chuẩn ngành"
+        "en": "To meet a compliance requirement",
+        "vi": "Để đáp ứng một yêu cầu tuân thủ"
       },
       {
-        "en": "To make the malware open source",
-        "vi": "Để biến mã độc thành mã nguồn mở"
+        "en": "To enable hardware acceleration",
+        "vi": "Để bật tăng tốc phần cứng"
       }
     ],
     "correct": 0,
@@ -1163,16 +1163,16 @@
         "vi": "Chạy trong debugger và dump chuỗi sau khi giải mã"
       },
       {
-        "en": "Read the raw file in a hex editor only",
-        "vi": "Chỉ đọc file thô bằng hex editor"
+        "en": "Statically XOR the .data section by hand",
+        "vi": "XOR thủ công section .data"
       },
       {
-        "en": "Print the whole binary to paper",
-        "vi": "In toàn bộ binary ra giấy"
+        "en": "Carve strings from the on-disk binary",
+        "vi": "Carve chuỗi từ binary trên đĩa"
       },
       {
-        "en": "Delete the decryption routine",
-        "vi": "Xóa thủ tục giải mã"
+        "en": "Submit the file to an AV scanner",
+        "vi": "Nộp file cho một trình quét AV"
       }
     ],
     "correct": 0,
@@ -1196,19 +1196,19 @@
     "opts": [
       {
         "en": "An MD5/SHA-1-style hash initialisation",
-        "vi": "Một khởi tạo hash kiểu MD5/SHA-1"
+        "vi": "Khởi tạo băm kiểu MD5/SHA-1"
       },
       {
-        "en": "An AES encryption routine",
-        "vi": "Một thủ tục mã hóa AES"
+        "en": "An AES S-box initialisation",
+        "vi": "Khởi tạo S-box của AES"
       },
       {
-        "en": "A network socket being opened",
-        "vi": "Một socket mạng đang được mở"
+        "en": "An RC4 state permutation",
+        "vi": "Hoán vị trạng thái RC4"
       },
       {
-        "en": "A registry value being written",
-        "vi": "Một giá trị registry đang được ghi"
+        "en": "A CRC32 table being built",
+        "vi": "Dựng một bảng CRC32"
       }
     ],
     "correct": 0,
@@ -1232,19 +1232,19 @@
     "opts": [
       {
         "en": "Analysts can extract the key and decrypt captured C2",
-        "vi": "Analyst có thể trích khóa và giải mã C2 đã bắt"
+        "vi": "Analyst trích được khóa và giải mã C2 đã bắt"
       },
       {
-        "en": "The captured traffic is unbreakable",
-        "vi": "Lưu lượng đã bắt không thể phá"
+        "en": "The captured traffic stays unbreakable",
+        "vi": "Lưu lượng đã bắt vẫn không thể phá"
       },
       {
-        "en": "The AES algorithm becomes invalid",
-        "vi": "Thuật toán AES trở nên không hợp lệ"
+        "en": "Each session uses a fresh ephemeral key",
+        "vi": "Mỗi phiên dùng một khóa tạm mới"
       },
       {
-        "en": "The key changes with every packet",
-        "vi": "Khóa thay đổi với mỗi gói"
+        "en": "AES becomes mathematically broken",
+        "vi": "AES bị phá vỡ về mặt toán học"
       }
     ],
     "correct": 0,
@@ -1267,20 +1267,20 @@
     },
     "opts": [
       {
-        "en": "Use of ECB mode — identical plaintext blocks repeat",
-        "vi": "Dùng chế độ ECB — khối plaintext giống nhau lặp lại"
+        "en": "Use of ECB mode",
+        "vi": "Việc dùng chế độ ECB"
       },
       {
-        "en": "A secure modern stream cipher",
-        "vi": "Một stream cipher hiện đại an toàn"
+        "en": "A secure CBC-mode stream",
+        "vi": "Một luồng CBC an toàn"
       },
       {
-        "en": "Perfect forward secrecy in use",
-        "vi": "Đang dùng perfect forward secrecy"
+        "en": "Authenticated GCM encryption",
+        "vi": "Mã hóa GCM có xác thực"
       },
       {
-        "en": "A cryptographic hash collision",
-        "vi": "Một va chạm hàm băm mật mã"
+        "en": "A one-time-pad scheme",
+        "vi": "Một sơ đồ one-time-pad"
       }
     ],
     "correct": 0,
@@ -1298,25 +1298,25 @@
       "vi": "F6 — Kỹ thuật mật mã"
     },
     "q": {
-      "en": "A \"key\" derived simply from a fixed string hashed once is weak primarily because:",
-      "vi": "Một \"khóa\" dẫn xuất đơn giản từ một chuỗi cố định băm một lần là yếu chủ yếu vì:"
+      "en": "Why is a \"key\" that is just a fixed string hashed once cryptographically weak?",
+      "vi": "Vì sao một \"khóa\" chỉ là một chuỗi cố định băm một lần lại yếu về mặt mật mã?"
     },
     "opts": [
       {
-        "en": "It is static and reproducible from the binary",
-        "vi": "Nó cố định và tái tạo được từ binary"
+        "en": "It is static and identical on every infection, so analysts can reproduce it",
+        "vi": "Nó cố định và giống nhau ở mọi lần lây nhiễm, nên analyst tái tạo được"
       },
       {
-        "en": "Hashing makes it truly unbreakable",
-        "vi": "Băm khiến nó thực sự không thể phá"
+        "en": "The hash output is too short to use as a key",
+        "vi": "Đầu ra băm quá ngắn để dùng làm khóa"
       },
       {
-        "en": "It consumes far too much memory",
-        "vi": "Nó tiêu thụ quá nhiều bộ nhớ"
+        "en": "Hashing is reversible, exposing the original input",
+        "vi": "Băm có thể đảo ngược, làm lộ đầu vào gốc"
       },
       {
-        "en": "It simply cannot be computed",
-        "vi": "Nó đơn giản không thể tính được"
+        "en": "It must be transmitted to the C2 in clear text",
+        "vi": "Phải gửi tới C2 dưới dạng văn bản rõ"
       }
     ],
     "correct": 0,
@@ -1376,19 +1376,19 @@
     "opts": [
       {
         "en": "Where execution begins when the image is loaded",
-        "vi": "Nơi thực thi bắt đầu khi image được nạp"
+        "vi": "Nơi bắt đầu thực thi khi image được nạp"
       },
       {
-        "en": "The total file size in bytes",
-        "vi": "Tổng kích thước file tính bằng byte"
+        "en": "The base address the image prefers to load at",
+        "vi": "Địa chỉ nền mà image muốn được nạp vào"
       },
       {
-        "en": "The build compile timestamp",
-        "vi": "Mốc thời gian biên dịch"
+        "en": "The file offset of the import table",
+        "vi": "Offset của bảng import trong file"
       },
       {
-        "en": "The embedded icon's location",
-        "vi": "Vị trí của icon nhúng"
+        "en": "The address of the export directory",
+        "vi": "Địa chỉ của thư mục export"
       }
     ],
     "correct": 0,
@@ -1412,19 +1412,19 @@
     "opts": [
       {
         "en": "A packed/self-modifying section unpacked at runtime",
-        "vi": "Một section đã pack/tự sửa, giải nén lúc chạy"
+        "vi": "Một section bị pack/tự sửa, được giải nén lúc chạy"
       },
       {
-        "en": "Normal, clean compiler output",
-        "vi": "Output trình biên dịch sạch, bình thường"
+        "en": "Normal optimised compiler output",
+        "vi": "Đầu ra trình biên dịch tối ưu bình thường"
       },
       {
-        "en": "An embedded text resource blob",
-        "vi": "Một blob tài nguyên văn bản nhúng"
+        "en": "A read-only resource section (.rsrc)",
+        "vi": "Một section tài nguyên chỉ đọc (.rsrc)"
       },
       {
-        "en": "An embedded application icon",
-        "vi": "Một icon ứng dụng nhúng"
+        "en": "A constant data section (.rdata)",
+        "vi": "Một section dữ liệu hằng (.rdata)"
       }
     ],
     "correct": 0,
@@ -1448,19 +1448,19 @@
     "opts": [
       {
         "en": "Encrypted config or a second-stage payload",
-        "vi": "Config mã hóa hoặc payload giai đoạn hai"
+        "vi": "Cấu hình mã hóa hoặc payload giai đoạn hai"
       },
       {
-        "en": "The Windows kernel image itself",
-        "vi": "Bản thân image nhân Windows"
+        "en": "The PE import address table",
+        "vi": "Bảng địa chỉ nhập (IAT) của PE"
       },
       {
-        "en": "The current user's password hash",
-        "vi": "Hash mật khẩu của người dùng hiện tại"
+        "en": "Debugging symbols for the binary",
+        "vi": "Các ký hiệu debug của binary"
       },
       {
-        "en": "The system's BIOS firmware",
-        "vi": "Firmware BIOS của hệ thống"
+        "en": "The base relocation table",
+        "vi": "Bảng relocation cơ sở"
       }
     ],
     "correct": 0,
@@ -1483,20 +1483,20 @@
     },
     "opts": [
       {
-        "en": "Runs before the main entry point — used for anti-debug",
-        "vi": "Chạy trước entry point chính — dùng cho anti-debug"
+        "en": "It runs before the main entry point",
+        "vi": "Nó chạy trước entry point chính"
       },
       {
-        "en": "It is the embedded icon resource",
-        "vi": "Nó là tài nguyên icon nhúng"
+        "en": "It runs only when the process exits",
+        "vi": "Nó chỉ chạy khi tiến trình thoát"
       },
       {
-        "en": "It stores the file's own hash",
-        "vi": "Nó lưu hash của chính file"
+        "en": "It stores thread-local storage data",
+        "vi": "Nó lưu dữ liệu thread-local storage"
       },
       {
-        "en": "It encrypts the host's network",
-        "vi": "Nó mã hóa mạng của host"
+        "en": "It is the program's exception handler",
+        "vi": "Nó là trình xử lý ngoại lệ của chương trình"
       }
     ],
     "correct": 0,
@@ -1519,20 +1519,20 @@
     },
     "opts": [
       {
-        "en": "A useful clue but forgeable/zeroed — corroborate it",
-        "vi": "Một manh mối hữu ích nhưng có thể giả/zero — cần đối chiếu"
+        "en": "A useful but forgeable clue to corroborate",
+        "vi": "Một manh mối hữu ích nhưng giả mạo được, cần đối chiếu"
       },
       {
-        "en": "An infallible record of the build time",
-        "vi": "Một bản ghi không thể sai về thời gian dựng"
+        "en": "An infallible record of the true build time",
+        "vi": "Bản ghi không thể sai về thời điểm build thật"
       },
       {
-        "en": "The executable file's size in bytes",
-        "vi": "Kích thước file thực thi tính bằng byte"
+        "en": "The exact time the file was last run",
+        "vi": "Thời điểm chính xác file được chạy lần cuối"
       },
       {
-        "en": "The malware author's real name",
-        "vi": "Tên thật của tác giả mã độc"
+        "en": "The name of the build machine",
+        "vi": "Tên của máy đã build"
       }
     ],
     "correct": 0,
@@ -1555,20 +1555,20 @@
     },
     "opts": [
       {
-        "en": "IMAGE_FILE_DLL is set and it has exports",
-        "vi": "IMAGE_FILE_DLL được đặt và nó có export"
+        "en": "The IMAGE_FILE_DLL characteristic flag is set",
+        "vi": "Cờ đặc trưng IMAGE_FILE_DLL được bật"
       },
       {
-        "en": "It has no PE header present",
-        "vi": "Nó không có header PE"
+        "en": "It has no entry point at all",
+        "vi": "Nó hoàn toàn không có entry point"
       },
       {
-        "en": "It is always larger in size",
-        "vi": "Nó luôn lớn hơn về kích thước"
+        "en": "Its subsystem is set to \"native\"",
+        "vi": "Subsystem của nó được đặt là \"native\""
       },
       {
-        "en": "It cannot contain any code",
-        "vi": "Nó không thể chứa mã nào"
+        "en": "It lacks any import table",
+        "vi": "Nó thiếu bảng import"
       }
     ],
     "correct": 0,
@@ -1591,20 +1591,20 @@
     },
     "opts": [
       {
-        "en": "Fingerprinting the build toolchain to cluster samples",
-        "vi": "Fingerprint toolchain biên dịch để gom các mẫu"
+        "en": "By fingerprinting the build toolchain to cluster samples",
+        "vi": "Bằng cách lấy dấu chuỗi công cụ build để gom nhóm mẫu"
       },
       {
-        "en": "Storing the malware's C2 address",
-        "vi": "Lưu địa chỉ C2 của mã độc"
+        "en": "By revealing the embedded C2 domain",
+        "vi": "Bằng cách lộ domain C2 nhúng"
       },
       {
-        "en": "Holding the application's icon",
-        "vi": "Chứa icon của ứng dụng"
+        "en": "By listing the imported API functions",
+        "vi": "Bằng cách liệt kê các hàm API được nhập"
       },
       {
-        "en": "Encrypting the executable file",
-        "vi": "Mã hóa file thực thi"
+        "en": "By storing the file's digital signature",
+        "vi": "Bằng cách lưu chữ ký số của file"
       }
     ],
     "correct": 0,
@@ -1628,19 +1628,19 @@
     "opts": [
       {
         "en": "Resolved addresses of imported functions",
-        "vi": "Địa chỉ đã phân giải của các hàm import"
+        "vi": "Các địa chỉ đã phân giải của hàm được nhập"
       },
       {
-        "en": "The user's recorded keystrokes",
-        "vi": "Phím gõ đã ghi của người dùng"
+        "en": "The names of exported functions",
+        "vi": "Tên của các hàm được xuất"
       },
       {
-        "en": "A block of random number data",
-        "vi": "Một khối dữ liệu số ngẫu nhiên"
+        "en": "Relocation fixup offsets",
+        "vi": "Các offset fixup relocation"
       },
       {
-        "en": "Incoming network packet data",
-        "vi": "Dữ liệu gói mạng đi vào"
+        "en": "The virtual addresses of sections",
+        "vi": "Các địa chỉ ảo của section"
       }
     ],
     "correct": 0,
@@ -1699,20 +1699,20 @@
     },
     "opts": [
       {
-        "en": "A .NET/managed assembly (use dnSpy/ILSpy)",
-        "vi": "Một assembly .NET/managed (dùng dnSpy/ILSpy)"
+        "en": "A .NET / managed assembly",
+        "vi": "Một assembly .NET / managed"
       },
       {
-        "en": "A native Linux ELF executable",
-        "vi": "Một file thực thi ELF Linux native"
+        "en": "A native C/C++ executable",
+        "vi": "Một file thực thi C/C++ native"
       },
       {
-        "en": "A plain UTF-8 text document",
-        "vi": "Một tài liệu văn bản UTF-8 thuần"
+        "en": "A UPX-packed binary",
+        "vi": "Một binary pack bằng UPX"
       },
       {
-        "en": "A raw forensic disk image",
-        "vi": "Một image đĩa forensic thô"
+        "en": "A kernel driver (.sys) module",
+        "vi": "Một module driver nhân (.sys)"
       }
     ],
     "correct": 0,
@@ -1735,20 +1735,20 @@
     },
     "opts": [
       {
-        "en": "DLLs — the functions they expose to other modules",
-        "vi": "DLL — các hàm chúng cung cấp cho module khác"
+        "en": "For DLLs, naming the functions they expose to others",
+        "vi": "Với DLL, cho biết các hàm nó phơi ra cho module khác"
       },
       {
-        "en": "The application's icon image",
-        "vi": "Ảnh icon của ứng dụng"
+        "en": "For listing the functions a binary imports",
+        "vi": "Để liệt kê các hàm mà binary nhập vào"
       },
       {
-        "en": "The user's account password",
-        "vi": "Mật khẩu tài khoản của người dùng"
+        "en": "For locating the program's entry point",
+        "vi": "Để xác định entry point của chương trình"
       },
       {
-        "en": "The host's network routing table",
-        "vi": "Bảng định tuyến mạng của host"
+        "en": "For mapping the relocation fixups",
+        "vi": "Để ánh xạ các fixup relocation"
       }
     ],
     "correct": 0,
@@ -1775,16 +1775,16 @@
         "vi": "URL, IP, đường dẫn, khóa registry và tên API"
       },
       {
-        "en": "The exact encryption key, always",
-        "vi": "Khóa mã hóa chính xác, luôn luôn"
+        "en": "The decryption key, in every case",
+        "vi": "Khóa giải mã, trong mọi trường hợp"
       },
       {
-        "en": "The malware author's home address",
-        "vi": "Địa chỉ nhà của tác giả mã độc"
+        "en": "The full runtime behaviour of the sample",
+        "vi": "Toàn bộ hành vi lúc chạy của mẫu"
       },
       {
-        "en": "The processor's core temperature",
-        "vi": "Nhiệt độ nhân của bộ xử lý"
+        "en": "The contents of packed/encrypted sections",
+        "vi": "Nội dung của các section bị pack/mã hóa"
       }
     ],
     "correct": 0,
@@ -1808,19 +1808,19 @@
     "opts": [
       {
         "en": "Windows supports flat .COM and PE-based .EXE files",
-        "vi": "Windows hỗ trợ .COM phẳng và .EXE dựa trên PE"
+        "vi": "Windows hỗ trợ cả .COM phẳng và .EXE dựa trên PE"
       },
       {
-        "en": "They are both image file formats",
-        "vi": "Cả hai là định dạng file ảnh"
+        "en": "Both are interpreted script formats",
+        "vi": "Cả hai đều là định dạng script thông dịch"
       },
       {
-        "en": "They are both network protocols",
-        "vi": "Cả hai là giao thức mạng"
+        "en": "Both require the .NET runtime to execute",
+        "vi": "Cả hai đều cần .NET runtime để chạy"
       },
       {
-        "en": "They are the same thing as DLLs",
-        "vi": "Chúng giống hệt như DLL"
+        "en": "Both are archive formats containing code",
+        "vi": "Cả hai đều là định dạng nén chứa mã"
       }
     ],
     "correct": 0,
@@ -1843,20 +1843,20 @@
     },
     "opts": [
       {
-        "en": "Space for code unpacked into memory at runtime",
-        "vi": "Không gian cho code giải nén vào bộ nhớ lúc chạy"
+        "en": "Space for code/data unpacked into memory at runtime",
+        "vi": "Khoảng trống cho mã/dữ liệu được giải nén vào bộ nhớ lúc chạy"
       },
       {
-        "en": "A corrupted file that cannot run",
-        "vi": "Một file hỏng không chạy được"
+        "en": "A normal large uninitialised data (.bss) section",
+        "vi": "Một section dữ liệu chưa khởi tạo (.bss) lớn bình thường"
+      },
+      {
+        "en": "A corrupted, unrunnable section table",
+        "vi": "Một bảng section bị hỏng, không chạy được"
       },
       {
         "en": "An embedded image thumbnail cache",
-        "vi": "Một cache thumbnail ảnh nhúng"
-      },
-      {
-        "en": "A stored DNS record entry",
-        "vi": "Một mục bản ghi DNS lưu sẵn"
+        "vi": "Một cache ảnh thumbnail nhúng"
       }
     ],
     "correct": 0,
@@ -1915,20 +1915,20 @@
     },
     "opts": [
       {
-        "en": "Start a process suspended, unmap it, write code, resume",
-        "vi": "Khởi chạy tiến trình suspended, gỡ ánh xạ, ghi mã, resume"
+        "en": "Starting a process suspended, unmapping it, writing code, then resuming",
+        "vi": "Khởi chạy tiến trình ở trạng thái suspended, gỡ ánh xạ, ghi mã rồi resume"
       },
       {
-        "en": "Deleting the process from disk",
-        "vi": "Xóa tiến trình khỏi đĩa"
+        "en": "Mapping and executing a DLL entirely from memory",
+        "vi": "Ánh xạ và thực thi một DLL hoàn toàn từ bộ nhớ"
       },
       {
-        "en": "Encrypting the system registry",
-        "vi": "Mã hóa registry hệ thống"
+        "en": "Overwriting a function's prologue with a jump",
+        "vi": "Ghi đè prologue của hàm bằng một lệnh jump"
       },
       {
-        "en": "Flooding the network with traffic",
-        "vi": "Làm ngập mạng bằng lưu lượng"
+        "en": "Queuing an APC to an alertable thread",
+        "vi": "Xếp một APC vào một luồng alertable"
       }
     ],
     "correct": 0,
@@ -1951,20 +1951,20 @@
     },
     "opts": [
       {
-        "en": "Maps and runs a DLL from memory, never touching disk",
-        "vi": "Ánh xạ và chạy DLL từ bộ nhớ, không chạm đĩa"
+        "en": "It maps and runs a DLL from memory, never touching disk",
+        "vi": "Nó ánh xạ và chạy DLL từ bộ nhớ, không chạm đĩa"
       },
       {
-        "en": "It always writes the DLL to System32",
-        "vi": "Nó luôn ghi DLL vào System32"
+        "en": "It loads the DLL via the normal LoadLibrary call",
+        "vi": "Nó nạp DLL qua lời gọi LoadLibrary thông thường"
       },
       {
-        "en": "It requires the DLL to be on disk",
-        "vi": "Nó cần DLL có trên đĩa"
+        "en": "It requires the DLL to be registered first",
+        "vi": "Nó yêu cầu DLL phải được đăng ký trước"
       },
       {
-        "en": "It disables the network adapter",
-        "vi": "Nó vô hiệu hóa card mạng"
+        "en": "It relies on DLL search-order to find a file on disk",
+        "vi": "Nó dựa vào thứ tự tìm DLL để tìm file trên đĩa"
       }
     ],
     "correct": 0,
@@ -1988,19 +1988,19 @@
     "opts": [
       {
         "en": "A kernel rootkit hooking system calls",
-        "vi": "Một rootkit kernel hook system call"
+        "vi": "Một rootkit nhân hook các system call"
       },
       {
-        "en": "A standard networking protocol",
-        "vi": "Một giao thức mạng chuẩn"
+        "en": "A user-mode IAT hook",
+        "vi": "Một IAT hook ở user-mode"
       },
       {
-        "en": "A user-mode GUI display feature",
-        "vi": "Một tính năng hiển thị GUI user-mode"
+        "en": "An inline detour inside a user DLL",
+        "vi": "Một inline detour bên trong một DLL user"
       },
       {
-        "en": "A data compression method",
-        "vi": "Một phương pháp nén dữ liệu"
+        "en": "A hardware CPU debug feature",
+        "vi": "Một tính năng debug phần cứng của CPU"
       }
     ],
     "correct": 0,
@@ -2024,19 +2024,19 @@
     "opts": [
       {
         "en": "Overwriting a function's first bytes with a jump",
-        "vi": "Ghi đè các byte đầu của hàm bằng một lệnh nhảy"
+        "vi": "Ghi đè các byte đầu của hàm bằng một lệnh jump"
       },
       {
-        "en": "Renaming the target DLL file",
-        "vi": "Đổi tên file DLL mục tiêu"
+        "en": "Replacing entries in the import address table",
+        "vi": "Thay các mục trong bảng địa chỉ nhập (IAT)"
       },
       {
-        "en": "Only editing the registry",
-        "vi": "Chỉ sửa registry"
+        "en": "Patching the kernel's system-call table",
+        "vi": "Vá bảng system-call của nhân"
       },
       {
-        "en": "Sending a crafted network packet",
-        "vi": "Gửi một gói mạng chế tạo riêng"
+        "en": "Redirecting the DLL search order",
+        "vi": "Chuyển hướng thứ tự tìm DLL"
       }
     ],
     "correct": 0,
@@ -2059,20 +2059,20 @@
     },
     "opts": [
       {
-        "en": "A program may load a malicious DLL found first",
-        "vi": "Một chương trình có thể nạp DLL độc hại tìm thấy trước"
+        "en": "A program may load a malicious DLL that is found first",
+        "vi": "Một chương trình có thể nạp một DLL độc hại được tìm thấy trước"
       },
       {
-        "en": "DLLs simply cannot be loaded",
-        "vi": "DLL đơn giản không thể được nạp"
+        "en": "Windows loads DLLs only from System32",
+        "vi": "Windows chỉ nạp DLL từ System32"
       },
       {
-        "en": "Windows ignores all DLL files",
-        "vi": "Windows bỏ qua mọi file DLL"
+        "en": "Every DLL must be digitally signed to load",
+        "vi": "Mọi DLL phải được ký số mới nạp được"
       },
       {
-        "en": "DLLs must be signed by the user",
-        "vi": "DLL phải do người dùng ký"
+        "en": "Applications always hard-code absolute DLL paths",
+        "vi": "Ứng dụng luôn ghi cứng đường dẫn tuyệt đối của DLL"
       }
     ],
     "correct": 0,
@@ -2095,20 +2095,20 @@
     },
     "opts": [
       {
-        "en": "Intercepting file-system I/O and hiding its own files",
-        "vi": "Chặn I/O hệ thống tệp và ẩn các file của nó"
+        "en": "By intercepting file-system I/O and hiding its own files",
+        "vi": "Bằng cách chặn I/O hệ thống file và giấu các file của nó"
       },
       {
-        "en": "Encrypting the user's monitor",
-        "vi": "Mã hóa màn hình của người dùng"
+        "en": "By unlinking the files' MFT records from the index",
+        "vi": "Bằng cách gỡ bản ghi MFT của file khỏi chỉ mục"
       },
       {
-        "en": "Disabling the host's keyboard",
-        "vi": "Vô hiệu hóa bàn phím của host"
+        "en": "By encrypting the files so they cannot be read",
+        "vi": "Bằng cách mã hóa file để không đọc được"
       },
       {
-        "en": "Sending email from the host silently",
-        "vi": "Âm thầm gửi email từ host"
+        "en": "By setting the hidden and system attributes",
+        "vi": "Bằng cách đặt thuộc tính hidden và system"
       }
     ],
     "correct": 0,
@@ -2131,20 +2131,20 @@
     },
     "opts": [
       {
-        "en": "Unlinking its EPROCESS from the active-process list",
-        "vi": "Gỡ liên kết EPROCESS khỏi danh sách tiến trình hoạt động"
+        "en": "By unlinking its EPROCESS from the active-process list",
+        "vi": "Bằng cách gỡ EPROCESS của nó khỏi danh sách tiến trình đang hoạt động"
       },
       {
-        "en": "Deleting the process from disk",
-        "vi": "Xóa tiến trình khỏi đĩa"
+        "en": "By hooking the SSDT to filter process queries",
+        "vi": "Bằng cách hook SSDT để lọc truy vấn tiến trình"
       },
       {
-        "en": "Encrypting the process memory",
-        "vi": "Mã hóa bộ nhớ tiến trình"
+        "en": "By injecting a DLL into Task Manager",
+        "vi": "Bằng cách tiêm một DLL vào Task Manager"
       },
       {
-        "en": "Renaming the process executable",
-        "vi": "Đổi tên file thực thi của tiến trình"
+        "en": "By patching NtQuerySystemInformation in user mode",
+        "vi": "Bằng cách vá NtQuerySystemInformation ở user mode"
       }
     ],
     "correct": 0,
@@ -2167,20 +2167,20 @@
     },
     "opts": [
       {
-        "en": "Queuing an APC to a thread to run shellcode",
-        "vi": "Xếp một APC vào thread để chạy shellcode"
+        "en": "By queuing an APC to a thread to run shellcode",
+        "vi": "Bằng cách xếp một APC vào một luồng để chạy shellcode"
       },
       {
-        "en": "Rebooting the entire host system",
-        "vi": "Khởi động lại toàn bộ host"
+        "en": "By creating a remote thread with CreateRemoteThread",
+        "vi": "Bằng cách tạo luồng từ xa với CreateRemoteThread"
       },
       {
-        "en": "Formatting the system disk",
-        "vi": "Format đĩa hệ thống"
+        "en": "By suspending a thread and rewriting its instruction pointer",
+        "vi": "Bằng cách suspend một luồng và viết lại con trỏ lệnh của nó"
       },
       {
-        "en": "Sending a single DNS query",
-        "vi": "Gửi một truy vấn DNS duy nhất"
+        "en": "By mapping a section with NtMapViewOfSection",
+        "vi": "Bằng cách ánh xạ một section với NtMapViewOfSection"
       }
     ],
     "correct": 0,
@@ -2203,20 +2203,20 @@
     },
     "opts": [
       {
-        "en": "Suspend a thread, set its EIP to the payload",
-        "vi": "Suspend một thread, đặt EIP tới payload"
+        "en": "By suspending a thread and setting its EIP to the payload",
+        "vi": "Bằng cách suspend một luồng và đặt EIP của nó tới payload"
       },
       {
-        "en": "Deleting the running thread entirely",
-        "vi": "Xóa hoàn toàn thread đang chạy"
+        "en": "By queuing a user-mode APC to the thread",
+        "vi": "Bằng cách xếp một APC user-mode vào luồng"
       },
       {
-        "en": "Encrypting the CPU registers",
-        "vi": "Mã hóa các thanh ghi CPU"
+        "en": "By creating a new remote thread at the payload",
+        "vi": "Bằng cách tạo một luồng từ xa mới tại payload"
       },
       {
-        "en": "Sending a crafted network packet",
-        "vi": "Gửi một gói mạng chế tạo riêng"
+        "en": "By overwriting only the thread's stack return address",
+        "vi": "Bằng cách chỉ ghi đè địa chỉ trả về trên stack của luồng"
       }
     ],
     "correct": 0,
@@ -2239,20 +2239,20 @@
     },
     "opts": [
       {
-        "en": "Run code in a trusted process to evade detection",
-        "vi": "Chạy mã trong một tiến trình tin cậy để né phát hiện"
+        "en": "To run code inside a trusted process and evade detection",
+        "vi": "Để chạy mã bên trong một tiến trình tin cậy và né phát hiện"
       },
       {
-        "en": "Make the host computer run faster",
-        "vi": "Làm máy host chạy nhanh hơn"
+        "en": "To gain kernel-mode execution privileges",
+        "vi": "Để giành quyền thực thi ở kernel-mode"
       },
       {
-        "en": "Improve the system's graphics output",
-        "vi": "Cải thiện đầu ra đồ họa hệ thống"
+        "en": "To bypass network firewall rules",
+        "vi": "Để vượt qua luật tường lửa mạng"
       },
       {
-        "en": "Reduce overall disk space usage",
-        "vi": "Giảm tổng dung lượng đĩa dùng"
+        "en": "To persist across system reboots",
+        "vi": "Để duy trì qua các lần khởi động lại"
       }
     ],
     "correct": 0,
@@ -2275,20 +2275,20 @@
     },
     "opts": [
       {
-        "en": "An isolated lab with no path to production/the internet",
-        "vi": "Một lab cách ly không có đường tới production/internet"
+        "en": "An isolated lab with no route to production or the internet",
+        "vi": "Một phòng lab cô lập, không có đường ra production hay internet"
       },
       {
-        "en": "Running it on a domain controller",
-        "vi": "Chạy nó trên một domain controller"
+        "en": "A spare workstation on the office LAN",
+        "vi": "Một máy trạm dự phòng trên LAN văn phòng"
       },
       {
-        "en": "Turning off all host logging",
-        "vi": "Tắt mọi logging của host"
+        "en": "A cloud VM with default internet access",
+        "vi": "Một VM đám mây có truy cập internet mặc định"
       },
       {
-        "en": "Connecting it to the corporate VPN",
-        "vi": "Kết nối nó với VPN doanh nghiệp"
+        "en": "The analyst's own daily-driver laptop",
+        "vi": "Chính chiếc laptop dùng hằng ngày của analyst"
       }
     ],
     "correct": 0,
@@ -2311,20 +2311,20 @@
     },
     "opts": [
       {
-        "en": "Procmon + Wireshark/INetSim + Regshot (state diff)",
-        "vi": "Procmon + Wireshark/INetSim + Regshot (so sánh trạng thái)"
+        "en": "Procmon, Wireshark/INetSim and Regshot together",
+        "vi": "Procmon, Wireshark/INetSim và Regshot dùng cùng nhau"
       },
       {
-        "en": "Only the Notepad text editor",
-        "vi": "Chỉ trình soạn thảo Notepad"
+        "en": "A disassembler and decompiler only",
+        "vi": "Chỉ một disassembler và decompiler"
       },
       {
-        "en": "Only a static binary hex editor",
-        "vi": "Chỉ một hex editor nhị phân tĩnh"
+        "en": "Strings and a hex editor only",
+        "vi": "Chỉ strings và một hex editor"
       },
       {
-        "en": "Only the Windows Calculator",
-        "vi": "Chỉ Calculator của Windows"
+        "en": "An antivirus scan and a hash lookup",
+        "vi": "Một lần quét antivirus và tra hash"
       }
     ],
     "correct": 0,
@@ -2347,20 +2347,20 @@
     },
     "opts": [
       {
-        "en": "Sandbox-evasion via delays and interaction checks",
+        "en": "Sandbox evasion via delays and interaction checks",
         "vi": "Né sandbox qua trì hoãn và kiểm tra tương tác"
       },
       {
-        "en": "An outbound network beacon call",
-        "vi": "Một cuộc gọi beacon mạng đi ra"
+        "en": "A logic bomb waiting for a specific date",
+        "vi": "Một logic bomb chờ một ngày cụ thể"
       },
       {
-        "en": "Full system disk encryption",
-        "vi": "Mã hóa toàn bộ đĩa hệ thống"
+        "en": "Polling a C2 server for a command first",
+        "vi": "Hỏi vòng máy chủ C2 để lấy lệnh trước"
       },
       {
-        "en": "A device driver installation",
-        "vi": "Một lần cài driver thiết bị"
+        "en": "Throttling itself to reduce CPU usage",
+        "vi": "Tự điều tiết để giảm dùng CPU"
       }
     ],
     "correct": 0,
@@ -2384,19 +2384,19 @@
     "opts": [
       {
         "en": "Detect a debugger and bail out to thwart analysis",
-        "vi": "Phát hiện debugger và thoát để cản phân tích"
+        "vi": "Phát hiện debugger và thoát để cản trở phân tích"
       },
       {
-        "en": "Speed up overall code execution",
-        "vi": "Tăng tốc thực thi mã tổng thể"
+        "en": "Improve performance when no debugger is attached",
+        "vi": "Cải thiện hiệu năng khi không có debugger gắn vào"
       },
       {
-        "en": "Improve the graphical output",
-        "vi": "Cải thiện đầu ra đồ họa"
+        "en": "Enable verbose logging for developers",
+        "vi": "Bật log chi tiết cho lập trình viên"
       },
       {
-        "en": "Compress the executable file",
-        "vi": "Nén file thực thi"
+        "en": "Verify the binary's digital signature",
+        "vi": "Xác minh chữ ký số của binary"
       }
     ],
     "correct": 0,
@@ -2419,20 +2419,20 @@
     },
     "opts": [
       {
-        "en": "Fake the service reply to coax out behaviour",
-        "vi": "Giả phản hồi dịch vụ để dụ ra hành vi"
+        "en": "Fake the service reply to coax out further behaviour",
+        "vi": "Giả mạo phản hồi dịch vụ để dụ ra thêm hành vi"
       },
       {
-        "en": "Decrypt RSA keys in an instant",
-        "vi": "Giải mã khóa RSA tức thì"
+        "en": "Capture the traffic but block any reply",
+        "vi": "Bắt lưu lượng nhưng chặn mọi phản hồi"
       },
       {
-        "en": "Recover files deleted from disk",
-        "vi": "Khôi phục file đã xóa khỏi đĩa"
+        "en": "Redirect the sample to the real C2 safely",
+        "vi": "Chuyển hướng mẫu tới C2 thật một cách an toàn"
       },
       {
-        "en": "Image the host's full hard disk",
-        "vi": "Tạo image toàn bộ đĩa cứng của host"
+        "en": "Decrypt the sample's TLS session instantly",
+        "vi": "Giải mã ngay phiên TLS của mẫu"
       }
     ],
     "correct": 0,
@@ -2456,19 +2456,19 @@
     "opts": [
       {
         "en": "Running it forces it to unpack, exposing real behaviour",
-        "vi": "Chạy nó buộc nó tự giải nén, lộ hành vi thật"
+        "vi": "Chạy nó buộc nó phải giải nén, để lộ hành vi thật"
       },
       {
-        "en": "It decrypts every file on disk",
-        "vi": "Nó giải mã mọi file trên đĩa"
+        "en": "It reveals the packer's compression ratio",
+        "vi": "Nó cho biết tỉ lệ nén của packer"
       },
       {
-        "en": "It recompiles the malware code",
-        "vi": "Nó biên dịch lại mã của mã độc"
+        "en": "It removes the packer from the file on disk",
+        "vi": "Nó gỡ packer khỏi file trên đĩa"
       },
       {
-        "en": "It needs no lab isolation at all",
-        "vi": "Nó hoàn toàn không cần cách ly lab"
+        "en": "It recovers the original source code",
+        "vi": "Nó khôi phục mã nguồn gốc"
       }
     ],
     "correct": 0,
@@ -2492,19 +2492,19 @@
     "opts": [
       {
         "en": "Persistence mechanisms",
-        "vi": "Các cơ chế persistence của nó"
+        "vi": "Các cơ chế duy trì (persistence)"
       },
       {
-        "en": "Encryption algorithm",
-        "vi": "Thuật toán mã hóa của nó"
+        "en": "Privilege-escalation method",
+        "vi": "Phương pháp leo thang đặc quyền"
       },
       {
-        "en": "Compile date",
-        "vi": "Ngày biên dịch của nó"
+        "en": "Lateral-movement technique",
+        "vi": "Kỹ thuật di chuyển ngang"
       },
       {
-        "en": "Icon resource",
-        "vi": "Tài nguyên icon của nó"
+        "en": "Defence-evasion trick",
+        "vi": "Mẹo né phòng thủ"
       }
     ],
     "correct": 0,
@@ -2527,20 +2527,20 @@
     },
     "opts": [
       {
-        "en": "A host-based IoC (C2 inter-process comms)",
-        "vi": "Một IoC phía host (giao tiếp liên-tiến-trình C2)"
+        "en": "A host-based IoC for C2 inter-process comms",
+        "vi": "Một IoC trên host cho liên lạc liên tiến trình của C2"
       },
       {
-        "en": "A network perimeter firewall",
-        "vi": "Một firewall biên mạng"
+        "en": "A network-based IoC such as a C2 domain",
+        "vi": "Một IoC mạng như một domain C2"
       },
       {
-        "en": "A disk partition boundary marker",
-        "vi": "Một mốc ranh giới phân vùng đĩa"
+        "en": "A file-system artefact such as a dropped binary",
+        "vi": "Một artefact hệ thống file như một binary bị thả"
       },
       {
-        "en": "A BIOS configuration setting",
-        "vi": "Một cài đặt cấu hình BIOS"
+        "en": "A registry persistence key",
+        "vi": "Một khóa registry để duy trì"
       }
     ],
     "correct": 0,
@@ -2564,19 +2564,19 @@
     "opts": [
       {
         "en": "To revert to a clean baseline, reproducibly",
-        "vi": "Để khôi phục baseline sạch, tái lập được"
+        "vi": "Để quay về một baseline sạch, có thể lặp lại"
       },
       {
-        "en": "To encrypt the malware sample",
-        "vi": "Để mã hóa mẫu mã độc"
+        "en": "To capture a memory dump of the sample",
+        "vi": "Để chụp một bản dump bộ nhớ của mẫu"
       },
       {
-        "en": "To speed up the internet link",
-        "vi": "Để tăng tốc liên kết internet"
+        "en": "To compress the disk image and save space",
+        "vi": "Để nén image đĩa và tiết kiệm dung lượng"
       },
       {
-        "en": "To digitally sign the binary",
-        "vi": "Để ký số binary"
+        "en": "To apply the latest OS security patches",
+        "vi": "Để áp các bản vá bảo mật OS mới nhất"
       }
     ],
     "correct": 0,
@@ -2599,20 +2599,20 @@
     },
     "opts": [
       {
-        "en": "Code paths not triggered (date/command-gated) go unseen",
-        "vi": "Các nhánh mã không kích hoạt (theo ngày/lệnh) bị bỏ sót"
+        "en": "Code paths that are never triggered stay unseen",
+        "vi": "Các nhánh mã không bao giờ được kích hoạt sẽ không lộ ra"
       },
       {
-        "en": "It always reveals every capability",
-        "vi": "Nó luôn lộ mọi năng lực"
+        "en": "It cannot observe any network traffic",
+        "vi": "Nó không thể quan sát bất kỳ lưu lượng mạng nào"
       },
       {
-        "en": "It cannot run the malware at all",
-        "vi": "Nó hoàn toàn không thể chạy mã độc"
+        "en": "It always destroys the only copy of the sample",
+        "vi": "Nó luôn phá hủy bản sao duy nhất của mẫu"
       },
       {
-        "en": "It needs no analysis tools at all",
-        "vi": "Nó hoàn toàn không cần công cụ phân tích"
+        "en": "It requires the malware's source code",
+        "vi": "Nó yêu cầu mã nguồn của malware"
       }
     ],
     "correct": 0,

@@ -171,8 +171,8 @@
     },
     "opts": [
       {
-        "en": "Weak obfuscation, easily reversed (e.g. known-plaintext)",
-        "vi": "Làm rối yếu, dễ đảo ngược (vd known-plaintext)"
+        "en": "Weak obfuscation, easily reversed",
+        "vi": "Làm rối yếu, dễ đảo ngược"
       },
       {
         "en": "Strong, effectively unbreakable cryptography",
@@ -327,8 +327,8 @@
     },
     "opts": [
       {
-        "en": "A port/network scan (reconnaissance)",
-        "vi": "Một lần quét cổng/mạng (trinh sát)"
+        "en": "A port/network scan for reconnaissance",
+        "vi": "Một lần quét cổng/mạng để trinh sát"
       },
       {
         "en": "A routine overnight backup job",
@@ -731,8 +731,8 @@
     },
     "opts": [
       {
-        "en": "Link throughput × capture duration × a retention factor",
-        "vi": "Thông lượng × thời gian bắt × hệ số lưu giữ"
+        "en": "Link throughput × capture duration × retention",
+        "vi": "Thông lượng × thời gian bắt × thời gian lưu"
       },
       {
         "en": "The number of analysts on the team",
@@ -767,8 +767,8 @@
     },
     "opts": [
       {
-        "en": "A C2 channel (e.g. a malware framework beacon)",
-        "vi": "Một kênh C2 (vd beacon của framework mã độc)"
+        "en": "A C2 channel, like a malware framework beacon",
+        "vi": "Một kênh C2, như beacon của framework mã độc"
       },
       {
         "en": "A routine Windows Update check-in",
@@ -875,8 +875,8 @@
     },
     "opts": [
       {
-        "en": "Cloud mailbox access, sign-ins, sharing and admin actions",
-        "vi": "Truy cập hộp thư đám mây, đăng nhập, chia sẻ, thao tác admin"
+        "en": "Cloud mailbox access, sign-ins and admin actions",
+        "vi": "Truy cập hộp thư đám mây, đăng nhập và thao tác admin"
       },
       {
         "en": "The server's BIOS firmware version",
@@ -983,8 +983,8 @@
     },
     "opts": [
       {
-        "en": "Promiscuous (or monitor) mode",
-        "vi": "Chế độ promiscuous (hoặc monitor)"
+        "en": "Promiscuous or monitor mode",
+        "vi": "Chế độ promiscuous hoặc monitor"
       },
       {
         "en": "Half-duplex link negotiation mode",
@@ -1059,8 +1059,8 @@
     },
     "opts": [
       {
-        "en": "At the network perimeter/internet egress choke point",
-        "vi": "Tại điểm thắt cổ chai biên/egress ra internet"
+        "en": "At the internet egress choke point",
+        "vi": "Tại điểm thắt cổ chai egress ra internet"
       },
       {
         "en": "On a random user's personal laptop",
@@ -1095,8 +1095,8 @@
     },
     "opts": [
       {
-        "en": "Hash the file at acquisition and store the hash securely",
-        "vi": "Băm file lúc thu thập và lưu hash an toàn"
+        "en": "Hash the file at acquisition and store the hash",
+        "vi": "Băm file lúc thu thập và lưu lại hash"
       },
       {
         "en": "Compress the file to save space",
@@ -1131,8 +1131,8 @@
     },
     "opts": [
       {
-        "en": "A new process being created (with command line if audited)",
-        "vi": "Một tiến trình mới được tạo (kèm dòng lệnh nếu audit)"
+        "en": "A new process being created",
+        "vi": "Một tiến trình mới được tạo"
       },
       {
         "en": "An interactive user logon to the host",
@@ -1243,8 +1243,8 @@
     },
     "opts": [
       {
-        "en": "Proxy logs (they can log the full URL)",
-        "vi": "Log proxy (có thể ghi cả URL đầy đủ)"
+        "en": "Proxy logs, which can log the full URL",
+        "vi": "Log proxy, vốn có thể ghi cả URL đầy đủ"
       },
       {
         "en": "DHCP address-lease logs",
@@ -1315,8 +1315,8 @@
     },
     "opts": [
       {
-        "en": "Which account connected remotely, from which IP, and when",
-        "vi": "Tài khoản nào kết nối từ xa, từ IP nào, khi nào"
+        "en": "Which account connected remotely, from which IP",
+        "vi": "Tài khoản nào kết nối từ xa và từ IP nào"
       },
       {
         "en": "The CPU temperature of the server",
@@ -1351,8 +1351,8 @@
     },
     "opts": [
       {
-        "en": "An open relay — abusable for spam and spoofing",
-        "vi": "Một open relay — có thể lạm dụng để spam và giả mạo"
+        "en": "An open relay, abusable for spam and spoofing",
+        "vi": "Một open relay, có thể lạm dụng để spam và giả mạo"
       },
       {
         "en": "A properly secured mail server",
@@ -1531,8 +1531,8 @@
     },
     "opts": [
       {
-        "en": "Inspecting the actual payload/protocol, not trusting the port",
-        "vi": "Kiểm tra payload/giao thức thực, không tin cổng"
+        "en": "Inspecting the actual payload, not the port",
+        "vi": "Kiểm tra payload thực, không tin vào cổng"
       },
       {
         "en": "Checking only the destination port number",
@@ -1567,8 +1567,8 @@
     },
     "opts": [
       {
-        "en": "Exploitation such as cache poisoning",
-        "vi": "Khai thác như cache poisoning"
+        "en": "Exploitation like cache poisoning",
+        "vi": "Khai thác kiểu cache poisoning"
       },
       {
         "en": "Perfectly normal web browsing",
@@ -1603,8 +1603,8 @@
     },
     "opts": [
       {
-        "en": "ICMP tunnelling (covert channel / exfiltration)",
-        "vi": "ICMP tunnelling (kênh ngầm / exfil)"
+        "en": "ICMP tunnelling for a covert channel",
+        "vi": "ICMP tunnelling làm kênh ngầm"
       },
       {
         "en": "Normal ping connectivity diagnostics",
@@ -1783,8 +1783,8 @@
     },
     "opts": [
       {
-        "en": "Weak obfuscation, trivially reversible (ROR 3)",
-        "vi": "Làm rối yếu, đảo ngược dễ dàng (ROR 3)"
+        "en": "Weak obfuscation, trivially reversible",
+        "vi": "Làm rối yếu, đảo ngược dễ dàng"
       },
       {
         "en": "Strong, modern AES encryption",
@@ -1819,8 +1819,8 @@
     },
     "opts": [
       {
-        "en": "How it negotiates TLS (the ClientHello)",
-        "vi": "Cách nó đàm phán TLS (ClientHello)"
+        "en": "How it negotiates TLS in the ClientHello",
+        "vi": "Cách nó đàm phán TLS trong ClientHello"
       },
       {
         "en": "The plaintext password it transmits",
@@ -1927,8 +1927,8 @@
     },
     "opts": [
       {
-        "en": "HTTP-based C2 (agent check-in and output)",
-        "vi": "C2 dựa trên HTTP (agent điểm danh và trả kết quả)"
+        "en": "HTTP-based C2 check-in and output",
+        "vi": "C2 trên HTTP điểm danh và trả kết quả"
       },
       {
         "en": "A routine streaming-video session",
@@ -1963,8 +1963,8 @@
     },
     "opts": [
       {
-        "en": "Known default malleable-C2 artefacts (URIs, JA3, named pipes)",
-        "vi": "Các artefact malleable-C2 mặc định đã biết (URI, JA3, named pipe)"
+        "en": "Known default malleable-C2 artefacts",
+        "vi": "Các artefact malleable-C2 mặc định đã biết"
       },
       {
         "en": "Its complete inability to use TLS",
@@ -2363,8 +2363,8 @@
     },
     "opts": [
       {
-        "en": "Automated vulnerability-scanning / attack tooling (recon)",
-        "vi": "Công cụ quét lỗ hổng / tấn công tự động (trinh sát)"
+        "en": "Automated vulnerability-scanning or attack tooling",
+        "vi": "Công cụ quét lỗ hổng hoặc tấn công tự động"
       },
       {
         "en": "A legitimate human-driven browser",
@@ -2471,8 +2471,8 @@
     },
     "opts": [
       {
-        "en": "A ping sweep (host discovery) during reconnaissance",
-        "vi": "Một ping sweep (phát hiện host) khi trinh sát"
+        "en": "A ping sweep for host discovery in reconnaissance",
+        "vi": "Một ping sweep để phát hiện host khi trinh sát"
       },
       {
         "en": "Ordinary internal email traffic",
@@ -2651,8 +2651,8 @@
     },
     "opts": [
       {
-        "en": "Flags logons that gained administrative/sensitive privileges",
-        "vi": "Đánh dấu đăng nhập đạt được đặc quyền quản trị/nhạy cảm"
+        "en": "Flags logons that gained sensitive privileges",
+        "vi": "Đánh dấu đăng nhập đạt được đặc quyền nhạy cảm"
       },
       {
         "en": "It means the system disk is full",
