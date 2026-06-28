@@ -2179,24 +2179,24 @@
     },
     "q": {
       "en": "A well-written technical finding should clearly separate:",
-      "vi": "Một phát hiện kỹ thuật viết tốt phải phân tách rõ ràng:"
+      "vi": "Một mục phát hiện kỹ thuật được viết tốt cần tách bạch rõ ràng:"
     },
     "opts": [
       {
         "en": "Observed fact/evidence from the analyst's inference/assessment",
-        "vi": "Sự kiện/bằng chứng quan sát được với suy luận/đánh giá của analyst"
+        "vi": "Sự kiện/bằng chứng quan sát được — tách khỏi suy luận/nhận định của người phân tích"
       },
       {
         "en": "The report's font and colour from its heading styles",
-        "vi": "Phông và màu của báo cáo với kiểu tiêu đề"
+        "vi": "Phông chữ và màu sắc — tách khỏi kiểu định dạng tiêu đề"
       },
       {
         "en": "The header section from the footer section",
-        "vi": "Phần đầu trang với phần chân trang"
+        "vi": "Phần đầu trang — tách khỏi phần chân trang"
       },
       {
         "en": "English-language text from numerical data",
-        "vi": "Văn bản tiếng Anh với dữ liệu dạng số"
+        "vi": "Văn bản tiếng Anh — tách khỏi dữ liệu dạng số"
       }
     ],
     "correct": 0,
