@@ -184,12 +184,26 @@ body.light-mode .modal-overlay{background:rgba(15,23,42,.42)}
 .side-timer.warn{color:var(--warn)}
 .side-timer.danger{color:var(--danger);animation:pulse 1s infinite}
 .side-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:800;margin-bottom:9px;text-align:center}
+.map-toggle{display:block;width:100%;background:none;border:none;font-family:inherit;padding:0}
+.map-chev,.map-count{display:none}
 #examJump{display:flex;flex-wrap:wrap;gap:6px;max-height:48vh;overflow-y:auto;scrollbar-width:thin}
 #examJump button{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;font-family:Consolas,monospace}
 #examJump button.cur{border-color:var(--accent);color:var(--accent)}
 #examJump button.done{background:rgba(34,211,238,.14);color:var(--text)}
 #examJump button.flag{border-color:var(--warn);color:var(--warn)}
-@media(max-width:760px){.exam-wrap{flex-direction:column}.exam-side{position:static;width:100%;flex-basis:auto;order:-1}#examJump{max-height:120px}}
+@media(max-width:760px){
+  .exam-wrap{flex-direction:column}
+  .exam-side{position:static;width:100%;flex-basis:auto;order:-1;padding:10px 12px 12px}
+  .side-timer{font-size:22px;margin-bottom:6px}
+  #examJump{max-height:160px}
+  .exam-side.collapsed #examJump{display:none}
+  .exam-side.collapsed{padding-bottom:10px}
+  .map-toggle{display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;padding:5px 0;margin-bottom:4px}
+  .map-chev{display:inline-block;transition:transform .2s;color:var(--accent);font-size:12px}
+  .exam-side:not(.collapsed) .map-chev{transform:rotate(90deg)}
+  .map-count{display:inline-block;color:var(--accent);font-weight:800;letter-spacing:.5px}
+  .exam-side.collapsed #btnSubmit{margin-top:8px}
+}
 </style></head>
 <body>
 <script>try{var _l=localStorage.getItem('cpia-lang'),_t=localStorage.getItem('cpia-theme');if(_t==='light')document.body.classList.add('light-mode');document.body.classList.add('lang-'+((_l==='vi')?'vi':'en'))}catch(e){document.body.classList.add('lang-en')}</script>
@@ -253,7 +267,7 @@ body.light-mode .modal-overlay{background:rgba(15,23,42,.42)}
     <div class="exam-wrap">
       <aside class="exam-side hide" id="examSide">
         <div class="side-timer hide" id="qTimer">120:00</div>
-        <div class="side-label"><span class="en">Question map</span><span class="vi">Danh sách câu</span></div>
+        <button type="button" class="side-label map-toggle" id="mapToggle"><span class="map-chev">▸</span><span class="en">Question map</span><span class="vi">Danh sách câu</span><span class="map-count" id="mapCount"></span></button>
         <div id="examJump"></div>
         <button class="btn primary" id="btnSubmit" style="width:100%;margin-top:14px"><span class="en">Submit exam ✓</span><span class="vi">Nộp bài ✓</span></button>
       </aside>
@@ -454,6 +468,7 @@ function start(mode, count){
   $('quiz').classList.remove('hide');
   $('examBadge').classList.toggle('hide', !examMode);
   $('qTimer').classList.toggle('hide', !examMode);
+  $('examSide').classList.add('collapsed');   // mobile: start with the question map collapsed
   if(examMode) startTimer();
   render();
   window.scrollTo(0,0);
@@ -506,7 +521,8 @@ function renderNav(){
   });
   const j=$('examJump');
   j.innerHTML=h;
-  j.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>{state.idx=parseInt(b.dataset.jump);render();window.scrollTo(0,0);}));
+  const mc=$('mapCount'); if(mc) mc.textContent=state.list.filter((_,i)=>hasAns(i)).length+'/'+state.list.length;
+  j.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>{state.idx=parseInt(b.dataset.jump);$('examSide').classList.add('collapsed');render();window.scrollTo(0,0);}));
 }
 
 function render(){
@@ -642,6 +658,7 @@ $('btnNext').addEventListener('click',gotoNext);
 $('btnPrev').addEventListener('click',gotoPrev);
 $('btnFlag').addEventListener('click',toggleFlag);
 $('btnSubmit').addEventListener('click',submitExam);
+$('mapToggle').addEventListener('click',()=>$('examSide').classList.toggle('collapsed'));
 $('btnQuit').addEventListener('click',()=>{
   const msg=document.body.classList.contains('lang-vi')?'Thoát bài làm? Tiến trình bài này sẽ không được lưu.':'Exit quiz? This attempt will not be saved.';
   showModal({ msg, icon:'⚠️',

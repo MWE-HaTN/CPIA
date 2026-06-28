@@ -2583,12 +2583,12 @@
     },
     "q": {
       "en": "Translating a threat into business context means primarily asking:",
-      "vi": "Chuyển một mối đe dọa thành bối cảnh kinh doanh chủ yếu nghĩa là đặt câu hỏi:"
+      "vi": "Diễn giải một mối đe dọa theo ngữ cảnh kinh doanh chủ yếu là trả lời câu hỏi:"
     },
     "opts": [
       {
         "en": "Which critical assets and data the threat endangers, and the impact",
-        "vi": "Mối đe dọa gây nguy cho tài sản/dữ liệu trọng yếu nào, và tác động"
+        "vi": "Những tài sản/dữ liệu trọng yếu nào bị đe dọa, và tác động ra sao"
       },
       {
         "en": "Which antivirus vendor offers the best detection rate",
@@ -2596,7 +2596,7 @@
       },
       {
         "en": "How the security dashboard should be colour-coded",
-        "vi": "Dashboard bảo mật nên được tô màu thế nào"
+        "vi": "Nên phối màu cho dashboard bảo mật thế nào"
       },
       {
         "en": "How fast the affected servers' processors run",
