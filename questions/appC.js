@@ -427,16 +427,16 @@
         "vi": "ExifTool"
       },
       {
-        "en": "Notepad",
-        "vi": "Notepad"
+        "en": "Wireshark",
+        "vi": "Wireshark"
       },
       {
-        "en": "Paint",
-        "vi": "Paint"
+        "en": "Nmap",
+        "vi": "Nmap"
       },
       {
-        "en": "Calculator",
-        "vi": "Máy tính"
+        "en": "John the Ripper",
+        "vi": "John the Ripper"
       }
     ],
     "correct": 0,

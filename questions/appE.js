@@ -179,16 +179,16 @@
         "vi": "Khóa Run và RunOnce trong HKLM và HKCU"
       },
       {
-        "en": "The Recycle Bin registry key",
-        "vi": "Khóa registry của Thùng rác"
+        "en": "The Uninstall keys under CurrentVersion",
+        "vi": "Các khóa Uninstall dưới CurrentVersion"
       },
       {
-        "en": "The screensaver timeout value",
-        "vi": "Giá trị thời gian chờ screensaver"
+        "en": "The MountedDevices key",
+        "vi": "Khóa MountedDevices"
       },
       {
-        "en": "The disk's volume label string",
-        "vi": "Chuỗi nhãn ổ đĩa"
+        "en": "The TypedURLs browser-history key",
+        "vi": "Khóa lịch sử trình duyệt TypedURLs"
       }
     ],
     "correct": 0,
@@ -212,19 +212,19 @@
     "opts": [
       {
         "en": "USBSTOR keys under CurrentControlSet\\Enum",
-        "vi": "Khóa USBSTOR trong CurrentControlSet\\Enum"
+        "vi": "Khóa USBSTOR dưới CurrentControlSet\\Enum"
+      },
+      {
+        "en": "The RecentDocs MRU key",
+        "vi": "Khóa MRU RecentDocs"
       },
       {
         "en": "The TypedURLs browser-history key",
-        "vi": "Khóa lịch sử TypedURLs của trình duyệt"
+        "vi": "Khóa lịch sử trình duyệt TypedURLs"
       },
       {
-        "en": "The desktop wallpaper key",
-        "vi": "Khóa hình nền desktop"
-      },
-      {
-        "en": "The system font cache",
-        "vi": "Cache phông chữ hệ thống"
+        "en": "The UserAssist execution key",
+        "vi": "Khóa thực thi UserAssist"
       }
     ],
     "correct": 0,
@@ -368,19 +368,19 @@
     "opts": [
       {
         "en": "A rootkit hiding the process",
-        "vi": "Một rootkit đang ẩn tiến trình"
+        "vi": "Một rootkit đang giấu tiến trình"
       },
       {
         "en": "A normal background service host",
         "vi": "Một service host nền bình thường"
       },
       {
-        "en": "A legitimate printer device driver",
-        "vi": "Một driver máy in hợp lệ"
+        "en": "A routine Windows update task",
+        "vi": "Một tác vụ Windows update định kỳ"
       },
       {
-        "en": "A routine Windows update task",
-        "vi": "Một tác vụ cập nhật Windows định kỳ"
+        "en": "A crashed process not yet cleaned up",
+        "vi": "Một tiến trình đã crash chưa được dọn"
       }
     ],
     "correct": 0,
@@ -407,16 +407,16 @@
         "vi": "Một macro VBA độc hại"
       },
       {
-        "en": "A corrupted font",
-        "vi": "Một phông chữ hỏng"
+        "en": "A linked remote template (template injection)",
+        "vi": "Một template từ xa được liên kết (template injection)"
       },
       {
-        "en": "A printer driver",
-        "vi": "Một driver máy in"
+        "en": "An embedded OLE package object",
+        "vi": "Một đối tượng OLE package nhúng"
       },
       {
-        "en": "A screensaver",
-        "vi": "Một screensaver"
+        "en": "A DDE field-code command",
+        "vi": "Một lệnh field-code DDE"
       }
     ],
     "correct": 0,
@@ -879,20 +879,20 @@
     },
     "opts": [
       {
-        "en": "Process Explorer / handle & TCPView",
-        "vi": "Process Explorer / handle & TCPView"
+        "en": "Process Explorer with Handle and TCPView",
+        "vi": "Process Explorer kèm Handle và TCPView"
       },
       {
-        "en": "The Windows Calculator app",
-        "vi": "Ứng dụng Calculator của Windows"
+        "en": "Task Manager's Processes tab",
+        "vi": "Tab Processes của Task Manager"
       },
       {
-        "en": "The Microsoft Paint editor",
-        "vi": "Trình Microsoft Paint"
+        "en": "The Autoruns startup viewer",
+        "vi": "Trình xem khởi động Autoruns"
       },
       {
-        "en": "The WordPad text editor",
-        "vi": "Trình soạn thảo WordPad"
+        "en": "The Event Viewer log browser",
+        "vi": "Trình duyệt log Event Viewer"
       }
     ],
     "correct": 0,
@@ -916,19 +916,19 @@
     "opts": [
       {
         "en": "A successful account logon with its logon type",
-        "vi": "Một đăng nhập tài khoản thành công kèm logon type"
+        "vi": "Một lần đăng nhập thành công kèm logon type"
       },
       {
-        "en": "A system shutdown being logged",
-        "vi": "Một lần tắt máy được ghi log"
+        "en": "A failed account logon attempt (4625)",
+        "vi": "Một lần đăng nhập thất bại (4625)"
       },
       {
-        "en": "A network printer error event",
-        "vi": "Một sự kiện lỗi máy in mạng"
+        "en": "A new process being created (4688)",
+        "vi": "Một tiến trình mới được tạo (4688)"
       },
       {
-        "en": "A disk format operation",
-        "vi": "Một thao tác format đĩa"
+        "en": "The audit log being cleared (1102)",
+        "vi": "Audit log bị xóa (1102)"
       }
     ],
     "correct": 0,
@@ -955,20 +955,20 @@
     },
     "opts": [
       {
-        "en": "Evidence executables existed, with path/time",
-        "vi": "Bằng chứng file thực thi từng tồn tại, kèm đường dẫn/thời gian"
+        "en": "Evidence that executables existed, with path and time",
+        "vi": "Bằng chứng executable từng tồn tại, kèm đường dẫn và thời gian"
       },
       {
-        "en": "The logged-in user's password",
-        "vi": "Mật khẩu của người dùng đăng nhập"
+        "en": "The full command line of each program",
+        "vi": "Dòng lệnh đầy đủ của mỗi chương trình"
       },
       {
-        "en": "Captured network packet payloads",
-        "vi": "Payload gói mạng đã bắt được"
+        "en": "The exact number of times each program ran",
+        "vi": "Số lần chính xác mỗi chương trình đã chạy"
       },
       {
-        "en": "The host's BIOS firmware version",
-        "vi": "Phiên bản firmware BIOS của host"
+        "en": "The user account that launched each program",
+        "vi": "Tài khoản đã khởi chạy mỗi chương trình"
       }
     ],
     "correct": 0,
@@ -1032,19 +1032,19 @@
     "opts": [
       {
         "en": "They hide sectors the imager must be set to capture",
-        "vi": "Chúng ẩn sector mà trình tạo image phải cấu hình để bắt"
+        "vi": "Chúng giấu các sector mà công cụ imaging phải được bật để thu"
       },
       {
         "en": "They fully encrypt the whole disk",
         "vi": "Chúng mã hóa toàn bộ đĩa"
       },
       {
-        "en": "They make the disk run faster",
-        "vi": "Chúng làm đĩa chạy nhanh hơn"
+        "en": "They are purely a software-only feature",
+        "vi": "Chúng thuần túy là tính năng phần mềm"
       },
       {
-        "en": "They are purely a software feature",
-        "vi": "Chúng chỉ là tính năng phần mềm"
+        "en": "They store the drive's SMART health data",
+        "vi": "Chúng lưu dữ liệu sức khỏe SMART của ổ"
       }
     ],
     "correct": 0,
@@ -1323,16 +1323,16 @@
         "vi": "Tàn dư dữ liệu cũ trong phần slack của cluster"
       },
       {
-        "en": "The volume's encryption key",
-        "vi": "Khóa mã hóa của volume"
+        "en": "The volume's encryption recovery key",
+        "vi": "Khóa khôi phục mã hóa của volume"
       },
       {
-        "en": "The current running-process list",
+        "en": "The currently running process list",
         "vi": "Danh sách tiến trình đang chạy"
       },
       {
-        "en": "The host's BIOS version string",
-        "vi": "Chuỗi phiên bản BIOS của host"
+        "en": "The disk's partition table entries",
+        "vi": "Các mục trong bảng phân vùng của đĩa"
       }
     ],
     "correct": 0,
@@ -1464,19 +1464,19 @@
     "opts": [
       {
         "en": "The target path and times, even after deletion",
-        "vi": "Đường dẫn đích và thời gian, kể cả sau khi xóa"
+        "vi": "Đường dẫn đích và mốc thời gian, kể cả sau khi xóa"
       },
       {
-        "en": "The logged-in user's password",
-        "vi": "Mật khẩu của người dùng đăng nhập"
+        "en": "The logged-in user's account password",
+        "vi": "Mật khẩu tài khoản người dùng đang đăng nhập"
       },
       {
         "en": "Live, currently-open network sockets",
-        "vi": "Socket mạng đang mở hiện tại"
+        "vi": "Các socket mạng đang mở trực tiếp"
       },
       {
-        "en": "The host's CPU temperature",
-        "vi": "Nhiệt độ CPU của host"
+        "en": "The full contents of the target file",
+        "vi": "Toàn bộ nội dung của file đích"
       }
     ],
     "correct": 0,
@@ -1500,19 +1500,19 @@
     "opts": [
       {
         "en": "Program presence and execution",
-        "vi": "Sự hiện diện và thực thi chương trình"
+        "vi": "Sự hiện diện và việc thực thi chương trình"
       },
       {
-        "en": "The current network connections",
-        "vi": "Các kết nối mạng hiện tại"
+        "en": "The host's current network connections",
+        "vi": "Các kết nối mạng hiện tại của máy"
       },
       {
         "en": "The user's saved email messages",
-        "vi": "Email đã lưu của người dùng"
+        "vi": "Các email đã lưu của người dùng"
       },
       {
-        "en": "The host's BIOS settings",
-        "vi": "Cài đặt BIOS của host"
+        "en": "The list of installed Windows hotfixes",
+        "vi": "Danh sách hotfix Windows đã cài"
       }
     ],
     "correct": 0,
@@ -1536,19 +1536,19 @@
     "opts": [
       {
         "en": "Metadata: original path, deletion time and size",
-        "vi": "Metadata: đường dẫn gốc, thời gian xóa và kích thước"
+        "vi": "Metadata: đường dẫn gốc, thời điểm xóa và kích thước"
       },
       {
         "en": "The actual recovered file content",
-        "vi": "Nội dung file khôi phục thực tế"
+        "vi": "Nội dung thật của file được khôi phục"
       },
       {
         "en": "The deleted file's encryption key",
         "vi": "Khóa mã hóa của file đã xóa"
       },
       {
-        "en": "The host's CPU make and model",
-        "vi": "Hãng và model CPU của host"
+        "en": "A thumbnail preview of the file",
+        "vi": "Ảnh thumbnail xem trước của file"
       }
     ],
     "correct": 0,
@@ -1607,20 +1607,20 @@
     },
     "opts": [
       {
-        "en": "Recently accessed files/items per application",
-        "vi": "File/mục truy cập gần đây theo từng ứng dụng"
+        "en": "Recently accessed files and items per application",
+        "vi": "File/mục được truy cập gần đây theo từng ứng dụng"
       },
       {
         "en": "The host's open network ports",
-        "vi": "Các cổng mạng mở của host"
+        "vi": "Các cổng mạng đang mở của máy"
       },
       {
-        "en": "The currently installed drivers",
-        "vi": "Các driver đang được cài"
+        "en": "The currently installed device drivers",
+        "vi": "Các driver thiết bị đang được cài"
       },
       {
-        "en": "The BIOS supervisor passwords",
-        "vi": "Mật khẩu supervisor của BIOS"
+        "en": "The applications set to auto-start",
+        "vi": "Các ứng dụng được đặt tự khởi động"
       }
     ],
     "correct": 0,
@@ -1644,19 +1644,19 @@
     "opts": [
       {
         "en": "The AD database of all domain password hashes",
-        "vi": "CSDL AD chứa mọi hash mật khẩu miền"
+        "vi": "CSDL AD chứa toàn bộ hash mật khẩu của domain"
       },
       {
-        "en": "The users' desktop wallpapers",
-        "vi": "Hình nền desktop của người dùng"
-      },
-      {
-        "en": "The network print spooler queue",
-        "vi": "Hàng đợi spool máy in mạng"
-      },
-      {
-        "en": "The system's pagefile contents",
+        "en": "The system pagefile contents",
         "vi": "Nội dung pagefile của hệ thống"
+      },
+      {
+        "en": "Only the current user's local hash",
+        "vi": "Chỉ hash cục bộ của người dùng hiện tại"
+      },
+      {
+        "en": "The domain's public DNS zone records",
+        "vi": "Các bản ghi DNS công khai của domain"
       }
     ],
     "correct": 0,
@@ -1719,16 +1719,16 @@
         "vi": "Các trang chưa cấp phát và WAL/journal"
       },
       {
+        "en": "The database's primary index only",
+        "vi": "Chỉ chỉ mục chính của CSDL"
+      },
+      {
         "en": "The processor's L2/L3 cache",
-        "vi": "Cache L2/L3 của bộ xử lý"
+        "vi": "Cache L2/L3 của CPU"
       },
       {
-        "en": "The motherboard BIOS chip",
-        "vi": "Chip BIOS trên bo mạch"
-      },
-      {
-        "en": "The interface's MAC address",
-        "vi": "Địa chỉ MAC của giao diện"
+        "en": "The interface's MAC address table",
+        "vi": "Bảng địa chỉ MAC của giao diện"
       }
     ],
     "correct": 0,
@@ -1823,8 +1823,8 @@
     },
     "opts": [
       {
-        "en": "Folders a user browsed and view settings",
-        "vi": "Thư mục người dùng đã duyệt và cài đặt hiển thị"
+        "en": "Folders a user browsed and the view settings",
+        "vi": "Các thư mục người dùng đã duyệt và thiết lập hiển thị"
       },
       {
         "en": "The user's account password hash",
@@ -1832,11 +1832,11 @@
       },
       {
         "en": "The host's open TCP/UDP ports",
-        "vi": "Các cổng TCP/UDP mở của host"
+        "vi": "Các cổng TCP/UDP đang mở của máy"
       },
       {
-        "en": "The system's BIOS boot order",
-        "vi": "Thứ tự boot trong BIOS"
+        "en": "The files contained inside each folder",
+        "vi": "Các file bên trong mỗi thư mục"
       }
     ],
     "correct": 0,
@@ -1935,16 +1935,16 @@
         "vi": "Services, Winlogon và Image File Execution Options"
       },
       {
-        "en": "The disk's volume label string",
-        "vi": "Chuỗi nhãn ổ đĩa"
+        "en": "The TypedURLs and RecentDocs MRU keys",
+        "vi": "Các khóa MRU TypedURLs và RecentDocs"
       },
       {
-        "en": "The screen display resolution",
-        "vi": "Độ phân giải màn hình hiển thị"
+        "en": "The MountedDevices and USBSTOR keys",
+        "vi": "Các khóa MountedDevices và USBSTOR"
       },
       {
-        "en": "The mouse pointer speed setting",
-        "vi": "Cài đặt tốc độ con trỏ chuột"
+        "en": "The TimeZoneInformation key",
+        "vi": "Khóa TimeZoneInformation"
       }
     ],
     "correct": 0,
@@ -1968,19 +1968,19 @@
     "opts": [
       {
         "en": "Filter out known OS/app files to focus on unknowns",
-        "vi": "Lọc bỏ file OS/ứng dụng đã biết để tập trung vào cái lạ"
+        "vi": "Lọc bỏ file OS/ứng dụng đã biết để tập trung vào file lạ"
       },
       {
-        "en": "Encrypt any suspicious files found",
-        "vi": "Mã hóa mọi file đáng ngờ tìm thấy"
+        "en": "Detect known-malware samples by their hash",
+        "vi": "Phát hiện mẫu malware đã biết qua hash"
       },
       {
-        "en": "Delete all executables on the host",
-        "vi": "Xóa mọi file thực thi trên host"
+        "en": "Verify the disk image's integrity hash",
+        "vi": "Xác minh hash toàn vẹn của image đĩa"
       },
       {
-        "en": "Make the host's CPU run faster",
-        "vi": "Làm CPU của host chạy nhanh hơn"
+        "en": "Recover deleted files from their hashes",
+        "vi": "Khôi phục file đã xóa từ hash của chúng"
       }
     ],
     "correct": 0,
@@ -2188,19 +2188,19 @@
     "opts": [
       {
         "en": "It can lock the drive until it is unlocked",
-        "vi": "Nó có thể khóa ổ tới khi được mở khóa"
+        "vi": "Nó có thể khóa ổ cho đến khi được mở khóa"
       },
       {
-        "en": "It encrypts the whole network",
-        "vi": "Nó mã hóa toàn bộ mạng"
+        "en": "It silently alters data during imaging",
+        "vi": "Nó âm thầm sửa dữ liệu khi imaging"
       },
       {
-        "en": "It deletes the drive firmware",
-        "vi": "Nó xóa firmware của ổ"
+        "en": "It hides a portion of the sectors",
+        "vi": "Nó giấu một phần các sector"
       },
       {
-        "en": "It speeds up the imaging process",
-        "vi": "Nó tăng tốc quá trình tạo image"
+        "en": "It prevents the image from being hashed",
+        "vi": "Nó ngăn việc băm image"
       }
     ],
     "correct": 0,
@@ -2224,19 +2224,19 @@
     "opts": [
       {
         "en": "Its file system/RAID layout and how to acquire it",
-        "vi": "Bố cục hệ thống tệp/RAID của nó và cách thu thập"
+        "vi": "Bố cục file system/RAID của nó và cách thu thập"
       },
       {
-        "en": "Only the device's printer settings",
-        "vi": "Chỉ cài đặt máy in của thiết bị"
+        "en": "Only the device's firmware version",
+        "vi": "Chỉ phiên bản firmware của thiết bị"
       },
       {
-        "en": "The attached monitor's brightness",
-        "vi": "Độ sáng của màn hình gắn kèm"
+        "en": "Just the number of drive bays",
+        "vi": "Chỉ số khay ổ đĩa"
       },
       {
-        "en": "The keyboard's regional layout",
-        "vi": "Bố cục bàn phím theo vùng"
+        "en": "Only its assigned network IP address",
+        "vi": "Chỉ địa chỉ IP mạng được gán"
       }
     ],
     "correct": 0,
@@ -2296,19 +2296,19 @@
     "opts": [
       {
         "en": "Injected code in private RWX memory",
-        "vi": "Mã tiêm trong vùng nhớ RWX riêng"
+        "vi": "Mã được tiêm trong vùng nhớ RWX riêng"
       },
       {
-        "en": "Only the host's open TCP ports",
-        "vi": "Chỉ các cổng TCP mở của host"
+        "en": "Open network sockets and ports",
+        "vi": "Các socket và cổng mạng đang mở"
       },
       {
-        "en": "The user's desktop wallpaper",
-        "vi": "Hình nền desktop của người dùng"
+        "en": "Cached credentials in LSASS memory",
+        "vi": "Thông tin đăng nhập cache trong bộ nhớ LSASS"
       },
       {
-        "en": "Readable BIOS firmware strings",
-        "vi": "Chuỗi firmware BIOS đọc được"
+        "en": "Hidden file entries in the MFT",
+        "vi": "Các mục file ẩn trong MFT"
       }
     ],
     "correct": 0,
@@ -2375,12 +2375,12 @@
         "vi": "Hành vi Office hoàn toàn bình thường"
       },
       {
-        "en": "A standard printer device driver",
-        "vi": "Một driver thiết bị máy in chuẩn"
+        "en": "An ordinary DNS name lookup",
+        "vi": "Một truy vấn tên DNS bình thường"
       },
       {
-        "en": "An ordinary DNS name lookup",
-        "vi": "Một tra cứu tên DNS thông thường"
+        "en": "A standard software-update routine",
+        "vi": "Một quy trình cập nhật phần mềm chuẩn"
       }
     ],
     "correct": 0,
@@ -2407,20 +2407,20 @@
     },
     "opts": [
       {
-        "en": "From a memory image, where keys reside",
-        "vi": "Từ image bộ nhớ, nơi khóa cư trú"
+        "en": "From a memory image, where keys reside in use",
+        "vi": "Từ một image bộ nhớ, nơi khóa nằm khi đang dùng"
       },
       {
-        "en": "From the network printer spool",
-        "vi": "Từ spool của máy in mạng"
+        "en": "From the disk's slack space only",
+        "vi": "Chỉ từ phần slack space của đĩa"
       },
       {
-        "en": "From the BIOS startup splash",
-        "vi": "Từ màn hình splash khởi động BIOS"
+        "en": "From the network capture alone",
+        "vi": "Chỉ từ bản bắt gói mạng"
       },
       {
-        "en": "They can never be recovered",
-        "vi": "Chúng không bao giờ khôi phục được"
+        "en": "They can never be recovered at all",
+        "vi": "Không bao giờ khôi phục được"
       }
     ],
     "correct": 0,
@@ -2555,16 +2555,16 @@
         "vi": "Ghi đè dữ liệu để không thể khôi phục"
       },
       {
-        "en": "Encrypt the whole corporate network",
-        "vi": "Mã hóa toàn bộ mạng doanh nghiệp"
+        "en": "Encrypt files and demand a ransom",
+        "vi": "Mã hóa file và đòi tiền chuộc"
       },
       {
-        "en": "Make the disk run noticeably faster",
-        "vi": "Làm đĩa chạy nhanh hơn rõ rệt"
+        "en": "Hide data inside other files",
+        "vi": "Giấu dữ liệu bên trong file khác"
       },
       {
-        "en": "Install missing security patches",
-        "vi": "Cài các bản vá bảo mật còn thiếu"
+        "en": "Compress data before exfiltration",
+        "vi": "Nén dữ liệu trước khi đánh cắp"
       }
     ],
     "correct": 0,

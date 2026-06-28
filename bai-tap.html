@@ -126,6 +126,13 @@ body.light-mode .qtext code,body.light-mode .exp code{background:rgba(124,58,237
 .btn.flag.on{border-color:var(--warn);color:var(--warn);background:rgba(245,158,11,.1)}
 .opt.picked{border-color:var(--accent);background:rgba(34,211,238,.08)}
 .opt.picked .key{background:var(--accent);color:var(--bg)}
+.opt .cbox{flex-shrink:0;width:20px;height:20px;border-radius:5px;border:1.6px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--accent);margin-top:1px}
+.opt.picked .cbox{border-color:var(--accent);background:rgba(34,211,238,.16)}
+.opt.correct .cbox{border-color:var(--success);color:var(--success)}
+.opt.wrong .cbox{border-color:var(--danger);color:var(--danger)}
+.multi-hint{font-size:12.5px;font-weight:700;color:var(--purple);margin:-6px 0 13px;letter-spacing:.2px}
+.multi-tag{font-size:9px;font-weight:800;background:rgba(124,58,237,.2);color:#c4b5fd;border-radius:4px;padding:1px 5px;letter-spacing:1px}
+.check-btn{margin-top:4px}
 .opt .kbd{margin-left:auto;font-size:10px;color:var(--text3);font-family:Consolas,monospace;align-self:center;opacity:.6}
 .kbd-hint{text-align:center;color:var(--text3);font-size:11.5px;margin-top:10px;font-family:Consolas,monospace}
 .kbd-hint b{color:var(--text2);background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-weight:700}
@@ -282,6 +289,7 @@ body.light-mode .modal-overlay{background:rgba(15,23,42,.42)}
 <script src="questions/appD.js"></script>
 <script src="questions/appE.js"></script>
 <script src="questions/appF.js"></script>
+<script src="questions/multi.js"></script>
 <script>
 /* ============================== QUESTION BANK ==============================
    Each item: { app, sec (theory anchor in index.html), secLabel{en,vi},
@@ -390,18 +398,26 @@ function pickRotating(pool, k){
              .sort((a,b)=> a.w-b.w || a.r-b.r)
              .slice(0, k).map(x=>x.q);
 }
+// distribute k picks across appendices (largest-remainder) and rotate within each appendix
+function stratPick(pool, k){
+  if(k<=0 || !pool.length) return [];
+  const apps=[...new Set(pool.map(q=>q.app))].sort();
+  const total=pool.length, quota={}, rema=[]; let assigned=0;
+  apps.forEach(a=>{ const cnt=pool.filter(q=>q.app===a).length, exact=k*cnt/total, f=Math.floor(exact); quota[a]=f; assigned+=f; rema.push({a,frac:exact-f}); });
+  rema.sort((x,y)=>y.frac-x.frac);
+  for(let i=0; assigned<k && i<rema.length; i++){ quota[rema[i].a]++; assigned++; }
+  let out=[];
+  apps.forEach(a=>{ const p=pool.filter(q=>q.app===a); out=out.concat(pickRotating(p, Math.min(quota[a], p.length))); });
+  if(out.length<k){ const have=new Set(out.map(qid)); out=out.concat(pickRotating(pool.filter(q=>!have.has(qid(q))), k-out.length)); }
+  return out;
+}
 function buildMock(n){
-  const apps=[...new Set(BANK.map(q=>q.app))].sort();
-  const total=BANK.length, counts={}, quota={}, rema=[]; let assigned=0;
-  apps.forEach(a=>{ counts[a]=BANK.filter(q=>q.app===a).length; });
-  apps.forEach(a=>{ const exact=n*counts[a]/total, f=Math.floor(exact); quota[a]=f; assigned+=f; rema.push({a,frac:exact-f}); });
-  rema.sort((x,y)=>y.frac-x.frac);                         // largest-remainder so quotas sum to exactly n
-  for(let i=0; assigned<n && i<rema.length; i++){ quota[rema[i].a]++; assigned++; }
-  let list=[];
-  apps.forEach(a=>{ const pool=BANK.filter(q=>q.app===a); list=list.concat(pickRotating(pool, Math.min(quota[a], pool.length))); });
-  if(list.length<n){                                        // top up if any appendix was short
-    const have=new Set(list.map(qid)); const rest=BANK.filter(q=>!have.has(qid(q)));
-    list=list.concat(pickRotating(rest, n-list.length));
+  const isM=q=>Array.isArray(q.correct);
+  const multis=BANK.filter(isM), singles=BANK.filter(q=>!isM(q));
+  const multiQuota=Math.min(multis.length, Math.round(n*0.10));   // ~10% multi (≈12 in a 120-question paper)
+  let list = stratPick(multis, multiQuota).concat(stratPick(singles, n-multiQuota));
+  if(list.length<n){                                        // top up if short
+    const have=new Set(list.map(qid)); list=list.concat(pickRotating(BANK.filter(q=>!have.has(qid(q))), n-list.length));
   }
   return shuffle(list).slice(0,n);                          // randomise question order in the paper
 }
@@ -423,7 +439,10 @@ function start(mode, count){
   // pre-shuffle options per question, remembering correct index
   list = list.map(q=>{
     const order = shuffle(q.opts.map((o,i)=>i));
-    return {ref:q, order, correct: order.indexOf(q.correct)};
+    const correct = Array.isArray(q.correct)
+      ? q.correct.map(c=>order.indexOf(c)).sort((a,b)=>a-b)   // multi: array of displayed positions
+      : order.indexOf(q.correct);
+    return {ref:q, order, correct};
   });
   state = {list, idx:0, mode, examMode, answers:new Array(list.length).fill(null),
            flagged:new Array(list.length).fill(false), ended:false,
@@ -457,7 +476,20 @@ function updateTimer(){
   t.classList.toggle('warn', r<=300 && r>60);
   t.classList.toggle('danger', r<=60);
 }
-function countCorrect(){ return state.answers.reduce((n,a,i)=> n + (a&&a.pick===state.list[i].correct?1:0), 0); }
+function isMulti(it){ return Array.isArray(it.correct); }
+function gotCorrect(it,a){
+  if(!a) return false;
+  if(Array.isArray(it.correct)){
+    const w=it.correct, g=a.picks||[];
+    return g.length===w.length && w.every(x=>g.includes(x));   // exact set match
+  }
+  return a.pick===it.correct;
+}
+function hasAns(i){ const a=state.answers[i]; if(a===null) return false; return isMulti(state.list[i]) ? !!(a.picks&&a.picks.length) : true; }
+// option text(s) the user picked / the correct one(s), for review & export
+function ansTextT(it,a){ const q=it.ref; if(!a) return null; if(isMulti(it)){ const ps=a.picks||[]; return ps.length? ps.slice().sort((x,y)=>x-y).map(p=>T(q.opts[it.order[p]])).join('; ') : null; } return T(q.opts[it.order[a.pick]]); }
+function corrTextT(it){ const q=it.ref; return isMulti(it) ? it.correct.map(p=>T(q.opts[it.order[p]])).join('; ') : T(q.opts[it.order[it.correct]]); }
+function countCorrect(){ return state.list.reduce((n,it,i)=> n + (gotCorrect(it,state.answers[i])?1:0), 0); }
 
 /* ---- left-side exam navigator (question map) ---- */
 function renderNav(){
@@ -468,7 +500,7 @@ function renderNav(){
   state.list.forEach((_,i)=>{
     let c='';
     if(i===state.idx) c+=' cur';
-    if(state.answers[i]!==null) c+=' done';
+    if(hasAns(i)) c+=' done';
     if(state.flagged[i]) c+=' flag';
     h+='<button class="'+c.trim()+'" data-jump="'+i+'">'+(i+1)+'</button>';
   });
@@ -479,33 +511,43 @@ function renderNav(){
 
 function render(){
   const it = state.list[state.idx], q = it.ref, exam = state.examMode;
-  const answered = state.answers[state.idx];          // {pick} | null
-  const revealed = answered!==null && !exam;          // learn mode shows feedback immediately
+  const multi = isMulti(it);
+  const answered = state.answers[state.idx];          // {pick} | {picks:[]} | null
+  const picks = multi ? (answered&&answered.picks||[]) : null;
+  const revealed = answered!==null && !exam && (multi ? !!answered.checked : true); // multi reveals only after Check
   $('qMeta').textContent = (state.idx+1)+' / '+state.list.length;
   $('qProg').style.width = ((state.idx)/state.list.length*100)+'%';
-  const answeredCount = state.answers.filter(a=>a!==null).length;
+  const answeredCount = state.list.reduce((n,_,i)=>n+(hasAns(i)?1:0),0);
   const flagCount = state.flagged.filter(Boolean).length;
   $('qScore').innerHTML = (exam
       ? '<span class="en">'+answeredCount+'/'+state.list.length+' done</span><span class="vi">'+answeredCount+'/'+state.list.length+' xong</span>'
       : countCorrect()+' ✓')
     + (flagCount? ' · ⚑'+flagCount : '');
 
-  let html = '<div class="qcard"><span class="qtag">'+q.app+' · '+q.sec.toUpperCase()+(state.flagged[state.idx]?' · ⚑':'')+'</span>'+
-    '<div class="qtext">'+T(q.q)+'</div><div class="opts">';
+  const multiHint = multi ? '<div class="multi-hint"><span class="en">◳ Select ALL that apply — '+it.correct.length+' correct</span><span class="vi">◳ Chọn TẤT CẢ đáp án đúng — '+it.correct.length+' đáp án</span></div>' : '';
+  let html = '<div class="qcard"><span class="qtag">'+q.app+' · '+q.sec.toUpperCase()+(multi?' · <span class="multi-tag">MULTI</span>':'')+(state.flagged[state.idx]?' · ⚑':'')+'</span>'+
+    '<div class="qtext">'+T(q.q)+'</div>'+multiHint+'<div class="opts">';
   it.order.forEach((origIdx,pos)=>{
-    let cls='opt';
-    if(revealed){ cls+=' dim';
-      if(pos===it.correct) cls='opt correct';
-      else if(answered&&pos===answered.pick) cls='opt wrong';
-    } else if(answered&&pos===answered.pick){ cls='opt picked'; }
+    const isC = multi ? it.correct.includes(pos) : pos===it.correct;
+    const isP = multi ? picks.includes(pos) : (answered&&pos===answered.pick);
+    let cls='opt'+(multi?' multi':'');
+    if(revealed){ if(isC) cls+=' correct'; else if(isP) cls+=' wrong'; else cls+=' dim'; }
+    else if(isP){ cls+=' picked'; }
     const dis = revealed ? 'disabled' : '';
+    const box = multi ? '<span class="cbox">'+(isP?'✓':'')+'</span>' : '';
     html+='<button class="'+cls+'" data-pick="'+pos+'" '+dis+'>'+
-      '<span class="key">'+KEYS[pos]+'</span><span>'+T(q.opts[origIdx])+'</span><span class="kbd">'+(pos+1)+'</span></button>';
+      '<span class="key">'+KEYS[pos]+'</span>'+box+'<span>'+T(q.opts[origIdx])+'</span><span class="kbd">'+(pos+1)+'</span></button>';
   });
   html+='</div>';
 
+  // learn-mode multi needs an explicit Check to reveal
+  if(multi && !exam && !revealed){
+    html+='<button class="btn primary check-btn" id="btnCheck"'+(picks.length?'':' disabled')+'>'+
+      '<span class="en">Check answer ✓</span><span class="vi">Kiểm tra ✓</span></button>';
+  }
+
   if(revealed){
-    const ok = answered.pick===it.correct;
+    const ok = gotCorrect(it,answered);
     html+='<div class="exp '+(ok?'ok':'no')+'">'+
       '<div class="exp-head">'+(ok?'<span class="en">✓ Correct</span><span class="vi">✓ Chính xác</span>':'<span class="en">✗ Incorrect</span><span class="vi">✗ Chưa đúng</span>')+'</div>'+
       '<div class="exp-body"><p>'+T(q.exp)+'</p>'+
@@ -519,6 +561,7 @@ function render(){
   // wire option clicks (allowed unless revealed)
   if(!revealed){
     $('qHost').querySelectorAll('.opt').forEach(btn=>btn.addEventListener('click',()=>pick(parseInt(btn.dataset.pick))));
+    if(multi && !exam){ const cb=$('btnCheck'); if(cb) cb.addEventListener('click',checkMulti); }
   }
   // left-side exam navigator (number map + submit), only in exam mode
   renderNav();
@@ -529,7 +572,7 @@ function render(){
   $('btnPrev').disabled = state.idx===0;
   // next
   const isLast = state.idx===state.list.length-1;
-  $('btnNext').disabled = exam ? false : (answered===null);
+  $('btnNext').disabled = exam ? false : !revealed;
   $('btnNext').innerHTML = isLast
     ? (exam ? '<span class="en">Submit ✓</span><span class="vi">Nộp bài ✓</span>' : '<span class="en">Finish ✓</span><span class="vi">Hoàn thành ✓</span>')
     : '<span class="en">Next →</span><span class="vi">Tiếp →</span>';
@@ -537,10 +580,24 @@ function render(){
 
 function pick(p){
   if(state.ended) return;
+  const it = state.list[state.idx];
+  if(isMulti(it)){
+    const a = state.answers[state.idx] || {picks:[]};
+    if(a.checked) return;                            // locked after Check (learn mode)
+    const k = a.picks.indexOf(p);
+    if(k>=0) a.picks.splice(k,1); else a.picks.push(p);
+    state.answers[state.idx] = a;
+    render();
+    return;
+  }
   const answered = state.answers[state.idx];
   if(answered!==null && !state.examMode) return;   // learn mode: lock after first answer
   state.answers[state.idx] = {pick:p};
   render();
+}
+function checkMulti(){
+  const a = state.answers[state.idx];
+  if(a && a.picks && a.picks.length){ a.checked = true; render(); }
 }
 function toggleFlag(){ if(state){ state.flagged[state.idx]=!state.flagged[state.idx]; render(); } }
 function gotoNext(){
@@ -597,8 +654,12 @@ document.addEventListener('keydown',e=>{
   if(!$('modal').classList.contains('hide')) return;          // modal open: let modal keys win
   if($('quiz').classList.contains('hide') || !state || state.ended) return;
   if(e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
-  if(e.key>='1' && e.key<='4'){ const p=parseInt(e.key)-1; if(p<state.list[state.idx].order.length){ pick(p); e.preventDefault(); } }
-  else if(e.key==='Enter'){ if(!$('btnNext').disabled){ gotoNext(); e.preventDefault(); } }
+  if(e.key>='1' && e.key<='8'){ const p=parseInt(e.key)-1; if(p<state.list[state.idx].order.length){ pick(p); e.preventDefault(); } }
+  else if(e.key==='Enter'){
+    const it=state.list[state.idx], a=state.answers[state.idx];
+    if(isMulti(it) && !state.examMode && a && !a.checked && (a.picks||[]).length){ checkMulti(); e.preventDefault(); }
+    else if(!$('btnNext').disabled){ gotoNext(); e.preventDefault(); }
+  }
   else if(e.key==='p'||e.key==='P'){ gotoPrev(); e.preventDefault(); }
   else if(e.key==='f'||e.key==='F'){ toggleFlag(); e.preventDefault(); }
 });
@@ -617,12 +678,12 @@ function finish(){
 
   // per-appendix breakdown
   const per={};
-  state.list.forEach((it,i)=>{ const k=it.ref.app; per[k]=per[k]||{c:0,t:0}; per[k].t++; if(state.answers[i]&&state.answers[i].pick===it.correct) per[k].c++; });
+  state.list.forEach((it,i)=>{ const k=it.ref.app; per[k]=per[k]||{c:0,t:0}; per[k].t++; if(gotCorrect(it,state.answers[i])) per[k].c++; });
 
   // ---- persist progress: wrong set, flagged set, history ----
   state.list.forEach((it,i)=>{
     const id=qid(it.ref), a=state.answers[i];
-    const correct = a && a.pick===it.correct;
+    const correct = gotCorrect(it,a);
     if(correct) delete store.wrong[id]; else store.wrong[id]=1;   // unanswered or wrong → keep for re-drill
     if(state.flagged[i]) store.flagged[id]=1; else delete store.flagged[id];
   });
@@ -649,26 +710,27 @@ function finish(){
 
   function reviewItem(it,i){
     const q=it.ref, a=state.answers[i];
-    const isCorrect = !!(a && a.pick===it.correct);
-    const st = a ? (isCorrect?'correct':'wrong') : 'blank';
+    const isCorrect = gotCorrect(it,a);
+    const st = hasAns(i) ? (isCorrect?'correct':'wrong') : 'blank';
     const badge = isCorrect
       ? '<span class="ri-badge rb-ok">✓ <span class="en">Correct</span><span class="vi">Đúng</span></span>'
-      : (a ? '<span class="ri-badge rb-no">✗ <span class="en">Wrong</span><span class="vi">Sai</span></span>'
+      : (hasAns(i) ? '<span class="ri-badge rb-no">✗ <span class="en">Wrong</span><span class="vi">Sai</span></span>'
            : '<span class="ri-badge rb-bl"><span class="en">Blank</span><span class="vi">Bỏ trống</span></span>');
-    const yours = a ? '<span class="no">'+T(q.opts[it.order[a.pick]])+'</span>'
+    const yt = ansTextT(it,a);
+    const yours = yt!==null ? '<span class="no">'+yt+'</span>'
                     : '<span class="no"><span class="en">(blank)</span><span class="vi">(bỏ trống)</span></span>';
     return '<div class="review-item '+st+'" data-st="'+st+'" data-fl="'+(state.flagged[i]?1:0)+'">'+
-      '<div class="ri-top"><span class="ri-n">#'+(i+1)+'</span>'+(state.flagged[i]?'<span class="ri-badge rb-bl">⚑</span>':'')+badge+'</div>'+
+      '<div class="ri-top"><span class="ri-n">#'+(i+1)+'</span>'+(isMulti(it)?'<span class="ri-badge rb-bl">MULTI</span>':'')+(state.flagged[i]?'<span class="ri-badge rb-bl">⚑</span>':'')+badge+'</div>'+
       '<div class="ri-q">'+T(q.q)+'</div>'+
       (isCorrect?'':'<div class="ri-a"><b><span class="en">Your answer: </span><span class="vi">Bạn chọn: </span></b>'+yours+'</div>')+
-      '<div class="ri-a"><b><span class="en">Correct: </span><span class="vi">Đáp án đúng: </span></b><span class="ok">'+T(q.opts[it.order[it.correct]])+'</span></div>'+
+      '<div class="ri-a"><b><span class="en">Correct: </span><span class="vi">Đáp án đúng: </span></b><span class="ok">'+corrTextT(it)+'</span></div>'+
       '<div class="ri-a" style="margin-top:6px">'+T(q.exp)+'</div>'+
       (q.note?'<div class="ri-a"><b>⚠ </b>'+T(q.note)+'</div>':'')+
       '<a href="index.html#'+q.sec+'" target="_blank">📖 '+T(q.secLabel)+'</a></div>';
   }
 
   // ---- unified review with filter (wrong / flagged / all) ----
-  const wrongN = state.list.filter((it,i)=>!(state.answers[i] && state.answers[i].pick===it.correct)).length;
+  const wrongN = state.list.filter((it,i)=>!gotCorrect(it,state.answers[i])).length;
   const flagN  = state.list.filter((it,i)=>state.flagged[i]).length;
   const totalN = state.list.length;
   html+='<div class="section-label" style="margin-top:6px"><span class="en">Review answers</span><span class="vi">Xem lại đáp án</span></div>'+
@@ -722,10 +784,13 @@ function finish(){
         n: i+1,
         appendix: q.app,
         section: q.sec,
+        type: isMulti(it) ? 'multi' : 'single',
         question: lt(q.q),
-        yourAnswer: a ? lt(q.opts[it.order[a.pick]]) : null,
-        correctAnswer: lt(q.opts[q.correct]),
-        isCorrect: !!(a && a.pick===it.correct),
+        yourAnswer: isMulti(it)
+            ? (a&&a.picks&&a.picks.length ? a.picks.slice().sort((x,y)=>x-y).map(p=>lt(q.opts[it.order[p]])) : null)
+            : (a ? lt(q.opts[it.order[a.pick]]) : null),
+        correctAnswer: isMulti(it) ? q.correct.map(c=>lt(q.opts[c])) : lt(q.opts[q.correct]),
+        isCorrect: gotCorrect(it,a),
         flagged: !!state.flagged[i],
         reviseTheory: 'index.html#'+q.sec
       };

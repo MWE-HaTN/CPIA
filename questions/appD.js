@@ -95,20 +95,20 @@
     },
     "opts": [
       {
-        "en": "Proxy/DNS logs",
-        "vi": "Log proxy/DNS"
+        "en": "Proxy or DNS resolver logs",
+        "vi": "Log proxy hoặc resolver DNS"
       },
       {
-        "en": "Printer logs",
-        "vi": "Log máy in"
+        "en": "Endpoint antivirus quarantine logs",
+        "vi": "Log cách ly của antivirus endpoint"
       },
       {
-        "en": "BIOS logs",
-        "vi": "Log BIOS"
+        "en": "Windows logon (4624) events",
+        "vi": "Sự kiện đăng nhập Windows (4624)"
       },
       {
-        "en": "Screensaver logs",
-        "vi": "Log trình bảo vệ màn hình"
+        "en": "DHCP address-lease logs",
+        "vi": "Log cấp phát địa chỉ DHCP"
       }
     ],
     "correct": 0,
@@ -551,16 +551,16 @@
         "vi": "Di chuyển ngang trong mạng"
       },
       {
-        "en": "A routine network printer test",
-        "vi": "Một lần thử máy in mạng định kỳ"
+        "en": "A scheduled vulnerability scan from the SOC",
+        "vi": "Một lượt quét lỗ hổng định kỳ từ SOC"
       },
       {
-        "en": "Ordinary internal email traffic",
-        "vi": "Lưu lượng email nội bộ thông thường"
+        "en": "Normal file-server backup replication",
+        "vi": "Sao lưu/nhân bản file-server bình thường"
       },
       {
-        "en": "A scheduled antivirus scan",
-        "vi": "Một lần quét antivirus theo lịch"
+        "en": "A misconfigured monitoring sweep",
+        "vi": "Một lượt quét giám sát cấu hình sai"
       }
     ],
     "correct": 0,
@@ -876,19 +876,19 @@
     "opts": [
       {
         "en": "Cloud mailbox access, sign-ins and admin actions",
-        "vi": "Truy cập hộp thư đám mây, đăng nhập và thao tác admin"
+        "vi": "Truy cập mailbox cloud, đăng nhập và thao tác admin"
       },
       {
-        "en": "The server's BIOS firmware version",
-        "vi": "Phiên bản firmware BIOS của server"
+        "en": "On-premises domain controller replication",
+        "vi": "Nhân bản giữa domain controller on-premises"
       },
       {
-        "en": "The building's network cable wiring",
-        "vi": "Đi dây cáp mạng của tòa nhà"
+        "en": "Local endpoint process-creation events",
+        "vi": "Sự kiện tạo tiến trình trên endpoint cục bộ"
       },
       {
-        "en": "The server's GPU temperature",
-        "vi": "Nhiệt độ GPU của server"
+        "en": "Network firewall packet captures",
+        "vi": "Bắt gói ở tường lửa mạng"
       }
     ],
     "correct": 0,
@@ -1060,19 +1060,19 @@
     "opts": [
       {
         "en": "At the internet egress choke point",
-        "vi": "Tại điểm thắt cổ chai egress ra internet"
+        "vi": "Tại điểm thắt egress ra internet"
       },
       {
-        "en": "On a random user's personal laptop",
-        "vi": "Trên laptop cá nhân của một người dùng bất kỳ"
-      },
-      {
-        "en": "On the office network printer",
-        "vi": "Trên máy in mạng văn phòng"
+        "en": "On each individual user workstation",
+        "vi": "Trên từng máy trạm người dùng"
       },
       {
         "en": "On an isolated test-lab VLAN",
-        "vi": "Trên một VLAN thử nghiệm cách ly"
+        "vi": "Trên một VLAN lab thử nghiệm cô lập"
+      },
+      {
+        "en": "At a single departmental access port",
+        "vi": "Tại một cổng access của một phòng ban"
       }
     ],
     "correct": 0,
@@ -1172,19 +1172,19 @@
     "opts": [
       {
         "en": "Rich process, network and file telemetry",
-        "vi": "Telemetry phong phú về tiến trình, mạng, file"
+        "vi": "Telemetry phong phú về tiến trình, mạng và file"
       },
       {
-        "en": "The desktop wallpaper image",
-        "vi": "Ảnh hình nền desktop"
+        "en": "Only successful and failed logon events",
+        "vi": "Chỉ các sự kiện đăng nhập thành công/thất bại"
       },
       {
-        "en": "The system's BIOS settings",
-        "vi": "Cài đặt BIOS của hệ thống"
+        "en": "Just firewall allow and deny decisions",
+        "vi": "Chỉ các quyết định cho/chặn của tường lửa"
       },
       {
-        "en": "The monitor's brightness level",
-        "vi": "Mức độ sáng của màn hình"
+        "en": "Only Group Policy object changes",
+        "vi": "Chỉ các thay đổi Group Policy"
       }
     ],
     "correct": 0,
@@ -1208,19 +1208,19 @@
     "opts": [
       {
         "en": "NAT/translation logs plus DHCP lease logs",
-        "vi": "Log NAT/translation cùng log lease DHCP"
+        "vi": "Log NAT/translation kèm log cấp DHCP"
       },
       {
-        "en": "The network printer's job queue",
-        "vi": "Hàng đợi tác vụ của máy in mạng"
+        "en": "The web proxy's URL category logs",
+        "vi": "Log phân loại URL của web proxy"
       },
       {
-        "en": "The screensaver activity log",
-        "vi": "Log hoạt động screensaver"
+        "en": "The domain controller's Kerberos logs",
+        "vi": "Log Kerberos của domain controller"
       },
       {
-        "en": "The machine's BIOS event log",
-        "vi": "Log sự kiện BIOS của máy"
+        "en": "The IDS signature alert logs",
+        "vi": "Log cảnh báo theo chữ ký của IDS"
       }
     ],
     "correct": 0,
@@ -1243,20 +1243,20 @@
     },
     "opts": [
       {
-        "en": "Proxy logs, which can log the full URL",
-        "vi": "Log proxy, vốn có thể ghi cả URL đầy đủ"
+        "en": "Proxy logs, which can record the full URL",
+        "vi": "Log proxy, ghi được URL đầy đủ"
       },
       {
-        "en": "DHCP address-lease logs",
-        "vi": "Log cấp địa chỉ DHCP"
+        "en": "Firewall logs (IP and port only)",
+        "vi": "Log tường lửa (chỉ IP và cổng)"
       },
       {
-        "en": "BIOS firmware event logs",
-        "vi": "Log sự kiện firmware BIOS"
+        "en": "DNS resolver query logs",
+        "vi": "Log truy vấn của resolver DNS"
       },
       {
-        "en": "Network printer spool logs",
-        "vi": "Log spool của máy in mạng"
+        "en": "NetFlow / flow records",
+        "vi": "Bản ghi NetFlow / flow"
       }
     ],
     "correct": 0,
@@ -1316,19 +1316,19 @@
     "opts": [
       {
         "en": "Which account connected remotely, from which IP",
-        "vi": "Tài khoản nào kết nối từ xa và từ IP nào"
+        "vi": "Tài khoản nào kết nối từ xa, từ IP nào"
       },
       {
-        "en": "The CPU temperature of the server",
-        "vi": "Nhiệt độ CPU của server"
+        "en": "Which internal files the user later opened",
+        "vi": "Người dùng sau đó mở những file nội bộ nào"
       },
       {
-        "en": "The colour scheme of the dashboard",
-        "vi": "Bảng phối màu của dashboard"
+        "en": "The malware family running on the host",
+        "vi": "Họ malware đang chạy trên máy"
       },
       {
-        "en": "The network printer's toner level",
-        "vi": "Mức mực của máy in mạng"
+        "en": "The full web URLs the user browsed",
+        "vi": "Các URL web đầy đủ người dùng đã duyệt"
       }
     ],
     "correct": 0,
@@ -1460,19 +1460,19 @@
     "opts": [
       {
         "en": "A possible attacker pivot or routing error",
-        "vi": "Một pivot của kẻ tấn công hoặc lỗi định tuyến"
+        "vi": "Có thể là pivot của kẻ tấn công hoặc lỗi định tuyến"
       },
       {
-        "en": "Perfectly normal DNS caching",
-        "vi": "Cache DNS hoàn toàn bình thường"
+        "en": "A correctly functioning default gateway",
+        "vi": "Một default gateway hoạt động đúng"
       },
       {
-        "en": "A successfully completed backup",
-        "vi": "Một bản sao lưu hoàn tất thành công"
+        "en": "Normal load-balancing across uplinks",
+        "vi": "Cân bằng tải bình thường giữa các uplink"
       },
       {
-        "en": "An ordinary screensaver timeout",
-        "vi": "Một lần hết giờ screensaver thông thường"
+        "en": "An ordinary DNS caching response",
+        "vi": "Một phản hồi cache DNS bình thường"
       }
     ],
     "correct": 0,
@@ -1571,16 +1571,16 @@
         "vi": "Khai thác kiểu cache poisoning"
       },
       {
-        "en": "Perfectly normal web browsing",
-        "vi": "Duyệt web hoàn toàn bình thường"
+        "en": "A routine zone transfer to a secondary",
+        "vi": "Một zone transfer định kỳ tới máy phụ"
       },
       {
-        "en": "A routine network printer job",
-        "vi": "Một tác vụ in mạng định kỳ"
+        "en": "Normal recursive resolution traffic",
+        "vi": "Lưu lượng phân giải đệ quy bình thường"
       },
       {
-        "en": "Routine NTP synchronisation",
-        "vi": "Đồng bộ NTP định kỳ"
+        "en": "Ordinary EDNS buffer negotiation",
+        "vi": "Thương lượng buffer EDNS bình thường"
       }
     ],
     "correct": 0,
@@ -2036,19 +2036,19 @@
     "opts": [
       {
         "en": "Compressing data into an archive on one host",
-        "vi": "Nén dữ liệu thành archive trên một host"
+        "vi": "Nén dữ liệu thành một archive trên một máy"
       },
       {
-        "en": "Rebooting all of the servers",
-        "vi": "Khởi động lại mọi server"
+        "en": "Encrypting every server's local disk",
+        "vi": "Mã hóa đĩa cục bộ của mọi server"
       },
       {
-        "en": "Disabling the domain's DNS",
-        "vi": "Tắt DNS của domain"
+        "en": "Broadcasting the data across the LAN",
+        "vi": "Phát tán dữ liệu khắp LAN"
       },
       {
-        "en": "Printing the data to paper",
-        "vi": "In dữ liệu ra giấy"
+        "en": "Deleting the data from all hosts",
+        "vi": "Xóa dữ liệu khỏi mọi máy"
       }
     ],
     "correct": 0,
@@ -2511,16 +2511,16 @@
         "vi": "Trinh sát Active Directory nội bộ"
       },
       {
-        "en": "A routine network printer test",
-        "vi": "Một lần thử máy in mạng định kỳ"
+        "en": "A routine Group Policy refresh",
+        "vi": "Một lần làm mới Group Policy định kỳ"
       },
       {
-        "en": "Ordinary DNS name resolution",
-        "vi": "Phân giải tên DNS thông thường"
+        "en": "Normal user authentication traffic",
+        "vi": "Lưu lượng xác thực người dùng bình thường"
       },
       {
-        "en": "Routine NTP synchronisation",
-        "vi": "Đồng bộ NTP định kỳ"
+        "en": "A scheduled directory backup",
+        "vi": "Một lần sao lưu thư mục theo lịch"
       }
     ],
     "correct": 0,
@@ -2616,19 +2616,19 @@
     "opts": [
       {
         "en": "PsExec-style lateral movement tools",
-        "vi": "Các công cụ lateral movement kiểu PsExec"
+        "vi": "Công cụ di chuyển ngang kiểu PsExec"
       },
       {
-        "en": "A recursive DNS resolver service",
-        "vi": "Một dịch vụ resolver DNS đệ quy"
+        "en": "A routine software-deployment agent",
+        "vi": "Một agent triển khai phần mềm định kỳ"
       },
       {
-        "en": "An ordinary web browser process",
-        "vi": "Một tiến trình trình duyệt web thông thường"
+        "en": "A normal Windows Update installation",
+        "vi": "Một lần cài Windows Update bình thường"
       },
       {
-        "en": "A screensaver display process",
-        "vi": "Một tiến trình hiển thị screensaver"
+        "en": "An ordinary scheduled-task run",
+        "vi": "Một lần chạy scheduled task bình thường"
       }
     ],
     "correct": 0,
@@ -2651,20 +2651,20 @@
     },
     "opts": [
       {
-        "en": "Flags logons that gained sensitive privileges",
-        "vi": "Đánh dấu đăng nhập đạt được đặc quyền nhạy cảm"
+        "en": "It flags logons that gained sensitive privileges",
+        "vi": "Nó đánh dấu các phiên đăng nhập giành được đặc quyền nhạy cảm"
       },
       {
-        "en": "It means the system disk is full",
-        "vi": "Nó nghĩa là đĩa hệ thống đầy"
+        "en": "It records a failed logon attempt",
+        "vi": "Nó ghi một lần đăng nhập thất bại"
       },
       {
-        "en": "It indicates a network printer error",
-        "vi": "Nó cho thấy lỗi máy in mạng"
+        "en": "It logs a new service installation",
+        "vi": "Nó ghi một lần cài service mới"
       },
       {
-        "en": "It simply shows a DNS query was made",
-        "vi": "Nó chỉ cho thấy một truy vấn DNS đã được thực hiện"
+        "en": "It marks the system clock being changed",
+        "vi": "Nó đánh dấu việc đồng hồ hệ thống bị đổi"
       }
     ],
     "correct": 0,

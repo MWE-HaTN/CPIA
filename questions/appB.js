@@ -1524,15 +1524,15 @@
       },
       {
         "en": "A static hex / binary editor",
-        "vi": "Một trình soạn hex / nhị phân tĩnh"
+        "vi": "Một trình soạn hex/nhị phân tĩnh"
+      },
+      {
+        "en": "A network protocol analyser",
+        "vi": "Một bộ phân tích giao thức mạng"
       },
       {
         "en": "A WHOIS lookup client",
-        "vi": "Một client tra WHOIS"
-      },
-      {
-        "en": "A subnet calculator tool",
-        "vi": "Một công cụ tính subnet"
+        "vi": "Một client tra cứu WHOIS"
       }
     ],
     "correct": 0,
@@ -2284,19 +2284,19 @@
     "opts": [
       {
         "en": "Point the service at a malicious binary run at its privilege",
-        "vi": "Trỏ service tới một binary độc hại chạy ở đặc quyền của nó"
+        "vi": "Trỏ service tới một binary độc hại, chạy với đặc quyền của nó"
       },
       {
-        "en": "Change the desktop wallpaper for all users",
-        "vi": "Đổi hình nền desktop cho mọi người dùng"
+        "en": "Only read the service's current settings",
+        "vi": "Chỉ đọc được thiết lập hiện tại của service"
       },
       {
-        "en": "Increase the display's screen brightness",
-        "vi": "Tăng độ sáng màn hình hiển thị"
+        "en": "Merely restart the service on demand",
+        "vi": "Chỉ khởi động lại service khi cần"
       },
       {
-        "en": "Make the host's CPU run noticeably faster",
-        "vi": "Làm CPU của host chạy nhanh hơn rõ rệt"
+        "en": "Change only the service's display name",
+        "vi": "Chỉ đổi tên hiển thị của service"
       }
     ],
     "correct": 0,
