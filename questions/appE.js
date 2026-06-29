@@ -543,12 +543,12 @@
     },
     "q": {
       "en": "Volume Shadow Copies (VSS) are valuable in forensics because they:",
-      "vi": "Volume Shadow Copy (VSS) có giá trị trong forensic vì chúng:"
+      "vi": "Volume Shadow Copy (VSS) có giá trị trong điều tra số (forensic) vì chúng:"
     },
     "opts": [
       {
-        "en": "Earlier versions of files an attacker deleted/altered",
-        "vi": "Phiên bản trước của file kẻ tấn công đã xóa/sửa"
+        "en": "They retain earlier versions of files an attacker deleted or altered",
+        "vi": "Chúng giữ lại các phiên bản trước của file mà kẻ tấn công đã xóa hoặc sửa"
       },
       {
         "en": "They fully encrypt the system disk",

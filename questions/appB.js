@@ -1771,24 +1771,24 @@
     },
     "q": {
       "en": "What is the practical effect of an implicit \"deny all\" at the end of an ACL?",
-      "vi": "Tác dụng thực tế của một \"deny all\" ngầm ở cuối một ACL là gì?"
+      "vi": "Một quy tắc \"deny all\" (chặn tất cả) ngầm định ở cuối một ACL có tác dụng thực tế gì?"
     },
     "opts": [
       {
         "en": "Anything not explicitly permitted is blocked",
-        "vi": "Bất cứ gì không được phép tường minh đều bị chặn"
+        "vi": "Mọi traffic đều bị chặn, trừ những gì được cho phép ngoại lệ rõ ràng"
       },
       {
         "en": "Everything is permitted unless explicitly denied",
-        "vi": "Mọi thứ được phép trừ khi bị từ chối tường minh"
+        "vi": "Mọi traffic đều được phép, trừ những gì bị chặn ngoại lệ rõ ràng"
       },
       {
         "en": "All connection logging is silently disabled",
-        "vi": "Mọi ghi log kết nối bị tắt âm thầm"
+        "vi": "Toàn bộ việc ghi log kết nối bị tắt âm thầm"
       },
       {
         "en": "Network address translation is bypassed",
-        "vi": "Network address translation bị bỏ qua"
+        "vi": "Chuyển đổi địa chỉ mạng (NAT) bị bỏ qua"
       }
     ],
     "correct": 0,
