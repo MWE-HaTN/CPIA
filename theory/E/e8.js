@@ -1,49 +1,103 @@
-/* Theory — E8 (Appendix E). Edit the HTML below. */
+/* Theory — E8 (Appendix E). 3-tier layout: Recall / Concept / Reference. */
 (window.CPIA_THEORY=window.CPIA_THEORY||{})["e8"]=`<h2>E8 — Storage Media</h2>
 
-<h3>HPA and DCO</h3>
+<div class="tier recall" id="e8-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Disk interfaces:</strong> <span class="en">PATA/IDE (legacy ribbon), SATA (modern consumer), SCSI/SAS (enterprise/servers).</span><span class="vi">PATA/IDE (cáp dẹt cũ), SATA (phổ thông hiện đại), SCSI/SAS (doanh nghiệp/máy chủ).</span></li>
+<li><strong>HPA &amp; DCO:</strong> <span class="en">Hidden areas the OS doesn't see — the imager must be set to capture them or evidence is missed.</span><span class="vi">Vùng ẩn mà OS không thấy — công cụ imaging phải được bật để thu, nếu không sẽ sót bằng chứng.</span></li>
+<li><strong>ATA password:</strong> <span class="en">A firmware-level drive password can lock the drive until it is unlocked.</span><span class="vi">Mật khẩu ổ ở mức firmware có thể khóa ổ cho tới khi được mở khóa.</span></li>
+<li><strong>SSD ≠ magnetic:</strong> <span class="en">TRIM/garbage collection can wipe deleted blocks; wear-levelling remaps blocks — both hinder recovery.</span><span class="vi">TRIM/garbage collection có thể xóa block đã xóa; wear-levelling ánh xạ lại block — cả hai cản trở khôi phục.</span></li>
+<li><strong>Removable solid-state media:</strong> <span class="en">USB pen drives and memory cards use flash too; controllers, wear-levelling and proprietary layouts can make physical acquisition and deleted-data recovery differ from magnetic disks.</span><span class="vi">USB/pen drive và thẻ nhớ cũng dùng flash; controller, wear-levelling và bố cục riêng khiến thu thập vật lý/khôi phục dữ liệu xóa khác đĩa từ.</span></li>
+<li><strong>Full Disk Encryption:</strong> <span class="en">A dead image is unreadable without the key — image live while unlocked, or obtain the key.</span><span class="vi">Image "dead" không đọc được nếu thiếu khóa — image live khi còn mở khóa, hoặc lấy khóa.</span></li>
+<li><strong>RAID:</strong> <span class="en">RAID 0 = striping (no redundancy); 1 = mirror; 5 = striping + distributed parity (survives one disk failure).</span><span class="vi">RAID 0 = striping (không dự phòng); 1 = mirror; 5 = striping + parity phân tán (sống sót khi mất 1 đĩa).</span></li>
+<li><strong>NAS:</strong> <span class="en">Consider its file system / RAID layout and how to acquire it (often can't just pull one disk).</span><span class="vi">Cân nhắc file system / bố cục RAID của nó và cách thu thập (thường không thể chỉ rút một đĩa).</span></li>
+</ul></div></div>
 
-<ul><li><strong>Host Protected Area (HPA):</strong> Hidden disk area normally inaccessible to the operating system; may hide data from ordinary imaging.</li><li><strong>Device Configuration Overlay (DCO):</strong> Firmware-level configuration that can report a smaller apparent disk size than physical capacity.</li><li><strong>Forensic implication:</strong> Acquisition tools should detect and document HPA / DCO so evidence scope is defensible.</li></ul>
+<details class="tier concept" id="e8-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Giao tiếp đĩa &amp; vùng ẩn (HPA/DCO)</h4>
+<p>Biết loại giao tiếp (PATA/SATA/SCSI/SAS) để chọn đúng write blocker/adapter. <strong>HPA (Host Protected Area)</strong> và <strong>DCO (Device Configuration Overlay)</strong> là các vùng ẩn của ổ mà OS thường không thấy — kẻ tấn công có thể giấu dữ liệu ở đó. Công cụ imaging phải được cấu hình để <em>thu cả HPA/DCO</em>, nếu không sẽ bỏ sót.</p>
 
-<ul>
+<h4>SSD vì sao khó khôi phục</h4>
+<p>Khác đĩa từ: SSD dùng <strong>wear-levelling</strong> (phân tán ghi để đều hao mòn → controller ánh xạ lại block, dữ liệu cũ "biến mất" khỏi địa chỉ logic) và <strong>TRIM + garbage collection</strong> (chủ động xóa block đã đánh dấu trống ngay cả khi không ghi đè). Hệ quả: dữ liệu đã xóa trên SSD thường <em>không khôi phục được</em> như trên đĩa từ. <strong>USB/pen drive và thẻ nhớ</strong> cũng là flash; tùy controller, giao diện và việc hỗ trợ TRIM, logical image có thể không thấy các page dự phòng/đã remap, còn chip-off cần chuyên môn và cách tái dựng riêng.</p>
 
-<li><span class="en">Hard disk interfaces: PATA / SATA / SCSI / SAS; understand physical / logical acquisition differences.</span><span class="vi">Giao diện ổ cứng: PATA / SATA / SCSI / SAS; hiểu sự khác biệt giữa thu thập vật lý / logic.</span></li>
+<h4>Mật khẩu ổ &amp; mã hóa toàn đĩa</h4>
+<p><strong>ATA password</strong> (Security Feature Set) khóa ổ ở firmware. <strong>Full Disk Encryption</strong> (BitLocker, FileVault, LUKS): image "dead" sẽ chỉ là dữ liệu mã hóa — cần image <em>live</em> khi volume mở khóa, hoặc có khóa/recovery key.</p>
 
-<li><span class="en">HPA / DCO can hide disk areas; forensic tools should detect / report them.</span><span class="vi">HPA / DCO có thể ẩn vùng đĩa; công cụ điều tra số nên phát hiện / báo cáo chúng.</span></li>
+<h4>RAID &amp; NAS</h4>
+<p><strong>RAID</strong> trải/nhân dữ liệu trên nhiều đĩa: 0 (striping, nhanh, không dự phòng), 1 (mirror), 5 (striping + parity phân tán — sống sót khi mất 1 đĩa nhờ tái dựng từ parity), 6 (2 parity), 10 (mirror+stripe). Khi thu thập, <em>không thể chỉ image một đĩa</em> — phải tái dựng cả set. <strong>NAS</strong> đóng gói RAID + file system riêng; thường acquire qua giao diện quản trị hoặc tháo cả cụm đĩa và tái dựng.</p>
+</div></details>
 
-<li><span class="en">Password protection and full-disk encryption can block acquisition without keys.</span><span class="vi">Bảo vệ mật khẩu và mã hóa toàn đĩa có thể chặn việc thu thập nếu không có khóa.</span></li>
-
-<li><span class="en">SSDs / flash: wear levelling and TRIM affect deleted-data recovery.</span><span class="vi">SSD / flash: cân bằng ghi (wear levelling) và TRIM ảnh hưởng đến khả năng phục hồi dữ liệu đã xóa.</span></li>
-
-<li><span class="en">RAID: know levels, parity / mirroring / striping, and need for controller / order metadata.</span><span class="vi">RAID: nắm các cấp độ, parity / mirroring / striping và yêu cầu metadata bộ điều khiển / thứ tự.</span></li>
-
-<li><span class="en">NAS: network shares, snapshots, logs, user permissions, and remote acquisition considerations.</span><span class="vi">NAS: chia sẻ mạng, snapshot, log, quyền người dùng và các lưu ý thu thập từ xa.</span></li>
-
-</ul>
-
-<p class="sub-heading">HPA and DCO Explained</p>
-
+<details class="tier reference" id="e8-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>RAID levels</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Feature</th><th>Meaning</th><th>Forensic implication</th></tr>
-
-<tr><td>HPA — Host Protected Area</td><td>A disk area hidden from the operating system by drive configuration.</td><td>May hide data from normal acquisition if the tool does not detect it.</td></tr>
-
-<tr><td>DCO — Device Configuration Overlay</td><td>Drive-level configuration that can reduce apparent disk size or expose / disable features.</td><td>Can conceal sectors and must be reported during forensic acquisition.</td></tr>
-
+<tr><th>Level</th><th>Layout</th><th>Fault tolerance</th></tr>
+<tr><td>RAID 0</td><td>Striping</td><td>None (any disk fails = data lost)</td></tr>
+<tr><td>RAID 1</td><td>Mirroring</td><td>Survives 1 disk</td></tr>
+<tr><td>RAID 5</td><td>Striping + distributed parity</td><td>Survives 1 disk (rebuild from parity)</td></tr>
+<tr><td>RAID 6</td><td>Striping + double parity</td><td>Survives 2 disks</td></tr>
+<tr><td>RAID 10</td><td>Mirror + stripe</td><td>Survives 1 per mirror</td></tr>
 </table></div>
 
-<div class="callout warning"><strong>Exam tip:</strong> if the physical disk size does not match expected capacity, consider HPA / DCO and document tool findings.</div>
+<h4>Acquisition complications</h4>
+<div class="table-wrap"><table>
+<tr><th>Feature</th><th>Impact on acquisition</th></tr>
+<tr><td>HPA / DCO</td><td>Hidden areas — enable capture or miss them</td></tr>
+<tr><td>ATA password</td><td>Drive locked until unlocked</td></tr>
+<tr><td>SSD TRIM / wear-levelling</td><td>Deleted data often unrecoverable</td></tr>
+<tr><td>USB pen drive / memory card</td><td>Flash controller and proprietary mapping can complicate physical acquisition</td></tr>
+<tr><td>Full Disk Encryption</td><td>Dead image unreadable without key</td></tr>
+<tr><td>RAID / NAS</td><td>Must reassemble the set, not one disk</td></tr>
+</table></div>
 
-<h3>RAID Levels and Full Disk Encryption</h3><div class="table-wrap"><table><tr><th>RAID Level</th><th>Redundancy</th><th>Forensic Approach</th></tr><tr><td>RAID 0 (Striping)</td><td>None — any disk failure = total loss</td><td>Must acquire ALL disks; reconstruct RAID before analysis</td></tr><tr><td>RAID 1 (Mirroring)</td><td>Any one disk survives</td><td>Image either disk — mirrors are identical. Both should hash identically.</td></tr><tr><td>RAID 5 (Stripe + Parity)</td><td>Any one disk failure tolerated</td><td>Acquire all disks; reconstruct with RAID tools before evidence analysis</td></tr><tr><td>RAID 6 (Dual Parity)</td><td>Any two disk failures tolerated</td><td>Same approach as RAID 5 — more resilient</td></tr></table></div><ul><li><strong>BitLocker (Windows FDE):</strong> Volume appears as random data without decryption key. Recovery key (48 digits) stored in AD or printed. Obtain BEFORE acquisition. In memory dumps, BitLocker VMK may be extractable.</li><li><strong>VeraCrypt / TrueCrypt:</strong> Cross-platform FDE — no key escrow. If live system, image while decrypted. Check memory for mounted container keys.</li></ul>
-<h3 class="qz-theory"><span class="en">Storage Media &amp; RAID</span><span class="vi">Phương tiện lưu trữ &amp; RAID</span></h3>
+<h4>Disk interfaces</h4>
+<div class="table-wrap"><table>
+<tr><th>Interface</th><th>Typical use</th></tr>
+<tr><td>PATA / IDE</td><td>Legacy</td></tr>
+<tr><td>SATA</td><td>Modern consumer</td></tr>
+<tr><td>SCSI / SAS</td><td>Servers / enterprise</td></tr>
+</table></div>
+</div></details>
+
+<details class="tier deep-dive" id="e8-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Nhận diện interface/media, capacity, firmware lock, HPA/DCO và encryption.</li>
+<li>Với RAID ghi disk order/stripe/parity/offset; image từng member rồi reconstruct copy.</li>
+<li>Với SSD/USB/card cân nhắc TRIM, wear-leveling, controller và logical vs physical acquisition.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><strong>SSD:</strong> <span class="en"><strong>wear-levelling</strong> remaps logical blocks to changing physical cells and <strong>TRIM</strong>/garbage collection can zero deleted blocks soon after deletion — even behind a write blocker — making "deleted file" recovery far less reliable than HDDs.</span><span class="vi"><strong>wear-levelling</strong> ánh xạ lại khối logic tới cell vật lý thay đổi và <strong>TRIM</strong>/garbage collection có thể zero khối đã xóa ngay sau khi xóa — kể cả sau write blocker — khiến khôi phục "file đã xóa" kém tin cậy hơn HDD.</span></li>
-<li><strong>HPA/DCO:</strong> <span class="en">Firmware areas that hide sectors from the OS by reducing the reported size — a thorough imager detects/removes them to capture the full physical disk. An <strong>ATA password</strong> can lock the drive until unlocked.</span><span class="vi">Vùng firmware ẩn sector khỏi OS bằng cách giảm dung lượng báo cáo — trình tạo image kỹ lưỡng phát hiện/gỡ chúng để bắt toàn bộ đĩa vật lý. <strong>Mật khẩu ATA</strong> có thể khóa ổ tới khi mở khóa.</span></li></ul>
-<div class="table-wrap"><table><thead><tr><th>RAID</th><th><span class="en">Behaviour / fault tolerance</span><span class="vi">Hành vi / chịu lỗi</span></th></tr></thead><tbody>
-<tr><td>0</td><td><span class="en">Striping, no redundancy — any disk fails = total loss</span><span class="vi">Striping, không dự phòng — hỏng đĩa bất kỳ = mất hết</span></td></tr>
-<tr><td>1</td><td><span class="en">Mirroring</span><span class="vi">Mirror</span></td></tr>
-<tr><td>5</td><td><span class="en">Striping + distributed parity — survives one disk failure</span><span class="vi">Striping + parity phân tán — chịu được một đĩa hỏng</span></td></tr>
-<tr><td>10</td><td><span class="en">Mirror + stripe</span><span class="vi">Mirror + stripe</span></td></tr></tbody></table></div>
-<p><span class="en">For acquisition you often must reconstruct the array; <strong>NAS</strong> units use Linux filesystems + RAID — decide between imaging disks or a live/logical acquisition.</span><span class="vi">Khi thu thập thường phải tái dựng mảng; <strong>NAS</strong> dùng hệ thống tệp Linux + RAID — chọn giữa image từng đĩa hay thu thập live/logic.</span></p>
-`;
+<li>PATA/SATA/SCSI/SAS identity; HPA/DCO sizes; SMART.</li>
+<li>RAID metadata; NAS filesystem/share/audit; FDE state/key.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-impact">PRIVILEGED/IMPACT</span>Hardware write blocker/imager có log; vendor-neutral RAID reconstruction tool.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>Một disk RAID5 không chứa file hoàn chỉnh liên tục; cần đúng order/stripe/parity để dựng volume.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>RAID không phải backup.</li>
+<li>TRIM có thể chạy sau seizure nếu thiết bị còn powered.</li>
+<li>Chip-off flash cần tái dựng controller mapping chuyên biệt.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> NIST media sanitization/acquisition guidance; storage vendor specifications.</p>
+</div>
+</details>`;

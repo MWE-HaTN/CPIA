@@ -1,78 +1,94 @@
-/* Theory — E10 (Appendix E). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["e10"]=`<h2>E10 — Infection Vectors</h2><ul>
+/* Theory — E10 (Appendix E). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["e10"]=`<h2>E10 — Infection Vectors</h2>
 
-<li><span class="en">Executable / DLL infection: trojanised binaries, DLL search-order hijacking, side-loading.</span><span class="vi">Lây nhiễm qua Executable / DLL: binary đã bị trojanised, chiếm quyền thứ tự tìm kiếm DLL, side-loading.</span></li>
+<div class="tier recall" id="e10-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Malicious documents:</strong> <span class="en">Office macros (VBA), DDE field commands, and remote-template injection are top vectors.</span><span class="vi">Macro Office (VBA), lệnh DDE, và remote-template injection là các vector hàng đầu.</span></li>
+<li><strong>Executables/DLLs:</strong> <span class="en">Infected EXE/DLL, plus DLL search-order hijacking / side-loading via a trusted app.</span><span class="vi">EXE/DLL nhiễm, cùng DLL search-order hijacking / side-loading qua app tin cậy.</span></li>
+<li><strong>Drive-by &amp; malicious JavaScript:</strong> <span class="en">Visiting a malicious/compromised page runs malicious JavaScript that exploits the browser or plugins — often via an exploit kit.</span><span class="vi">Vào trang độc hại/bị chiếm chạy JavaScript độc hại khai thác trình duyệt/plugin — thường qua exploit kit.</span></li>
+<li><strong>Email-based:</strong> <span class="en">Phishing with malicious attachments or links; password-protected ZIPs evade gateway AV.</span><span class="vi">Phishing kèm đính kèm/link độc hại; ZIP có mật khẩu né AV gateway.</span></li>
+<li><strong>USB / external media:</strong> <span class="en">Malicious USB, autorun, or LNK files on shared drives.</span><span class="vi">USB độc hại, autorun, hoặc file LNK trên ổ chia sẻ.</span></li>
+<li><strong>Passive exploitation:</strong> <span class="en">No user action needed — e.g. a wormable network service vulnerability.</span><span class="vi">Không cần thao tác người dùng — vd lỗ hổng dịch vụ mạng kiểu sâu (wormable).</span></li>
+<li><strong>LOLBins &amp; containers:</strong> <span class="en">mshta/regsvr32/rundll32 abuse; ISO/IMG containers bypass Mark-of-the-Web warnings.</span><span class="vi">Lạm dụng mshta/regsvr32/rundll32; container ISO/IMG né cảnh báo Mark-of-the-Web.</span></li>
+</ul></div></div>
 
-<li><span class="en">Documents: macros, DDE, embedded objects, template injection, malicious links.</span><span class="vi">Tài liệu: macro, DDE, đối tượng nhúng, chèn template, liên kết độc hại.</span></li>
+<details class="tier concept" id="e10-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Tài liệu độc hại</h4>
+<p>Vector phổ biến nhất qua email. <strong>Macro VBA</strong> (AutoOpen/AutoClose tự chạy), <strong>DDE</strong> (field-code chạy lệnh không cần macro), <strong>remote template injection</strong> (.docx tải template chứa macro từ xa), và <strong>OLE object</strong> nhúng. Một <code>invoice.docm</code> mở ra → macro tải/chạy payload là kịch bản kinh điển.</p>
 
-<li><span class="en">JavaScript: droppers, browser-based payload retrieval, obfuscated scripts.</span><span class="vi">JavaScript: dropper, lấy payload qua trình duyệt, script bị làm rối.</span></li>
+<h4>Executable, DLL &amp; side-loading</h4>
+<p>EXE/DLL nhiễm chạy trực tiếp, hoặc tinh vi hơn: <strong>DLL search-order hijacking / side-loading</strong> — đặt DLL độc cạnh một app ký hợp lệ để app tự nạp nó. <strong>LOLBins</strong> (mshta.exe, regsvr32.exe, rundll32.exe) là binary hệ thống hợp lệ bị lợi dụng để chạy mã, né phát hiện.</p>
 
-<li><span class="en">Drive-by downloads: exploit browser / plugin automatically after visiting site.</span><span class="vi">Tải xuống ngẫu nhiên: khai thác trình duyệt / plugin tự động sau khi truy cập trang web.</span></li>
+<h4>Drive-by &amp; passive exploitation</h4>
+<p><strong>Drive-by download</strong>: chỉ cần truy cập trang là trình duyệt/plugin bị khai thác (qua exploit kit) — người dùng không bấm gì thêm. <strong>Passive exploitation</strong>: không cần tương tác người dùng, vd lỗ hổng dịch vụ mạng lan kiểu sâu (EternalBlue/SMB).</p>
 
-<li><span class="en">USB / shared drives: autorun legacy, LNK files, worm propagation.</span><span class="vi">USB / ổ chia sẻ: autorun cũ, file LNK, lây lan worm.</span></li>
+<h4>Email, USB, container</h4>
+<p>Email: đính kèm/link; <strong>ZIP có mật khẩu</strong> để gateway AV không mở/quét được. USB/ổ chia sẻ: file LNK độc, autorun. <strong>ISO/IMG</strong>: mount lên ổ ảo → file bên trong <em>không mang Mark-of-the-Web</em> nên bỏ qua cảnh báo "file tải từ internet".</p>
+</div></details>
 
-<li><span class="en">Passive exploitation: vulnerable service / client exploited by receiving crafted input.</span><span class="vi">Khai thác thụ động: dịch vụ / client dễ bị tấn công bằng cách nhận đầu vào được tạo thủ công.</span></li>
-
-<li><span class="en">Email: phishing attachments, links, credential-harvesting pages.</span><span class="vi">Email: đính kèm phishing, liên kết, trang thu thập thông tin xác thực.</span></li>
-
-</ul><h3>Mark of the Web (MOTW) and ISO Delivery</h3><ul><li><strong>Mark of the Web (MOTW):</strong> Files downloaded from internet receive NTFS ADS <code>:Zone.Identifier</code> with <code>ZoneId=3</code>. Office files with MOTW open in Protected View → macros blocked by default.</li><li><strong>Attacker bypass — ISO / IMG delivery:</strong> Windows mounts ISO natively. Contents do NOT inherit MOTW from the container. Files from ISO have no Zone.Identifier → macros execute without Protected View warning.</li><li><strong>Forensic value:</strong> No Zone.Identifier on executable in Temp / AppData = file written by process (malware drop). Present = file downloaded by user browser. Use <code>dir /r</code> or streams.exe to inspect.</li></ul>
-
-<h3>Infection Vector Reference</h3>
-
+<details class="tier reference" id="e10-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Infection vectors</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Vector</th><th>How It Works</th><th>Key Forensic Artifacts</th><th>Detection</th></tr>
-
-<tr><td>Malicious Executables / DLL</td><td>EXE / DLL delivered via phishing, USB, or download. User executes.</td><td>Prefetch entry, Amcache, Event 4688, file in Downloads / Temp</td><td>AV detection, hash lookup, Autoruns for persistence</td></tr>
-
-<tr><td>Malicious Documents — Macros</td><td>Office doc with VBA. User enables macros → code runs.</td><td>Event 4688 (winword.exe → cmd.exe), recent doc LNK, email with attachment</td><td>Macro execution Event 4104, process tree anomaly (Office spawning shell)</td></tr>
-
-<tr><td>Malicious Documents — DDE</td><td>Dynamic Data Exchange calls external process without macros</td><td>Event 4688 (winword.exe → cmd.exe), DDE field in doc body</td><td>olevba detection, process tree anomaly</td></tr>
-
-<tr><td>JavaScript / HTA</td><td>.js or .hta via email → executed by wscript/cscript/mshta</td><td>Event 4688 (wscript.exe → cmd.exe), script in Downloads / Temp</td><td>Script block logging, Event 4104, AppLocker events</td></tr>
-
-<tr><td>Drive-by Download</td><td>User visits compromised / malicious site → browser exploit → payload download</td><td>Browser history (site visited), new EXE in Downloads / Temp, browser spawning child process</td><td>Proxy logs (malicious URL), AV detection, browser spawning unexpected child</td></tr>
-
-<tr><td>USB / External Media</td><td>AutoRun (legacy) or user manually executes from USB. LNK shortcut on USB auto-executes via Explorer.</td><td>USBSTOR registry, setupapi.dev.log (first connect timestamp), Event 4688 from removable drive path</td><td>Device control policy, USB activity logging</td></tr>
-
-<tr><td>Passive Exploitation</td><td>No user interaction. Attacker sends crafted packet to vulnerable service → RCE. (EternalBlue, Log4Shell)</td><td>Service spawning unexpected child (lsass.exe → cmd.exe), inbound connection on service port → outbound C2</td><td>IDS signature for exploit, EDR process tree anomaly, network anomaly</td></tr>
-
-<tr><td>Email-based Attacks (Phishing)</td><td>Malicious link or attachment. Spear-phishing = targeted. BEC = no malware, social engineering only.</td><td>Email headers (Received chain), O365 UAL (MailItemsAccessed, Send), Outlook spawning child processes</td><td>Email gateway, DMARC failure, user report, O365 alerts</td></tr>
-
+<tr><th>Vector</th><th>Mechanism</th><th>User action?</th></tr>
+<tr><td>Document macro / DDE</td><td>VBA / field command runs payload</td><td>Open + enable</td></tr>
+<tr><td>Remote template injection</td><td>.docx pulls macro template remotely</td><td>Open</td></tr>
+<tr><td>Infected EXE/DLL</td><td>Direct execution</td><td>Run</td></tr>
+<tr><td>DLL side-loading</td><td>Trusted app loads malicious DLL</td><td>Run trusted app</td></tr>
+<tr><td>Drive-by download</td><td>Browser/plugin exploit on visit</td><td>Visit page</td></tr>
+<tr><td>Email attachment/link</td><td>Phishing; password-ZIP evades AV</td><td>Open/click</td></tr>
+<tr><td>USB / shared drive</td><td>Malicious LNK/autorun</td><td>Insert/open</td></tr>
+<tr><td>Passive / network exploit</td><td>Wormable service vuln</td><td>None</td></tr>
 </table></div>
 
-<p class="sub-heading">Mark of the Web (MOTW)</p>
+<h4>Evasion helpers</h4>
+<div class="table-wrap"><table>
+<tr><th>Technique</th><th>Effect</th></tr>
+<tr><td>Password-protected ZIP</td><td>Gateway AV can't open the archive</td></tr>
+<tr><td>ISO/IMG container</td><td>Inner files lack Mark-of-the-Web</td></tr>
+<tr><td>LOLBins (mshta/regsvr32/rundll32)</td><td>Run code via trusted system binaries</td></tr>
+</table></div>
+</div></details>
 
+<details class="tier deep-dive" id="e10-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Dựng delivery→execution→persistence→C2 theo process/file/network.</li>
+<li>Email/document: header→attachment→macro/DDE/JS→child process; web: redirect→download→exploit.</li>
+<li>USB/share: device/mount/LNK/file execution; xác định user action hay passive exploit.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-
-<li><span class="en">Files downloaded from internet receive NTFS ADS: <code>:Zone.Identifier</code> with ZoneId=3</span><span class="vi">File tải xuống từ internet được gán NTFS ADS: <code>:Zone.Identifier</code> với ZoneId=3</span></li>
-
-<li><span class="en">Office with MOTW → Protected View → macros blocked. Attacker bypass: deliver inside ISO / IMG — contents do NOT inherit MOTW.</span><span class="vi">Office có MOTW → Protected View → macro bị chặn. Cách vượt qua của kẻ tấn công: phân phối bên trong ISO / IMG — nội dung bên trong KHÔNG kế thừa MOTW.</span></li>
-
-<li><strong>Forensic value:</strong> <span class="en">No Zone.Identifier on executable in Temp = file was written by another process (malware drop), not downloaded by user.</span><span class="vi">Không có Zone.Identifier trên file thực thi trong Temp = file được ghi bởi tiến trình khác (malware thả xuống), không phải người dùng tải về.</span></li>
-
+<li>MOTW/Zone.Identifier, browser download, mail attachment, Office child process.</li>
+<li>DLL side-load pair, autorun/LNK, exploit crash và payload.</li>
 </ul>
-
-<div class="table-wrap"><table>
-
-<tr><th>Vector</th><th>Description</th><th>Indicators</th></tr>
-
-<tr><td>Malicious document</td><td>Office macro, DDE, PDF exploit</td><td>winword.exe / excel.exe spawning cmd / powershell (Event 4688)</td></tr>
-
-<tr><td>Drive-by download</td><td>Browser exploit via watering hole</td><td>Browser spawning process, new executable in temp / download folder</td></tr>
-
-<tr><td>Phishing / Email</td><td>Malicious attachment or link</td><td>Outlook spawning child process, email with attachment + URL + urgency</td></tr>
-
-<tr><td>USB / External media</td><td>AutoRun malware, manually executed</td><td>USBSTOR registry entry, new process from removable drive path</td></tr>
-
-<tr><td>Passive exploitation</td><td>Network service exploit (no user interaction)</td><td>Unexpected inbound connection succeeded, new process under system / service account</td></tr>
-
-</table></div>
-
-
-<h3 class="qz-theory"><span class="en">Infection Vectors</span><span class="vi">Vector lây nhiễm</span></h3>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
 <ul>
-<li><strong><span class="en">Documents:</span><span class="vi">Tài liệu:</span></strong> <span class="en">A <code>.docm</code> (macro-enabled) runs a malicious VBA macro after "Enable Content"; DDE and embedded objects are related Office vectors — inspect with olevba before opening.</span><span class="vi">Một <code>.docm</code> (bật macro) chạy macro VBA độc hại sau khi "Enable Content"; DDE và đối tượng nhúng là vector Office liên quan — kiểm tra bằng olevba trước khi mở.</span></li>
-<li><strong>Drive-by:</strong> <span class="en">Exploits the browser/plugins simply by visiting a malicious or compromised page — no obvious user action.</span><span class="vi">Khai thác trình duyệt/plugin chỉ bằng việc truy cập một trang độc hại hoặc bị xâm nhập — không cần hành động rõ ràng.</span></li>
-<li><strong><span class="en">Delivery tricks:</span><span class="vi">Mẹo phát tán:</span></strong> <span class="en"><strong>ISO/IMG containers</strong> bypass Mark-of-the-Web so extracted files skip SmartScreen/Protected View warnings; <strong>LOLBins</strong> (mshta, regsvr32 "Squiblydoo", rundll32) run code while appearing legitimate; <strong>password-protected ZIPs</strong> evade gateway AV (the body supplies the password).</span><span class="vi"><strong>container ISO/IMG</strong> vượt Mark-of-the-Web nên file trích ra bỏ qua cảnh báo SmartScreen/Protected View; <strong>LOLBins</strong> (mshta, regsvr32 "Squiblydoo", rundll32) chạy mã trong khi trông hợp lệ; <strong>ZIP có mật khẩu</strong> né AV tại gateway (thân email cung cấp mật khẩu).</span></li></ul>
-`;
+<li>
+<span class="cmd-safety cmd-impact">LIVE-IMPACT</span>Map ProcessGuid/hash/URL/Message-ID xuyên nguồn; sandbox chỉ trong lab.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>File từ email có MOTW, WINWORD→powershell→download là chain mạnh; chỉ có file trong Downloads chưa chứng minh execution.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>Container/ISO có thể thay propagation của MOTW tùy phiên bản.</li>
+<li>Drive-by có thể cần browser/version cụ thể.</li>
+<li>Initial vector khác root cause; vá cả lỗ hổng và credential.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> MITRE Initial Access/Execution; Microsoft MOTW/Office guidance.</p>
+</div>
+</details>`;

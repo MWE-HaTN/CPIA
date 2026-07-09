@@ -1,76 +1,98 @@
-/* Theory — E12 (Appendix E). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["e12"]=`<h2>E12 — Rootkit Identification</h2><ul>
+/* Theory — E12 (Appendix E). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["e12"]=`<h2>E12 — Rootkit Identification</h2>
 
-<li><span class="en">Rootkits hide files, processes, registry keys, drivers, or network connections.</span><span class="vi">Rootkit ẩn file, tiến trình, khóa registry, driver hoặc kết nối mạng.</span></li>
+<div class="tier recall" id="e12-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Definition:</strong> <span class="en">A rootkit hides its presence (processes, files, keys, connections) from the OS and tools.</span><span class="vi">Rootkit giấu sự hiện diện của nó (tiến trình, file, key, kết nối) khỏi OS và công cụ.</span></li>
+<li><strong>Detect by cross-view:</strong> <span class="en">Compare what the OS reports vs an independent view (raw memory/disk). A process in a memory image but hidden from Task Manager = rootkit.</span><span class="vi">So cái OS báo cáo với góc nhìn độc lập (raw memory/disk). Tiến trình có trong image bộ nhớ nhưng ẩn khỏi Task Manager = rootkit.</span></li>
+<li><strong>User-mode vs kernel-mode:</strong> <span class="en">User-mode hooks APIs in a process (ring 3); kernel-mode runs at ring 0 via a driver — stealthier, harder to detect.</span><span class="vi">User-mode hook API trong tiến trình (ring 3); kernel-mode chạy ring 0 qua driver — kín hơn, khó phát hiện hơn.</span></li>
+<li><strong>DKOM:</strong> <span class="en">Direct Kernel Object Manipulation unlinks the process's EPROCESS from the active list to hide it.</span><span class="vi">DKOM gỡ EPROCESS của tiến trình khỏi danh sách hoạt động để giấu nó.</span></li>
+<li><strong>Hooking:</strong> <span class="en">SSDT hooking, inline (detour) hooks, IAT hooks, and filter drivers redirect calls to attacker code.</span><span class="vi">SSDT hooking, inline (detour) hook, IAT hook, và filter driver chuyển hướng lời gọi sang mã kẻ tấn công.</span></li>
+<li><strong>Bootkit:</strong> <span class="en">Infects the boot process, loading BEFORE the OS — very stealthy.</span><span class="vi">Bootkit nhiễm tiến trình khởi động, nạp TRƯỚC OS — rất kín.</span></li>
+</ul></div></div>
 
-<li><span class="en">Hooking: user-mode API hooks, kernel SSDT hooks, inline patching, filter drivers.</span><span class="vi">Hooking: hook API user-mode, hook SSDT kernel, vá inline, driver filter.</span></li>
+<details class="tier concept" id="e12-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Cách phát hiện rootkit — cross-view</h4>
+<p>Rootkit cố làm OS "nói dối" (giấu tiến trình/file/key/kết nối). Cách phát hiện cốt lõi: <strong>so sánh hai góc nhìn</strong> — cái OS/API báo cáo vs góc nhìn độc lập từ <strong>raw memory</strong> (Volatility psscan) hoặc <strong>raw disk</strong>. Chênh lệch (tiến trình/file thấy ở raw nhưng ẩn ở API) = bằng chứng có rootkit. Công cụ: GMER, Volatility (psxview), so file thô vs API.</p>
 
-<li><span class="en">Detection: compare high-level API output with raw disk / memory views; look for hidden drivers, suspicious kernel modules, and discrepancies.</span><span class="vi">Phát hiện: so sánh đầu ra API cấp cao với view đĩa / bộ nhớ thô; tìm driver ẩn, module kernel đáng ngờ và sự không khớp.</span></li>
+<h4>User-mode vs kernel-mode</h4>
+<p><strong>User-mode rootkit</strong> (ring 3): hook trong không gian tiến trình (IAT/inline hook) — dễ phát hiện hơn. <strong>Kernel-mode rootkit</strong> (ring 0): chạy qua một driver, có thể sửa cấu trúc nhân → kín hơn nhiều, khó phát hiện. <strong>Bootkit</strong> còn nạp trước cả OS.</p>
 
-<li><span class="en">Tools / approach: memory analysis, driver enumeration, GMER-like checks, Autoruns, kernel module review.</span><span class="vi">Công cụ / cách tiếp cận: phân tích bộ nhớ, liệt kê driver, kiểm tra kiểu GMER, Autoruns, xem xét module kernel.</span></li>
+<h4>Kỹ thuật hooking</h4>
+<p><strong>SSDT hooking</strong>: sửa bảng System Service Descriptor Table để chuyển hướng system call. <strong>Inline/detour hook</strong>: ghi đè byte đầu của hàm bằng lệnh jump. <strong>IAT hook</strong>: thay con trỏ trong bảng import. <strong>Filter driver</strong>: chèn vào luồng I/O hệ thống file để giấu file của nó (xem F9).</p>
 
-</ul><h3>Cross-View Detection — psscan vs pslist and Bootkits</h3><ul><li><strong>psscan vs pslist discrepancy:</strong> pslist walks EPROCESS doubly-linked list (manipulable). psscan scans raw memory for EPROCESS structures. Process in psscan but missing from pslist = DKOM rootkit hiding it.</li><li><strong>modules vs modscan:</strong> Same cross-view for kernel drivers — modscan finds hidden drivers absent from module list.</li><li><strong>SSDT hook detection:</strong> Volatility <code>ssdt</code> plugin. SSDT entries pointing outside ntoskrnl.exe / win32k.sys address ranges = kernel hook by rootkit.</li><li><strong>Bootkit:</strong> Infects MBR or VBR — loads before OS, patches kernel during boot. Detect: compare first 512 bytes of disk against known-good baseline. Secure Boot prevents unsigned pre-OS code.</li><li><strong>Filter driver detection:</strong> <code>fltMC filters</code> lists active mini-filter drivers. Unknown filter not in signed driver database = rootkit candidate.</li></ul>
+<h4>DKOM</h4>
+<p><strong>Direct Kernel Object Manipulation</strong>: thao tác trực tiếp đối tượng nhân — vd <em>unlink EPROCESS</em> của tiến trình khỏi danh sách liên kết các tiến trình đang chạy → tiến trình "biến mất" khỏi liệt kê thông thường nhưng <strong>vẫn chạy</strong> và lộ qua pool scan (psscan).</p>
+</div></details>
 
-<h3>How to Identify Rootkits — Cross-View Detection</h3>
-
-<p><span class="en">Rootkits subvert the OS to hide their presence. Detection compares <strong>what the OS reports</strong> (potentially manipulated) against <strong>raw memory / disk reads</strong> (harder to manipulate). Discrepancy = rootkit indicator.</span><span class="vi">Rootkit phá hoại OS để ẩn sự hiện diện. Phát hiện so sánh <strong>những gì OS báo cáo</strong> (có thể bị thao túng) với <strong>đọc bộ nhớ / đĩa thô</strong> (khó thao túng hơn). Sự không khớp = chỉ báo rootkit.</span></p>
-
+<details class="tier reference" id="e12-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Rootkit types</h4>
 <div class="table-wrap"><table>
-
-<tr><th>What to Compare</th><th>Raw / Trusted Source</th><th>OS / Untrusted Source</th><th>Tool</th></tr>
-
-<tr><td>Running processes</td><td>psscan (scans raw memory for EPROCESS structures)</td><td>pslist (walks EPROCESS linked list — manipulable by DKOM)</td><td>Volatility: <code>psscan</code> vs <code>pslist</code></td></tr>
-
-<tr><td>Files on disk</td><td>Raw MFT enumeration</td><td>Directory listing via OS API (filterable)</td><td>MFTECmd, Autopsy raw volume parsing</td></tr>
-
-<tr><td>Registry keys</td><td>Raw hive file parsing</td><td>Live registry via API (filterable)</td><td>RegRipper, RECmd (offline parsing)</td></tr>
-
-<tr><td>Network connections</td><td>Raw socket structure scan in memory</td><td>netstat (uses OS API)</td><td>Volatility: <code>netscan</code></td></tr>
-
-<tr><td>SSDT entries</td><td>Known ntoskrnl.exe export addresses</td><td>Live SSDT values</td><td>Volatility: <code>ssdt</code>, GMER</td></tr>
-
-<tr><td>Loaded drivers</td><td>Raw driver scan in memory</td><td>Device Manager / sc query</td><td>Volatility: <code>modules</code> vs <code>modscan</code></td></tr>
-
+<tr><th>Type</th><th>Level</th><th>Stealth</th></tr>
+<tr><td>User-mode</td><td>Ring 3 (in-process)</td><td>Lower — easier to spot</td></tr>
+<tr><td>Kernel-mode</td><td>Ring 0 (driver)</td><td>High</td></tr>
+<tr><td>Bootkit</td><td>Boot process (pre-OS)</td><td>Very high</td></tr>
 </table></div>
 
-<h3>Rootkit Categories and Hooking Techniques</h3>
-
+<h4>Hooking / hiding techniques</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Type</th><th>Hiding Technique</th><th>Detection</th></tr>
-
-<tr><td>User-mode rootkit</td><td>IAT hooking (modifies Import Address Table), EAT hooking, inline hooking (overwrites first bytes of function with JMP)</td><td>Compare live IAT / EAT vs module on disk; look for unexpected JMP at function start</td></tr>
-
-<tr><td>Kernel-mode (SSDT patch)</td><td>Replaces kernel function pointer in SSDT with pointer to malicious function</td><td>Volatility <code>ssdt</code> plugin — non-ntoskrnl / win32k pointer = hooked</td></tr>
-
-<tr><td>DKOM</td><td>Unlinks EPROCESS from ActiveProcessLinks doubly-linked list — process runs but pslist skips it</td><td>psscan finds orphaned EPROCESS — compare vs pslist discrepancy</td></tr>
-
-<tr><td>Filter Driver Rootkit</td><td>Malicious mini-filter intercepts file system / network I / O</td><td><code>fltMC filters</code>, Volatility <code>driverscan</code>, check against signed driver list</td></tr>
-
-<tr><td>Bootkit</td><td>Infects MBR or VBR — loads before OS, patches kernel in memory during boot</td><td>MBR comparison vs known-good; Secure Boot enforcement</td></tr>
-
+<tr><th>Technique</th><th>Mechanism</th></tr>
+<tr><td>SSDT hooking</td><td>Redirect kernel system-call table entries</td></tr>
+<tr><td>Inline / detour hook</td><td>Overwrite a function's first bytes with a jump</td></tr>
+<tr><td>IAT hook</td><td>Swap import-table function pointers</td></tr>
+<tr><td>Filter driver</td><td>Intercept file-system I/O to hide files</td></tr>
+<tr><td>DKOM</td><td>Unlink EPROCESS from the active list</td></tr>
 </table></div>
 
-<p class="sub-heading">Key Detection Principle</p>
+<h4>Detection approach</h4>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Why it works</th></tr>
+<tr><td>Cross-view (raw vs API)</td><td>Rootkit can't lie to an independent view</td></tr>
+<tr><td>Memory psscan / psxview</td><td>Finds unlinked/hidden processes</td></tr>
+<tr><td>Offline disk analysis</td><td>Live OS can't hide from a dead image</td></tr>
+</table></div>
+</div></details>
 
-<div class="callout info">
-
-<span class="callout-icon">🔍</span>
-
-<div class="callout-body">
-
-<strong>Cross-view detection</strong>
-
-<p>Compare what the OS reports (potentially compromised view) against raw memory / disk reads. Discrepancies between psscan and pslist, or between directory listing and raw MFT enumeration, indicate rootkit hiding activity.</p>
-
+<details class="tier deep-dive" id="e12-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>So view high-level với raw/kernel view; kiểm module, driver, hook và object list.</li>
+<li>Phân biệt user-mode API hook, kernel inline/IAT/SSDT hook, filter driver và DKOM.</li>
+<li>Xác minh signature/path/load time, memory code và disk hash trong lab.</li>
+</ol>
 </div>
-
-</div>
-
-
-<h3 class="qz-theory"><span class="en">Rootkit Identification</span><span class="vi">Nhận diện rootkit</span></h3>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><strong><span class="en">Cross-view detection:</span><span class="vi">Phát hiện chéo góc nhìn:</span></strong> <span class="en">When forensic memory analysis sees a process that live OS tools (Task Manager, tasklist) hide, a rootkit is manipulating the view — via API hooking or <strong>DKOM</strong> (unlinking the EPROCESS).</span><span class="vi">Khi phân tích bộ nhớ forensic thấy một tiến trình mà công cụ OS live (Task Manager, tasklist) ẩn, một rootkit đang thao túng góc nhìn — qua hook API hoặc <strong>DKOM</strong> (gỡ liên kết EPROCESS).</span></li>
-<li><strong><span class="en">User vs kernel mode:</span><span class="vi">User vs kernel mode:</span></strong> <span class="en">User-mode rootkits hook APIs within processes; <strong>kernel-mode</strong> ones load a driver at ring 0 (DKOM, SSDT patching) to subvert the OS system-wide and resist user-space tools.</span><span class="vi">Rootkit user-mode hook API trong tiến trình; loại <strong>kernel-mode</strong> nạp driver ở ring 0 (DKOM, vá SSDT) để lật đổ OS toàn hệ thống và kháng công cụ user-space.</span></li>
-<li><strong>Bootkit:</strong> <span class="en">Infects the boot process (MBR/VBR/bootloader) to load <em>before</em> the OS and its defences — detect via offline disk/firmware/Secure Boot checks rather than trusting the running OS.</span><span class="vi">Lây nhiễm quá trình boot (MBR/VBR/bootloader) để nạp <em>trước</em> OS và phòng thủ — phát hiện qua kiểm tra đĩa offline/firmware/Secure Boot thay vì tin OS đang chạy.</span></li></ul>
-`;
+<li>Hidden process/file/port, unlinked module, altered pointer/prologue.</li>
+<li>Driver/service key, callbacks, minifilter, SSDT và process list links.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Volatility modules/driverscan/ssdt/callbacks/malfind tùy OS support; Autoruns/Sigcheck.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>Khác biệt pslist và psscan gợi unlinked process nhưng cũng có terminated object; cần exit time/handles/VAD.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>PatchGuard và security products tạo hook/callback hợp lệ.</li>
+<li>Rootkit hiện đại không nhất thiết patch SSDT.</li>
+<li>Live anti-rootkit tool có thể bị kernel compromise lừa.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> Windows Internals; Volatility documentation; MITRE Rootkit.</p>
+</div>
+</details>`;

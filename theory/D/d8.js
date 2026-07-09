@@ -1,40 +1,92 @@
-/* Theory — D8 (Appendix D). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["d8"]=`<h2>D8 — Exfiltration of Data</h2><ul>
+/* Theory — D8 (Appendix D). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["d8"]=`<h2>D8 — Exfiltration of Data</h2>
 
-<li><span class="en">Exfiltration indicators: large outbound uploads, compression / encryption before transfer, rare destination, cloud-storage uploads, DNS tunneling, email attachments.</span><span class="vi">Chỉ báo đánh cắp dữ liệu: upload ra ngoài lớn, nén / mã hóa trước khi truyền, đích hiếm gặp, upload cloud storage, DNS tunneling, đính kèm email.</span></li>
+<div class="tier recall" id="d8-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Staging:</strong> <span class="en">Compressing data into an archive on one host before sending it out.</span><span class="vi">Nén dữ liệu thành một archive trên một máy trước khi gửi ra.</span></li>
+<li><strong>Egress/ingress ratio:</strong> <span class="en">Clients normally download more than they upload — a reversed (upload-heavy) ratio is suspicious.</span><span class="vi">Client thường tải về nhiều hơn tải lên — tỉ lệ đảo ngược (upload nhiều) là đáng ngờ.</span></li>
+<li><strong>Large sustained upload:</strong> <span class="en">A finance workstation uploading 20 GB to a personal cloud at 3 a.m. = likely exfiltration.</span><span class="vi">Một máy kế toán upload 20 GB tới cloud cá nhân lúc 3 giờ sáng = khả năng exfil.</span></li>
+<li><strong>DNS exfiltration:</strong> <span class="en">High volume of long, random subdomain labels to one domain.</span><span class="vi">Nhiều nhãn subdomain dài, ngẫu nhiên tới một domain.</span></li>
+<li><strong>Low and slow:</strong> <span class="en">Tiny amounts over a long time to stay under volume thresholds and blend in.</span><span class="vi">Từng chút một trong thời gian dài để giữ dưới ngưỡng khối lượng và hòa lẫn.</span></li>
+<li><strong>Detection:</strong> <span class="en">Combine statistics/baselines, DLP or protocol signatures, and manual review of traffic and proxy/firewall/DNS logs; cover both obvious and covert channels.</span><span class="vi">Kết hợp thống kê/baseline, chữ ký DLP hoặc giao thức, và rà tay traffic cùng log proxy/firewall/DNS; phải bao phủ cả kênh lộ lẫn kênh ngầm.</span></li>
+</ul></div></div>
 
-<li><span class="en">Data staging often occurs before exfiltration: archives in temp / user folders, renamed files, 7zip / rar usage, PowerShell compression.</span><span class="vi">Dàn dựng dữ liệu thường xảy ra trước khi đánh cắp: archive trong thư mục temp / người dùng, file được đổi tên, dùng 7zip / rar, nén PowerShell.</span></li>
+<details class="tier concept" id="d8-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Vòng đời exfil &amp; staging</h4>
+<p>Trước khi tuồn, kẻ tấn công thường <strong>staging</strong>: gom + nén dữ liệu (archive, đôi khi mã hóa/đặt mật khẩu) trên một host trung gian → sau đó gửi ra. Phát hiện staging: file archive lớn xuất hiện ở thư mục lạ, hoạt động nén bất thường.</p>
 
-<li><span class="en">Sources: proxy, firewall, NetFlow, DNS, DLP, cloud audit logs, endpoint process / file telemetry.</span><span class="vi">Nguồn: proxy, tường lửa, NetFlow, DNS, DLP, log kiểm toán cloud, telemetry tiến trình / file endpoint.</span></li>
+<h4>Dấu hiệu trên mạng</h4>
+<p><strong>Tỉ lệ byte egress/ingress</strong>: client bình thường <em>download &gt; upload</em>; nếu một host <em>upload nhiều bất thường</em> → cờ đỏ. <strong>Upload lớn, kéo dài</strong> tới đích lạ (cloud cá nhân, host hiếm), nhất là ngoài giờ. <strong>DNS exfil</strong>: nhiều subdomain dài ngẫu nhiên (dữ liệu mã hóa) tới một domain. <strong>Low and slow</strong>: tuồn từng ít để dưới ngưỡng cảnh báo — khó bắt, cần phân tích xu hướng dài hạn.</p>
 
-<li><span class="en">Check directionality and baseline: outbound bytes, session duration, destination reputation, user role, and business justification.</span><span class="vi">Kiểm tra chiều và baseline: byte ra ngoài, thời lượng phiên, danh tiếng đích, vai trò người dùng và lý do kinh doanh.</span></li>
+<h4>Phân biệt với bình thường</h4>
+<p>Backup/đồng bộ cloud hợp lệ cũng upload lớn — phân biệt bằng <em>đích</em> (dịch vụ được duyệt vs lạ), <em>tài khoản/giờ giấc</em>, và việc có khớp chính sách không. Đối chiếu DLP/proxy/firewall logs.</p>
 
-</ul><h3>Cloud Storage Exfil and Statistical Detection</h3><ul><li><strong>Cloud storage exfiltration:</strong> Upload to Dropbox, OneDrive, Google Drive, AWS S3. Detect in O365 UAL: AnonymousLinkCreated before large outbound volume to cloud storage APIs.</li><li><strong>Shannon entropy for DNS tunneling:</strong> Calculate Shannon entropy of subdomain portion. Legitimate hostnames: ~3.5 bits / char. Base64-encoded data: ~5.0 bits / char. High entropy = data exfil via DNS.</li><li><strong>Volume anomaly:</strong> Baseline normal outbound bytes per host. Alert on significant spike to new / unknown destination, especially outside business hours.</li><li><strong>Data staging detection:</strong> Large internal file copies + archive creation (zip / rar/7z) just before network transfer. Detect via Sysmon Event 11 or DLP.</li></ul>
+<h4>Ba cách phát hiện bổ trợ nhau</h4>
+<p><strong>Thống kê</strong> bắt lệch baseline (tỉ lệ byte, volume, thời điểm, low-and-slow); <strong>signature/DLP</strong> bắt mẫu dữ liệu hoặc giao thức đã biết; <strong>rà tay traffic và log</strong> xác nhận ngữ cảnh, đích và tài khoản. Dùng cùng nhau để nhận diện cả exfil công khai lẫn covert trên nhiều giao thức.</p>
+</div></details>
 
-<h3>Exfiltration Techniques &amp; Indicators</h3>
-
+<details class="tier reference" id="d8-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Exfiltration indicators</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Method</th><th>Description</th><th>Detection</th></tr>
-
-<tr><td>HTTPS POST</td><td>Large data uploaded to external server</td><td>Unusual outbound bytes to new / unknown destination</td></tr>
-
-<tr><td>DNS Tunneling</td><td>Data base64-encoded in subdomain queries</td><td>Long subdomain strings, high DNS query rate, queries to single domain</td></tr>
-
-<tr><td>Email</td><td>Data attached / embedded in email</td><td>Large outbound email, O365 FileDownloaded before Send</td></tr>
-
-<tr><td>Cloud Storage</td><td>Upload to Dropbox, OneDrive, Google Drive</td><td>Outbound to cloud storage APIs, AnonymousLinkCreated</td></tr>
-
-<tr><td>ICMP</td><td>Data encoded in ping payload</td><td>High-frequency pings with large / non-standard payload</td></tr>
-
-<tr><td>Covert channels</td><td>Data hidden in unused fields (IP ID, TCP seq)</td><td>Statistical analysis of protocol fields, requires deep inspection</td></tr>
-
+<tr><th>Indicator</th><th>Meaning</th></tr>
+<tr><td>Reversed egress/ingress ratio</td><td>Upload-heavy = suspicious</td></tr>
+<tr><td>Large sustained outbound transfer</td><td>Bulk exfil to unfamiliar host</td></tr>
+<tr><td>Long random DNS subdomains</td><td>DNS exfiltration</td></tr>
+<tr><td>Archive staging on a host</td><td>Pre-exfil collection</td></tr>
+<tr><td>Low-and-slow trickle</td><td>Evades volume thresholds</td></tr>
 </table></div>
 
+<h4>Channels</h4>
+<div class="table-wrap"><table>
+<tr><th>Channel</th><th>Example</th></tr>
+<tr><td>HTTPS upload</td><td>To cloud storage / paste site</td></tr>
+<tr><td>DNS</td><td>Encoded in subdomains</td></tr>
+<tr><td>Over C2</td><td>Exfil within the C2 channel</td></tr>
+</table></div>
+</div></details>
 
-<h3 class="qz-theory"><span class="en">Exfiltration of Data</span><span class="vi">Trích xuất dữ liệu</span></h3>
+<details class="tier deep-dive" id="d8-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Tìm staging trên host rồi phân tích outbound volume/direction/destination/time.</li>
+<li>Kết hợp DLP/signature, statistical baseline và manual session/log review.</li>
+<li>Chứng minh dữ liệu rời boundary, xác định loại/khối lượng và account/process.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><strong><span class="en">Volume &amp; direction:</span><span class="vi">Lưu lượng &amp; chiều:</span></strong> <span class="en">Normal clients download more than they upload; a large sustained <em>outbound</em> flow to an unusual destination inverts that ratio. A finance host uploading 20 GB to personal cloud storage at 3 a.m. is a strong exfil indicator.</span><span class="vi">Client bình thường tải xuống nhiều hơn tải lên; một luồng <em>đi ra</em> lớn kéo dài tới đích bất thường đảo ngược tỉ lệ. Host tài chính tải 20 GB lên cloud cá nhân lúc 3h sáng là dấu hiệu exfil mạnh.</span></li>
-<li><strong>Staging:</strong> <span class="en">Attackers collect and compress/encrypt data into an archive on one host first (a sudden large, often password-protected RAR/ZIP) before sending.</span><span class="vi">Kẻ tấn công thu thập rồi nén/mã hóa dữ liệu thành archive trên một host trước (một RAR/ZIP lớn xuất hiện đột ngột, thường có mật khẩu) trước khi gửi.</span></li>
-<li><strong><span class="en">Covert &amp; slow:</span><span class="vi">Ngầm &amp; chậm:</span></strong> <span class="en">DNS exfil encodes data in long, random subdomain labels to a single attacker zone (high volume to one domain). "Low and slow" trickles small amounts over long periods to stay under volume-based DLP/alerts — needs long-baseline statistical detection.</span><span class="vi">Exfil DNS mã hóa dữ liệu trong nhãn subdomain dài, ngẫu nhiên tới một zone của kẻ tấn công (lưu lượng cao tới một domain). "Low and slow" rỉ ra lượng nhỏ trong thời gian dài để nằm dưới DLP/cảnh báo theo lưu lượng — cần phát hiện thống kê đường nền dài.</span></li></ul>
-`;
+<li>Archive/encryption command, large new file, cloud client, USB write.</li>
+<li>Proxy upload bytes, firewall flow, DNS long labels, SaaS audit và DLP match.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>So egress/ingress theo host và peer; query rare destination + off-hours + upload.</li>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Hash/sample payload chỉ khi policy cho phép.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>20 GB tới backup vendor theo schedule là benign; 200 MB ZIP chia nhỏ tới personal cloud lúc 03:00 từ máy HR đáng ngờ hơn dù volume thấp.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>Volume không cho biết nội dung.</li>
+<li>TLS/approved cloud tạo blind spot.</li>
+<li>Staging không đồng nghĩa exfil thành công; cần network/SaaS evidence.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> MITRE ATT&amp;CK Exfiltration; NIST SP 800-94; DLP/proxy schemas.</p>
+</div>
+</details>`;

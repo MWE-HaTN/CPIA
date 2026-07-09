@@ -1,78 +1,105 @@
-/* Theory — E5 (Appendix E). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["e5"]=`<h2>E5 — Application File Structures</h2><ul>
+/* Theory — E5 (Appendix E). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["e5"]=`<h2>E5 — Application File Structures</h2>
 
-<li><strong>Archives:</strong> <span class="en">ZIP / RAR/7z may stage exfiltration; check timestamps, paths, encryption, filenames.</span><span class="vi">ZIP / RAR/7z có thể dàn dựng đánh cắp dữ liệu; kiểm tra timestamp, đường dẫn, mã hóa, tên file.</span></li>
+<div class="tier recall" id="e5-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Modern Office = ZIP:</strong> <span class="en">.docx/.xlsx/.pptx (OOXML) are ZIP archives of XML — unzip to inspect macros/objects WITHOUT opening.</span><span class="vi">.docx/.xlsx/.pptx (OOXML) là archive ZIP chứa XML — giải nén để soi macro/đối tượng MÀ KHÔNG mở file.</span></li>
+<li><strong>Legacy Office = OLE:</strong> <span class="en">.doc/.xls are OLE compound files; macro (VBA) and DDE are common exploit vectors.</span><span class="vi">.doc/.xls là file OLE compound; macro (VBA) và DDE là vector khai thác phổ biến.</span></li>
+<li><strong>PDF danger objects:</strong> <span class="en">/OpenAction and /JavaScript can auto-run script — treat as potentially malicious.</span><span class="vi">/OpenAction và /JavaScript có thể tự chạy script — coi là có khả năng độc hại.</span></li>
+<li><strong>Identify by signature:</strong> <span class="en">Magic bytes, not extension: PE="MZ", ZIP="PK", PDF="%PDF", RAR="Rar!".</span><span class="vi">Nhận diện bằng magic byte, không theo đuôi: PE="MZ", ZIP="PK", PDF="%PDF", RAR="Rar!".</span></li>
+<li><strong>Browser artefacts:</strong> <span class="en">History, cookies, downloads are stored in SQLite databases.</span><span class="vi">Lịch sử, cookie, download lưu trong cơ sở dữ liệu SQLite.</span></li>
+<li><strong>Email files:</strong> <span class="en">Outlook stores mail locally as PST/OST; Exchange server-side; headers reveal routing.</span><span class="vi">Outlook lưu thư cục bộ dạng PST/OST; Exchange phía server; header lộ đường đi.</span></li>
+<li><strong>SQLite recovery:</strong> <span class="en">Deleted records may persist in unallocated pages and the WAL/journal.</span><span class="vi">Bản ghi đã xóa có thể còn trong unallocated pages và WAL/journal.</span></li>
+<li><strong>AV artefacts:</strong> <span class="en">Quarantine stores (often obfuscated copies) and logs evidence what AV saw and when.</span><span class="vi">Kho quarantine (thường là bản sao bị làm rối) và log cho biết AV thấy gì, khi nào.</span></li>
+</ul></div></div>
 
-<li><strong>Browser artefacts:</strong> <span class="en">History, downloads, cookies, cache, session data, SQLite databases.</span><span class="vi">Lịch sử, tải xuống, cookie, cache, dữ liệu phiên, cơ sở dữ liệu SQLite.</span></li>
+<details class="tier concept" id="e5-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Office: OLE vs OOXML, macro &amp; DDE</h4>
+<p><strong>Office cũ (.doc/.xls)</strong> = định dạng <strong>OLE compound</strong> (giống một hệ thống file con). <strong>Office mới (.docx...)</strong> = <strong>ZIP của XML (OOXML)</strong>. Phân tích an toàn: giải nén/parse <em>không mở</em> để xem có <strong>macro VBA</strong> (vbaProject.bin) hay <strong>remote template / DDE</strong> không. <strong>DDE</strong> (Dynamic Data Exchange) cho phép field-code chạy lệnh ngoài mà không cần macro.</p>
 
-<li><strong>PE files:</strong> <span class="en">Imports, sections, timestamps, resources, signatures, packer indicators.</span><span class="vi">Import, section, timestamp, tài nguyên, chữ ký, chỉ báo packer.</span></li>
+<h4>PDF</h4>
+<p>PDF có cấu trúc đối tượng; các đối tượng <strong>/OpenAction, /JavaScript, /Launch, /EmbeddedFile</strong> là dấu hiệu nguy hiểm (tự chạy script/chương trình). Cũng có thể chứa text dưới lớp "redaction" che hỏng (xem C4).</p>
 
-<li><strong>Office:</strong> <span class="en">OLE / OOXML, macros, DDE, external links, embedded objects.</span><span class="vi">OLE / OOXML, macro, DDE, liên kết ngoài, đối tượng nhúng.</span></li>
+<h4>Archive &amp; signature analysis</h4>
+<p>ZIP/RAR có thể lồng nhau, đặt mật khẩu để né AV gateway. Luôn nhận diện file bằng <strong>magic bytes</strong> chứ không theo đuôi — kẻ tấn công hay đổi đuôi để ngụy trang. PE="MZ"/"PE\\0\\0", ZIP/OOXML="PK", PDF="%PDF", RAR="Rar!", ELF="\\x7FELF".</p>
 
-<li><strong>PDF:</strong> <span class="en">JavaScript, OpenAction, Launch, embedded files.</span><span class="vi">JavaScript, OpenAction, Launch, file nhúng.</span></li>
+<h4>Browser, email, SQLite, log</h4>
+<p><strong>Browser</strong> hiện đại lưu history/cookie/download trong <strong>SQLite</strong> — bản ghi đã xóa có thể khôi phục từ <em>unallocated pages</em> và <em>WAL/journal</em>. <strong>Email</strong>: Outlook = PST (lưu trữ)/OST (cache); phân tích header để truy đường đi. <strong>AV artefacts</strong>: quarantine (bản sao mẫu, thường XOR/obfuscate) + log — bằng chứng quý về cái gì bị bắt và lúc nào. <strong>Log file</strong> ứng dụng cung cấp dòng thời gian hoạt động.</p>
+</div></details>
 
-<li><strong>Email:</strong> <span class="en">PST / OST / Exchange, MIME headers, attachments.</span><span class="vi">PST / OST / Exchange, header MIME, đính kèm.</span></li>
-
-<li><strong>AV artefacts:</strong> <span class="en">Quarantine, detections, logs, remediation actions.</span><span class="vi">Kiểm dịch, phát hiện, log, hành động khắc phục.</span></li>
-
-<li><strong>SQLite / log files:</strong> <span class="en">Common app storage for browsers, chat, cloud sync, and mobile-style apps.</span><span class="vi">Lưu trữ ứng dụng phổ biến cho trình duyệt, chat, đồng bộ cloud và ứng dụng dạng mobile.</span></li>
-
-</ul>
-
+<details class="tier reference" id="e5-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>File signatures (magic bytes)</h4>
 <div class="table-wrap"><table>
-
-<tr><th>File Type</th><th>Key Structure Details</th><th>Forensic Notes</th></tr>
-
-<tr><td>Archive (Zip, RAR, 7z, ISO)</td><td>Central directory + local headers + data</td><td>Password-protected ZIPs bypass gateway AV. ISO delivery bypasses Mark of the Web (no MOTW applied to contents). Nested archives delay analysis.</td></tr>
-
-<tr><td>PE (EXE / DLL / SYS)</td><td>DOS header (MZ) → PE header → Optional header → Section table → Sections</td><td>Import table = capability fingerprint. High entropy section = packed / encrypted. PE overlay = embedded payload. Compile timestamp often falsified.</td></tr>
-
-<tr><td>Office OLE (.doc/.xls/.ppt)</td><td>Compound Document — structured storage with streams</td><td>VBA macros in VBA stream. Check with olevba. DDE fields execute commands without macros. Old format has fewer macro warnings.</td></tr>
-
-<tr><td>Office OOXML (.docx/.xlsx)</td><td>ZIP container with XML files inside</td><td>Unzip to inspect: <code>unzip -o file.docx -d out</code>. Macros in vbaProject.bin. Relationships in _rels/ reveal external URLs (template injection).</td></tr>
-
-<tr><td>PDF</td><td>Objects + cross-reference table + trailer</td><td>Malicious: /JavaScript, /JS, /Launch, /OpenAction, /EmbeddedFile. Streams compressed — decompress to inspect. Tool: pdfid.py, pdf-parser.py</td></tr>
-
-<tr><td>Browser artefacts</td><td>SQLite databases in browser profile folder</td><td>Chrome: <code>%LOCALAPPDATA%\\Google\\Chrome\\User Data\\Default\\History</code>. Firefox: <code>places.sqlite</code>. Contains: URLs, downloads, cookies, cached content, form data.</td></tr>
-
-<tr><td>Email (PST / OST)</td><td>Microsoft proprietary format</td><td>Extract with libpst (Unix) or Kernel PST Viewer. Exchange artifacts via PowerShell EWS. Attachment metadata preserved even if deleted.</td></tr>
-
-<tr><td>AV quarantine &amp; logs</td><td>Vendor-proprietary container</td><td>Windows Defender: <code>%ProgramData%\\Microsoft\\Windows Defender\\Quarantine\\</code>. Original malware preserved — extract and analyse to understand what was caught and when.</td></tr>
-
-<tr><td>SQLite databases</td><td>Single-file relational DB. Magic bytes: 53 51 4c 69 74 65</td><td>Used by browsers, mobile apps, forensic tools. Open with DB Browser for SQLite. Deleted rows recoverable from free pages (Undark tool).</td></tr>
-
-<tr><td>Log files</td><td>Plain text or EVTX (binary XML)</td><td>EVTX: parse with EvtxECmd or Chainsaw. Web logs: CLF / W3C format. Check for log gaps (cleared logs = indicator of tampering).</td></tr>
-
+<tr><th>Type</th><th>Signature</th></tr>
+<tr><td>Windows PE (EXE/DLL)</td><td>"MZ" (4D 5A) + "PE\\0\\0"</td></tr>
+<tr><td>ZIP / OOXML (docx…)</td><td>"PK" (50 4B)</td></tr>
+<tr><td>RAR</td><td>"Rar!" (52 61 72 21)</td></tr>
+<tr><td>PDF</td><td>"%PDF"</td></tr>
+<tr><td>ELF (Linux)</td><td>0x7F "ELF"</td></tr>
 </table></div>
 
+<h4>Application artefacts</h4>
 <div class="table-wrap"><table>
-
-<tr><th>File Type</th><th>Forensic Notes</th></tr>
-
-<tr><td>PE (EXE / DLL)</td><td>DOS header, PE header, sections. Import table reveals capabilities. Packed executables have high entropy sections.</td></tr>
-
-<tr><td>Office (OLE / OOXML)</td><td>Check for macros (VBA), DDE fields. OOXML = ZIP container — extract and inspect XML. OLE = structured storage.</td></tr>
-
-<tr><td>PDF</td><td>Check for /JavaScript, /Launch, /OpenAction, /EmbeddedFile. Streams may contain compressed shellcode.</td></tr>
-
-<tr><td>Browser artifacts</td><td>History, cache, cookies, downloads, saved passwords — SQLite databases in profile folder.</td></tr>
-
-<tr><td>Email (PST / OST)</td><td>Outlook data files — use MAPI tools or libpst to extract. Exchange artifacts via EWS / PowerShell.</td></tr>
-
-<tr><td>Archive formats (Zip, RAR)</td><td>Common delivery mechanism for malware. Password-protected ZIPs evade AV scanning.</td></tr>
-
-<tr><td>AV quarantine &amp; logs</td><td>Quarantined files preserved by AV. Windows Defender quarantine: <code>%ProgramData%\\Microsoft\\Windows Defender\\Quarantine\\</code>. AV logs show detection events, excluded paths.</td></tr>
-
-<tr><td>SQLite databases</td><td>Browser history / cookies in profile folders. Tools: DB Browser for SQLite.</td></tr>
-
-<tr><td>Log files</td><td>Application logs, web server logs (IIS / Apache), Windows event logs (.evtx).</td></tr>
-
+<tr><th>App / format</th><th>Stored as</th><th>Forensic value</th></tr>
+<tr><td>Office .docx/.xlsx</td><td>ZIP of XML (OOXML)</td><td>Macros, remote templates, metadata</td></tr>
+<tr><td>Office .doc/.xls</td><td>OLE compound</td><td>VBA macros, DDE</td></tr>
+<tr><td>PDF</td><td>Object structure</td><td>/OpenAction, /JavaScript = auto-run</td></tr>
+<tr><td>Browser</td><td>SQLite DBs</td><td>History, cookies, downloads</td></tr>
+<tr><td>Outlook mail</td><td>PST / OST</td><td>Messages, attachments, headers</td></tr>
+<tr><td>AV</td><td>Quarantine + logs</td><td>What was detected &amp; when</td></tr>
 </table></div>
 
+<h4>Suspicious Office/PDF indicators</h4>
+<div class="table-wrap"><table>
+<tr><th>Indicator</th><th>Meaning</th></tr>
+<tr><td>vbaProject.bin / AutoOpen / AutoClose</td><td>Macro auto-execution</td></tr>
+<tr><td>DDEAUTO / DDE field</td><td>Command execution without macros</td></tr>
+<tr><td>Remote template reference</td><td>Template injection</td></tr>
+<tr><td>/OpenAction, /JavaScript, /Launch (PDF)</td><td>Auto-run script/program</td></tr>
+</table></div>
+</div></details>
 
-<h3 class="qz-theory"><span class="en">Application File Structures</span><span class="vi">Cấu trúc tệp ứng dụng</span></h3>
+<details class="tier deep-dive" id="e5-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Xác định magic/container, parse an toàn và liệt kê embedded object/script/link.</li>
+<li>Office: OLE/OOXML macro/DDE/relationships; PDF action/JavaScript; archive nested/password.</li>
+<li>Browser/email/SQLite/log: giữ schema, WAL/journal, timezone và deleted records.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><strong>Browsers:</strong> <span class="en">Store history, cookies, logins and downloads in <strong>SQLite</strong> databases; deleted rows may persist in freelist/unallocated pages and the WAL/journal (recoverable).</span><span class="vi">Lưu lịch sử, cookie, đăng nhập và tải xuống trong CSDL <strong>SQLite</strong>; hàng đã xóa có thể còn trong trang freelist/chưa cấp phát và WAL/journal (khôi phục được).</span></li>
-<li><strong><span class="en">Office &amp; PDF:</span><span class="vi">Office &amp; PDF:</span></strong> <span class="en">Modern Office (.docx/.xlsx) are <strong>OOXML = ZIP containers</strong> (older = OLE compound) — unpack to inspect macros, embedded objects and external relationships <em>without opening in the app</em>. A PDF with <code>/OpenAction</code> + <code>/JavaScript</code> can auto-run script on open — analyse statically (pdfid).</span><span class="vi">Office hiện đại (.docx/.xlsx) là <strong>OOXML = container ZIP</strong> (cũ hơn = OLE compound) — giải nén để xem macro, đối tượng nhúng và quan hệ ngoài <em>mà không mở trong app</em>. PDF có <code>/OpenAction</code> + <code>/JavaScript</code> có thể tự chạy script khi mở — phân tích tĩnh (pdfid).</span></li>
-<li><strong>Email:</strong> <span class="en">Outlook stores mail in <strong>PST</strong> (archive) or <strong>OST</strong> (cached server mailbox) files — parse to recover emails/attachments; deleted items may remain.</span><span class="vi">Outlook lưu thư trong file <strong>PST</strong> (lưu trữ) hoặc <strong>OST</strong> (cache hộp thư server) — phân tích để khôi phục email/đính kèm; mục đã xóa có thể còn.</span></li></ul>
-`;
+<li>PE headers/imports; Office VBA/oleObject; PDF OpenAction/JS; PST message/attachment.</li>
+<li>Browser history/download/cache; AV quarantine/log; SQLite db-wal/db-shm.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>
+<code>file</code>, <code>7z l</code>, oletools, pdfid/pdf-parser, sqlite3 read-only.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>DOCX là ZIP bình thường; đáng ngờ khi relationship external trỏ template lạ hoặc embedded OLE sinh process.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>Extension giả; archive bomb/nested recursion.</li>
+<li>Mở file bằng ứng dụng thật có thể execute active content.</li>
+<li>Copy SQLite thiếu WAL có thể mất giao dịch mới.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> ECMA-376; PDF specification; SQLite file format; Microsoft PE format.</p>
+</div>
+</details>`;

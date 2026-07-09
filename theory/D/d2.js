@@ -1,88 +1,112 @@
-/* Theory — D2 (Appendix D). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["d2"]=`<h2>D2 — Data Sources and Network Log Sources</h2>
+/* Theory — D2 (Appendix D). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["d2"]=`<h2>D2 — Data Sources &amp; Network Log Sources</h2>
 
-<h3>Windows logon types</h3>
+<div class="tier recall" id="d2-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Proxy logs:</strong> <span class="en">Can record the FULL URL a user visited (path), even over HTTPS via the proxy.</span><span class="vi">Có thể ghi URL ĐẦY ĐỦ (cả path) người dùng truy cập, kể cả HTTPS qua proxy.</span></li>
+<li><strong>DNS logs:</strong> <span class="en">Show that a client queried/resolved a domain; they do not by themselves prove a subsequent connection to that destination.</span><span class="vi">Cho biết client đã truy vấn/phân giải domain; riêng DNS log không chứng minh client đã kết nối tới đích sau đó.</span></li>
+<li><strong>Firewall logs:</strong> <span class="en">Connection records (IP/port/allow-deny) — endpoints, not full URL.</span><span class="vi">Bản ghi kết nối (IP/port/cho-chặn) — đầu cuối, không phải URL đầy đủ.</span></li>
+<li><strong>NAT + DHCP:</strong> <span class="en">Correlate to resolve a public IP back to the specific internal workstation behind NAT.</span><span class="vi">Tương quan để truy một IP public về đúng máy trạm nội bộ sau NAT.</span></li>
+<li><strong>Windows event logs:</strong> <span class="en">4624 logon, 4688 process, 4672 priv, 4769 Kerberos, 1102 cleared.</span><span class="vi">4624 logon, 4688 process, 4672 priv, 4769 Kerberos, 1102 bị xóa.</span></li>
+<li><strong>O365 Unified Audit Log:</strong> <span class="en">Cloud mailbox access, sign-ins, sharing and admin actions.</span><span class="vi">Truy cập mailbox cloud, đăng nhập, chia sẻ và thao tác admin.</span></li>
+<li><strong>Complete source set:</strong> <span class="en">Also consider syslog, email/web/AV/domain/database logs and browser/internet history; no single source gives the whole picture.</span><span class="vi">Cũng phải xét syslog, log email/web/AV/domain/database và lịch sử trình duyệt/internet; không nguồn đơn lẻ nào cho toàn bộ bức tranh.</span></li>
+<li><strong>SIEM:</strong> <span class="en">Centralises sources to enable cross-source correlation on a common timeline.</span><span class="vi">Tập trung các nguồn để tương quan đa nguồn trên một timeline chung.</span></li>
+</ul></div></div>
 
-<div class="table-wrap"><table><tr><th>Type</th><th>Name</th><th>Meaning</th></tr><tr><td>2</td><td>Interactive</td><td>Local keyboard / console logon.</td></tr><tr><td>3</td><td>Network</td><td>Network access such as SMB.</td></tr><tr><td>4</td><td>Batch</td><td>Batch job logon.</td></tr><tr><td>5</td><td>Service</td><td>Service account logon.</td></tr><tr><td>7</td><td>Unlock</td><td>Workstation unlock.</td></tr><tr><td>8</td><td>NetworkCleartext</td><td>Credentials sent to authentication package in cleartext-equivalent form.</td></tr><tr><td>9</td><td>NewCredentials</td><td>RunAs /netonly style credential use.</td></tr><tr><td>10</td><td>RemoteInteractive</td><td>RDP / Terminal Services logon.</td></tr></table></div>
+<details class="tier concept" id="d2-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Mỗi nguồn log cho biết gì (chọn đúng nguồn)</h4>
+<p>Câu hỏi D2 thường là "log nào BEST để xác nhận X". Nắm <em>điểm mạnh từng nguồn</em>:</p>
+<ul>
+<li><strong>Proxy</strong>: URL đầy đủ (path) — biết chính xác trang/đường dẫn đã truy cập.</li>
+<li><strong>DNS</strong>: tên miền đã được truy vấn/phân giải — vẫn thấy được dấu vết tên miền khi phiên ứng dụng mã hóa, nhưng phải đối chiếu proxy/firewall/endpoint để xác nhận kết nối tiếp theo.</li>
+<li><strong>Firewall</strong>: IP/port/allow-deny — đầu cuối kết nối, không có path.</li>
+<li><strong>VPN concentrator</strong>: tài khoản nào kết nối từ xa, từ IP nào, khi nào.</li>
+<li><strong>DHCP</strong>: ánh xạ IP ↔ máy theo thời gian (kết hợp NAT để truy nguyên qua NAT).</li>
+<li><strong>O365 Unified</strong>: hoạt động mailbox/đăng nhập/chia sẻ cloud.</li>
+<li><strong>Syslog</strong>: cơ chế chuyển sự kiện từ thiết bị Unix/Linux và thiết bị mạng về nơi tập trung; độ chi tiết phụ thuộc facility/severity và cấu hình nguồn.</li>
+<li><strong>Email / web server / AV</strong>: luồng thư và message ID; request/response vào dịch vụ công khai; phát hiện, xử lý và quarantine của endpoint.</li>
+<li><strong>Domain / database</strong>: xác thực và thay đổi trong AD/domain; truy vấn, đăng nhập và thay đổi dữ liệu nếu database auditing đã bật.</li>
+<li><strong>Internet/browser history</strong>: URL, thời điểm, download và cache phía người dùng; có thể bị xóa hoặc ở chế độ private nên phải đối chiếu nguồn khác.</li>
+</ul>
 
-<h3>Key fields by log source</h3>
+<h4>Tương quan đa nguồn &amp; SIEM</h4>
+<p>Một sự cố trải nhiều nguồn; sức mạnh lớn nhất là <strong>tương quan</strong> chúng trên một <strong>timeline chung (UTC)</strong> thay vì đọc lẻ một nguồn. <strong>SIEM</strong> gom log tập trung để làm việc này. Lưu ý đồng bộ thời gian (NTP) giữa các nguồn để tương quan đúng.</p>
 
-<div class="table-wrap"><table><tr><th>Log Source</th><th>Key Fields to Preserve</th><th>Common Investigation Use</th></tr><tr><td>Proxy</td><td>timestamp, user, source IP, URL, method, status code, bytes, user-agent</td><td>Malware download, callback, user browsing path</td></tr><tr><td>DNS</td><td>timestamp, client IP, query, answer, record type, response code, NXDOMAIN status</td><td>DGA, tunneling, fast-flux, beaconing</td></tr><tr><td>Firewall</td><td>timestamp, action, src / dst IP, ports, protocol, NAT translation, rule ID</td><td>Allowed / blocked traffic, NAT attribution</td></tr><tr><td>DHCP</td><td>lease time, MAC address, hostname, assigned IP, lease start / end, scope</td><td>IP-to-device attribution at specific time</td></tr><tr><td>VPN</td><td>username, source IP, assigned internal IP, login / logout time, MFA result</td><td>Suspicious remote access investigation</td></tr><tr><td>Email</td><td>sender, recipient, subject, message-ID, attachment names / hashes, source IP, delivery result</td><td>Phishing tracing, affected recipients</td></tr><tr><td>Windows Event</td><td>event ID, account, logon type, source workstation / IP, host, process, command line, target object</td><td>Authentication, execution, privilege use</td></tr><tr><td>O365 Unified</td><td>user, operation, workload, client IP, user-agent, object ID, result status</td><td>Cloud mailbox, SharePoint / OneDrive activity</td></tr><tr><td>Web server</td><td>timestamp, source IP, request URI, method, status code, user-agent, bytes</td><td>Exploitation, webshell, upload paths</td></tr><tr><td>AV / EDR</td><td>timestamp, host, user, detection name, action taken, file hash, process</td><td>Detections, quarantine, telemetry</td></tr><tr><td>Domain / AD</td><td>timestamp, account, event type, source, target, attribute changes</td><td>AD auth, Kerberos, account changes</td></tr><tr><td>Database</td><td>timestamp, user, source IP, query text, affected table / row</td><td>Suspicious queries, data access</td></tr><tr><td>Internet history</td><td>timestamp, URL, title, visit count, download path</td><td>User browsing / download behaviour</td></tr></table></div>
+<h4>Sysmon &amp; làm giàu endpoint</h4>
+<p><strong>Sysmon</strong> bổ sung cho log Windows mặc định: ghi rich telemetry về tạo tiến trình (kèm hash, command line), kết nối mạng, tạo file — rất giá trị khi điều tra host.</p>
+</div></details>
 
-<div class="callout warning"><strong>Exam tip:</strong> <span class="en">Always correlate DHCP + firewall / NAT + authentication logs before attributing activity to a user or host.</span><span class="vi">Luôn tương quan log DHCP + tường lửa / NAT + xác thực trước khi quy kết hoạt động cho một người dùng hoặc host.</span></div>
+<details class="tier reference" id="d2-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Log sources &amp; what they answer</h4>
+<div class="table-wrap"><table>
+<tr><th>Source</th><th>Best for</th></tr>
+<tr><td>Proxy logs</td><td>Full URLs / paths visited</td></tr>
+<tr><td>DNS logs</td><td>Domains queried/resolved; correlate with connection/endpoint telemetry for later contact</td></tr>
+<tr><td>Firewall logs</td><td>Connections: IP/port/allow-deny</td></tr>
+<tr><td>VPN logs</td><td>Remote account, source IP, time</td></tr>
+<tr><td>DHCP logs</td><td>IP ↔ host mapping over time</td></tr>
+<tr><td>Web server logs</td><td>Requests to your public services (attacks)</td></tr>
+<tr><td>Email logs</td><td>Mail flow, sender/recipient</td></tr>
+<tr><td>AV logs</td><td>Detections / quarantines</td></tr>
+<tr><td>Syslog</td><td>Central device/Unix events (facility, severity, message)</td></tr>
+<tr><td>Domain / AD logs</td><td>Authentication, account and directory changes</td></tr>
+<tr><td>Database logs</td><td>Logins, queries and data changes when auditing is enabled</td></tr>
+<tr><td>Internet / browser history</td><td>User-side URLs, downloads, times and cached content</td></tr>
+<tr><td>O365 Unified Audit</td><td>Cloud mailbox/sign-in/admin actions</td></tr>
+<tr><td>Windows event logs</td><td>Logon/process/privilege (4624/4688/4672…)</td></tr>
+</table></div>
 
-<h3>Critical Windows Event IDs for IR</h3><div class="table-wrap"><table><tr><th>Event ID</th><th>Meaning</th><th>IR Significance</th></tr><tr><td><strong>4624</strong></td><td>Successful logon</td><td>Check Logon Type to classify access (console, network, RDP)</td></tr><tr><td><strong>4625</strong></td><td>Failed logon</td><td>Brute force — many failures then 4624 = successful compromise</td></tr><tr><td><strong>4648</strong></td><td>Logon with explicit credentials</td><td>Pass-the-Hash, runas, lateral movement indicator</td></tr><tr><td><strong>4688</strong></td><td>New process created</td><td>Malware execution — check parent process, command line, executable path</td></tr><tr><td><strong>4697</strong></td><td>Service installed on system</td><td>Malware persistence via service installation</td></tr><tr><td><strong>4720</strong></td><td>User account created</td><td>Backdoor account creation</td></tr><tr><td><strong>4698</strong></td><td>Scheduled task created</td><td>Persistence mechanism — check task XML for command</td></tr><tr><td><strong>7045</strong></td><td>New service installed (System log)</td><td>Complements 4697 — check service binary path for malware</td></tr>
+<h4>Common attribution combo</h4>
+<div class="table-wrap"><table>
+<tr><th>Question</th><th>Sources to correlate</th></tr>
+<tr><td>Public IP → internal host (NAT)</td><td>NAT/translation + DHCP logs</td></tr>
+<tr><td>Was C2 domain contacted?</td><td>DNS + proxy logs</td></tr>
+<tr><td>Which URL (path) over HTTPS?</td><td>Proxy logs</td></tr>
+</table></div>
+</div></details>
 
-<tr><td><strong>4776</strong></td><td>NTLM credential validation attempt</td><td>Pass-the-Hash detection — 4776 from workstation to DC = NTLM auth; combine with 4625 failures = brute force or PTH</td></tr></table></div>
-
-<p class="sub-heading">Windows Event Log Correlation Patterns</p>
-
-<p class="sub-heading">Brute Force Detection</p><pre>4625 (failed logon) × N from same IP
-
-  → 4624 (success) from same IP
-
-    → 4688 (process creation)
-
-= Brute force → successful compromise</pre>
-
-<p class="sub-heading">Account Creation for Persistence</p><pre>4720 (user created)
-
-  → 4732 (added to local admin group)
-
-    → 4624 (logon with new account)
-
-= Backdoor account</pre>
-
-<p class="sub-heading">Service-Based Persistence</p><pre>7045 (service installed)
-
-  → 4688 (service host process)
-
-    → Proxy/DNS logs (outbound callback)
-
-= Malicious service with C2</pre>
-
-<p class="sub-heading">Scheduled Task Persistence</p><pre>4698 (scheduled task created)
-
-  → 4688 (task execution)
-
-    → Proxy logs (outbound connection)
-
-= Scheduled task C2</pre>
-
-<p class="sub-heading">Credential Theft</p><pre>4688 (process creation: mimikatz / procdump)
-
-  → 4656 / 4663 (handle to LSASS)
-
-= Credential dumping attempt</pre>
-
-<p class="sub-heading">PowerShell Abuse</p><pre>4104 (script block logging) shows:
-
-  - Download cradle
-
-  - Encoded commands
-
-  - AMSI bypass
-
-= Script-based attack</pre>
-
-<p class="sub-heading">Audit Log Tampering</p><pre>1102 (audit log cleared)
-
-= CRITICAL: investigate who cleared and why immediately</pre>
-
-<h3>Privilege Escalation</h3><pre>4672 (special privileges) for non-admin account
-
-  → 4688 (process with elevated token)
-
-= Token manipulation or misconfigured permissions</pre>
-
-<h3>Additional Log Sources: DHCP, VPN, Web Server, AV</h3><div class="table-wrap"><table><tr><th>Log Source</th><th>Key Fields</th><th>IR Value</th></tr><tr><td><strong>DHCP logs</strong></td><td>MAC address, assigned IP, lease start / end, hostname</td><td>Map IP → MAC → hostname at specific time; identify rogue / unknown devices on network</td></tr><tr><td><strong>VPN logs</strong></td><td>Username, source IP, tunnel IP, bytes, duration, auth result</td><td>Identify compromised accounts used for remote access; correlate tunnel IP with internal activity</td></tr><tr><td><strong>Web server logs</strong></td><td>Src IP, method, URI, status code, response bytes, user-agent, referrer</td><td>Detect SQL injection, web shells, scanning, exploit attempts in HTTP request patterns</td></tr><tr><td><strong>Antivirus logs</strong></td><td>Detection name, file path, action taken (quarantine / allow), timestamp, host</td><td>Identify malware presence, detection timeline, and whether malware was contained or allowed to run</td></tr></table></div>
-<h3 class="qz-theory"><span class="en">Data Sources, Log Correlation &amp; Key Event IDs</span><span class="vi">Nguồn dữ liệu, đối chiếu log &amp; Event ID quan trọng</span></h3>
-<p><span class="en"><strong>Correlation across multiple sources</strong> on a common timeline/identifier is the most powerful technique when an incident spans many systems — no single log tells the whole story. DNS logs record domain resolution and proxy logs record HTTP(S) request metadata (host/URL/bytes) <em>even when payload is TLS-encrypted</em>; resolve a NATed public IP to an internal host via firewall translation + DHCP logs. A <strong>SIEM</strong> enables cross-source correlation and keeps copies off the endpoint (an attacker clearing local logs may not erase forwarded copies).</span><span class="vi"><strong>Đối chiếu nhiều nguồn</strong> trên một timeline/định danh chung là kỹ thuật mạnh nhất khi sự cố trải nhiều hệ thống — không log nào kể trọn. Log DNS ghi phân giải domain, log proxy ghi metadata yêu cầu HTTP(S) (host/URL/byte) <em>kể cả khi payload mã hóa TLS</em>; truy IP công khai sau NAT về host nội bộ qua log dịch firewall + DHCP. <strong>SIEM</strong> cho phép đối chiếu chéo và giữ bản sao ngoài endpoint (kẻ tấn công xóa log cục bộ có thể không xóa được bản đã chuyển).</span></p>
-<div class="table-wrap"><table><thead><tr><th>Event ID</th><th><span class="en">Meaning</span><span class="vi">Ý nghĩa</span></th></tr></thead><tbody>
-<tr><td>4624 / 4625</td><td><span class="en">Successful / failed logon (with Logon Type)</span><span class="vi">Đăng nhập thành công / thất bại (kèm Logon Type)</span></td></tr>
-<tr><td>4672</td><td><span class="en">Special/admin privileges assigned to a logon</span><span class="vi">Cấp đặc quyền đặc biệt/admin cho một đăng nhập</span></td></tr>
-<tr><td>4688</td><td><span class="en">Process creation (with command line if audited)</span><span class="vi">Tạo tiến trình (kèm dòng lệnh nếu bật audit)</span></td></tr>
-<tr><td>1102</td><td><span class="en">Security audit log cleared (anti-forensics)</span><span class="vi">Xóa nhật ký audit bảo mật (chống điều tra)</span></td></tr>
-<tr><td>7045</td><td><span class="en">New service installed (lateral movement)</span><span class="vi">Cài service mới (lateral movement)</span></td></tr></tbody></table></div>
-<p><span class="en"><strong>Sysmon</strong> adds rich, hash-tagged telemetry (ID 1 process, 3 network, 11 file create, 22 DNS) beyond defaults. <strong>O365 Unified Audit Log</strong> captures sign-ins, mailbox ops and sharing — central to BEC investigations. <strong>VPN logs</strong> tie a remote session to an account, source IP and time.</span><span class="vi"><strong>Sysmon</strong> bổ sung telemetry phong phú, gắn hash (ID 1 tiến trình, 3 mạng, 11 tạo file, 22 DNS) vượt mặc định. <strong>O365 Unified Audit Log</strong> ghi đăng nhập, thao tác hộp thư và chia sẻ — trọng tâm điều tra BEC. <strong>Log VPN</strong> gắn phiên từ xa với tài khoản, IP nguồn và thời gian.</span></p>
-`;
+<details class="tier deep-dive" id="d2-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Lập source matrix: câu hỏi→nguồn→field→retention→owner→timezone.</li>
+<li>Chuẩn hóa UTC/identity nhưng giữ raw event; correlate bằng IP+port+time, user, host, message/process ID.</li>
+<li>Đánh giá logging gap, NTP drift, parsing loss và retention trước khi kết luận absence.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
+<ul>
+<li>Proxy URL/status/user; DNS qname/rcode; firewall 5-tuple/action; DHCP lease; NAT translation.</li>
+<li>Windows/Sysmon process/logon; mail Message-ID; O365 operation; DB query/audit; browser history.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>SIEM join theo cửa sổ thời gian có tolerance; lưu query và result ID.</li>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Test parser bằng event mẫu, so raw count với indexed count.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>Public IP cần NAT public-port+time để về private IP, DHCP để về host, rồi 4624/EDR để về user; bỏ port hoặc timezone dễ gán nhầm.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>No log không có nghĩa no event.</li>
+<li>Proxy có full URL HTTPS chỉ khi client dùng proxy/inspection phù hợp.</li>
+<li>DHCP IP→host không chứng minh user đang điều khiển host.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> NIST SP 800-92; Microsoft audit/Sysmon documentation; vendor log schemas.</p>
+</div>
+</details>`;

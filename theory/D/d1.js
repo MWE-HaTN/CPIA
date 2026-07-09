@@ -1,29 +1,103 @@
-/* Theory — D1 (Appendix D). Edit the HTML below. */
+/* Theory — D1 (Appendix D). 3-tier layout: Recall / Concept / Reference. */
 (window.CPIA_THEORY=window.CPIA_THEORY||{})["d1"]=`<h2>D1 — Network Traffic Capture</h2>
 
-<h3>NetFlow / IPFIX basics</h3>
+<div class="tier recall" id="d1-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>TAP vs SPAN:</strong> <span class="en">A passive TAP generally provides a more faithful copy of the link than SPAN. SPAN can drop/reorder frames under load; the collector behind either method can still lose packets.</span><span class="vi">TAP thụ động thường cho bản sao đường truyền đầy đủ hơn SPAN. SPAN có thể rớt/đổi thứ tự frame khi tải cao; collector phía sau cả hai phương pháp vẫn có thể mất gói.</span></li>
+<li><strong>Capture options:</strong> <span class="en">Full packet capture (everything, storage-heavy), limited capture, or NetFlow (metadata only — lightweight).</span><span class="vi">Full packet capture (toàn bộ, tốn lưu trữ), limited capture, hoặc NetFlow (chỉ metadata — nhẹ).</span></li>
+<li><strong>Deployment location:</strong> <span class="en">Place at the internet egress/perimeter choke point to see all traffic entering/leaving.</span><span class="vi">Đặt tại điểm thắt egress/biên internet để thấy mọi lưu lượng vào/ra.</span></li>
+<li><strong>Promiscuous/monitor mode:</strong> <span class="en">The NIC must be in promiscuous mode to capture frames not addressed to it.</span><span class="vi">NIC phải ở chế độ promiscuous để bắt cả frame không gửi cho nó.</span></li>
+<li><strong>Storage estimate:</strong> <span class="en">Capture sizing ≈ link throughput × duration × a retention factor.</span><span class="vi">Ước lượng lưu trữ ≈ throughput đường × thời lượng × hệ số lưu giữ.</span></li>
+<li><strong>Integrity:</strong> <span class="en">Hash a PCAP at acquisition and retain the hash so later copies can be checked for change; BPF filters apply at capture time.</span><span class="vi">Hash PCAP lúc thu và giữ lại hash để kiểm tra các bản sao về sau có thay đổi hay không; BPF filter áp lúc bắt.</span></li>
+<li><strong>Deployment risk &amp; tool limits:</strong> <span class="en">Assess and document the network change; secure the sensor and management path. SPAN oversubscription, packet loss, encryption and capture filters can all create blind spots.</span><span class="vi">Đánh giá và ghi lại thay đổi mạng; bảo vệ sensor và đường quản trị. SPAN quá tải, mất gói, mã hóa và capture filter đều có thể tạo điểm mù.</span></li>
+</ul></div></div>
 
-<p><span class="en">A flow record summarises a conversation rather than storing full packets. A typical flow tuple includes source IP, destination IP, source port, destination port, protocol, timestamps, bytes, and packets.</span><span class="vi">Bản ghi flow tóm tắt một cuộc trò chuyện thay vì lưu trữ đầy đủ gói tin. Một flow tuple điển hình bao gồm IP nguồn, IP đích, cổng nguồn, cổng đích, giao thức, timestamp, byte và gói tin.</span></p>
+<details class="tier concept" id="d1-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Cách &amp; nơi thu thập</h4>
+<p><strong>TAP</strong> (Test Access Point) sao chép thụ động lưu lượng trên đường truyền và thường trung thực hơn SPAN; tuy nhiên cổng monitor, NIC, buffer hoặc disk của collector vẫn có thể rớt gói. <strong>SPAN/mirror port</strong> trên switch sao chép traffic ra một cổng — tiện nhưng <em>có thể rớt hoặc đổi thứ tự frame khi tải cao</em> vì switch ưu tiên chuyển mạch. <strong>Aggregating TAP</strong> gộp nhiều đường và cũng có nguy cơ oversubscription. Đặt thiết bị ở điểm quan sát phù hợp với câu hỏi điều tra, không mặc định mọi trường hợp đều là egress.</p>
 
-<ul><li><strong>Use cases:</strong> <span class="en">Beaconing detection, exfiltration volume analysis, lateral movement discovery, and long-term network visibility.</span><span class="vi">Phát hiện beacon, phân tích lượng exfiltration, khám phá lateral movement và khả năng hiển thị mạng dài hạn.</span></li><li><strong>Limitation:</strong> <span class="en">No payload visibility, so it cannot directly show exploit strings, credentials, or file contents.</span><span class="vi">Không thấy được payload, nên không thể hiển thị trực tiếp chuỗi exploit, thông tin xác thực hoặc nội dung file.</span></li></ul>
+<h4>Lựa chọn mức bắt &amp; ước lượng dung lượng</h4>
+<p><strong>Full packet capture</strong>: lưu toàn bộ payload — đầy đủ nhất nhưng <em>tốn lưu trữ khổng lồ</em>. <strong>NetFlow/flow records</strong>: chỉ metadata (ai-nói-với-ai, byte, thời gian) — nhẹ, hợp giám sát dài hạn để bắt beaconing/exfil. Khi scoping, ước lượng dung lượng ≈ <em>throughput × thời lượng × hệ số lưu giữ</em> để không làm tràn thiết bị bắt.</p>
 
+<h4>Tác động &amp; toàn vẹn</h4>
+<p>Đưa thiết bị bắt vào mạng phải <strong>đánh giá tác động</strong> (không gây gián đoạn, không thành điểm yếu), phê duyệt thay đổi, harden sensor và tách/bảo vệ đường quản trị. Để bảo đảm/chứng minh tính toàn vẹn của dữ liệu thu: <strong>hash PCAP</strong> ngay khi acquire và lưu hash; ghi lại cấu hình thiết bị, vị trí, thời gian. <strong>Giới hạn công cụ</strong> phải được nêu rõ: SPAN quá tải có thể rớt gói; lưu lượng mã hóa che payload; snap length/BPF filter có thể bỏ sót dữ liệu. <strong>BPF capture filter</strong> (vd <code>tcp port 443</code>) áp <em>lúc bắt</em>, trước khi lưu — giảm dung lượng nhưng cũng có thể bỏ sót.</p>
+</div></details>
+
+<details class="tier reference" id="d1-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Capture methods</h4>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Pros</th><th>Cons</th></tr>
+<tr><td>Network TAP</td><td>Passive, generally faithful link copy</td><td>Hardware/inline change; downstream collector can still drop</td></tr>
+<tr><td>SPAN / mirror port</td><td>Easy, no extra hardware</td><td>Can drop frames under load</td></tr>
+<tr><td>Aggregating TAP</td><td>Combine multiple links</td><td>Cost</td></tr>
+</table></div>
+
+<h4>Capture options</h4>
+<div class="table-wrap"><table>
+<tr><th>Option</th><th>Data</th><th>Storage</th></tr>
+<tr><td>Full packet capture</td><td>Everything incl. payload</td><td>Very high</td></tr>
+<tr><td>Limited capture</td><td>Headers / first N bytes</td><td>Medium</td></tr>
+<tr><td>NetFlow / flow records</td><td>Metadata only</td><td>Low</td></tr>
+</table></div>
+
+<h4>Key facts</h4>
+<div class="table-wrap"><table>
+<tr><th>Item</th><th>Fact</th></tr>
+<tr><td>Deployment</td><td>Internet egress/perimeter choke point</td></tr>
+<tr><td>NIC mode</td><td>Promiscuous to capture all frames</td></tr>
+<tr><td>Sizing</td><td>throughput × duration × retention</td></tr>
+<tr><td>Integrity</td><td>Hash PCAP at acquisition</td></tr>
+<tr><td>BPF filter</td><td>Applied at capture time</td></tr>
+<tr><td>Tool constraints</td><td>Document dropped packets, encrypted payloads, filters and other blind spots</td></tr>
+<tr><td>Network assurance</td><td>Authorise the change; harden sensor and management access</td></tr>
+</table></div>
+</div></details>
+
+<details class="tier deep-dive" id="d1-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Đặt câu hỏi thu thập, vẽ traffic path/choke point và chọn full packet, sliced packet hay flow.</li>
+<li>Tính dung lượng từ average/peak bps × thời gian; kiểm tra snaplen, buffer, packet loss, clock và rotation.</li>
+<li>Ghi change approval/cấu hình, harden sensor, hash/export PCAP và bảo quản bản gốc.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-
-<li><span class="en">Collection options: full packet capture, limited / header capture, NetFlow / IPFIX, Zeek logs, SPAN, traditional TAP, aggregating TAP.</span><span class="vi">Tùy chọn thu thập: bắt gói đầy đủ, bắt giới hạn / header, NetFlow / IPFIX, log Zeek, SPAN, TAP truyền thống, TAP tổng hợp.</span></li>
-
-<li><span class="en">Scoping: estimate bandwidth, peak traffic, retention, storage, capture filter, legal / sensitive data constraints, and collection location.</span><span class="vi">Xác định phạm vi: ước tính băng thông, lưu lượng đỉnh, lưu trữ, bộ lọc bắt gói, ràng buộc pháp lý / dữ liệu nhạy cảm và vị trí thu thập.</span></li>
-
-<li><span class="en">Deployment: choose points that see relevant traffic; avoid asymmetric routing blind spots.</span><span class="vi">Triển khai: chọn điểm thấy được lưu lượng liên quan; tránh điểm mù định tuyến bất đối xứng.</span></li>
-
-<li><span class="en">Integrity: hash PCAPs, document time source, interface, filters, tool versions, and chain of custody.</span><span class="vi">Tính toàn vẹn: hash PCAP, ghi lại nguồn thời gian, interface, bộ lọc, phiên bản công cụ và chuỗi bảo quản bằng chứng.</span></li>
-
-<li><span class="en">Safety: ensure capture device does not create loops, bottlenecks, or new exposure.</span><span class="vi">An toàn: đảm bảo thiết bị bắt gói không tạo vòng lặp, điểm nghẽn cổ chai hoặc lỗ hổng mới.</span></li>
-
-</ul><h3>Deployment Location and Impact Assessment</h3><ul><li><strong>Deployment location matters:</strong> <span class="en">Capture device at network perimeter sees inbound attacks but misses internal lateral movement. Device at core switch sees both — preferred.</span><span class="vi">Thiết bị bắt gói ở vành đai mạng thấy được tấn công đầu vào nhưng bỏ sót lateral movement nội bộ. Thiết bị ở switch lõi thấy cả hai — được ưu tiên.</span></li><li><strong>Impact before deploying:</strong> <span class="en">SPAN port may degrade switch performance under load. TAP requires brief link interruption. Aggregating TAP introduces a single point of failure.</span><span class="vi">Port SPAN có thể làm giảm hiệu suất switch khi tải. TAP cần gián đoạn ngắn. TAP tổng hợp tạo ra điểm lỗi duy nhất.</span></li><li><strong>Document:</strong> <span class="en">Network diagram changes, new device MAC / IP, any routing modifications. Capture device must be hardened — attacker should not be able to reach or modify it.</span><span class="vi">Thay đổi sơ đồ mạng, MAC / IP thiết bị mới, mọi thay đổi định tuyến. Thiết bị bắt gói phải được tăng cường bảo mật — kẻ tấn công không được phép tiếp cận hoặc sửa đổi.</span></li></ul>
-<h3 class="qz-theory"><span class="en">Network Traffic Capture — methods &amp; integrity</span><span class="vi">Bắt lưu lượng mạng — phương pháp &amp; toàn vẹn</span></h3>
+<li>SPAN/TAP direction, VLAN tag, encapsulation, interface drop counter.</li>
+<li>PCAP section/interface statistics, capture filter, NTP status, chain of custody.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
 <ul>
-<li><strong>TAP vs SPAN:</strong> <span class="en">A physical <strong>network TAP</strong> copies traffic passively and does not drop frames under load — best for guaranteed, tamper-evident capture. A <strong>SPAN/mirror port</strong> can oversubscribe and silently drop packets during congestion.</span><span class="vi"><strong>TAP</strong> vật lý sao chép lưu lượng thụ động, không rớt frame khi tải cao — tốt nhất để bắt đảm bảo, chống can thiệp. <strong>SPAN/mirror port</strong> có thể quá tải và âm thầm rớt gói khi nghẽn.</span></li>
-<li><strong><span class="en">Capture scope:</span><span class="vi">Phạm vi bắt:</span></strong> <span class="en">The NIC must be in <strong>promiscuous</strong> mode (Wi-Fi: <strong>monitor</strong> mode) to see all frames, not just unicast to its own MAC. A <strong>BPF capture filter</strong> (e.g. <code>tcp port 443</code>) discards non-matching packets <em>before</em> storage (data is lost); a display filter only hides after capture.</span><span class="vi">NIC phải ở chế độ <strong>promiscuous</strong> (Wi-Fi: <strong>monitor</strong>) để thấy mọi frame, không chỉ unicast tới MAC của nó. <strong>Bộ lọc BPF</strong> (vd <code>tcp port 443</code>) loại gói không khớp <em>trước</em> khi lưu (mất dữ liệu); display filter chỉ ẩn sau khi bắt.</span></li>
-<li><strong><span class="en">Placement &amp; sizing:</span><span class="vi">Vị trí &amp; định cỡ:</span></strong> <span class="en">Deploy at the perimeter/egress choke point to see north-south traffic. Full-PCAP storage ≈ link throughput × retention — a busy 1 Gbps link can produce terabytes/day, so consider <strong>NetFlow</strong> (cheap connection metadata) for long-term beaconing/exfil detection.</span><span class="vi">Đặt tại điểm thắt cổ chai biên/egress để thấy lưu lượng bắc-nam. Dung lượng full-PCAP ≈ thông lượng × thời gian lưu — liên kết 1 Gbps bận có thể sinh terabyte/ngày, nên cân nhắc <strong>NetFlow</strong> (metadata kết nối rẻ) để phát hiện beaconing/exfil dài hạn.</span></li>
-<li><strong>Integrity:</strong> <span class="en">Hash the PCAP at acquisition and re-verify to prove it is unaltered.</span><span class="vi">Băm PCAP lúc thu thập và kiểm lại để chứng minh không bị thay đổi.</span></li></ul>
-`;
+<li>
+<span class="cmd-safety cmd-impact">LIVE-IMPACT</span>
+<code>dumpcap -i 1 -b duration:3600 -b files:24 -w case.pcapng</code>
+</li>
+<li>
+<span class="cmd-safety cmd-impact">LIVE-IMPACT</span>
+<code>capinfos file.pcapng</code>; <code>tcpdump -i eth0 -s 0 -B 4096 -w file.pcap</code>.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>Link 1 Gbps không có nghĩa capture luôn 1 Gbps; dùng utilization thực và peak burst. SPAN gộp hai chiều có thể oversubscribe cổng đích.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>TAP sao chép frame nhưng NIC/disk phía collector vẫn có thể drop.</li>
+<li>Capture filter loại dữ liệu vĩnh viễn; display filter thì không.</li>
+<li>Full packet chứa credential/dữ liệu cá nhân nên cần access/retention chặt.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> NIST SP 800-94; libpcap/tcpdump and Wireshark documentation; RFC 7011 (IPFIX).</p>
+</div>
+</details>`;

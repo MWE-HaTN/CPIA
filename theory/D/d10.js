@@ -1,30 +1,90 @@
-/* Theory — D10 (Appendix D). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["d10"]=`<h2>D10 — Reconnaissance</h2><ul>
+/* Theory — D10 (Appendix D). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["d10"]=`<h2>D10 — Reconnaissance</h2>
 
-<li><span class="en">External recon: scans against public IPs, service enumeration, vulnerability probes, directory brute force.</span><span class="vi">Trinh sát bên ngoài: quét IP công khai, liệt kê dịch vụ, thăm dò lỗ hổng, brute force thư mục.</span></li>
+<div class="tier recall" id="d10-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Port scan:</strong> <span class="en">One source IP hitting many ports across many hosts in seconds = scanning/recon.</span><span class="vi">Một IP nguồn quét nhiều cổng trên nhiều host trong vài giây = quét/trinh sát.</span></li>
+<li><strong>Ping sweep:</strong> <span class="en">ICMP echo to every host in a /24 = host discovery.</span><span class="vi">ICMP echo tới mọi host trong một /24 = phát hiện host.</span></li>
+<li><strong>Scan types:</strong> <span class="en">SYN/half-open (-sS, stealthier) vs connect (-sT, completes handshake → often logged by apps); XMAS sets FIN/PSH/URG.</span><span class="vi">SYN/half-open (-sS, kín hơn) vs connect (-sT, hoàn tất handshake → app hay log); XMAS đặt cờ FIN/PSH/URG.</span></li>
+<li><strong>Internal recon:</strong> <span class="en">After a foothold: enumerating AD users/shares, pinging internal subnets, bulk LDAP queries to a DC.</span><span class="vi">Sau khi có chỗ đứng: liệt kê user/share AD, ping subnet nội bộ, truy vấn LDAP hàng loạt tới DC.</span></li>
+<li><strong>External (passive) recon:</strong> <span class="en">WHOIS, public job posts, the company website — no contact with internal hosts.</span><span class="vi">WHOIS, tin tuyển dụng công khai, website công ty — không chạm host nội bộ.</span></li>
+<li><strong>Detection:</strong> <span class="en">Use statistical fan-out/rate, scan signatures and manual traffic/log review across internal and perimeter telemetry.</span><span class="vi">Dùng thống kê fan-out/tần suất, chữ ký scan và rà tay traffic/log trên cả telemetry nội bộ lẫn biên mạng.</span></li>
+</ul></div></div>
 
-<li><span class="en">Internal recon: port scans, network share discovery, LDAP queries, AD enumeration, ping sweeps, DNS zone-like enumeration.</span><span class="vi">Trinh sát nội bộ: quét cổng, khám phá chia sẻ mạng, truy vấn LDAP, liệt kê AD, ping sweep, liệt kê kiểu DNS zone.</span></li>
+<details class="tier concept" id="d10-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Nhận diện quét/trinh sát</h4>
+<p>Dấu hiệu thống kê: <strong>một nguồn → nhiều đích/cổng trong thời gian ngắn</strong>. <strong>Port scan</strong> (quét cổng để tìm dịch vụ mở), <strong>ping sweep</strong> (ICMP tới cả dải để tìm host sống), <strong>service/version enumeration</strong>. Các scan thất bại tạo nhiều RST/ICMP unreachable — mẫu dễ nhận.</p>
 
-<li><span class="en">Detection: connection fan-out, sequential ports / IPs, repeated 404/401, SMB / LDAP query patterns, IDS scan signatures.</span><span class="vi">Phát hiện: fan-out kết nối, cổng / IP tuần tự, 404/401 lặp lại, mẫu truy vấn SMB / LDAP, chữ ký quét IDS.</span></li>
+<h4>Loại scan &amp; khả năng bị log</h4>
+<p><strong>SYN/half-open (-sS)</strong>: gửi SYN, nhận SYN-ACK rồi RST (không hoàn tất) → kín hơn, app ít log. <strong>Connect (-sT)</strong>: hoàn tất bắt tay → <em>ứng dụng thường ghi log</em> kết nối. <strong>XMAS scan</strong>: đặt cờ FIN/PSH/URG; cổng đóng trả RST, cổng mở im lặng (theo stack tuân chuẩn). Hiểu khác biệt giúp đoán kẻ tấn công đang dùng kỹ thuật nào và nơi tìm dấu vết.</p>
 
-</ul>
+<h4>Internal vs external recon</h4>
+<p><strong>External</strong> (trước khi vào): chủ yếu passive — WHOIS, OSINT, website, job post (xem Appendix C). <strong>Internal</strong> (sau khi có foothold): liệt kê AD (user/group/share), ping subnet, <strong>LDAP query hàng loạt tới DC</strong>, BloodHound — để tìm đường lateral movement và mục tiêu giá trị.</p>
+</div></details>
 
-<p class="sub-heading">What Scan Evidence Looks Like in Logs</p>
+<details class="tier reference" id="d10-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Recon indicators</h4>
+<div class="table-wrap"><table>
+<tr><th>Observation</th><th>Activity</th></tr>
+<tr><td>One IP → many ports/hosts fast</td><td>Port/network scan</td></tr>
+<tr><td>ICMP echo to a whole /24</td><td>Ping sweep (host discovery)</td></tr>
+<tr><td>Bulk LDAP to a DC</td><td>Internal AD reconnaissance</td></tr>
+<tr><td>WHOIS / job posts / website</td><td>External passive recon</td></tr>
+</table></div>
 
-<p class="sub-heading"><span class="en">Port scan evidence in firewall / IDS logs</span><span class="vi">Bằng chứng quét cổng trong log firewall / IDS</span></p><ul><li><span class="en">Sequential connection attempts to ports 1-1024 on a single host.</span><span class="vi">Nỗ lực kết nối tuần tự đến cổng 1-1024 trên một host.</span></li><li><span class="en">SYN packets without corresponding ACK completion (half-open scan).</span><span class="vi">Gói SYN không có ACK hoàn tất tương ứng (quét half-open).</span></li><li><span class="en">Connection fan-out: single source IP contacting many internal IPs on the same port within a short timeframe.</span><span class="vi">Fan-out kết nối: một IP nguồn liên hệ nhiều IP nội bộ trên cùng cổng trong thời gian ngắn.</span></li><li><span class="en">IDS signatures: "SCAN nmap SYN", "PROTOCOL-ICMP PING NMAP".</span><span class="vi">Chữ ký IDS: "SCAN nmap SYN", "PROTOCOL-ICMP PING NMAP".</span></li></ul>
+<h4>nmap scan types</h4>
+<div class="table-wrap"><table>
+<tr><th>Scan</th><th>Flags / behaviour</th><th>Logged?</th></tr>
+<tr><td>SYN / half-open (-sS)</td><td>SYN → SYN-ACK → RST</td><td>Often not by app</td></tr>
+<tr><td>Connect (-sT)</td><td>Full 3-way handshake</td><td>Often by app</td></tr>
+<tr><td>XMAS</td><td>FIN+PSH+URG set</td><td>Closed→RST, open→silent</td></tr>
+</table></div>
+</div></details>
 
-<p class="sub-heading"><span class="en">Service enumeration evidence</span><span class="vi">Bằng chứng liệt kê dịch vụ</span></p><ul><li><span class="en">Banner grabbing attempts: connections to services that immediately disconnect after receiving the banner.</span><span class="vi">Nỗ lực lấy banner: kết nối đến dịch vụ rồi ngắt kết nối ngay sau khi nhận banner.</span></li><li><span class="en">DNS zone transfer attempts (AXFR queries from non-authoritative sources).</span><span class="vi">Nỗ lực zone transfer DNS (truy vấn AXFR từ nguồn không có thẩm quyền).</span></li><li><span class="en">SNMP queries with common community strings (public, private).</span><span class="vi">Truy vấn SNMP với community string phổ biến (public, private).</span></li><li><span class="en">LDAP anonymous bind attempts.</span><span class="vi">Nỗ lực kết nối LDAP ẩn danh.</span></li></ul>
-
-<p class="sub-heading"><span class="en">Web reconnaissance evidence</span><span class="vi">Bằng chứng trinh sát web</span></p><ul><li><span class="en">Rapid 404 responses indicating directory brute force (gobuster, dirb, dirbuster patterns).</span><span class="vi">Phản hồi 404 dồn dập chỉ ra brute force thư mục (mẫu gobuster, dirb, dirbuster).</span></li><li><span class="en">Requests for common admin paths (/admin, /wp-admin, /phpmyadmin).</span><span class="vi">Request đến các đường dẫn admin phổ biến (/admin, /wp-admin, /phpmyadmin).</span></li><li><span class="en">User-Agent strings matching known scanning tools.</span><span class="vi">Chuỗi User-Agent khớp với các công cụ quét đã biết.</span></li><li><span class="en">HTTP HEAD requests probing for HTTP methods.</span><span class="vi">Request HTTP HEAD thăm dò các phương thức HTTP được hỗ trợ.</span></li></ul>
-
-<p class="sub-heading"><span class="en">Internal recon evidence</span><span class="vi">Bằng chứng trinh sát nội bộ</span></p><ul><li><span class="en">ARP requests for large IP ranges.</span><span class="vi">Request ARP cho dải IP lớn.</span></li><li><span class="en">NetBIOS name queries (UDP 137) or LDAP searches for users / computers.</span><span class="vi">Truy vấn tên NetBIOS (UDP 137) hoặc tìm kiếm LDAP cho người dùng / máy tính.</span></li><li><span class="en">SMB null session enumeration attempts.</span><span class="vi">Nỗ lực liệt kê SMB qua null session.</span></li><li><span class="en"><code>nltest /domain_trusts</code> style queries visible in Windows Event Logs.</span><span class="vi">Truy vấn kiểu <code>nltest /domain_trusts</code> hiển thị trong Windows Event Logs.</span></li></ul>
-
-<h3>Slow and Distributed Scanning Detection</h3><ul><li><strong>Slow scan:</strong> Same scan spread over hours or days to stay below per-minute IDS thresholds. Detection: aggregate connection data over long windows; single source scanning many ports slowly over time.</li><li><strong>Distributed scan:</strong> Coordinated across many source IPs (botnet) — each individual source looks normal. Detection: aggregate by destination across all sources; many IPs scanning same target in sequence.</li><li><strong>Detection challenges:</strong> Both techniques deliberately evade threshold-based IDS. Require: long-window correlation, reputation scoring, ML anomaly detection, or honeypot-triggered alerting.</li><li><strong>Indicators despite evasion:</strong> Sequential port / IP destination patterns across sources; matching tool fingerprints; honeypot host touched by multiple distributed IPs.</li></ul>
-
-
-<h3 class="qz-theory"><span class="en">Reconnaissance — Scans &amp; Sweeps</span><span class="vi">Trinh sát — Quét &amp; sweep</span></h3>
+<details class="tier deep-dive" id="d10-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Đo fan-out/fan-in, port diversity, rate và failure ratio; tách external/internal.</li>
+<li>Nhận diện SYN/connect/UDP/ICMP/service/AD enumeration.</li>
+<li>Map source process/user và hoạt động tiếp theo để phân biệt admin/scanner/actor.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><span class="en">Many SYNs to sequential ports/hosts with few completed handshakes = port scanning. A <strong>SYN/half-open scan</strong> (<code>-sS</code>) sends RST after the SYN-ACK (stealthier, often unlogged by the app); a <strong>connect scan</strong> (<code>-sT</code>) completes the full handshake and is more likely logged.</span><span class="vi">nhiều SYN tới các cổng/host tuần tự với ít bắt tay hoàn tất = quét cổng. <strong>Quét SYN/half-open</strong> (<code>-sS</code>) gửi RST sau SYN-ACK (ẩn hơn, ứng dụng thường không ghi log); <strong>quét connect</strong> (<code>-sT</code>) hoàn tất bắt tay đầy đủ và dễ bị ghi log hơn.</span></li>
-<li><span class="en"><strong>XMAS/FIN/NULL</strong> scans exploit RFC 793: a closed port replies <code>RST</code>, an open|filtered port stays silent. XMAS sets FIN+PSH+URG. (Windows often deviates, replying RST regardless — itself a fingerprint.)</span><span class="vi"><strong>XMAS/FIN/NULL</strong> khai thác RFC 793: cổng đóng trả <code>RST</code>, cổng mở|filtered im lặng. XMAS bật FIN+PSH+URG. (Windows thường lệch chuẩn, trả RST bất kể — chính là một fingerprint.)</span></li>
-<li><span class="en">Bursts of ICMP echo across a /24 = a <strong>ping sweep</strong> (host discovery). After a foothold, large numbers of <strong>LDAP queries</strong> to a DC = internal Active Directory recon (BloodHound-style enumeration of users/groups/ACLs).</span><span class="vi">các đợt ICMP echo khắp một /24 = <strong>ping sweep</strong> (phát hiện host). Sau khi có chỗ đứng, số lượng lớn <strong>truy vấn LDAP</strong> tới một DC = trinh sát Active Directory nội bộ (liệt kê user/nhóm/ACL kiểu BloodHound).</span></li></ul>
-`;
+<li>One-to-many SYN/RST, ICMP sweep, LDAP burst, share/user enumeration.</li>
+<li>Firewall/IDS, DC LDAP, EDR command line và scanner schedule.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>
+<code>tshark -Y "tcp.flags.syn==1 &amp;&amp; tcp.flags.ack==0"</code>
+</li>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Baseline approved vulnerability scanners.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>SCCM/vulnerability scanner fan-out cao nhưng có owner/schedule; workstation thường chạy <code>net group /domain</code> rồi SMB nhiều host là internal recon đáng ngờ.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>Slow scan né rate threshold.</li>
+<li>NAT che nhiều external scanners sau một IP.</li>
+<li>Passive OSINT không xuất hiện trong network log nội bộ.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> MITRE Discovery/Reconnaissance; Nmap documentation; IDS guidance.</p>
+</div>
+</details>`;

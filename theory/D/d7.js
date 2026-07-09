@@ -1,62 +1,89 @@
-/* Theory — D7 (Appendix D). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["d7"]=`<h2>D7 — Command and Control Channels</h2><ul>
+/* Theory — D7 (Appendix D). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["d7"]=`<h2>D7 — Command and Control Channels</h2>
 
-<li><span class="en">C2 can be overt or covert over HTTP / S, DNS, SMTP, IRC, ICMP, SMB, cloud APIs, or social platforms.</span><span class="vi">C2 có thể công khai hoặc bí mật qua HTTP / S, DNS, SMTP, IRC, ICMP, SMB, API cloud hoặc nền tảng mạng xã hội.</span></li>
+<div class="tier recall" id="d7-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>HTTP(S) C2:</strong> <span class="en">Regular POSTs with Base64/encrypted bodies to a fixed URI on a newly-registered domain = agent check-in.</span><span class="vi">POST định kỳ với body Base64/mã hóa tới một URI cố định trên domain mới đăng ký = agent check-in.</span></li>
+<li><strong>DNS C2:</strong> <span class="en">Commands/responses encoded in subdomain labels and TXT records.</span><span class="vi">Lệnh/phản hồi mã hóa trong nhãn subdomain và bản ghi TXT.</span></li>
+<li><strong>Covert vs open:</strong> <span class="en">Open = obvious protocol/port; covert = hidden in DNS/ICMP, domain fronting, or a legitimate service (paste site, Telegram, cloud API).</span><span class="vi">Open = giao thức/cổng lộ; covert = giấu trong DNS/ICMP, domain fronting, hoặc dịch vụ hợp lệ (paste site, Telegram, cloud API).</span></li>
+<li><strong>Domain fronting:</strong> <span class="en">A trusted domain in the TLS SNI, but the Host header points to the real C2.</span><span class="vi">Một domain tin cậy ở SNI của TLS, nhưng Host header trỏ tới C2 thật.</span></li>
+<li><strong>Cobalt Strike:</strong> <span class="en">A default beacon is detectable by known malleable-C2 artefacts (URIs, JA3, named pipes).</span><span class="vi">Beacon mặc định lộ qua artefact malleable-C2 đã biết (URI, JA3, named pipe).</span></li>
+<li><strong>Self-signed + rare JA3:</strong> <span class="en">HTTPS to a fresh domain with a self-signed cert and a rare JA3 is highly C2-consistent.</span><span class="vi">HTTPS tới domain mới với cert tự ký và JA3 hiếm rất khớp với C2.</span></li>
+</ul></div></div>
 
-<li><span class="en">Detection: statistical patterns, known IoCs, protocol anomalies, domain age, beacon interval, URI patterns, headers, JA3, DNS TXT / subdomain abuse.</span><span class="vi">Phát hiện: mẫu thống kê, IoC đã biết, bất thường giao thức, tuổi domain, khoảng beacon, mẫu URI, header, JA3, lạm dụng DNS TXT / subdomain.</span></li>
+<details class="tier concept" id="d7-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Các kênh C2 phổ biến</h4>
+<p><strong>HTTP/S</strong>: agent gửi check-in định kỳ (POST body Base64/mã hóa) tới một URI cố định; hòa vào web traffic. <strong>DNS</strong>: nhồi lệnh vào subdomain, trả lời trong TXT. <strong>ICMP</strong>, <strong>protocol qua cổng thường</strong> (53/80/443). <strong>Dùng dịch vụ hợp lệ</strong> (paste site, Telegram, cloud API) khiến khó chặn vì lẫn với traffic bình thường được cho phép.</p>
 
-<li><span class="en">Common evasion: HTTPS, domain fronting, fast-flux, DGA, CDN use, encrypted payloads, user-agent impersonation.</span><span class="vi">Trốn tránh phổ biến: HTTPS, domain fronting, fast-flux, DGA, dùng CDN, payload mã hóa, giả mạo user-agent.</span></li>
+<h4>Kỹ thuật né</h4>
+<p><strong>Domain fronting</strong>: SNI dùng một domain CDN tin cậy, nhưng Host header bên trong trỏ tới C2 thật → giám sát SNI bị qua mặt. <strong>Malleable C2</strong> (Cobalt Strike) tùy biến URI/header/JA3 để giả dạng traffic hợp lệ — nhưng <em>cấu hình mặc định</em> để lại artefact đã biết (URI mặc định, JA3, named pipe <code>msagent_xx</code>).</p>
 
-<li><span class="en">Manual review should answer: who talked to whom, how often, what protocol, what data volume, and what changed after contact.</span><span class="vi">Xem xét thủ công nên trả lời: ai giao tiếp với ai, tần suất thế nào, giao thức gì, lượng dữ liệu bao nhiêu và gì đã thay đổi sau khi liên lạc.</span></li>
+<h4>Phát hiện</h4>
+<p>Kết hợp: <strong>thống kê</strong> (beaconing — xem D5), <strong>signature</strong> (JA3, URI, named pipe IoC), <strong>rà tay</strong> (domain mới đăng ký, cert tự ký, JA3 hiếm, body mã hóa định kỳ). Một host POST đều tới domain mới với cert tự ký + JA3 hiếm là rất đáng ngờ.</p>
+</div></details>
 
-</ul>
-
-<h3>Cloud-Based C2</h3>
-
-<p><span class="en">Attackers increasingly abuse legitimate cloud services for C2 to blend with normal traffic and bypass allowlist-based security controls.</span><span class="vi">Kẻ tấn công ngày càng lạm dụng các dịch vụ cloud hợp pháp cho C2 để hòa lẫn với lưu lượng bình thường và vượt qua kiểm soát bảo mật dựa trên allowlist.</span></p>
-
+<details class="tier reference" id="d7-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>C2 channels</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Platform</th><th>Abuse method</th><th>Detection</th></tr>
-
-<tr><td>OneDrive / SharePoint</td><td>Store payloads or receive tasking via shared files; beacon to Microsoft Graph API.</td><td>Unusual API calls; access from unexpected endpoints; large downloads from shared links.</td></tr>
-
-<tr><td>Google Drive</td><td>Host payloads; exfiltrate data via upload; receive commands via document edits.</td><td>OAuth tokens from unexpected apps; large uploads; access patterns outside normal user behaviour.</td></tr>
-
-<tr><td>Slack / Teams</td><td>Use webhooks or bot APIs for bidirectional C2; send commands via messages.</td><td>Webhook creation by non-admin users; messages to unknown channels; API calls from unexpected IPs.</td></tr>
-
-<tr><td>Telegram</td><td>Bot API for command relay; channels for payload distribution.</td><td>API calls to api.telegram.org from non-browser processes; unusual outbound Telegram traffic volume.</td></tr>
-
-<tr><td>AWS / Azure / GCP</td><td>Use serverless functions (Lambda, Azure Functions) as C2 relay; abuse cloud metadata APIs.</td><td>Unexpected Lambda invocations; metadata API access from compromised instances; unusual API call patterns.</td></tr>
-
+<tr><th>Channel</th><th>Encoding / tell</th></tr>
+<tr><td>HTTP/S</td><td>Periodic POSTs, Base64/encrypted body, fixed URI</td></tr>
+<tr><td>DNS</td><td>Subdomain labels + TXT records</td></tr>
+<tr><td>ICMP</td><td>Payload in echo packets</td></tr>
+<tr><td>Domain fronting</td><td>Trusted SNI, Host header → real C2</td></tr>
+<tr><td>Legitimate services</td><td>Paste sites, Telegram, cloud APIs</td></tr>
 </table></div>
 
-<h3>Common C2 Frameworks and Indicators</h3>
-
+<h4>Cobalt Strike default artefacts</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Framework</th><th>Typical indicators</th></tr>
-
-<tr><td>Cobalt Strike</td><td>Default JA3 hash; "/jquery-3.3.1.min.js" URI pattern; named pipe "\\\\msagent_XX"; Beacon config in memory; DNS TXT beaconing; watermark in metadata.</td></tr>
-
-<tr><td>Sliver</td><td>mTLS or WireGuard C2; unusual certificate patterns; default HTTP headers; DNS-over-HTTPS C2; generate binary with embedded config.</td></tr>
-
-<tr><td>Brute Ratel</td><td>Designed to evade EDR; uses syscall-based execution; encrypted memory artifacts; HTTP / DNS / DoH C2; attempts to blend with legitimate traffic patterns.</td></tr>
-
-<tr><td>Mythic</td><td>GraphQL-based C2 communication; REST API on management port; agent callbacks with JSON structure; supports multiple C2 profiles (HTTP, DNS, SMB, WebSocket).</td></tr>
-
-<tr><td>Metasploit / Meterpreter</td><td>Default stage URI "/XXXX"; known payload hashes; reverse_tcp / reverse_http patterns; stdapi extension loading.</td></tr>
-
+<tr><th>Artefact</th><th>Note</th></tr>
+<tr><td>Default malleable-C2 URIs</td><td>Recognisable patterns</td></tr>
+<tr><td>JA3 / JA3S fingerprint</td><td>TLS negotiation signature</td></tr>
+<tr><td>Named pipes (msagent_xx)</td><td>Host-based IoC</td></tr>
 </table></div>
+</div></details>
 
-<div class="callout warning"><strong>Exam tip:</strong> <span class="en">C2 frameworks can be customised to change default indicators. Do not rely solely on default signatures — combine with behavioural analysis (beaconing, data volume, endpoint telemetry).</span><span class="vi">Framework C2 có thể được tùy chỉnh để thay đổi chỉ báo mặc định. Không chỉ dựa vào chữ ký mặc định — kết hợp với phân tích hành vi (beacon, khối lượng dữ liệu, telemetry endpoint).</span></div>
-
-<h3>DNS-Based C2 and Domain Fronting Detail</h3><ul><li><strong>DNS C2 mechanism:</strong> Implant encodes results in DNS subdomain queries: <code>base64chunk.c2domain.com</code>. Attacker answers with encoded commands in DNS response (TXT, CNAME, A records).</li><li><strong>Detection:</strong> High query rate to single domain, subdomain labels &gt;50 chars, high Shannon entropy subdomains (~5.0 bits / char vs legitimate ~3.5), unusual query types (TXT, NULL, CNAME in high volume)</li><li><strong>Domain fronting:</strong> HTTPS request — SNI shows legitimate CDN (cloudflare.com), Host header routes to attacker backend. Firewall sees legit CDN → allows. Detection: TLS inspection; compare SNI vs Host header mismatch.</li></ul>
-
-<div class="callout danger"><strong>Why DNS C2 is dangerous — bypass mechanism</strong><p><span class="en">Implant sends queries via <strong>UDP port 53</strong> — no TCP connection needed. Firewalls typically allow outbound DNS unconditionally. No TCP handshake → no connection log. Data is encoded in subdomains: <code>base64data.c2domain.com</code>. Detection is only possible through DNS log analysis (RITA, Zeek dns.log, Shannon entropy of subdomains).</span><span class="vi">Implant gửi truy vấn qua <strong>UDP port 53</strong> — không cần kết nối TCP. Tường lửa thường cho phép DNS ra ngoài vô điều kiện. Không có TCP handshake → không có log kết nối. Dữ liệu được mã hóa trong subdomain: <code>base64data.c2domain.com</code>. Chỉ có thể phát hiện thông qua phân tích log DNS (RITA, Zeek dns.log, Shannon entropy của subdomain).</span></p></div>
-<h3 class="qz-theory"><span class="en">Command &amp; Control Channels</span><span class="vi">Kênh điều khiển từ xa (C2)</span></h3>
+<details class="tier deep-dive" id="d7-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Map channel open/covert theo protocol, destination, cadence và command-response.</li>
+<li>Kết hợp flow statistics, IDS signature, TLS/DNS metadata và endpoint process tree.</li>
+<li>Xác nhận callback, tasking, response hoặc host artefact; scope toàn fleet.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><strong><span class="en">Covert channels:</span><span class="vi">Kênh ngầm:</span></strong> <span class="en">DNS tunnelling (commands in subdomain labels, responses in TXT) and ICMP echo payloads hide C2 inside normally-allowed protocols; detect via anomaly/volume analysis, not port blocking.</span><span class="vi">DNS tunnelling (lệnh trong nhãn subdomain, phản hồi trong TXT) và payload ICMP echo giấu C2 trong giao thức thường được cho phép; phát hiện qua phân tích bất thường/lưu lượng, không phải chặn cổng.</span></li>
-<li><strong>HTTP(S) C2:</strong> <span class="en">Regular GET (fetch task) / POST (return Base64/encrypted result) to a fixed URI; a newly-registered domain + self-signed cert + rare JA3 + regular POSTs strongly fits framework C2 (Cobalt Strike-style). Default C2 profiles have recognisable URIs/headers/JA3/named pipes — operators customise them, so combine network + host indicators.</span><span class="vi">GET đều đặn (lấy tác vụ) / POST (trả kết quả Base64/đã mã hóa) tới một URI cố định; domain mới đăng ký + cert tự ký + JA3 hiếm + POST đều rất khớp C2 framework (kiểu Cobalt Strike). Profile C2 mặc định có URI/header/JA3/named pipe nhận ra được — người vận hành tùy biến, nên kết hợp chỉ dấu mạng + host.</span></li>
-<li><strong><span class="en">Evasion:</span><span class="vi">Né tránh:</span></strong> <span class="en"><em>Domain fronting</em> uses a permitted domain in the TLS SNI while the encrypted Host header routes to the C2 behind the same CDN; <em>living off trusted services</em> (paste sites, Telegram, cloud APIs) defeats domain-reputation blocking — shift to behavioural detection.</span><span class="vi"><em>Domain fronting</em> dùng một domain được phép trong SNI của TLS trong khi host header đã mã hóa định tuyến tới C2 sau cùng CDN; <em>living off trusted services</em> (trang paste, Telegram, API đám mây) vô hiệu chặn theo danh tiếng domain — chuyển sang phát hiện theo hành vi.</span></li></ul>
-`;
+<li>HTTP URI/header/cookie, DNS TXT/subdomain, ICMP payload, cloud API.</li>
+<li>Domain age/ASN, cert, fingerprint, named pipe và C2 process.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Suricata/Zeek query; Wireshark Follow Stream; passive DNS pivot.</li>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Tạo detection theo behavior + infrastructure, tránh chỉ hard-code IOC.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>POST đều tới cloud API có thể SaaS; binary unsigned trong temp + fixed encrypted body + persistence nâng confidence thành C2.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>Domain fronting interpretation phụ thuộc CDN/TLS visibility.</li>
+<li>Legitimate service abuse khiến block domain gây business impact.</li>
+<li>Malleable profiles thay signature dễ dàng.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> MITRE ATT&amp;CK Command and Control; Zeek/Suricata; Cobalt Strike detection guidance.</p>
+</div>
+</details>`;

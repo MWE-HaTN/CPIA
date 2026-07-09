@@ -1,56 +1,87 @@
-/* Theory — D5 (Appendix D). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["d5"]=`<h2>D5 — Beaconing</h2><ul>
+/* Theory — D5 (Appendix D). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["d5"]=`<h2>D5 — Beaconing</h2>
 
-<li><span class="en">Beaconing is repeated outbound communication from compromised host to C2 or staging infrastructure.</span><span class="vi">Beaconing là giao tiếp ra ngoài lặp đi lặp lại từ host bị xâm phạm đến C2 hoặc cơ sở hạ tầng staging.</span></li>
+<div class="tier recall" id="d5-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Beaconing pattern:</strong> <span class="en">Small, regular, periodic connections to the same external host — machine-like regularity unlike human activity.</span><span class="vi">Kết nối nhỏ, đều, định kỳ tới cùng một host ngoài — đều đặn kiểu máy móc, khác hành vi con người.</span></li>
+<li><strong>Jitter:</strong> <span class="en">Attackers add random jitter to beacon intervals to evade fixed-interval detection.</span><span class="vi">Kẻ tấn công thêm jitter ngẫu nhiên vào chu kỳ beacon để né phát hiện theo chu kỳ cố định.</span></li>
+<li><strong>Detect despite jitter:</strong> <span class="en">Inter-arrival times still CLUSTER statistically even with jitter.</span><span class="vi">Khoảng cách thời gian vẫn CO CỤM về thống kê dù có jitter.</span></li>
+<li><strong>Long-lived low-volume:</strong> <span class="en">A persistent, low-volume connection to a single rare external IP over days = likely C2 beacon.</span><span class="vi">Một kết nối lâu dài, lưu lượng thấp tới một IP ngoài hiếm trong nhiều ngày = khả năng beacon C2.</span></li>
+<li><strong>Detection methods:</strong> <span class="en">Statistical analysis (timing regularity), signatures (known JA3/URI), and manual review of traffic/logs.</span><span class="vi">Phân tích thống kê (đều về thời gian), signature (JA3/URI đã biết), và rà tay traffic/log.</span></li>
+</ul></div></div>
 
-<li><span class="en">Indicators: regular intervals, jitter, small payloads, uncommon destination, long-lived low-volume flows, DGA domains.</span><span class="vi">Chỉ báo: khoảng thời gian đều đặn, jitter, payload nhỏ, đích không phổ biến, flow tồn tại lâu và lượng thấp, domain DGA.</span></li>
+<details class="tier concept" id="d5-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Beaconing là gì &amp; vì sao lộ</h4>
+<p>Malware "gọi về" C2 định kỳ để nhận lệnh — tạo ra <strong>các kết nối nhỏ, đều, lặp lại</strong> tới cùng đích. Sự đều đặn <em>kiểu máy móc</em> (vd đúng mỗi 60 giây) rất khác hoạt động con người (rải rác, đa dạng) → đó là điểm để phát hiện.</p>
 
-<li><span class="en">Detection: frequency analysis, proxy / DNS logs, Zeek conn.log, JA3, HTTP URI / user-agent patterns, IDS signatures.</span><span class="vi">Phát hiện: phân tích tần số, log proxy / DNS, Zeek conn.log, JA3, mẫu HTTP URI / user-agent, chữ ký IDS.</span></li>
+<h4>Jitter &amp; cách phát hiện</h4>
+<p>Để né phát hiện theo chu kỳ cố định, kẻ tấn công thêm <strong>jitter</strong> (ngẫu nhiên hóa khoảng cách, vd ±20%). Nhưng <strong>phân tích thống kê</strong> khoảng cách giữa các lần (inter-arrival) vẫn thấy chúng <em>co cụm</em> quanh một giá trị → vẫn lộ. Kết hợp: thống kê (timing), <strong>signature</strong> (URI mặc định, fingerprint JA3/TLS của framework như Cobalt Strike), và <strong>rà tay</strong>.</p>
 
-<li><span class="en">Distinguish from legitimate beacons: software update agents, telemetry, NTP, EDR, cloud sync.</span><span class="vi">Phân biệt với beacon hợp lệ: agent cập nhật phần mềm, telemetry, NTP, EDR, đồng bộ cloud.</span></li>
+<h4>Phân biệt với traffic bình thường</h4>
+<p>Beacon: kết nối nhỏ/đều/bền tới host hiếm. Traffic bình thường: tải một lần lớn từ CDN, duyệt web đa dạng theo giờ làm, đồng bộ NTP định kỳ (nhưng tới NTP server hợp lệ). Đối chiếu baseline mạng giúp loại nhiễu.</p>
+</div></details>
 
-</ul>
-
-<h3>Beaconing Detection Techniques</h3>
-
-<ul>
-
-<li><strong>Interval analysis:</strong> Calculate time between consecutive connections to same destination; look for consistent intervals (e.g., every 60s ± 5s jitter).</li>
-
-<li><strong>Chi-squared test:</strong> Compare observed connection intervals against uniform distribution; beaconing shows low chi-squared p-value (non-random pattern).</li>
-
-<li><strong>FFT (Fast Fourier Transform):</strong> Apply to connection time series; beaconing produces distinct frequency peaks at the beacon interval.</li>
-
-<li><strong>DBSCAN clustering:</strong> Cluster Zeek conn.log entries by destination IP and inter-arrival time; tight clusters with regular spacing indicate beaconing.</li>
-
-<li><strong>Volume analysis:</strong> Beaconing typically shows small, consistent payload sizes; contrast with bulk data transfer.</li>
-
-</ul>
-
-<h3>Legitimate vs Malicious Beacon Patterns</h3>
-
+<details class="tier reference" id="d5-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Beacon indicators</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Characteristic</th><th>Legitimate beacon</th><th>Malicious beacon (C2)</th></tr>
-
-<tr><td>Destination</td><td>Known vendor / update domain; resolves to expected IP range</td><td>Recently registered domain; resolves to VPS / cloud IP; DGA-generated</td></tr>
-
-<tr><td>Interval</td><td>Regular but may vary with usage; follows software update schedule</td><td>Very regular with small jitter; may adapt to business hours</td></tr>
-
-<tr><td>Payload size</td><td>Variable; larger for updates</td><td>Small and consistent (check-in); may spike on tasking</td></tr>
-
-<tr><td>Protocol</td><td>Expected for the application (HTTPS for updates)</td><td>May use unusual protocols or ports; DNS for data exfil</td></tr>
-
-<tr><td>TLS fingerprint</td><td>Matches known application (e.g., Windows Update, Chrome)</td><td>JA3 may match known malware or be generic / custom</td></tr>
-
-<tr><td>User-Agent</td><td>Matches legitimate application string</td><td>Generic, missing, or impersonating legitimate browser</td></tr>
-
+<tr><th>Feature</th><th>Beacon</th><th>Normal</th></tr>
+<tr><td>Timing</td><td>Regular/periodic (even with jitter)</td><td>Irregular, human-driven</td></tr>
+<tr><td>Volume</td><td>Small, steady</td><td>Variable / bursty</td></tr>
+<tr><td>Destination</td><td>Single rare external host</td><td>Many known sites/CDNs</td></tr>
+<tr><td>Duration</td><td>Long-lived, persistent</td><td>Short sessions</td></tr>
 </table></div>
 
-<h3>Detection Tools and Covert Beacon Channels</h3><ul><li><strong>RITA (Real Intelligence Threat Analytics):</strong> Purpose-built open-source beacon detector. Ingests Zeek logs → scores connections for interval regularity, long connections, and DNS anomalies automatically.</li><li><strong>Statistical method:</strong> For each src→dst pair: collect timestamps → compute inter-connection intervals → calculate StdDev. Low StdDev = regular = beacon candidate.</li><li><strong>DNS beaconing:</strong> Query <code>[encoded].c2domain.com</code> every N seconds. No TCP needed — bypasses most firewalls. Detect: high query rate to single domain, high-entropy subdomains.</li><li><strong>ICMP beaconing:</strong> Ping to C2 at regular intervals. Data encoded in ICMP echo payload. Detect: non-standard payload size / content, abnormal frequency.</li><li><strong>Sleeping implants:</strong> Very long beacon interval (hours / days) — deliberately evades short-window detection. Requires long observation window.</li></ul>
-<h3 class="qz-theory"><span class="en">Beaconing Detection</span><span class="vi">Phát hiện Beaconing</span></h3>
+<h4>Detection methods</h4>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Looks for</th></tr>
+<tr><td>Statistical</td><td>Clustering of inter-arrival times</td></tr>
+<tr><td>Signature</td><td>Known URIs, JA3/TLS fingerprints</td></tr>
+<tr><td>Manual review</td><td>Patterns in traffic/logs</td></tr>
+</table></div>
+</div></details>
+
+<details class="tier deep-dive" id="d5-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Tạo time series theo host-destination và inter-arrival; tính median, variance/jitter, duration và byte ratio.</li>
+<li>So baseline/allowlist, enrich domain/ASN/certificate rồi kiểm tra process/DNS.</li>
+<li>Tìm beacon cố định, jittered, failed callback và multi-protocol fallback.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><strong><span class="en">Signature:</span><span class="vi">Dấu hiệu:</span></strong> <span class="en">Small, regular, periodic callbacks to the <em>same</em> C2 endpoint at near-fixed intervals. Human browsing is irregular and varied.</span><span class="vi">Callback nhỏ, đều đặn, định kỳ tới <em>cùng</em> endpoint C2 ở khoảng gần cố định. Duyệt web của người thì không đều, đa dạng.</span></li>
-<li><strong>Jitter:</strong> <span class="en">Attackers randomise the interval (e.g. ±30%) so it no longer looks like a clockwork heartbeat. Robust detection uses <strong>statistical clustering of inter-arrival times</strong> (they still cluster around a mean), not naive fixed-interval rules.</span><span class="vi">Kẻ tấn công ngẫu nhiên hóa khoảng (vd ±30%) để không còn giống nhịp đều như đồng hồ. Phát hiện tốt dùng <strong>phân cụm thống kê thời gian giữa các gói</strong> (vẫn phân cụm quanh một trung bình), không phải rule khoảng cố định ngây thơ.</span></li>
-<li><strong><span class="en">Low-and-slow:</span><span class="vi">Low-and-slow:</span></strong> <span class="en">Long-lived, low-volume connections to a single rare external IP over days are a classic C2 signature. Note legitimate updaters/telemetry also beacon — confirm destination reputation and the responsible process.</span><span class="vi">Kết nối tồn tại lâu, lưu lượng thấp tới một IP ngoài hiếm gặp trong nhiều ngày là dấu hiệu C2 kinh điển. Lưu ý updater/telemetry hợp lệ cũng beacon — xác nhận danh tiếng đích và tiến trình chịu trách nhiệm.</span></li></ul>
-`;
+<li>Periodic connection, fixed URI/size, low byte volume, long-lived pattern.</li>
+<li>DNS→TCP sequence, JA3/JA4-like fingerprint, SNI/cert và EDR network event.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Zeek conn.log nhóm theo id.orig_h/id.resp_h; histogram inter-arrival.</li>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Không chỉ dùng một ngưỡng periodicity; kiểm tra nhiều cửa sổ.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>Update agent 60 phút/lần và malware beacon đều periodic; signer/process, approved domain, response payload và fleet prevalence phân biệt chúng.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>Jitter phá exact interval nhưng không xóa distribution.</li>
+<li>Sleep/offline host tạo gap tự nhiên.</li>
+<li>NAT gộp nhiều host làm flow-level pattern méo.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> Zeek documentation; MITRE ATT&amp;CK T1071; vendor beacon-analysis research.</p>
+</div>
+</details>`;

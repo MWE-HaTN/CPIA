@@ -1,39 +1,97 @@
-/* Theory — B8 (Appendix B). Edit the HTML below. */
+/* Theory — B8 (Appendix B). 3-tier layout: Recall / Concept / Reference. */
 (window.CPIA_THEORY=window.CPIA_THEORY||{})["b8"]=`<h2>B8 — Applications of Cryptography</h2>
 
-<h3>TLS handshake flow and JA3</h3>
+<div class="tier recall" id="b8-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>TLS:</strong> <span class="en">Modern TLS separates authentication from key establishment: certificates/signatures commonly authenticate, while (EC)DHE or PSK establishes shared secrets; symmetric AEAD protects records.</span><span class="vi">TLS hiện đại tách authentication khỏi key establishment: certificate/signature thường dùng để xác thực, (EC)DHE hoặc PSK tạo shared secret, rồi AEAD đối xứng bảo vệ record.</span></li>
+<li><strong>IPSec:</strong> <span class="en">ESP = confidentiality (encryption); AH = integrity/authentication only; IKE = key exchange.</span><span class="vi">ESP = bí mật (mã hóa); AH = chỉ toàn vẹn/xác thực; IKE = trao khóa.</span></li>
+<li><strong>SSH:</strong> <span class="en">Provides encrypted remote services; host-key verification can detect an unexpected server identity, but users must validate first-use keys and investigate legitimate rotations.</span><span class="vi">Cung cấp dịch vụ từ xa được mã hóa; kiểm tra host key có thể phát hiện server identity bất ngờ, nhưng người dùng phải xác minh khóa lần đầu và phân biệt key rotation hợp lệ.</span></li>
+<li><strong>OpenPGP:</strong> <span class="en">Supports encryption and signatures for messages/files. Trust may use a web-of-trust model, direct verification, or organisational policy.</span><span class="vi">Hỗ trợ mã hóa và ký message/file. Trust có thể dựa trên web of trust, xác minh trực tiếp hoặc chính sách tổ chức.</span></li>
+<li><strong>Wireless:</strong> <span class="en">WEP is broken and TKIP is legacy. WPA2-AES/CCMP is a strong legacy baseline; WPA3 adds newer protections such as SAE.</span><span class="vi">WEP đã bị phá và TKIP là legacy. WPA2-AES/CCMP là baseline cũ tương đối mạnh; WPA3 bổ sung bảo vệ mới hơn như SAE.</span></li>
+<li><strong>Cert validation:</strong> <span class="en">Chains to a trusted CA, in-date, and the hostname matches — a padlock alone proves nothing.</span><span class="vi">Chuỗi tới CA tin cậy, còn hạn, và hostname khớp — chỉ cái khóa móc không chứng minh gì.</span></li>
+</ul></div></div>
 
-<ol><li><strong>ClientHello:</strong> <span class="en">Client proposes TLS version, cipher suites, extensions, and supported groups.</span><span class="vi">Client đề xuất phiên bản TLS, cipher suite, extension và nhóm được hỗ trợ.</span></li><li><strong>ServerHello:</strong> <span class="en">Server selects parameters.</span><span class="vi">Server chọn các tham số.</span></li><li><strong>Certificate:</strong> <span class="en">Server presents certificate chain for identity validation.</span><span class="vi">Server trình bày chuỗi chứng chỉ để xác minh danh tính.</span></li><li><strong>Key exchange:</strong> <span class="en">Session keys are established.</span><span class="vi">Khóa phiên được thiết lập.</span></li><li><strong>Finished:</strong> <span class="en">Both sides confirm the handshake and encrypted application data begins.</span><span class="vi">Cả hai bên xác nhận handshake và dữ liệu ứng dụng mã hóa bắt đầu.</span></li></ol>
+<details class="tier concept" id="b8-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>TLS/SSL — kết hợp hai loại mã hóa</h4>
+<p>Trong TLS hiện đại, certificate và chữ ký thường xác thực server; (EC)DHE hoặc PSK tham gia key establishment; key schedule sinh traffic keys và AEAD đối xứng bảo vệ record. Certificate validation còn gồm trust path, hostname/SAN, validity, key usage/policy và có thể revocation theo client. TLS 1.3 cipher suite biểu thị AEAD + HKDF hash, không gói toàn bộ authentication/key-exchange như cách đặt tên cipher suite cũ.</p>
 
-<p><strong>JA3 fingerprinting</strong> <span class="en">Hashes selected ClientHello fields to fingerprint TLS clients. It can help identify malware families even when payload content is encrypted, but it is not definitive attribution.</span><span class="vi">Hash các trường ClientHello được chọn để tạo dấu vân tay TLS client. Có thể giúp xác định họ malware ngay cả khi nội dung payload được mã hóa, nhưng không phải là truy nguyên dứt khoát.</span></p>
+<h4>IPSec — AH vs ESP</h4>
+<p><strong>ESP (Encapsulating Security Payload)</strong>: cung cấp <em>bí mật</em> (mã hóa payload) + toàn vẹn. <strong>AH (Authentication Header)</strong>: chỉ <em>toàn vẹn/xác thực</em>, không mã hóa. <strong>IKE</strong> đảm nhận trao khóa. Câu hỏi hay hỏi: "thành phần nào cung cấp confidentiality?" → ESP.</p>
 
-<h3>Wireless Encryption Quick Comparison</h3>
+<h4>SSH &amp; PGP</h4>
+<p><strong>SSH</strong>: shell từ xa mã hóa; lần đầu kết nối client lưu <em>host key</em> của server — lần sau nếu host key đổi = cảnh báo MITM/giả mạo. <strong>PGP</strong>: mã hóa và ký email/file bằng cặp khóa, tin cậy theo <em>web of trust</em> (không CA tập trung).</p>
 
+<h4>Mã hóa không dây</h4>
+<p><strong>WEP</strong>: lỗi thiết kế IV/RC4 → phá dễ dàng, không dùng. <strong>WPA</strong> (TKIP) cải thiện nhưng vẫn yếu. <strong>WPA2</strong> với <strong>AES-CCMP</strong> là chuẩn mạnh phổ biến. <strong>WPA3</strong> mới hơn. <strong>802.1X</strong> thêm xác thực theo cổng (EAP-TLS mạnh nhất, dùng cert).</p>
+</div></details>
+
+<details class="tier reference" id="b8-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Crypto applications</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Protocol</th><th>Status</th><th>Key point</th></tr>
-
-<tr><td>WEP</td><td>Broken</td><td>RC4-based; should be treated as insecure.</td></tr>
-
-<tr><td>WPA / TKIP</td><td>Deprecated</td><td>Transitional design; no longer considered strong.</td></tr>
-
-<tr><td>WPA2 / AES-CCMP</td><td>Common baseline</td><td>Security depends heavily on PSK strength and configuration.</td></tr>
-
-<tr><td>WPA3 / SAE</td><td>Modern</td><td>Improves password-based authentication and resistance to offline guessing.</td></tr>
-
+<tr><th>Protocol</th><th>Provides</th><th>Note</th></tr>
+<tr><td>TLS / SSL</td><td>Server auth + encrypted session</td><td>Asymmetric → symmetric</td></tr>
+<tr><td>IPSec ESP</td><td>Confidentiality + integrity</td><td>Encrypts payload</td></tr>
+<tr><td>IPSec AH</td><td>Integrity / authentication</td><td>No encryption</td></tr>
+<tr><td>SSH</td><td>Encrypted shell (22)</td><td>Host key detects MITM</td></tr>
+<tr><td>PGP</td><td>Email/file encrypt + sign</td><td>Web of trust</td></tr>
 </table></div>
 
-<div class="callout warning"><strong>Common confusion:</strong> <span class="en">WPA2 is not automatically secure if the passphrase is weak, WPS is enabled, or enterprise authentication is misconfigured.</span><span class="vi">WPA2 không tự động an toàn nếu cụm mật khẩu yếu, WPS được bật hoặc xác thực doanh nghiệp bị cấu hình sai.</span></div>
+<h4>Wireless encryption</h4>
+<div class="table-wrap"><table>
+<tr><th>Scheme</th><th>Cipher</th><th>Status</th></tr>
+<tr><td>WEP</td><td>RC4 + weak IV</td><td>Broken</td></tr>
+<tr><td>WPA</td><td>TKIP</td><td>Legacy / weaker</td></tr>
+<tr><td>WPA2</td><td>AES-CCMP</td><td>Strong legacy baseline; configuration still matters</td></tr>
+<tr><td>WPA3-Personal</td><td>SAE authentication; protected data cipher suite</td><td>Newer protections than WPA2-Personal PSK</td></tr>
+</table></div>
+</div></details>
 
-<h3>TLS Certificate Analysis Checklist</h3>
-
-<ul class="checklist"><li><strong>Subject</strong> and <strong>Subject Alternative Names (SAN)</strong> — <span class="en">does identity match the observed domain?</span><span class="vi">Danh tính có khớp với domain quan sát được không?</span></li><li><strong>Issuer</strong> and <strong>trust chain</strong> — <span class="en">is the issuer a legitimate CA?</span><span class="vi">người phát hành có phải CA hợp lệ không?</span></li><li><strong>Validity dates</strong> — <span class="en">currently valid? Suspiciously short-lived?</span><span class="vi">hiện có hiệu lực không? Ngắn đến mức đáng ngờ?</span></li><li><strong>Serial number</strong> — <span class="en">unique identifier for revocation lookup.</span><span class="vi">định danh duy nhất để tra cứu thu hồi.</span></li><li><strong>Key usage</strong> and <strong>extended key usage</strong> — <span class="en">appropriate for the observed protocol?</span><span class="vi">phù hợp với giao thức quan sát được không?</span></li><li><strong>Fingerprint / thumbprint</strong> — <span class="en">hash for quick comparison.</span><span class="vi">hash để so sánh nhanh.</span></li><li><strong>Revocation status</strong> — <span class="en">is it revoked or expired?</span><span class="vi">đã bị thu hồi hoặc hết hạn chưa?</span></li><li><strong>Mismatch</strong> between certificate identity and observed domain — <span class="en">strong indicator of C2 or phishing.</span><span class="vi">chỉ báo mạnh của C2 hoặc phishing.</span></li></ul>
-
-<h3>SSL / TLS, IPSec, SSH, PGP</h3><div class="table-wrap"><table><tr><th>Protocol</th><th>Purpose</th><th>Key Exam Points</th></tr><tr><td><strong>SSL / TLS</strong></td><td>Encrypted transport (HTTPS, SMTPS)</td><td>SSLv3 / TLS 1.0/1.1 broken (POODLE, BEAST). TLS 1.2 acceptable; TLS 1.3 current best. JA3 fingerprints the ClientHello.</td></tr><tr><td><strong>IPSec</strong></td><td>Network-layer VPN encryption</td><td>AH = integrity only (no encryption). ESP = encryption + integrity. Transport mode (host-host) vs Tunnel mode (gateway VPN).</td></tr><tr><td><strong>SSH</strong></td><td>Secure remote shell, SFTP</td><td>Port 22. Key-based auth uses ~/.ssh/authorized_keys — backdoor persistence method. SSH tunneling bypasses firewall rules.</td></tr><tr><td><strong>PGP / GPG</strong></td><td>Email encryption and signing</td><td>Hybrid encryption: RSA for key exchange, symmetric for data. Web of Trust model — no central CA.</td></tr></table></div>
-<h3 class="qz-theory"><span class="en">Applied Cryptography — TLS, IPSec, SSH, Wireless</span><span class="vi">Mật mã ứng dụng — TLS, IPSec, SSH, không dây</span></h3>
+<details class="tier deep-dive" id="b8-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Xác định protocol bảo vệ layer nào và threat model.</li>
+<li>Đọc negotiation: version, cipher, authentication, key exchange và certificate.</li>
+<li>Kiểm tra endpoint validation, key storage, downgrade và legacy fallback.</li>
+<li>Phân biệt traffic encrypted với traffic trusted/benign.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><strong>Wireless:</strong> <span class="en"><strong>WEP</strong> (RC4 + short reused 24-bit IV) is broken in minutes; <strong>WPA</strong> used TKIP (RC4 stopgap); <strong>WPA2</strong> mandates <strong>AES-CCMP</strong>; WPA3 added SAE.</span><span class="vi"><strong>WEP</strong> (RC4 + IV 24-bit ngắn, lặp) bị phá trong vài phút; <strong>WPA</strong> dùng TKIP (RC4 tạm); <strong>WPA2</strong> bắt buộc <strong>AES-CCMP</strong>; WPA3 thêm SAE.</span></li>
-<li><strong>TLS:</strong> <span class="en">Hybrid — asymmetric crypto (certificate, key exchange) authenticates the server and agrees a symmetric session key; bulk data then uses fast symmetric AES.</span><span class="vi">Lai — mật mã bất đối xứng (chứng chỉ, trao đổi khóa) xác thực máy chủ và thống nhất khóa phiên đối xứng; dữ liệu lớn dùng AES đối xứng nhanh.</span></li>
-<li><strong>IPSec:</strong> <span class="en"><strong>ESP</strong> provides confidentiality (encryption) + optional integrity; <strong>AH</strong> provides integrity/authentication but NO encryption. Transport mode encrypts the payload; tunnel mode the whole inner packet.</span><span class="vi"><strong>ESP</strong> cung cấp bảo mật (mã hóa) + toàn vẹn tùy chọn; <strong>AH</strong> cung cấp toàn vẹn/xác thực nhưng KHÔNG mã hóa. Transport mode mã hóa payload; tunnel mode mã hóa toàn bộ gói trong.</span></li>
-<li><strong>SSH:</strong> <span class="en">Encrypted remote shell/transfer/forwarding. The server <em>host key</em> (saved in known_hosts) authenticates the server — a sudden host-key-changed warning can indicate MITM. (Telnet/FTP/HTTP are cleartext.)</span><span class="vi">Shell/truyền/forward từ xa đã mã hóa. <em>Host key</em> của máy chủ (lưu trong known_hosts) xác thực máy chủ — cảnh báo host-key-changed bất ngờ có thể là MITM. (Telnet/FTP/HTTP là cleartext.)</span></li></ul>
-`;
+<li>TLS ClientHello/ServerHello, SNI, ALPN, chain và hostname.</li>
+<li>IPsec AH/ESP, transport/tunnel, IKE SA; SSH host key; PGP web of trust.</li>
+<li>802.11 RSN, 4-way handshake, CCMP/TKIP và enterprise 802.1X.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-active">NETWORK-ACTIVE</span>
+<code>openssl s_client -showcerts -connect host:443</code>
+</li>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Wireshark TLS handshake fields; <code>ssh-keygen -lf key</code>.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>TLS hợp lệ tới domain mới vẫn có thể là C2. Encryption bảo vệ kênh, không xác nhận mục đích của ứng dụng.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>SSLv2/v3 và WEP/TKIP là legacy yếu.</li>
+<li>IPsec AH không cung cấp confidentiality; ESP thường có.</li>
+<li>Bỏ qua certificate warning phá authentication dù encryption còn hoạt động.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> RFC 8446 §§2, 4.1, 7.1 (TLS 1.3); RFC 4301/4302/4303 (IPsec/AH/ESP); RFC 4251 (SSH architecture); RFC 9580 (OpenPGP); IEEE 802.11 và Wi-Fi Alliance WPA3 guidance.</p>
+</div>
+</details>`;

@@ -1,80 +1,113 @@
-/* Theory — A2 (Appendix A). Edit the HTML below. */
+/* Theory — A2 (Appendix A). 3-tier layout: Recall / Concept / Reference. */
 (window.CPIA_THEORY=window.CPIA_THEORY||{})["a2"]=`<h2>A2 — Incident Chronology</h2>
 
-<div class="callout danger"><strong>Exam trap — MACB timestamps</strong><p><span class="en">Do not confuse <strong>Modified</strong> and <strong>Changed</strong>. Modified means file content changed. Changed means NTFS metadata changed, such as permissions, ownership, rename, or timestamp updates. Timestomping indicators are suspicious only after correlation with USN Journal, event logs, and other metadata.</span><span class="vi">Đừng nhầm lẫn <strong>Modified</strong> và <strong>Changed</strong>. Modified nghĩa là nội dung file thay đổi. Changed nghĩa là metadata NTFS thay đổi, ví dụ quyền truy cập, quyền sở hữu, đổi tên hoặc cập nhật timestamp. Dấu hiệu Timestomping chỉ đáng ngờ sau khi đối chiếu với USN Journal, event log và các metadata khác.</span></p></div>
+<div class="tier recall" id="a2-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Normalise to UTC:</strong> <span class="en">Convert every source to one common reference (UTC) and record the source of each event in a "super timeline".</span><span class="vi">Quy mọi nguồn về một mốc chung (UTC) và ghi rõ nguồn của từng sự kiện trong "super timeline".</span></li>
+<li><strong>MACB (NTFS):</strong> <span class="en">Modified, Accessed, metadata-Changed, Born/created.</span><span class="vi">Modified (sửa nội dung), Accessed (truy cập), metadata-Changed (đổi metadata), Born/created (tạo).</span></li>
+<li><strong>Timestamp epochs:</strong> <span class="en">Windows FILETIME = 100-ns ticks since 1601-01-01; Unix = seconds since 1970; Chrome/WebKit = microseconds since 1601.</span><span class="vi">FILETIME của Windows = đơn vị 100ns tính từ 1601-01-01; Unix = giây từ 1970; Chrome/WebKit = micro-giây từ 1601.</span></li>
+<li><strong>Detect timestomping:</strong> <span class="en">Compare $STANDARD_INFORMATION times against $FILE_NAME times in the MFT — a mismatch is a red flag.</span><span class="vi">So sánh mốc thời gian trong $STANDARD_INFORMATION với $FILE_NAME của MFT — lệch nhau là dấu hiệu đáng ngờ.</span></li>
+<li><strong>Clock drift:</strong> <span class="en">A host with no NTP drifts; measure the offset against a trusted source and apply it as a correction.</span><span class="vi">Máy không có NTP sẽ trôi đồng hồ; đo độ lệch so với nguồn tin cậy rồi áp vào như một hiệu chỉnh.</span></li>
+<li><strong>Image timestamps (EXIF):</strong> <span class="en">A photo's EXIF DateTimeOriginal is usually local camera time with NO timezone — establish the camera's offset before correlating it with UTC logs.</span><span class="vi">EXIF DateTimeOriginal của ảnh thường là giờ máy ảnh, KHÔNG có múi giờ — phải xác định độ lệch của máy ảnh trước khi đối chiếu với log UTC.</span></li>
+<li><strong>Ordering events:</strong> <span class="en">The NTFS USN change journal ($UsnJrnl) records the ORDER of file operations independent of file timestamps.</span><span class="vi">NTFS USN change journal ($UsnJrnl) ghi lại THỨ TỰ các thao tác file, độc lập với mốc thời gian của file.</span></li>
+<li><strong>Same-second tie:</strong> <span class="en">When two events share a second-precision time, use higher-resolution times or monotonic sequence numbers.</span><span class="vi">Khi hai sự kiện trùng mốc giây, dùng mốc độ phân giải cao hơn hoặc số thứ tự tăng dần (sequence number).</span></li>
+</ul></div></div>
 
+<details class="tier concept" id="a2-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Vì sao phải chuẩn hóa về UTC</h4>
+<p>Một sự cố thường trải trên nhiều nguồn: firewall (UTC), workstation (giờ địa phương), camera (giờ máy ảnh không múi giờ)... Nếu không quy về một mốc chung, bạn sẽ sắp xếp sai trình tự và rút ra kết luận sai. Luôn quy về <strong>UTC</strong> và <strong>ghi lại nguồn + độ lệch</strong> của từng dòng.</p>
 
+<h4>Timestomping: vì sao so $SI với $FN?</h4>
+<p>NTFS lưu mỗi file 2 bộ mốc thời gian: <strong>$STANDARD_INFORMATION ($SI)</strong> — cái Windows hiển thị, <em>dễ bị sửa</em> bằng API (malware hay dùng); và <strong>$FILE_NAME ($FN)</strong> — chỉ được cập nhật bởi kernel khi tạo/đổi tên/di chuyển, <em>khó giả mạo hơn</em>. Khi $SI "cũ hơn" $FN một cách bất thường → khả năng cao là timestomping.</p>
 
-<h3><span class="en">Timeline analysis workflow</span><span class="vi">Quy trình phân tích Timeline</span></h3>
+<h4>Nhầm epoch = lệch hàng thế kỷ</h4>
+<p>Ví dụ Chrome lưu thời gian là micro-giây từ 1601. Nếu đọc nhầm thành Unix epoch (giây từ 1970), kết quả lệch <strong>hàng trăm năm</strong> — một dấu hiệu rõ ràng rằng bạn đã áp sai epoch/đơn vị.</p>
 
-<div class="table-wrap"><table><tr><th><span class="en">Timeline type</span><span class="vi">Loại Timeline</span></th><th><span class="en">Purpose</span><span class="vi">Mục đích</span></th><th><span class="en">When to use</span><span class="vi">Khi nào dùng</span></th></tr><tr><td>Super-timeline</td><td><span class="en">Combines many artefacts into one chronological view.</span><span class="vi">Kết hợp nhiều artefact thành một cái nhìn theo thứ tự thời gian.</span></td><td><span class="en">Broad unknown-scope investigations.</span><span class="vi">Điều tra phạm vi rộng, chưa xác định được phạm vi.</span></td></tr><tr><td>Targeted timeline</td><td><span class="en">Focuses on selected hosts, users, time windows, or artefact types.</span><span class="vi">Tập trung vào các host, người dùng, khoảng thời gian hoặc loại artefact đã chọn.</span></td><td><span class="en">Known incident window or specific hypothesis testing.</span><span class="vi">Khoảng thời gian sự cố đã biết hoặc kiểm tra giả thuyết cụ thể.</span></td></tr></table></div>
+<h4>Khi kẻ tấn công chỉnh đồng hồ lùi</h4>
+<p>Không tin tuyệt đối vào đồng hồ cục bộ. Hãy <strong>đối chiếu với nguồn ngoài tầm kiểm soát của kẻ tấn công</strong> (log của firewall, DC, NTP server, log nhà cung cấp cloud) để khôi phục đúng trình tự.</p>
 
-<ol><li><span class="en">Define the incident window and relevant timezone.</span><span class="vi">Xác định khoảng thời gian sự cố và múi giờ liên quan.</span></li><li><span class="en">Acquire logs and artefacts without modifying originals.</span><span class="vi">Thu thập log và artefact mà không sửa đổi bản gốc.</span></li><li><span class="en">Parse with tools such as Plaso / log2timeline.</span><span class="vi">Phân tích bằng các công cụ như Plaso / log2timeline.</span></li><li><span class="en">Normalise timestamps to UTC.</span><span class="vi">Chuẩn hóa tất cả timestamp về UTC.</span></li><li><span class="en">Review in Timesketch, Timeline Explorer, or spreadsheet tooling.</span><span class="vi">Xem xét trong Timesketch, Timeline Explorer, hoặc bảng tính.</span></li><li><span class="en">Tag key events: initial access, execution, persistence, lateral movement, exfiltration, containment.</span><span class="vi">Gắn nhãn các sự kiện quan trọng: initial access, execution, persistence, lateral movement, exfiltration, containment.</span></li></ol>
+<h4>Timestamp trong ảnh (EXIF)</h4>
+<p>Ảnh (JPEG) mang metadata <strong>EXIF</strong>, trong đó <strong>DateTimeOriginal</strong> thường là <em>giờ địa phương của máy ảnh, không kèm múi giờ</em>. Khi đối chiếu ảnh với log server (UTC), phải xác định múi giờ/độ lệch của máy ảnh trước — nếu không sẽ sắp sai trình tự. Lưu ý phần mềm forensic có thể hiển thị cùng một timestamp theo các múi giờ khác nhau tùy cấu hình, nên luôn ghi rõ múi giờ đang dùng.</p>
 
-<div class="callout info"><strong>Common confusion:</strong><p><span class="en"><strong>Modified</strong> means file content changed. <strong>Changed</strong> means NTFS $STANDARD_INFORMATION metadata changed, such as rename, permission, ownership, or timestamp updates.</span><span class="vi"><strong>Modified</strong> nghĩa là nội dung file thay đổi. <strong>Changed</strong> nghĩa là metadata $STANDARD_INFORMATION của NTFS thay đổi, ví dụ đổi tên, quyền truy cập, quyền sở hữu hoặc cập nhật timestamp.</span></p></div>
+<h4>Công cụ ghi THỨ TỰ độc lập với timestamp</h4>
+<p>$UsnJrnl và $LogFile của NTFS ghi nhật ký giao dịch theo trình tự — rất hữu ích khi timestamp đã bị can thiệp, vì chúng cho biết <em>cái gì xảy ra trước cái gì</em>.</p>
+</div></details>
 
-<h3><span class="en">Timeline fundamentals</span><span class="vi">Nguyên tắc cơ bản của Timeline</span></h3><ul>
+<details class="tier reference" id="a2-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Common timestamp formats</h4>
+<div class="table-wrap"><table>
+<tr><th>Format</th><th>Epoch / unit</th><th>Seen in</th></tr>
+<tr><td>Windows FILETIME</td><td>100-ns ticks since 1601-01-01 UTC</td><td>NTFS, registry, EVTX</td></tr>
+<tr><td>Unix epoch</td><td>Seconds since 1970-01-01 UTC</td><td>Linux, many apps/logs</td></tr>
+<tr><td>Chrome / WebKit</td><td>Microseconds since 1601-01-01</td><td>Chromium history/cookies</td></tr>
+<tr><td>FAT directory</td><td>Local time, 2-second resolution</td><td>FAT/exFAT, ZIP</td></tr>
+<tr><td>Cocoa / Mac absolute</td><td>Seconds since 2001-01-01</td><td>macOS, iOS</td></tr>
+</table></div>
 
-<li><strong>Purpose:</strong> <span class="en">Reconstruct what happened, in what order, which systems were affected, and how long the attacker had access.</span><span class="vi">Tái dựng những gì đã xảy ra, theo thứ tự nào, hệ thống nào bị ảnh hưởng và attacker đã có quyền truy cập bao lâu.</span></li>
+<h4>NTFS MACB &amp; the two attribute sets</h4>
+<div class="table-wrap"><table>
+<tr><th>Letter</th><th>Meaning</th><th>Attribute set</th></tr>
+<tr><td>M</td><td>Modified (content changed)</td><td rowspan="4">$SI = shown by Windows, easily stomped.<br/>$FN = kernel-set on create/rename/move, harder to forge.</td></tr>
+<tr><td>A</td><td>Accessed</td></tr>
+<tr><td>C</td><td>metadata-Changed (MFT entry)</td></tr>
+<tr><td>B</td><td>Born / created</td></tr>
+</table></div>
 
-<li><strong>Start early:</strong> <span class="en">Begin chronology during identification; do not wait until the end of analysis.</span><span class="vi">Bắt đầu xây dựng timeline trong giai đoạn nhận diện; không đợi đến cuối quá trình phân tích.</span></li>
+<h4>Artefacts for ordering events</h4>
+<div class="table-wrap"><table>
+<tr><th>Artefact</th><th>What it gives</th></tr>
+<tr><td>$UsnJrnl (USN change journal)</td><td>Ordered record of file-system changes</td></tr>
+<tr><td>$LogFile</td><td>NTFS transaction journal (recent ops)</td></tr>
+<tr><td>Prefetch</td><td>Program execution times/order</td></tr>
+<tr><td>Event logs (EVTX)</td><td>Sequenced records with event IDs</td></tr>
+</table></div>
+</div></details>
 
-<li><strong>Normalise time:</strong> <span class="en">Convert all timestamps to UTC and document source timezone / clock skew.</span><span class="vi">Chuyển đổi tất cả timestamp về UTC và ghi lại múi giờ nguồn / clock skew.</span></li>
-
-<li><strong>Correlate sources:</strong> <span class="en">Firewall, proxy, DNS, DHCP, VPN, endpoint, Windows Event Logs, email logs, cloud logs, and analyst actions.</span><span class="vi">Tường lửa, proxy, DNS, DHCP, VPN, endpoint, Windows Event Logs, log email, log cloud và hành động của analyst.</span></li>
-
-<li><strong>Tools:</strong> Plaso / log2timeline, Timesketch, Timeline Explorer, SIEM queries, <span class="en">Excel for small cases.</span><span class="vi">Excel cho các vụ nhỏ.</span></li>
-
-</ul><h3><span class="en">Disk-image timestamp interpretation</span><span class="vi">Giải thích timestamp trong disk image</span></h3><div class="table-wrap"><table><tr><th><span class="en">Concept</span><span class="vi">Khái niệm</span></th><th><span class="en">CPIA-relevant detail</span><span class="vi">Chi tiết liên quan đến CPIA</span></th></tr><tr><td>FAT</td><td><span class="en">Stores timestamps in local time; timezone context is required.</span><span class="vi">Lưu timestamp theo giờ địa phương; cần có thông tin múi giờ.</span></td></tr><tr><td>NTFS</td><td><span class="en">Stores timestamps in UTC internally; Windows Explorer displays local time.</span><span class="vi">Lưu timestamp theo UTC nội bộ; Windows Explorer hiển thị giờ địa phương.</span></td></tr><tr><td>MACB</td><td>Modified, Accessed, Changed metadata, Born / Created.</td></tr><tr><td>$STANDARD_INFORMATION vs $FILE_NAME</td><td><span class="en">Compare both attributes to detect timestomping.</span><span class="vi">So sánh cả hai thuộc tính để phát hiện timestomping.</span></td></tr><tr><td>Clock skew</td><td><span class="en">Record system time difference during acquisition.</span><span class="vi">Ghi lại chênh lệch thời gian hệ thống khi thu thập bằng chứng.</span></td></tr></table></div><div class="callout warning"><strong>Timestomping indicators</strong><p><span class="en">Born / Created time later than Modified time is abnormal. Identical MACB values across multiple files can indicate timestamp manipulation, although legitimate mass-copy operations can also create patterns. Corroborate with other evidence (USN Journal, event logs, file system metadata) before concluding timestomping.</span><span class="vi">Thời gian Born / Created muộn hơn Modified là bất thường. Giá trị MACB giống nhau trên nhiều file có thể là dấu hiệu thao túng timestamp, dù các thao tác sao chép hàng loạt hợp lệ cũng tạo ra mẫu tương tự. Đối chiếu với bằng chứng khác (USN Journal, event log, metadata hệ thống file) trước khi kết luận timestomping.</span></p></div>
-
-<p class="sub-heading"><span class="en">Common Confusions — Timelines</span><span class="vi">Nhầm lẫn thường gặp — Timelines</span></p>
-
+<details class="tier deep-dive" id="a2-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Ghi timezone, DST, clock source và độ lệch đồng hồ của từng nguồn; giữ timestamp gốc và thêm cột normalized UTC.</li>
+<li>Chuẩn hóa format/epoch nhưng không làm mất precision; phân biệt event time, ingest time và file-system time.</li>
+<li>Sắp theo UTC, gắn source/confidence, rồi dựng chuỗi cause → action → effect; dùng sequence number khi timestamp không đáng tin.</li>
+<li>Kiểm tra giả thuyết bằng nguồn độc lập: logon, process, DNS, proxy, MFT, registry và memory.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-
-<li><strong>NTFS stores timestamps in UTC</strong>, <span class="en">but tools may display local time.</span><span class="vi">Nhưng các công cụ có thể hiển thị giờ địa phương.</span></li>
-
-<li><strong>FAT stores local time</strong>, <span class="en">which can be ambiguous without timezone context.</span><span class="vi">có thể gây nhầm lẫn nếu không có thông tin múi giờ.</span></li>
-
-<li><strong>Clock skew</strong> <span class="en">Must be documented rather than silently corrected.</span><span class="vi">Phải được ghi lại thay vì tự ý điều chỉnh.</span></li>
-
+<li>Windows EventRecordID, Sysmon ProcessGuid, Zeek uid, email Message-ID và database transaction ID.</li>
+<li>NTFS $STANDARD_INFORMATION/$FILE_NAME MACB; FAT local time; EXIF DateTimeOriginal/GPS time.</li>
+<li>NTP logs, hypervisor time, cloud UTC timestamps và clock-skew so với nguồn chuẩn.</li>
 </ul>
-
-<h3><span class="en">The Correlation Mindset</span><span class="vi">Tư duy Tương quan Bằng chứng</span></h3><p><span class="en">No single log source tells the complete story. The core IR analyst skill is correlating evidence across multiple sources to reconstruct events.</span><span class="vi">Không có nguồn log đơn lẻ nào kể được toàn bộ câu chuyện. Kỹ năng cốt lõi của analyst IR là tương quan bằng chứng từ nhiều nguồn để tái dựng sự kiện.</span></p>
-
-<p class="sub-heading"><span class="en">Correlation Framework</span><span class="vi">Khung Tương quan</span></p><ol><li><strong>IDENTIFY</strong> — <span class="en">What event or alert triggered the investigation?</span><span class="vi">Sự kiện hay cảnh báo nào kích hoạt cuộc điều tra?</span></li><li><strong>PIVOT</strong> — <span class="en">What other log sources contain related data?</span><span class="vi">Những nguồn log nào khác chứa dữ liệu liên quan?</span></li><li><strong>NORMALISE</strong> — <span class="en">Align timestamps to UTC; map IP→host via DHCP; map host→user via authentication logs.</span><span class="vi">Căn chỉnh timestamp về UTC; ánh xạ IP→host qua DHCP; ánh xạ host→user qua log xác thực.</span></li><li><strong>RECONSTRUCT</strong> — <span class="en">Build a timeline across sources.</span><span class="vi">Xây dựng timeline xuyên suốt các nguồn.</span></li><li><strong>VALIDATE</strong> — <span class="en">Does the combined evidence support the hypothesis?</span><span class="vi">Bằng chứng tổng hợp có ủng hộ giả thuyết không?</span></li></ol>
-
-<h3>Example Investigation Pivot</h3><pre>IDS alert (SMB exploit attempt)
-
-  → Firewall log (confirm traffic allowed; NAT translation)
-
-    → DHCP log (IP → MAC → hostname at that time)
-
-      → Windows Event 4624 (who authenticated from that host?)
-
-        → Windows Event 4688 (what process was created?)
-
-          → Proxy log (did the host make outbound connections?)
-
-            → DNS log (what domains were resolved?)</pre>
-
-
-<h3 class="qz-theory"><span class="en">Timestamps, Epochs &amp; Time-zone Normalisation</span><span class="vi">Timestamp, epoch &amp; chuẩn hóa múi giờ</span></h3>
-<p><span class="en">The most common cause of timeline skew is <strong>time zones</strong> (UTC vs local). Before correlating, normalise every source to one reference (usually UTC) and account for DST. Different applications also store time using different <strong>epochs</strong>; applying the wrong one yields nonsensical (often centuries-off) dates.</span><span class="vi">Nguyên nhân lệch timeline phổ biến nhất là <strong>múi giờ</strong> (UTC vs giờ địa phương). Trước khi đối chiếu, chuẩn hóa mọi nguồn về một mốc (thường UTC) và tính cả DST. Mỗi ứng dụng còn lưu thời gian theo <strong>epoch</strong> khác nhau; dùng sai sẽ cho ngày vô nghĩa (thường lệch hàng thế kỷ).</span></p>
-<div class="table-wrap"><table><thead><tr><th>Format</th><th><span class="en">Epoch &amp; unit</span><span class="vi">Epoch &amp; đơn vị</span></th></tr></thead><tbody>
-<tr><td>Unix time</td><td><span class="en">seconds since 1970-01-01 UTC</span><span class="vi">Giây kể từ 1970-01-01 UTC</span></td></tr>
-<tr><td>Windows FILETIME</td><td><span class="en">100-nanosecond intervals since 1601-01-01 UTC</span><span class="vi">khoảng 100-nano-giây kể từ 1601-01-01 UTC</span></td></tr>
-<tr><td>Chrome / WebKit</td><td><span class="en">microseconds since 1601-01-01</span><span class="vi">micro-giây kể từ 1601-01-01</span></td></tr>
-<tr><td>Firefox (PRTime)</td><td><span class="en">microseconds since 1970-01-01</span><span class="vi">micro-giây kể từ 1970-01-01</span></td></tr></tbody></table></div>
-<p><span class="en">EXIF <code>DateTimeOriginal</code> is local camera time with no zone — establish the device's timezone before comparing to UTC logs.</span><span class="vi">EXIF <code>DateTimeOriginal</code> là giờ máy ảnh, không có múi giờ — xác định múi giờ thiết bị trước khi so với log UTC.</span></p>
-
-<h3><span class="en">NTFS MACB Times &amp; Timestomping</span><span class="vi">Thời gian MACB của NTFS &amp; Timestomping</span></h3>
-<p><span class="en"><strong>MACB</strong> = <strong>M</strong>odified, <strong>A</strong>ccessed, metadata-<strong>C</strong>hanged (MFT entry), <strong>B</strong>orn (created). Each is stored in <em>both</em> the <code>$STANDARD_INFORMATION</code> ($SI) and <code>$FILE_NAME</code> ($FN) attributes of the MFT record.</span><span class="vi"><strong>MACB</strong> = <strong>M</strong>odified (sửa nội dung), <strong>A</strong>ccessed (truy cập), <strong>C</strong>hanged metadata (bản ghi MFT), <strong>B</strong>orn (tạo). Mỗi mốc lưu ở <em>cả</em> thuộc tính <code>$STANDARD_INFORMATION</code> ($SI) và <code>$FILE_NAME</code> ($FN) của bản ghi MFT.</span></p>
-<div class="callout info"><strong><span class="en">Detecting timestomping</span><span class="vi">Phát hiện timestomping</span></strong><p><span class="en">Most tools alter the easily-writable $SI times but not $FN (updated by the OS, harder to forge). A mismatch — e.g. $SI older than $FN — strongly indicates manipulation.</span><span class="vi">Đa số công cụ sửa thời gian $SI (dễ ghi) nhưng không sửa $FN (do OS cập nhật, khó giả). Sự không khớp — vd $SI cũ hơn $FN — là dấu hiệu mạnh của thao túng.</span></p></div>
-
-<h3><span class="en">Establishing Reliable Event Order</span><span class="vi">Xác lập thứ tự sự kiện đáng tin</span></h3>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
 <ul>
-<li><strong><span class="en">Clock drift (no NTP):</span><span class="vi">Lệch đồng hồ (không NTP):</span></strong> <span class="en">Measure the offset against a known shared event and apply it as a documented correction — don't discard the data.</span><span class="vi">Đo độ lệch so với một sự kiện chung đã biết và áp dụng như một hiệu chỉnh có ghi chép — đừng loại bỏ dữ liệu.</span></li>
-<li><strong><span class="en">Attacker clock tampering:</span><span class="vi">Kẻ tấn công chỉnh đồng hồ:</span></strong> <span class="en">Local timestamps become unreliable; corroborate with sources outside the attacker's control — network/central logs (own clocks), the NTFS <code>$LogFile</code>/<code>$UsnJrnl</code> and MFT record sequence.</span><span class="vi">Mốc thời gian cục bộ trở nên không tin cậy; đối chiếu với nguồn ngoài tầm kiểm soát của kẻ tấn công — log mạng/tập trung (đồng hồ riêng), <code>$LogFile</code>/<code>$UsnJrnl</code> của NTFS và trình tự bản ghi MFT.</span></li>
-<li><strong><span class="en">USN change journal:</span><span class="vi">USN change journal:</span></strong> <span class="en"><code>$UsnJrnl</code> records sequential file-system operations with monotonically increasing USNs — a true order independent of (stompable) file timestamps.</span><span class="vi"><code>$UsnJrnl</code> ghi các thao tác hệ thống tệp tuần tự với số USN tăng đơn điệu — thứ tự thật, độc lập với mốc thời gian file (có thể bị stomp).</span></li>
-<li><strong><span class="en">Tie-breaking:</span><span class="vi">Phá hòa:</span></strong> <span class="en">For events sharing a second-precision timestamp, use sub-second resolution or monotonic sequence numbers (event record IDs, USN entries).</span><span class="vi">Với các sự kiện trùng mốc ở mức giây, dùng độ phân giải dưới giây hoặc số trình tự tăng đơn điệu (event record ID, mục USN).</span></li></ul>
-`;
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>
+<code>Get-TimeZone</code>, <code>w32tm /query /status</code>; Linux: <code>timedatectl</code> và <code>chronyc tracking</code>.</li>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Plaso/log2timeline để tạo super-timeline; Timesketch để lọc, tag và cộng tác.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>Một file có mtime 09:00 nhưng process creation ở 09:05 không nhất thiết vô lý: file có thể bị timestomp, copy bảo toàn mtime, hoặc hai nguồn lệch clock. $FN time, USN Journal và Prefetch giúp quyết định.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>Không tự động cộng timezone hai lần; nhiều cloud log đã là UTC dù giao diện hiển thị local.</li>
+<li>Thứ tự trong file log không luôn là thứ tự xảy ra do buffering, queue và delayed ingestion.</li>
+<li>Timestamp chứng minh thời điểm hệ thống ghi nhận, không tự nó chứng minh người thực hiện.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> NIST SP 800-92; Microsoft Windows Time Service documentation; Plaso documentation.</p>
+</div>
+</details>`;

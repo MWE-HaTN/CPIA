@@ -1,80 +1,102 @@
-/* Theory — E6 (Appendix E). Edit the HTML below. */
+/* Theory — E6 (Appendix E). 3-tier layout: Recall / Concept / Reference. */
 (window.CPIA_THEORY=window.CPIA_THEORY||{})["e6"]=`<h2>E6 — Windows Registry Essentials</h2>
 
+<div class="tier recall" id="e6-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Hive format:</strong> <span class="en">The registry is a set of binary hive files (SYSTEM, SOFTWARE, SAM, SECURITY, NTUSER.DAT, UsrClass.dat) made of keys/values.</span><span class="vi">Registry là tập các file hive nhị phân (SYSTEM, SOFTWARE, SAM, SECURITY, NTUSER.DAT, UsrClass.dat) gồm key/value.</span></li>
+<li><strong>LastWrite time:</strong> <span class="en">Each key has a LastWrite timestamp = when it last changed (like a file's modified time).</span><span class="vi">Mỗi key có mốc LastWrite = lần thay đổi gần nhất (giống thời gian sửa của file).</span></li>
+<li><strong>Persistence locations:</strong> <span class="en">Run/RunOnce, Services, Winlogon, Image File Execution Options, scheduled tasks.</span><span class="vi">Run/RunOnce, Services, Winlogon, Image File Execution Options, scheduled task.</span></li>
+<li><strong>USB artefacts:</strong> <span class="en">USBSTOR and MountedDevices can support that Windows enumerated a removable device and mapped storage; correlate serial, setup logs and timestamps before attributing use.</span><span class="vi">USBSTOR và MountedDevices có thể cho thấy Windows đã enumerate thiết bị rời và ánh xạ storage; cần đối chiếu serial, setup log và timestamp trước khi quy kết việc sử dụng.</span></li>
+<li><strong>User accounts:</strong> <span class="en">SAM hive holds local accounts (and hashes); SIDs map to usernames.</span><span class="vi">Hive SAM chứa tài khoản cục bộ (và hash); SID ánh xạ tới tên người dùng.</span></li>
+<li><strong>Execution evidence:</strong> <span class="en">Shimcache (in SYSTEM), UserAssist (NTUSER, ROT13), ShellBags (folders browsed).</span><span class="vi">Shimcache (trong SYSTEM), UserAssist (NTUSER, ROT13), ShellBags (thư mục đã duyệt).</span></li>
+<li><strong>ACLs &amp; protected storage:</strong> <span class="en">Registry keys have ACLs; weak ACLs on service ImagePath enable hijack. Protected storage / LSA secrets hold credentials.</span><span class="vi">Key registry có ACL; ACL yếu trên ImagePath của service cho phép chiếm quyền. Protected storage / LSA secrets giữ thông tin xác thực.</span></li>
+</ul></div></div>
 
+<details class="tier concept" id="e6-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Cấu trúc hive &amp; LastWrite</h4>
+<p>Registry là CSDL phân cấp gồm các <strong>hive nhị phân</strong>. Mỗi <strong>key</strong> có một mốc <strong>LastWrite</strong> — tương đương "modified time" của file, rất hữu ích để xác định <em>khi nào</em> một thay đổi (vd cài persistence) xảy ra. Tool: RegRipper, Registry Explorer (Eric Zimmerman).</p>
 
-<h3>USB / removable storage registry paths</h3>
+<h4>Vị trí persistence (rất hay hỏi)</h4>
+<p><strong>Run/RunOnce</strong> (HKLM &amp; HKCU): chạy khi đăng nhập. <strong>Services</strong>: chạy lúc boot với quyền cao. <strong>Winlogon</strong> (Shell/Userinit). <strong>Image File Execution Options (IFEO)</strong>: gắn "debugger" để chiếm thực thi một exe. Phân biệt với <strong>TypedURLs</strong> hay <strong>wallpaper</strong> — đó là hoạt động/thẩm mỹ, không phải persistence.</p>
 
-<div class="table-wrap"><table><tr><th>Registry Path</th><th>Forensic Value</th></tr><tr><td><code>HKLM\\SYSTEM\\CurrentControlSet\\Enum\\USBSTOR</code></td><td>USB storage device identifiers, serial numbers, vendor / product data</td></tr><tr><td><code>HKLM\\SYSTEM\\CurrentControlSet\\Enum\\USB</code></td><td>USB device enumeration details</td></tr><tr><td><code>HKLM\\SYSTEM\\MountedDevices</code></td><td>Volume GUID and drive-letter associations</td></tr><tr><td><code>HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2</code></td><td>User-specific mounted volume history and labels</td></tr><tr><td><code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceClasses</code></td><td>Device class relationships and connection metadata</td></tr><tr><td><code>HKLM\\SOFTWARE\\Microsoft\\Windows Portable Devices\\Devices</code></td><td>Portable device metadata</td></tr></table></div>
+<h4>USB / removable storage artefacts</h4>
+<p><strong>USBSTOR</strong> (HKLM\\SYSTEM\\CurrentControlSet\\Enum\\USBSTOR) lưu vendor/product/serial của thiết bị USB từng cắm; kết hợp <strong>MountedDevices</strong>, <strong>USB</strong> key và setupapi log để dựng lại thời điểm cắm và ánh xạ tới ổ đĩa.</p>
 
-<div class="callout info"><strong>Cross-reference:</strong><p>Shimcache / Amcache can be described as registry artefacts and execution artefacts. Avoid double-counting them in a timeline; use them as corroborating evidence.</p></div>
+<h4>Tài khoản, ACL, protected storage</h4>
+<p><strong>SAM</strong> chứa tài khoản cục bộ + hash; <strong>SID</strong> định danh principal. Key registry cũng có <strong>ACL</strong> — ACL yếu trên <code>ImagePath</code> của một service cho phép kẻ tấn công trỏ service tới binary độc hại (chạy với quyền của service). <strong>LSA secrets / protected storage</strong> giữ credential dịch vụ, có thể bị trích.</p>
 
+<h4>Bằng chứng thực thi trong registry</h4>
+<p><strong>Shimcache</strong> (AppCompatCache trong SYSTEM): chủ yếu hỗ trợ sự hiện diện/path; không mặc định là bằng chứng execution trên mọi phiên bản. <strong>UserAssist</strong> (NTUSER, mã ROT13): hỗ trợ chương trình chạy qua GUI + số lần trong bối cảnh phù hợp. <strong>ShellBags</strong>: cho thấy shell đã lưu thông tin hiển thị thư mục, kể cả một số đường dẫn không còn tồn tại; không tự chứng minh người dùng đã mở mọi file bên trong.</p>
+</div></details>
+
+<details class="tier reference" id="e6-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Registry persistence locations</h4>
+<div class="table-wrap"><table>
+<tr><th>Location</th><th>Effect</th></tr>
+<tr><td>Run / RunOnce (HKLM, HKCU)</td><td>Run at logon</td></tr>
+<tr><td>Services (CurrentControlSet\\Services)</td><td>Run at boot, high privilege</td></tr>
+<tr><td>Winlogon (Shell, Userinit)</td><td>Run during logon</td></tr>
+<tr><td>Image File Execution Options</td><td>Hijack execution of a target exe</td></tr>
+</table></div>
+
+<h4>USB &amp; account artefacts</h4>
+<div class="table-wrap"><table>
+<tr><th>Key</th><th>Reveals</th></tr>
+<tr><td>USBSTOR (Enum)</td><td>Connected USB devices (vendor/serial)</td></tr>
+<tr><td>MountedDevices</td><td>Device → drive-letter mapping</td></tr>
+<tr><td>SAM</td><td>Local accounts + hashes</td></tr>
+</table></div>
+
+<h4>Execution / activity in registry</h4>
+<div class="table-wrap"><table>
+<tr><th>Artefact</th><th>Evidence of</th></tr>
+<tr><td>Shimcache (SYSTEM)</td><td>Program presence/path/time</td></tr>
+<tr><td>UserAssist (NTUSER, ROT13)</td><td>GUI program execution + count</td></tr>
+<tr><td>ShellBags</td><td>Folders browsed + view settings</td></tr>
+<tr><td>RecentDocs / TypedURLs</td><td>Recently opened files / typed URLs</td></tr>
+</table></div>
+</div></details>
+
+<details class="tier deep-dive" id="e6-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Mount hive offline với transaction logs; xác định active ControlSet.</li>
+<li>Parse persistence, USB, accounts, protected storage và execution artefact.</li>
+<li>Dùng LastWrite như key-level time rồi correlate nguồn khác.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-
-<li><strong>Registry hives:</strong> <span class="en">SYSTEM, SOFTWARE, SAM, SECURITY, NTUSER.DAT, UsrClass.dat.</span><span class="vi">SYSTEM, SOFTWARE, SAM, SECURITY, NTUSER.DAT, UsrClass.dat.</span></li>
-
-<li><strong>USB artefacts:</strong> <span class="en">USBSTOR, MountedDevices, device serials, first / last connection.</span><span class="vi">USBSTOR, MountedDevices, serial thiết bị, lần kết nối đầu / cuối.</span></li>
-
-<li><strong>Autorun / startup:</strong> <span class="en">Run / RunOnce keys, services, scheduled tasks, Winlogon, Shell, AppInit_DLLs.</span><span class="vi">Khóa Run / RunOnce, dịch vụ, scheduled task, Winlogon, Shell, AppInit_DLLs.</span></li>
-
-<li><strong>User accounts:</strong> <span class="en">SAM, ProfileList, last logon-related keys.</span><span class="vi">SAM, ProfileList, khóa liên quan đến lần đăng nhập cuối.</span></li>
-
-<li><strong>Protected storage / credentials:</strong> <span class="en">May reveal saved secrets depending on artefact and permissions.</span><span class="vi">Có thể tiết lộ bí mật đã lưu tùy thuộc vào artefact và quyền.</span></li>
-
-<li><span class="en">ACLs on registry keys can allow persistence or privilege escalation if weak.</span><span class="vi">ACL trên khóa registry có thể cho phép persistence hoặc leo thang đặc quyền nếu yếu.</span></li>
-
-<li><span class="en">Shimcache / Amcache / UserAssist provide execution-related evidence with caveats.</span><span class="vi">Shimcache / Amcache / UserAssist cung cấp bằng chứng liên quan thực thi có điều kiện.</span></li>
-
+<li>Run/RunOnce, Services, Winlogon, IFEO; USBSTOR/MountedDevices.</li>
+<li>SAM/SID, LSA secrets, Shimcache, UserAssist, ShellBags.</li>
 </ul>
-
-<h3>UserAssist Detail</h3>
-
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
 <ul>
-
-<li><strong>Location:</strong> <code>HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\UserAssist\\{GUID}\\Count</code></li>
-
-<li><strong>Content:</strong> ROT13-encoded program paths, run count, focus time, last execution timestamp.</li>
-
-<li><strong>GUIDs:</strong> {CEBFF5CD-ACE2-4F4F-9178-9926F41749EA} = executed programs; {F4E57C4B-2036-45F0-A9AB-443BCFE33D9F} = shortcut links.</li>
-
-<li><strong>Forensic value:</strong> Records GUI-launched program execution with timestamps and run counts; more granular than Prefetch for user-initiated execution.</li>
-
-<li><strong>Parse with:</strong> UserAssistView (NirSoft), Registry Explorer (Eric Zimmerman), RegRipper.</li>
-
-<li><strong>Caveat:</strong> Only tracks programs launched via Explorer shell; command-line execution may not appear.</li>
-
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Registry Explorer/RECmd/RegRipper; PowerShell <code>Get-Acl</code> trên live copy.</li>
 </ul>
-
-<h3>BAM / DAM (Background Activity Moderator)</h3>
-
+<h4>Tình huống diễn giải</h4>
+<p>Run key LastWrite cho biết key đổi lúc nào, không chắc value cụ thể nào đổi nếu nhiều value.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
 <ul>
-
-<li><strong>Location:</strong> <code>HKLM\\SYSTEM\\CurrentControlSet\\Services\\bam\\UserSettings\\{SID}</code> and <code>...\\dam\\UserSettings\\{SID}</code></li>
-
-<li><strong>OS:</strong> Windows 10 version 1709+ and Windows 11.</li>
-
-<li><strong>Content:</strong> Execution timestamps and full paths for recently executed programs, including background tasks.</li>
-
-<li><strong>Forensic value:</strong> Provides execution evidence even when Prefetch is disabled (e.g., on servers); records both foreground and background execution.</li>
-
-<li><strong>Parse with:</strong> BAMParser / MiniTimeline, Registry Explorer, or direct registry parsing.</li>
-
-<li><strong>Caveat:</strong> Entries are limited (typically ~100 most recent); may be cleared on system maintenance cycles.</li>
-
+<li>Hive dirty cần LOG1/LOG2 replay.</li>
+<li>CurrentControlSet là alias trên live system.</li>
+<li>Protected credential handling cần scope và bảo mật cao.</li>
 </ul>
-
-<ul>
-
-<li><strong>Use case:</strong> determine whether a USB device was connected, identify serial/vendor/product data, and correlate drive letters to user activity.</li>
-
-<li><strong>Common confusion:</strong> a USB artefact may prove connection, but file access or exfiltration requires correlation with shellbags, LNK files, RecentDocs, event logs, or file timestamps.</li>
-
-</ul>
-
-<h3>Registry Run Key Persistence Locations</h3><div class="table-wrap"><table><tr><th>Registry Key</th><th>Scope</th><th>Trigger</th></tr><tr><td><code>HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run</code></td><td>All users</td><td>Every logon</td></tr><tr><td><code>HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run</code></td><td>Current user</td><td>Every logon</td></tr><tr><td><code>HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code></td><td>All users</td><td>Once, then key deleted</td></tr><tr><td><code>HKLM\\SYSTEM\\CurrentControlSet\\Services</code></td><td>System</td><td>Service boot / auto start</td></tr><tr><td><code>HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon</code> (Userinit, Shell)</td><td>System</td><td>All logons — modified values persist</td></tr><tr><td><code>HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\[exe]</code></td><td>System</td><td>Debugger hijacking — target exe runs attacker binary</td></tr><tr><td>Startup folders: <code>%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup</code></td><td>User</td><td>Every logon</td></tr></table></div>
-<h3 class="qz-theory"><span class="en">Windows Registry — hives, persistence &amp; user activity</span><span class="vi">Registry Windows — hive, persistence &amp; hoạt động người dùng</span></h3>
-<ul>
-<li><strong>Hives:</strong> <span class="en"><code>SYSTEM</code> (services, drivers, USBSTOR), <code>SOFTWARE</code> (installed apps), <code>SAM</code> (local accounts), <code>SECURITY</code>; per-user <code>NTUSER.DAT</code> (loaded as HKCU) + <code>UsrClass.dat</code>. Each key has a <strong>LastWrite</strong> timestamp (like a file's modified time).</span><span class="vi"><code>SYSTEM</code> (service, driver, USBSTOR), <code>SOFTWARE</code> (app đã cài), <code>SAM</code> (tài khoản cục bộ), <code>SECURITY</code>; theo người dùng <code>NTUSER.DAT</code> (nạp thành HKCU) + <code>UsrClass.dat</code>. Mỗi khóa có mốc <strong>LastWrite</strong> (như thời gian sửa của file).</span></li>
-<li><strong>Persistence:</strong> <span class="en">Run/RunOnce keys, plus Services, Winlogon (Shell/Userinit), Image File Execution Options, AppInit_DLLs, scheduled tasks — enumerate with Autoruns.</span><span class="vi">Khóa Run/RunOnce, cùng Services, Winlogon (Shell/Userinit), Image File Execution Options, AppInit_DLLs, scheduled task — liệt kê bằng Autoruns.</span></li>
-<li><strong><span class="en">User activity &amp; devices:</span><span class="vi">Hoạt động &amp; thiết bị:</span></strong> <span class="en"><strong>USBSTOR</strong> records connected USB devices (vendor/serial/times); <strong>UserAssist</strong> (ROT13-encoded) tracks GUI program runs with counts/times; <strong>ShellBags</strong> record folders browsed (even removed/deleted ones).</span><span class="vi"><strong>USBSTOR</strong> ghi thiết bị USB đã cắm (hãng/serial/thời gian); <strong>UserAssist</strong> (mã ROT13) theo dõi việc chạy chương trình GUI kèm số lần/thời gian; <strong>ShellBags</strong> ghi thư mục đã duyệt (kể cả đã gỡ/xóa).</span></li></ul>
-`;
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> Microsoft Registry format/forensics; Eric Zimmerman Registry tools.</p>
+</div>
+</details>`;

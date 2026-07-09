@@ -1,41 +1,100 @@
-/* Theory — B11 (Appendix B). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["b11"]=`<h2>B11 — Understanding Common Data Formats</h2><ul>
+/* Theory — B11 (Appendix B). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["b11"]=`<h2>B11 — Understanding Common Data Formats</h2>
 
-<li><strong>Email headers:</strong> <span class="en">Read Received chain from bottom upward; earliest trusted server is most useful.</span><span class="vi">Đọc chuỗi Received từ dưới lên trên; server tin cậy sớm nhất là hữu ích nhất.</span></li>
+<div class="tier recall" id="b11-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Email Received chain:</strong> <span class="en">Read Received: headers bottom-up; the bottom-most (added by your own servers) is the most reliable origin.</span><span class="vi">Đọc header Received: từ dưới lên; dòng dưới cùng (do máy chủ của bạn thêm) là nguồn gốc đáng tin nhất.</span></li>
+<li><strong>Spoofable header fields:</strong> <span class="en">From, Reply-To, X-Mailer are client-supplied — easily forged. SPF/DKIM/DMARC help verify.</span><span class="vi">From, Reply-To, X-Mailer do client cung cấp — dễ giả. SPF/DKIM/DMARC giúp xác minh.</span></li>
+<li><strong>Encoding ≠ encryption:</strong> <span class="en">Base64 (text-safe) and URL-encoding are reversible with NO secret; MIME wraps attachments in Base64.</span><span class="vi">Base64 (an toàn text) và URL-encoding đảo ngược được mà KHÔNG cần bí mật; MIME bọc đính kèm bằng Base64.</span></li>
+<li><strong>URL-encoded attacks:</strong> <span class="en">"%3Cscript%3E" = "&lt;script&gt;" (XSS probe); "..%2f" = "../" (path traversal).</span><span class="vi">"%3Cscript%3E" = "&lt;script&gt;" (thăm dò XSS); "..%2f" = "../" (path traversal).</span></li>
+<li><strong>PKI certificate binds:</strong> <span class="en">A public key to a subject identity, signed by a CA; check chain, validity and hostname.</span><span class="vi">Một khóa công khai với một danh tính subject, được CA ký; kiểm tra chuỗi, thời hạn và hostname.</span></li>
+</ul></div></div>
 
-<li><strong>Header reliability:</strong> <span class="en">Client-supplied fields such as From, Reply-To, X-Mailer, and User-Agent can be spoofed.</span><span class="vi">Các trường do client cung cấp như From, Reply-To, X-Mailer và User-Agent có thể bị giả mạo.</span></li>
+<details class="tier concept" id="b11-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Đọc email header &amp; độ tin cậy</h4>
+<p>Mỗi mail server trên đường đi thêm một dòng <strong>Received:</strong> lên <em>đầu</em> → đọc <strong>từ dưới lên</strong> để lần theo hành trình. Dòng <em>dưới cùng</em> (do hệ thống của bạn thêm) đáng tin nhất; các dòng trên có thể do server không tin cậy thêm. Các trường <strong>From, Reply-To, X-Mailer</strong> do người gửi tự đặt → <em>dễ giả mạo</em>; dùng <strong>SPF</strong> (IP gửi có được phép?), <strong>DKIM</strong> (chữ ký), <strong>DMARC</strong> (chính sách) để đánh giá tính xác thực.</p>
 
-<li><strong>PKI certificates:</strong> <span class="en">Subject, Issuer, SAN, validity, serial, fingerprint, public key, key usage, CA trust path.</span><span class="vi">Subject, Issuer, SAN, thời hạn hiệu lực, serial, fingerprint, khóa công khai, key usage, đường dẫn tin cậy CA.</span></li>
+<h4>Encoding dùng trong web/email</h4>
+<p><strong>Base64</strong>: biến nhị phân thành text an toàn để truyền (đính kèm email qua MIME, dữ liệu trong web) — <em>không phải mã hóa</em>, ai cũng giải được. <strong>URL/percent-encoding</strong>: mã hóa ký tự đặc biệt trong URL; kẻ tấn công dùng để né lọc (vd <code>%3Cscript%3E</code> = <code>&lt;script&gt;</code> cho XSS; <code>..%2f</code> = <code>../</code> cho path traversal). Nhận ra encoding để giải mã và đánh giá ý đồ.</p>
 
-<li><strong>Transmission encodings:</strong> <span class="en">Base64, URL encoding, quoted-printable, hex, HTML entities; decode before analysis.</span><span class="vi">Base64, URL encoding, quoted-printable, hex, thực thể HTML; giải mã trước khi phân tích.</span></li>
+<h4>Chứng chỉ PKI</h4>
+<p>Một chứng chỉ X.509 <strong>gắn một khóa công khai với một danh tính (subject)</strong>, được một <strong>CA</strong> ký. Khi kiểm tra để bắt giả mạo: (1) chuỗi tới một <strong>CA tin cậy</strong>, (2) còn <strong>trong hạn</strong>, (3) <strong>hostname khớp</strong> (CN/SAN). Trường issuer, serial, ngày tạo, SAN còn hữu ích để pivot hạ tầng (xem C3 — Certificate Transparency).</p>
+</div></details>
 
-<li><strong>Common data formats:</strong> <span class="en">JSON, XML, CSV, MIME email, PCAP, EVTX, SQLite, Office Open XML, OLE, PDF.</span><span class="vi">JSON, XML, CSV, email MIME, PCAP, EVTX, SQLite, Office Open XML, OLE, PDF.</span></li>
+<details class="tier reference" id="b11-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Email header fields</h4>
+<div class="table-wrap"><table>
+<tr><th>Field</th><th>Reliability</th></tr>
+<tr><td>Received: (bottom-most)</td><td>Most reliable origin (your servers)</td></tr>
+<tr><td>From / Reply-To</td><td>Client-supplied — spoofable</td></tr>
+<tr><td>X-Mailer / User-Agent</td><td>Mail client + version (spoofable)</td></tr>
+<tr><td>SPF / DKIM / DMARC results</td><td>Authentication verdicts</td></tr>
+</table></div>
 
-</ul>
+<h4>Encodings</h4>
+<div class="table-wrap"><table>
+<tr><th>Encoding</th><th>Use</th><th>Reversible?</th></tr>
+<tr><td>Base64</td><td>Binary → text (MIME attachments)</td><td>Yes (no key)</td></tr>
+<tr><td>URL / percent</td><td>Special chars in URLs</td><td>Yes (no key)</td></tr>
+<tr><td>Quoted-printable</td><td>Mostly-text email bodies</td><td>Yes (no key)</td></tr>
+</table></div>
 
-<h3>Common Data Formats (Expanded)</h3>
+<h4>PKI certificate checks</h4>
+<div class="table-wrap"><table>
+<tr><th>Check</th><th>Why</th></tr>
+<tr><td>Chains to a trusted CA</td><td>Trust anchor</td></tr>
+<tr><td>In validity period</td><td>Not expired/not-yet-valid</td></tr>
+<tr><td>Hostname matches (CN/SAN)</td><td>Spot impersonation</td></tr>
+<tr><td>Revocation (CRL/OCSP)</td><td>Not revoked</td></tr>
+</table></div>
+</div></details>
 
-<p class="sub-heading">Format Descriptions</p>
-
-<p><strong>PCAP — Packet Capture</strong></p><p>Structure: Global Header (magic number, version, snaplen, link type) → Per-Packet Header (timestamp, captured length, original length) → Packet Data. Readable by Wireshark, tcpdump, tshark, and Zeek.</p>
-
-<p class="sub-heading">EVTX — Windows Event Log</p><p>Binary XML format with chunked storage. Parse with Event Viewer, <code>python-evtx</code>, EvtxECmd, or Chainsaw. Each record contains Event ID, Level, TimeCreated, Provider, Channel, and EventData fields.</p>
-
-<p class="sub-heading">SQLite — Embedded Database</p><p>Single-file relational database (no server). Used by browsers (history, cookies, downloads), mobile apps, chat clients, cloud sync tools, and forensic tools. Queryable with <code>sqlite3</code> CLI or DB Browser for SQLite.</p>
-
-<p class="sub-heading">Office Open XML (<code>.docx</code> / <code>.xlsx</code> / <code>.pptx</code>)</p><p>ZIP archive containing XML files, media, and metadata. Unzip and inspect <code>document.xml</code>, <code>core.xml</code> (author, dates), <code>app.xml</code> (application version). Macros stored in <code>vbaProject.bin</code> inside the ZIP.</p>
-
-<p class="sub-heading">OLE (<code>.doc</code> / <code>.xls</code> / <code>.ppt</code>)</p><p>Binary compound document format. Older Office format. Macros stored directly in VBA streams. Parse with <code>oletools</code> / <code>olevba</code>. Higher risk of embedded malicious macros.</p>
-
-<p class="sub-heading">PDF</p><p>Structure: header, body (objects), cross-reference table, trailer. Can contain JavaScript (<code>/JS</code>), <code>/OpenAction</code>, <code>/Launch</code> actions, embedded files (<code>/EmbeddedFiles</code>), and streams. Parse with <code>pdfid</code>, <code>pdf-parser</code>.</p>
-
-<p class="sub-heading">MIME — Multipurpose Internet Mail Extensions</p><p>Email format with headers (From, To, Subject, Received chain) and body (text, HTML, attachments as Base64-encoded parts). Boundary markers separate multipart sections.</p>
-
-
-<h3 class="qz-theory"><span class="en">Email Headers, Certificates &amp; Encodings</span><span class="vi">Header email, chứng chỉ &amp; encoding</span></h3>
+<details class="tier deep-dive" id="b11-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Parse raw format bảo toàn folding/order; xác định trường nào do sender, relay hay recipient tạo.</li>
+<li>Email: đọc Received từ dưới lên và đối chiếu SPF/DKIM/DMARC, Message-ID, Return-Path.</li>
+<li>Certificate: chain, subject/SAN, issuer, validity, key usage, signature, revocation.</li>
+<li>Decode theo từng layer: URL percent, HTML entity, Base64, quoted-printable, MIME rồi mới phân tích payload.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><strong><span class="en">Email headers:</span><span class="vi">Header email:</span></strong> <span class="en"><code>From:</code>/<code>Reply-To:</code> are trivially spoofed. <code>Received:</code> lines are stamped by each MTA and read <em>bottom-up</em> (oldest first); only hops you control are reliable. <strong>SPF</strong> (TXT) lists authorised sending servers; <strong>DKIM</strong> adds a signature; <strong>DMARC</strong> sets policy/alignment.</span><span class="vi"><code>From:</code>/<code>Reply-To:</code> dễ giả. Dòng <code>Received:</code> do từng MTA đóng dấu, đọc <em>từ dưới lên</em> (cũ nhất trước); chỉ các hop bạn kiểm soát mới đáng tin. <strong>SPF</strong> (TXT) liệt kê máy chủ gửi được phép; <strong>DKIM</strong> thêm chữ ký; <strong>DMARC</strong> đặt chính sách/alignment.</span></li>
-<li><strong>MIME:</strong> <span class="en">Attachments are encoded as <strong>Base64</strong> (text-safe) — encoding, not encryption; decode to inspect.</span><span class="vi">File đính kèm mã hóa <strong>Base64</strong> (an toàn dạng text) — encoding, không phải mã hóa; giải mã để kiểm tra.</span></li>
-<li><strong><span class="en">PKI / X.509 certificate:</span><span class="vi">Chứng chỉ PKI / X.509:</span></strong> <span class="en">Binds a public key to a subject identity, signed by a CA. Validate: chains to a trusted CA, in-date, and subject/SAN matches the hostname (and not revoked). Self-signed/expired/mismatched certs are red flags.</span><span class="vi">Ràng buộc khóa công khai với danh tính chủ thể, do CA ký. Kiểm tra: dây chuyền tới CA tin cậy, còn hạn, subject/SAN khớp hostname (và không bị thu hồi). Cert tự ký/hết hạn/không khớp là cờ đỏ.</span></li>
-<li><strong><span class="en">URL/percent encoding:</span><span class="vi">Mã hóa URL/percent:</span></strong> <span class="en"><code>%3C</code>/<code>%3E</code> decode to <code>&lt;</code>/<code>&gt;</code>, so <code>%3Cscript%3E</code> = <code>&lt;script&gt;</code> — an XSS probe in logs. Recognise URL/Base64/hex/HTML-entity encodings to spot obfuscated attacks.</span><span class="vi"><code>%3C</code>/<code>%3E</code> giải ra <code>&lt;</code>/<code>&gt;</code>, nên <code>%3Cscript%3E</code> = <code>&lt;script&gt;</code> — thăm dò XSS trong log. Nhận diện mã hóa URL/Base64/hex/HTML-entity để phát hiện tấn công bị làm rối.</span></li></ul>
-`;
+<li>Received hops, timestamps/timezones, Authentication-Results, DKIM signature.</li>
+<li>X.509 SAN, EKU, serial, fingerprints, AIA/CRL/OCSP.</li>
+<li>Content-Type, boundary, Content-Transfer-Encoding và charset.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>
+<code>openssl x509 -in cert.pem -text -noout</code>
+</li>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>CyberChef hoặc script offline; luôn giữ input/output và recipe.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>From hiển thị CEO không đáng tin; Received chain + SPF fail + DKIM absent + Reply-To khác domain mới tạo bằng chứng phishing mạnh.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>Header phía sender có thể giả; relay tin cậy thêm header đáng tin hơn.</li>
+<li>Encoding không bảo mật; decode nhiều lớp có thể tạo binary nguy hiểm.</li>
+<li>Certificate hợp lệ chỉ chứng minh CA cấp cho tên, không chứng minh site là benign.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> RFC 5322, 2045–2049, 5280, 6376, 7208, 7489.</p>
+</div>
+</details>`;

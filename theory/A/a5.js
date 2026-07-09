@@ -1,122 +1,133 @@
-/* Theory — A5 (Appendix A). Edit the HTML below. */
+/* Theory — A5 (Appendix A). 3-tier layout: Recall / Concept / Reference. */
 (window.CPIA_THEORY=window.CPIA_THEORY||{})["a5"]=`<h2>A5 — Threat Assessment</h2>
 
-<h3>IoC Classification</h3>
+<div class="tier recall" id="a5-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Cyber Kill Chain (7):</strong> <span class="en">Reconnaissance → Weaponization → Delivery → Exploitation → Installation → C2 → Actions on Objectives.</span><span class="vi">Reconnaissance → Weaponization → Delivery → Exploitation → Installation → C2 → Actions on Objectives.</span></li>
+<li><strong>MITRE ATT&amp;CK:</strong> <span class="en">A matrix of Tactics (the WHY/goal) and Techniques (the HOW).</span><span class="vi">Ma trận gồm Tactics (mục tiêu — TẠI SAO) và Techniques (cách làm — NHƯ THẾ NÀO).</span></li>
+<li><strong>Diamond Model:</strong> <span class="en">Adversary — Capability — Infrastructure — Victim. Pivot between vertices to find related activity.</span><span class="vi">Adversary — Capability — Infrastructure — Victim. Xoay giữa các đỉnh để tìm hoạt động liên quan.</span></li>
+<li><strong>Pyramid of Pain:</strong> <span class="en">hash &lt; IP &lt; domain &lt; host/network artefacts &lt; tools &lt; TTPs. TTPs are hardest for the attacker to change.</span><span class="vi">hash &lt; IP &lt; domain &lt; artefact host/mạng &lt; công cụ &lt; TTP. TTP là thứ kẻ tấn công khó thay nhất.</span></li>
+<li><strong>IoC vs IoA:</strong> <span class="en">IoC = forensic artefact of a breach (hash, IP, key); IoA = behaviour/intent in progress (early, behavioural).</span><span class="vi">IoC = artefact pháp y của vụ xâm nhập (hash, IP, khóa); IoA = hành vi/ý đồ đang diễn ra (sớm, theo hành vi).</span></li>
+<li><strong>Attribution is probabilistic:</strong> <span class="en">Built from converging indicators; tools and language strings can be planted as false flags.</span><span class="vi">Dựng từ nhiều chỉ dấu hội tụ; công cụ và chuỗi ngôn ngữ có thể bị cài làm false flag.</span></li>
+<li><strong>Phishing types:</strong> <span class="en">Whaling (executives), spear-phishing (specific target), watering-hole (a trusted site the target visits).</span><span class="vi">Whaling (lãnh đạo), spear-phishing (mục tiêu cụ thể), watering-hole (site tin cậy mà mục tiêu hay vào).</span></li>
+<li><strong>APT vs commodity:</strong> <span class="en">APT = well-resourced, targeted, persistent (espionage); commodity = opportunistic, automated, financial.</span><span class="vi">APT = nhiều nguồn lực, nhắm mục tiêu, bền bỉ (gián điệp); commodity = cơ hội, tự động, vì tiền.</span></li>
+<li><strong>Attacker motivations:</strong> <span class="en">Financial gain, espionage/IP theft, hacktivism, disruption/sabotage, notoriety, insider abuse.</span><span class="vi">Lợi ích tài chính, gián điệp/đánh cắp IP, hacktivism, phá hoại, nổi tiếng, lạm dụng nội bộ.</span></li>
+<li><strong>Likely targets:</strong> <span class="en">Executives, finance, HR, IT admins, developers — anyone with access to valuable data or privileged systems.</span><span class="vi">Lãnh đạo, tài chính, nhân sự, quản trị IT, lập trình viên — bất kỳ ai có quyền truy cập dữ liệu giá trị hoặc hệ thống đặc quyền.</span></li>
+</ul></div></div>
 
-<div class="table-wrap"><table><tr><th>IoC class</th><th>Examples</th><th><span class="en">Strength / limitation</span><span class="vi">Điểm mạnh / hạn chế</span></th></tr><tr><td>Hash IoCs</td><td>MD5, SHA-1, SHA-256</td><td><span class="en">High precision for exact files; fragile if malware changes one byte.</span><span class="vi">Chính xác cao cho file cụ thể; dễ bị vô hiệu nếu malware thay đổi một byte.</span></td></tr><tr><td>Network IoCs</td><td>IP, domain, URL, URI path, JA3 / JA3S, User-Agent</td><td><span class="en">Useful for detection and blocking; infrastructure may rotate quickly.</span><span class="vi">Hữu ích để phát hiện và chặn; hạ tầng có thể xoay vòng nhanh.</span></td></tr><tr><td>Host IoCs</td><td>File path, registry key, mutex, service name, scheduled task, named pipe</td><td><span class="en">Useful for triage and endpoint hunting; can be environment-specific.</span><span class="vi">Hữu ích để phân loại và săn tìm trên endpoint; có thể đặc thù theo môi trường.</span></td></tr><tr><td>Behavioural IoCs / TTPs</td><td>PowerShell download cradle, LSASS access, process injection, DNS tunneling</td><td><span class="en">More resilient than simple IoCs; usually needs context to avoid false positives.</span><span class="vi">Bền vững hơn IoC đơn giản; thường cần ngữ cảnh để tránh false positive.</span></td></tr></table></div>
+<details class="tier concept" id="a5-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Cyber Kill Chain — vì sao hữu ích</h4>
+<p>Mô tả 7 giai đoạn tuần tự của một cuộc xâm nhập. Giá trị: xác định kẻ tấn công đang ở giai đoạn nào và <strong>gián đoạn càng sớm thì thiệt hại và phạm vi càng nhỏ</strong>. Phá vỡ một mắt xích (vd chặn Delivery) làm hỏng cả chuỗi.</p>
 
-<h3>Technique to ATT&amp;CK tactic mapping</h3>
+<h4>MITRE ATT&amp;CK — Tactics vs Techniques</h4>
+<p><strong>Tactic</strong> = mục tiêu của kẻ tấn công (vd Persistence, Defense Evasion, Credential Access). <strong>Technique</strong> = cách cụ thể để đạt mục tiêu đó (vd Run keys cho Persistence, dump LSASS — T1003 — cho Credential Access). Một technique có thể thuộc nhiều tactic tùy ý đồ.</p>
 
-<div class="table-wrap"><table><tr><th>Technique / Behaviour</th><th>ATT&amp;CK ID</th><th>Tactic</th><th><span class="en">Typical Evidence</span><span class="vi">Bằng chứng điển hình</span></th></tr><tr><td>Spearphishing Attachment</td><td>T1566.001</td><td>Initial Access</td><td><span class="en">Email attachment, message trace, user execution</span><span class="vi">File đính kèm email, trace tin nhắn, người dùng thực thi</span></td></tr><tr><td>Command and Scripting Interpreter</td><td>T1059</td><td>Execution</td><td>PowerShell, cmd.exe, WScript, CScript</td></tr><tr><td>Scheduled Task / Job</td><td>T1053</td><td>Persistence / Execution</td><td><span class="en">Task Scheduler entries, Security / TaskScheduler logs</span><span class="vi">Mục Task Scheduler, log Security / TaskScheduler</span></td></tr><tr><td>Registry Run Keys / Startup Folder</td><td>T1547.001</td><td>Persistence</td><td><span class="en">Run / RunOnce keys, startup folder payloads</span><span class="vi">Key Run / RunOnce, payload trong thư mục khởi động</span></td></tr><tr><td>Access Token Manipulation</td><td>T1134</td><td>Privilege Escalation / Defense Evasion</td><td><span class="en">Token impersonation, SID history abuse</span><span class="vi">Giả mạo token, lạm dụng SID history</span></td></tr><tr><td>Obfuscated Files or Information</td><td>T1027</td><td>Defense Evasion</td><td><span class="en">Packed binaries, encoded strings, encrypted payloads</span><span class="vi">Binary đã pack, chuỗi mã hóa, payload được mã hóa</span></td></tr><tr><td>OS Credential Dumping</td><td>T1003</td><td>Credential Access</td><td><span class="en">LSASS access, Mimikatz, dumped SAM / NTDS</span><span class="vi">Truy cập LSASS, Mimikatz, SAM / NTDS bị dump</span></td></tr><tr><td>System Information Discovery</td><td>T1082</td><td>Discovery</td><td>systeminfo, whoami, hostname, <span class="en">environment checks</span><span class="vi">kiểm tra môi trường</span></td></tr><tr><td>Network Share Discovery</td><td>T1135</td><td>Discovery</td><td>net share, net view, SMB enumeration</td></tr><tr><td>Remote Services</td><td>T1021</td><td>Lateral Movement</td><td><span class="en">RDP, SMB, WinRM, SSH lateral access</span><span class="vi">Truy cập ngang qua RDP, SMB, WinRM, SSH</span></td></tr><tr><td>Data Staged</td><td>T1074</td><td>Collection</td><td><span class="en">Archive files, staging directories, compressed dumps</span><span class="vi">File archive, thư mục staging, dump nén</span></td></tr><tr><td>Application Layer Protocol</td><td>T1071</td><td>Command and Control</td><td><span class="en">HTTP / S, DNS, SMTP, custom protocol over common ports</span><span class="vi">HTTP / S, DNS, SMTP, giao thức tùy chỉnh qua cổng phổ biến</span></td></tr><tr><td>Exfiltration Over C2 Channel</td><td>T1041</td><td>Exfiltration</td><td><span class="en">Outbound upload over established C2 session</span><span class="vi">Upload ra ngoài qua phiên C2 đã thiết lập</span></td></tr><tr><td>Data Encrypted for Impact</td><td>T1486</td><td>Impact</td><td><span class="en">Ransom notes, encrypted files, mass rename / write activity</span><span class="vi">Ghi chú đòi tiền chuộc, file bị mã hóa, hoạt động đổi tên / ghi hàng loạt</span></td></tr></table></div>
+<h4>Diamond Model — xoay trục (pivoting)</h4>
+<p>Bốn đỉnh: <strong>Adversary, Capability, Infrastructure, Victim</strong>. Khi biết một đỉnh (vd một IP hạ tầng) có thể <em>xoay</em> sang đỉnh khác để phát hiện sự cố liên quan (cùng hạ tầng → nạn nhân khác). Tốt để lập bản đồ chiến dịch.</p>
 
-<div class="callout info"><strong>Common confusion:</strong> <span class="en">One technique can map to more than one tactic depending on intent. For example, Scheduled Task may be Execution or Persistence.</span><span class="vi">Một kỹ thuật có thể ánh xạ đến nhiều hơn một tactic tùy theo mục đích. Ví dụ, Scheduled Task có thể là Execution hoặc Persistence.</span></div>
+<h4>Pyramid of Pain — vì sao TTP bền nhất</h4>
+<p>Xếp chỉ dấu theo mức "đau" mà kẻ tấn công phải chịu khi bị buộc phải thay: hash/IP đổi rất dễ; còn <strong>TTP (cách hành xử)</strong> rất khó đổi. Vì vậy phát hiện dựa trên <strong>hành vi/TTP</strong> bền hơn nhiều so với chặn hash/IP.</p>
 
-<div class="callout warning"><strong>Exam tip:</strong><p><span class="en">Hashes and IP addresses are easy to block but easy for attackers to change. Behavioural IoCs map more closely to ATT&amp;CK and are usually more robust.</span><span class="vi">Hash và địa chỉ IP dễ chặn nhưng cũng dễ thay đổi với kẻ tấn công. IoC hành vi ánh xạ chặt chẽ hơn với ATT&amp;CK và thường bền vững hơn.</span></p></div>
+<h4>IoC vs IoA</h4>
+<p><strong>IoC</strong> là <em>dấu vết của việc đã/đang xảy ra</em> (hash, IP độc hại, khóa registry) — mang tính phản ứng. <strong>IoA</strong> phản ánh <em>hành vi/ý đồ đang diễn ra</em> (vd một tài liệu Office sinh ra PowerShell) — cho phép phát hiện sớm theo hành vi.</p>
 
+<h4>Attribution &amp; false flag</h4>
+<p>Attribution mang tính <strong>xác suất</strong>, dựng từ các chỉ dấu hội tụ (TTP, hạ tầng, mục tiêu, thời điểm). Một công cụ/chuỗi ngôn ngữ đơn lẻ rất yếu và <strong>có thể bị cài cố ý (false flag)</strong>. Khi tools/strings chỉ về Nhóm X nhưng targeting/timing hợp với Nhóm Y → phải cân nhắc khả năng giả mạo, đừng kết luận vội.</p>
+
+<h4>Insider vs external; dịch sang ngữ cảnh kinh doanh</h4>
+<p>Dấu hiệu <strong>insider</strong>: dùng thông tin đăng nhập hợp lệ truy cập dữ liệu bất thường, trong giờ làm, từ thiết bị của chính họ — khác với brute-force/khai thác từ ngoài. <strong>Dịch sang kinh doanh</strong> = trả lời: mối đe dọa này đe dọa <em>tài sản/dữ liệu trọng yếu</em> nào và <em>tác động</em> ra sao — để lãnh đạo hiểu rủi ro.</p>
+</div></details>
+
+<details class="tier reference" id="a5-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Cyber Kill Chain (Lockheed Martin) — 7 stages</h4>
+<div class="table-wrap"><table>
+<tr><th>#</th><th>Stage</th><th>Evidence / example</th></tr>
+<tr><td>1</td><td>Reconnaissance</td><td>OSINT, scanning, email harvesting</td></tr>
+<tr><td>2</td><td>Weaponization</td><td>Pairing an exploit with a payload (e.g. maldoc)</td></tr>
+<tr><td>3</td><td>Delivery</td><td>Phishing email / link / web / USB</td></tr>
+<tr><td>4</td><td>Exploitation</td><td>Vuln or user action triggers code</td></tr>
+<tr><td>5</td><td>Installation</td><td>Backdoor / persistence installed</td></tr>
+<tr><td>6</td><td>Command &amp; Control (C2)</td><td>Beaconing to attacker infrastructure</td></tr>
+<tr><td>7</td><td>Actions on Objectives</td><td>Collection, exfiltration, ransomware, destruction</td></tr>
+</table></div>
+
+<h4>MITRE ATT&amp;CK Enterprise tactics — syllabus-era 14-tactic model</h4>
+<p><strong>Version note:</strong> Bảng dưới phản ánh mô hình 14 tactic phổ biến trong tài liệu/đề theo syllabus 2023. ATT&amp;CK là knowledge base có version và live Enterprise matrix có thể thêm/đổi tactic; khi làm nghiệp vụ phải ghi version/permalink thay vì mặc định danh sách này luôn là bản mới nhất.</p>
+<div class="table-wrap"><table>
+<tr><th>#</th><th>Tactic</th><th>Goal</th><th>Example technique</th></tr>
+<tr><td>1</td><td>Reconnaissance</td><td>Gather target info</td><td>OSINT, scanning, email harvesting</td></tr>
+<tr><td>2</td><td>Resource Development</td><td>Prepare resources</td><td>Register domains, build/stage payloads, set up C2</td></tr>
+<tr><td>3</td><td>Initial Access</td><td>Get in</td><td>Spear-phishing attachment, exploit public-facing app</td></tr>
+<tr><td>4</td><td>Execution</td><td>Run code</td><td>PowerShell, WScript, scheduled task</td></tr>
+<tr><td>5</td><td>Persistence</td><td>Stay</td><td>Run keys, services, scheduled tasks</td></tr>
+<tr><td>6</td><td>Privilege Escalation</td><td>Higher rights</td><td>Token manipulation, UAC bypass</td></tr>
+<tr><td>7</td><td>Defense Evasion</td><td>Avoid detection</td><td>Clear logs (T1070), obfuscation, timestomping</td></tr>
+<tr><td>8</td><td>Credential Access</td><td>Steal creds</td><td>Dump LSASS (T1003), Kerberoasting</td></tr>
+<tr><td>9</td><td>Discovery</td><td>Map the env</td><td>AD / share / host enumeration</td></tr>
+<tr><td>10</td><td>Lateral Movement</td><td>Spread</td><td>Pass-the-Hash, PsExec, RDP</td></tr>
+<tr><td>11</td><td>Collection</td><td>Gather target data</td><td>Screen capture, keylogging, archive/staging</td></tr>
+<tr><td>12</td><td>Command &amp; Control (C2)</td><td>Remote control</td><td>Beaconing over HTTP/S, DNS, custom protocol</td></tr>
+<tr><td>13</td><td>Exfiltration</td><td>Steal data out</td><td>Exfil over C2 channel, DNS, cloud sync</td></tr>
+<tr><td>14</td><td>Impact</td><td>Disrupt / destroy / monetise</td><td>Ransomware (T1486), data wiping, defacement</td></tr>
+</table></div>
+
+<h4>Pyramid of Pain</h4>
+<div class="table-wrap"><table>
+<tr><th>Indicator</th><th>Pain to change</th></tr>
+<tr><td>Hash values</td><td>Trivial</td></tr>
+<tr><td>IP addresses</td><td>Easy</td></tr>
+<tr><td>Domain names</td><td>Simple</td></tr>
+<tr><td>Host / network artefacts</td><td>Annoying</td></tr>
+<tr><td>Tools</td><td>Challenging</td></tr>
+<tr><td>TTPs</td><td>Tough (most durable to detect on)</td></tr>
+</table></div>
+
+<h4>Threat-intelligence levels &amp; phishing types</h4>
+<div class="table-wrap"><table>
+<tr><th>Intel level</th><th>For whom</th><th>Phishing type</th><th>Target</th></tr>
+<tr><td>Strategic</td><td>Leadership (trends, geopolitics)</td><td>Whaling</td><td>Executives</td></tr>
+<tr><td>Operational</td><td>Campaign / intent</td><td>Spear-phishing</td><td>A specific person/team</td></tr>
+<tr><td>Tactical</td><td>TTPs / IoCs for detections</td><td>Watering-hole</td><td>A trusted site the target visits</td></tr>
+</table></div>
+</div></details>
+
+<details class="tier deep-dive" id="a5-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Xác định asset, business process, data owner và hậu quả CIA; phân biệt threat, vulnerability, likelihood và impact.</li>
+<li>Lập hypothesis về actor/campaign nhưng chấm confidence; map observation sang ATT&amp;CK technique và Kill Chain stage.</li>
+<li>Phân tích capability, intent, opportunity và targeting; ưu tiên người/tài sản có access hoặc ảnh hưởng cao.</li>
+<li>Chuyển thành quyết định: detection gap, containment priority, protective monitoring và risk owner.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-
-<li><strong>Business translation:</strong> <span class="en">Map technical facts to affected services, crown jewels, business impact, and likely attacker objective.</span><span class="vi">Ánh xạ sự kiện kỹ thuật đến dịch vụ bị ảnh hưởng, tài sản quan trọng nhất, tác động kinh doanh và mục tiêu có khả năng của kẻ tấn công.</span></li>
-
-<li><strong>Attribution caution:</strong> <span class="en">Tooling, infrastructure, and TTPs can be reused or spoofed; avoid overclaiming.</span><span class="vi">Công cụ, hạ tầng và TTP có thể được tái sử dụng hoặc giả mạo; tránh đưa ra tuyên bố quá mức.</span></li>
-
-<li><strong>Motivations:</strong> <span class="en">Financial crime, espionage, disruption, hacktivism, insider abuse, credential theft, ransomware.</span><span class="vi">Tội phạm tài chính, gián điệp, phá hoại, hacktivism, lạm dụng nội bộ, đánh cắp thông tin xác thực, ransomware.</span></li>
-
-<li><strong>Targeted individuals:</strong> <span class="en">Executives, finance, HR, IT admins, developers, and staff with access to valuable data.</span><span class="vi">Lãnh đạo, tài chính, nhân sự, quản trị viên IT, lập trình viên và nhân viên có quyền truy cập dữ liệu quan trọng.</span></li>
-
-<li><strong>Frameworks:</strong> <span class="en">Use MITRE ATT&amp;CK for tactics / techniques and Cyber Kill Chain for attack-stage narrative.</span><span class="vi">Dùng MITRE ATT&amp;CK cho tactics / techniques và Cyber Kill Chain để mô tả giai đoạn tấn công.</span></li>
-
+<li>TTP, infrastructure, malware family, victimology, timing, language/build artefact và operational mistakes.</li>
+<li>IoC dễ đổi: hash/IP/domain; IoA/TTP bền hơn: process chain, credential access, lateral movement.</li>
+<li>Business evidence: crown-jewel inventory, dependency, RTO/RPO, regulatory và safety impact.</li>
 </ul>
-
-<h3>MITRE ATT&amp;CK Enterprise Tactics — 14 Tactics</h3>
-
-<div class="table-wrap"><table>
-
-<tr><th>#</th><th>Tactic</th><th><span class="en">What it means</span><span class="vi">Ý nghĩa</span></th><th><span class="en">Typical evidence</span><span class="vi">Bằng chứng điển hình</span></th></tr>
-
-<tr><td>1</td><td>Reconnaissance</td><td><span class="en">Attacker gathers target information.</span><span class="vi">Kẻ tấn công thu thập thông tin mục tiêu.</span></td><td>OSINT, scanning, email harvesting</td></tr>
-
-<tr><td>2</td><td>Resource Development</td><td><span class="en">Attacker prepares infrastructure and capabilities.</span><span class="vi">Kẻ tấn công chuẩn bị hạ tầng và năng lực.</span></td><td><span class="en">Registered domains, VPS, payload staging</span><span class="vi">Domain đã đăng ký, VPS, staging payload</span></td></tr>
-
-<tr><td>3</td><td>Initial Access</td><td><span class="en">Attacker gains entry.</span><span class="vi">Kẻ tấn công xâm nhập ban đầu.</span></td><td><span class="en">Phishing, VPN login, exploit against public service</span><span class="vi">Phishing, đăng nhập VPN, khai thác dịch vụ công khai</span></td></tr>
-
-<tr><td>4</td><td>Execution</td><td><span class="en">Attacker runs code.</span><span class="vi">Kẻ tấn công thực thi mã.</span></td><td>PowerShell, WMI, macro, script interpreter</td></tr>
-
-<tr><td>5</td><td>Persistence</td><td><span class="en">Attacker maintains access.</span><span class="vi">Kẻ tấn công duy trì quyền truy cập.</span></td><td><span class="en">Run key, service, scheduled task, WMI subscription</span><span class="vi">Run key, service, scheduled task, WMI subscription</span></td></tr>
-
-<tr><td>6</td><td>Privilege Escalation</td><td><span class="en">Attacker gains higher permissions.</span><span class="vi">Kẻ tấn công leo thang quyền hạn.</span></td><td><span class="en">Token abuse, UAC bypass, vulnerable service</span><span class="vi">Lạm dụng token, bypass UAC, service có lỗ hổng</span></td></tr>
-
-<tr><td>7</td><td>Defense Evasion</td><td><span class="en">Attacker avoids detection.</span><span class="vi">Kẻ tấn công né tránh phát hiện.</span></td><td><span class="en">Timestomping, obfuscation, disabling tools</span><span class="vi">Timestomping, obfuscation, vô hiệu hóa công cụ bảo mật</span></td></tr>
-
-<tr><td>8</td><td>Credential Access</td><td><span class="en">Attacker obtains credentials.</span><span class="vi">Kẻ tấn công lấy cắp thông tin xác thực.</span></td><td>LSASS dump, Mimikatz, SAM / NTDS access</td></tr>
-
-<tr><td>9</td><td>Discovery</td><td><span class="en">Attacker maps the environment.</span><span class="vi">Kẻ tấn công khảo sát môi trường.</span></td><td>whoami, net, nltest, arp, ipconfig, share enumeration</td></tr>
-
-<tr><td>10</td><td>Lateral Movement</td><td><span class="en">Attacker moves to other systems.</span><span class="vi">Kẻ tấn công di chuyển sang hệ thống khác.</span></td><td>RDP, SMB, PsExec, WinRM, pass-the-hash</td></tr>
-
-<tr><td>11</td><td>Collection</td><td><span class="en">Attacker gathers data.</span><span class="vi">Kẻ tấn công thu thập dữ liệu.</span></td><td><span class="en">Archive files, staged directories, screenshots, keylogging</span><span class="vi">File archive, thư mục staging, screenshot, keylogging</span></td></tr>
-
-<tr><td>12</td><td>Command and Control</td><td><span class="en">Attacker controls compromised hosts.</span><span class="vi">Kẻ tấn công điều khiển máy bị chiếm.</span></td><td>Beaconing, HTTP / S C2, DNS tunneling</td></tr>
-
-<tr><td>13</td><td>Exfiltration</td><td><span class="en">Attacker removes data.</span><span class="vi">Kẻ tấn công đánh cắp dữ liệu ra ngoài.</span></td><td><span class="en">Unusual uploads, cloud sync, DNS exfil, archive transfer</span><span class="vi">Upload bất thường, đồng bộ cloud, DNS exfil, chuyển archive</span></td></tr>
-
-<tr><td>14</td><td>Impact</td><td><span class="en">Attacker disrupts, destroys, or monetises access.</span><span class="vi">Kẻ tấn công gây gián đoạn, phá hủy hoặc kiếm tiền từ quyền truy cập.</span></td><td><span class="en">Ransomware, wiping, defacement, account lockout</span><span class="vi">Ransomware, xóa dữ liệu, defacement, khóa tài khoản</span></td></tr>
-
-</table></div>
-
-<h3>Cyber Kill Chain — 7 Phases</h3>
-
-<div class="table-wrap"><table>
-
-<tr><th>#</th><th>Phase</th><th><span class="en">Meaning</span><span class="vi">Ý nghĩa</span></th><th><span class="en">Defender focus</span><span class="vi">Trọng tâm phòng thủ</span></th></tr>
-
-<tr><td>1</td><td>Reconnaissance</td><td><span class="en">Attacker researches the target.</span><span class="vi">Kẻ tấn công nghiên cứu mục tiêu.</span></td><td><span class="en">Monitor OSINT exposure and scanning.</span><span class="vi">Giám sát lộ lọt OSINT và hoạt động quét.</span></td></tr>
-
-<tr><td>2</td><td>Weaponization</td><td><span class="en">Attacker builds payload / exploit.</span><span class="vi">Kẻ tấn công tạo payload / exploit.</span></td><td><span class="en">Threat intelligence and malware analysis.</span><span class="vi">Threat intelligence và phân tích malware.</span></td></tr>
-
-<tr><td>3</td><td>Delivery</td><td><span class="en">Payload reaches the victim.</span><span class="vi">Payload đến được mục tiêu.</span></td><td><span class="en">Email, web, removable media, supply chain evidence.</span><span class="vi">Bằng chứng qua email, web, thiết bị di động, chuỗi cung ứng.</span></td></tr>
-
-<tr><td>4</td><td>Exploitation</td><td><span class="en">Vulnerability or user action triggers code.</span><span class="vi">Lỗ hổng hoặc hành động người dùng kích hoạt mã.</span></td><td><span class="en">Exploit logs, crash evidence, macro / script execution.</span><span class="vi">Log exploit, bằng chứng crash, thực thi macro / script.</span></td></tr>
-
-<tr><td>5</td><td>Installation</td><td><span class="en">Malware or persistence is installed.</span><span class="vi">Malware hoặc cơ chế duy trì được cài đặt.</span></td><td><span class="en">Autoruns, services, scheduled tasks, file writes.</span><span class="vi">Autoruns, service, scheduled task, ghi file.</span></td></tr>
-
-<tr><td>6</td><td>Command and Control</td><td><span class="en">Host communicates with attacker.</span><span class="vi">Máy bị chiếm giao tiếp với kẻ tấn công.</span></td><td><span class="en">Beaconing, C2 domains, JA3 / TLS fingerprints.</span><span class="vi">Beaconing, domain C2, fingerprint JA3 / TLS.</span></td></tr>
-
-<tr><td>7</td><td>Actions on Objectives</td><td><span class="en">Attacker performs final goals.</span><span class="vi">Kẻ tấn công thực hiện mục tiêu cuối cùng.</span></td><td><span class="en">Collection, exfiltration, ransomware, destruction.</span><span class="vi">Thu thập, đánh cắp dữ liệu, ransomware, phá hủy.</span></td></tr>
-
-</table></div>
-
-<h3><span class="en">High-Level Threat Assessment Methodologies</span><span class="vi">Các Phương pháp Đánh giá Mối đe dọa</span></h3><div class="table-wrap"><table><tr><th>Model</th><th><span class="en">What It Describes</span><span class="vi">Mô tả</span></th><th><span class="en">IR Use</span><span class="vi">Ứng dụng trong IR</span></th></tr><tr><td><strong>Diamond Model</strong></td><td><span class="en">Adversary — Capability — Infrastructure — Victim. Four vertices define every intrusion.</span><span class="vi">Adversary — Capability — Infrastructure — Victim. Bốn đỉnh định nghĩa mọi cuộc xâm nhập.</span></td><td><span class="en">Pivot between incidents sharing infrastructure or capabilities; map attacker relationships</span><span class="vi">Xoay (pivot) giữa các sự cố dùng chung hạ tầng hoặc năng lực; lập bản đồ quan hệ của kẻ tấn công</span></td></tr><tr><td><strong>STRIDE</strong></td><td>Spoofing, Tampering, Repudiation, Info Disclosure, Denial of Service, Elevation of Privilege</td><td><span class="en">Threat modelling — categorise attack type for prioritisation and appropriate response</span><span class="vi">Mô hình hóa mối đe dọa — phân loại kiểu tấn công để ưu tiên và ứng phó phù hợp</span></td></tr><tr><td><strong>Kill-Chain</strong></td><td><span class="en">7 phases: Recon, Weaponize, Deliver, Exploit, Install, C2, Actions on Objectives</span><span class="vi">7 giai đoạn: Trinh sát, Vũ khí hóa, Phân phối, Khai thác, Cài đặt, C2, Hành động theo mục tiêu</span></td><td><span class="en">Identify attacker phase; earlier disruption = less damage and scope</span><span class="vi">Xác định giai đoạn của kẻ tấn công; gián đoạn sớm hơn = ít thiệt hại và phạm vi hơn</span></td></tr><tr><td><strong>Risk formula</strong></td><td>Risk = Threat × Vulnerability × Impact</td><td><span class="en">Quantify and communicate risk to client leadership in business terms</span><span class="vi">Định lượng và truyền đạt rủi ro đến lãnh đạo khách hàng bằng ngôn ngữ kinh doanh</span></td></tr></table></div>
-
-<h3><span class="en">Supply Chain and Third-Party Risk</span><span class="vi">Rủi ro Chuỗi Cung ứng và Bên Thứ ba</span></h3>
-
-<p class="sub-heading"><span class="en">Supply Chain Attack Indicators</span><span class="vi">Dấu hiệu Tấn công Chuỗi Cung ứng</span></p><ul><li><span class="en">Legitimate software update server compromised.</span><span class="vi">Máy chủ cập nhật phần mềm hợp lệ bị xâm phạm.</span></li><li><span class="en">Signed binary exhibiting malicious behaviour (code-signing abuse).</span><span class="vi">Binary đã ký có hành vi độc hại (lạm dụng code-signing).</span></li><li><span class="en">Dependency confusion in package managers.</span><span class="vi">Nhầm lẫn dependency trong trình quản lý package.</span></li><li><span class="en">Compromised build pipeline.</span><span class="vi">Pipeline build bị xâm phạm.</span></li></ul>
-
-<p class="sub-heading"><span class="en">Detection Approach</span><span class="vi">Phương pháp Phát hiện</span></p><ul><li><span class="en">File hash comparison against known-good baseline.</span><span class="vi">So sánh hash file với baseline đã biết là tốt.</span></li><li><span class="en">Certificate validation beyond signature presence — check revocation and chain.</span><span class="vi">Xác thực chứng chỉ vượt ra ngoài sự hiện diện của chữ ký — kiểm tra revocation và chuỗi.</span></li><li><span class="en">Network analysis of update traffic for anomalies.</span><span class="vi">Phân tích mạng lưu lượng cập nhật để tìm bất thường.</span></li><li><span class="en">Behavioural analysis of updated software.</span><span class="vi">Phân tích hành vi phần mềm đã cập nhật.</span></li><li><span class="en">Threat intelligence on compromised vendors and tools.</span><span class="vi">Threat intelligence về nhà cung cấp và công cụ bị xâm phạm.</span></li></ul>
-
-
-<h3 class="qz-theory"><span class="en">Cyber Kill Chain (Lockheed Martin)</span><span class="vi">Cyber Kill Chain (Lockheed Martin)</span></h3>
-<p><span class="en">Seven sequential stages of an intrusion:</span><span class="vi">Bảy giai đoạn tuần tự của một cuộc xâm nhập:</span></p>
-<div class="table-wrap"><table><thead><tr><th><span class="en">Stage</span><span class="vi">Giai đoạn</span></th><th><span class="en">Meaning</span><span class="vi">Ý nghĩa</span></th></tr></thead><tbody>
-<tr><td>Reconnaissance</td><td><span class="en">Research/target selection</span><span class="vi">Nghiên cứu/chọn mục tiêu</span></td></tr>
-<tr><td>Weaponization</td><td><span class="en">Build the deliverable (couple exploit + payload)</span><span class="vi">Dựng vật phẩm phân phối (ghép exploit + payload)</span></td></tr>
-<tr><td>Delivery</td><td><span class="en">Transmit the lure (email/link/web)</span><span class="vi">Truyền mồi nhử (email/liên kết/web)</span></td></tr>
-<tr><td>Exploitation</td><td><span class="en">Trigger the vulnerability on the target</span><span class="vi">Kích hoạt lỗ hổng trên mục tiêu</span></td></tr>
-<tr><td>Installation</td><td><span class="en">Establish persistence/backdoor</span><span class="vi">Thiết lập persistence/backdoor</span></td></tr>
-<tr><td>Command &amp; Control</td><td><span class="en">Remote control channel</span><span class="vi">Kênh điều khiển từ xa</span></td></tr>
-<tr><td>Actions on Objectives</td><td><span class="en">Achieve the goal (exfil, destruction…)</span><span class="vi">Đạt mục tiêu (exfil, phá hủy…)</span></td></tr></tbody></table></div>
-
-<h3><span class="en">MITRE ATT&amp;CK, Diamond Model &amp; Pyramid of Pain</span><span class="vi">MITRE ATT&amp;CK, Diamond Model &amp; Pyramid of Pain</span></h3>
+</div>
+</div>
+<h4>Tình huống diễn giải</h4>
+<p>Cùng một beacon trên kiosk và domain controller có technical IOC giống nhau nhưng business risk khác hẳn. DC có blast radius, credential và recovery impact cao hơn nên ưu tiên containment/forensics.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
 <ul>
-<li><strong>MITRE ATT&amp;CK:</strong> <span class="en">A behaviour matrix of <strong>Tactics</strong> (the <em>why</em>/goal) and <strong>Techniques</strong> (the <em>how</em>). Tactics include Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion (e.g. clearing logs, T1070), Credential Access (e.g. LSASS dumping, T1003), Discovery, Lateral Movement, Collection, C2, Exfiltration, Impact.</span><span class="vi">Ma trận hành vi gồm <strong>Tactics</strong> (<em>tại sao</em>/mục tiêu) và <strong>Techniques</strong> (<em>cách thức</em>). Các tactic gồm Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion (vd xóa log, T1070), Credential Access (vd dump LSASS, T1003), Discovery, Lateral Movement, Collection, C2, Exfiltration, Impact.</span></li>
-<li><strong>Diamond Model:</strong> <span class="en">Links four features — <strong>Adversary, Capability, Infrastructure, Victim</strong>. Pivoting between vertices (e.g. infrastructure → other victims) uncovers related activity.</span><span class="vi">Liên kết bốn yếu tố — <strong>Adversary, Capability, Infrastructure, Victim</strong>. Xoay giữa các đỉnh (vd hạ tầng → nạn nhân khác) phát hiện hoạt động liên quan.</span></li>
-<li><strong>Pyramid of Pain:</strong> <span class="en">Ranks indicators by how much changing them hurts the adversary: hash &lt; IP &lt; domain &lt; host/network artefacts &lt; tools &lt; <strong>TTPs</strong>. Detecting on TTPs is far more durable than blocking hashes/IPs.</span><span class="vi">Xếp hạng chỉ dấu theo mức "đau" khi kẻ tấn công phải thay: hash &lt; IP &lt; domain &lt; artefact host/mạng &lt; công cụ &lt; <strong>TTP</strong>. Phát hiện theo TTP bền hơn nhiều so với chặn hash/IP.</span></li></ul>
-
-<h3><span class="en">Attribution, Intelligence &amp; Threat Actors</span><span class="vi">Attribution, tình báo &amp; tác nhân đe dọa</span></h3>
-<ul>
-<li><strong><span class="en">Attribution is probabilistic:</span><span class="vi">Attribution mang tính xác suất:</span></strong> <span class="en">Built from converging indicators (TTPs, infrastructure, targeting). Single tools/IoCs/language strings are weak and easily planted as <strong>false flags</strong> — weigh conflicting evidence carefully.</span><span class="vi">Dựng từ các chỉ dấu hội tụ (TTP, hạ tầng, mục tiêu). Công cụ/IoC/chuỗi ngôn ngữ đơn lẻ rất yếu và dễ bị cài làm <strong>false flag</strong> — cân nhắc kỹ bằng chứng mâu thuẫn.</span></li>
-<li><strong>IoC vs IoA:</strong> <span class="en">An <em>Indicator of Compromise</em> is a forensic artefact of a past/ongoing breach (hash, malicious IP, registry key); an <em>Indicator of Attack</em> reflects behaviour/intent in progress, enabling earlier behaviour-based detection.</span><span class="vi"><em>Indicator of Compromise</em> là artefact forensic của vụ xâm nhập đã/đang diễn ra (hash, IP độc hại, khóa registry); <em>Indicator of Attack</em> phản ánh hành vi/ý đồ đang diễn ra, cho phép phát hiện sớm theo hành vi.</span></li>
-<li><strong><span class="en">Intel levels:</span><span class="vi">Cấp tình báo:</span></strong> <span class="en"><em>strategic</em> (leadership), <em>operational</em> (campaigns/intent), <em>tactical</em> (concrete TTPs/IoCs/signatures to operationalise into detections).</span><span class="vi"><em>strategic</em> (lãnh đạo), <em>operational</em> (chiến dịch/ý đồ), <em>tactical</em> (TTP/IoC/signature cụ thể để đưa vào phát hiện).</span></li>
-<li><strong><span class="en">Actor types &amp; motivation:</span><span class="vi">Loại tác nhân &amp; động cơ:</span></strong> <span class="en">APT (well-resourced, targeted, persistent, espionage/strategic) vs commodity crime (opportunistic, automated, financial — e.g. ransomware). Motivations: financial gain, espionage/IP theft, hacktivism, sabotage, notoriety.</span><span class="vi">APT (nguồn lực dồi dào, nhắm mục tiêu, bền bỉ, gián điệp/chiến lược) vs tội phạm đại trà (cơ hội, tự động, vì tiền — vd ransomware). Động cơ: lợi ích tài chính, gián điệp/đánh cắp IP, hacktivism, phá hoại, nổi tiếng.</span></li>
-<li><strong><span class="en">Insider threat:</span><span class="vi">Nội gián:</span></strong> <span class="en">Signalled by anomalous use of <em>legitimate</em> credentials (bulk access outside one's role, often in normal hours from the user's own device), unlike external exploitation/brute force.</span><span class="vi">Dấu hiệu là việc dùng bất thường thông tin đăng nhập <em>hợp lệ</em> (truy cập hàng loạt ngoài vai trò, thường trong giờ làm từ thiết bị của chính họ), khác khai thác/brute force từ ngoài.</span></li>
-<li><strong><span class="en">Targeting:</span><span class="vi">Nhắm mục tiêu:</span></strong> <span class="en">Whaling (executives), spear-phishing (specific individuals/groups), watering-hole (compromise a third-party site the targets visit). Threat assessment identifies likely high-value targets and links a threat to the specific critical assets/data/processes at risk.</span><span class="vi">Whaling (lãnh đạo), spear-phishing (cá nhân/nhóm cụ thể), watering-hole (xâm nhập site bên thứ ba mà mục tiêu hay truy cập). Đánh giá mối đe dọa xác định mục tiêu giá trị cao và gắn mối đe dọa với tài sản/dữ liệu/quy trình trọng yếu cụ thể đang gặp rủi ro.</span></li></ul>
-`;
+<li>ATT&amp;CK là knowledge base, không phải risk score hay bằng chứng attribution.</li>
+<li>Kill Chain tuyến tính có thể không mô tả insider, cloud abuse hoặc bước lặp.</li>
+<li>Một compiler string, timezone hay malware family có thể là false flag; attribution cần nhiều nguồn độc lập.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> MITRE ATT&amp;CK; Lockheed Martin Cyber Kill Chain; Diamond Model; NIST SP 800-30.</p>
+</div>
+</details>`;

@@ -1,76 +1,96 @@
-/* Theory — B5 (Appendix B). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["b5"]=`<h2>B5 — Application Fingerprinting</h2><ul>
+/* Theory — B5 (Appendix B). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["b5"]=`<h2>B5 — Application Fingerprinting</h2>
 
-<li><strong>Server versions:</strong> <span class="en">Service banners, HTTP headers, TLS certificates, error pages, SSH banners, SMTP greetings.</span><span class="vi">Banner dịch vụ, header HTTP, chứng chỉ TLS, trang lỗi, banner SSH, lời chào SMTP.</span></li>
+<div class="tier recall" id="b5-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Service banners:</strong> <span class="en">Connecting to a service often returns software + version (e.g. "SSH-2.0-OpenSSH_7.4", "Server: Apache/2.4.49").</span><span class="vi">Kết nối tới dịch vụ thường trả về phần mềm + phiên bản (vd "SSH-2.0-OpenSSH_7.4", "Server: Apache/2.4.49").</span></li>
+<li><strong>HTTP headers:</strong> <span class="en">Server, X-Powered-By, Set-Cookie reveal the server/app stack.</span><span class="vi">Server, X-Powered-By, Set-Cookie lộ stack server/ứng dụng.</span></li>
+<li><strong>Client software:</strong> <span class="en">User-Agent strings and email "X-Mailer" headers reveal the client browser/OS or mail client + version.</span><span class="vi">Chuỗi User-Agent và header email "X-Mailer" lộ trình duyệt/OS hoặc mail client + phiên bản.</span></li>
+<li><strong>Document metadata:</strong> <span class="en">Office/PDF metadata reveals the authoring application and version (→ patch level).</span><span class="vi">Metadata Office/PDF lộ ứng dụng soạn thảo và phiên bản (→ mức vá).</span></li>
+<li><strong>Why it matters:</strong> <span class="en">An exact version maps to known vulnerabilities (CVEs).</span><span class="vi">Phiên bản chính xác ánh xạ tới các lỗ hổng đã biết (CVE).</span></li>
+<li><strong>Caveat:</strong> <span class="en">Banners/headers/User-Agents are all spoofable — corroborate before concluding.</span><span class="vi">Banner/header/User-Agent đều có thể giả mạo — đối chiếu trước khi kết luận.</span></li>
+</ul></div></div>
 
-<li><strong>Client versions:</strong> <span class="en">Document metadata, email headers, User-Agent strings, X-Mailer headers.</span><span class="vi">Metadata tài liệu, header email, chuỗi User-Agent, header X-Mailer.</span></li>
+<details class="tier concept" id="b5-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Server / dịch vụ fingerprinting</h4>
+<p><strong>Banner grabbing</strong>: nhiều dịch vụ tự xưng phần mềm + phiên bản khi kết nối (SSH, SMTP, FTP, HTTP). HTTP header (<code>Server:</code>, <code>X-Powered-By:</code>) và <strong>TLS certificate</strong> (CN, issuer, SAN) cũng cho biết loại/phiên bản server và domain liên quan. Trang lỗi mặc định cũng tiết lộ công nghệ.</p>
 
-<li><strong>Forensics use:</strong> <span class="en">Identify vulnerable software, confirm exploit plausibility, and build attack timeline.</span><span class="vi">Xác định phần mềm dễ bị tấn công, xác nhận khả năng exploit và xây dựng timeline tấn công.</span></li>
+<h4>Client software fingerprinting</h4>
+<p>Từ dữ liệu bằng chứng: <strong>User-Agent</strong> (vd "MSIE 6.0; Windows NT 5.1" = IE6 trên Windows XP) lộ trình duyệt + OS; <strong>email header</strong> "X-Mailer"/"User-Agent" lộ mail client + phiên bản; <strong>metadata tài liệu</strong> (Office/PDF) lộ ứng dụng soạn thảo + phiên bản. Tất cả giúp đoán mức vá và lỗ hổng.</p>
 
-<li><strong>Limitation:</strong> <span class="en">Banners can be hidden or falsified; corroborate with logs and behaviour.</span><span class="vi">Banner có thể bị ẩn hoặc làm giả; cần xác nhận chéo với log và hành vi.</span></li>
+<h4>Giá trị &amp; cảnh báo</h4>
+<p>Biết <strong>phiên bản chính xác</strong> cho phép ánh xạ tới <strong>CVE</strong> đã biết → đánh giá khả năng bị/đã bị khai thác. Nhưng mọi trường này <strong>có thể giả mạo/ẩn</strong> (server đổi banner, User-Agent bịa) — luôn đối chiếu nhiều nguồn (log, hành vi, cert) trước khi kết luận.</p>
+</div></details>
 
-</ul><h3>Fingerprinting via Banners and Headers</h3><div class="table-wrap"><table><tr><th>Source</th><th>Example</th><th>Reveals</th></tr><tr><td>HTTP <code>Server</code> header</td><td><code>Server: Apache/2.4.41 (Ubuntu)</code></td><td>Web server software + version + OS distribution</td></tr><tr><td>HTTP <code>X-Powered-By</code></td><td><code>X-Powered-By: PHP/7.4.3</code></td><td>Backend language and framework version</td></tr><tr><td>SSH banner (port 22)</td><td><code>SSH-2.0-OpenSSH_8.9p1 Ubuntu</code></td><td>SSH implementation + version + OS</td></tr><tr><td>SMTP greeting (port 25)</td><td><code>220 mail.corp.com ESMTP Postfix</code></td><td>Mail transfer agent software</td></tr><tr><td>TLS JA3 / JA3S hash</td><td>Hash of ClientHello / ServerHello parameters</td><td>Fingerprint application or malware family regardless of destination IP</td></tr></table></div><p><strong>Client software via document metadata — ExifTool:</strong> <code>exiftool filename</code> extracts Author, Company, Machine Name, Application version from 100+ formats. Attacker documents reveal their OS, Office version, and internal username.</p>
-
-<h3>Banner Grabbing</h3>
-
-<ul>
-
-<li><span class="en">Many services announce version on connection. Grab with: <code>nc target.com 80</code> then <code>HEAD / HTTP/1.0</code></span><span class="vi">Nhiều dịch vụ thông báo phiên bản khi kết nối. Lấy bằng: <code>nc target.com 80</code> rồi <code>HEAD / HTTP/1.0</code></span></li>
-
-<li><span class="en">Version disclosure enables CVE identification for that exact version</span><span class="vi">Thông tin phiên bản cho phép xác định CVE cho phiên bản đó</span></li>
-
-<li><span class="en">Absence of banner = hardened server (also informative)</span><span class="vi">Không có banner = server đã tăng cường bảo mật (cũng là thông tin hữu ích)</span></li>
-
-<li><span class="en">Default error pages (404/500) reveal web server type and framework (Django debug page, IIS default page, Rails error)</span><span class="vi">Trang lỗi mặc định (404/500) tiết lộ loại web server và framework (trang debug Django, trang mặc định IIS, lỗi Rails)</span></li>
-
-</ul>
-
-<h3>Client Software Versions from Document Metadata</h3>
-
-<ul>
-
-<li><span class="en">Office documents embed: author, last modified by, creation tool with version, machine name, template path</span><span class="vi">Tài liệu Office nhúng: tác giả, người chỉnh sửa cuối, công cụ tạo kèm phiên bản, tên máy, đường dẫn template</span></li>
-
-<li><span class="en">PDF: Creator, Producer fields reveal generating application and version</span><span class="vi">PDF: trường Creator, Producer tiết lộ ứng dụng tạo file và phiên bản</span></li>
-
-<li><span class="en">Images: EXIF data contains camera model, software used, GPS if enabled</span><span class="vi">Hình ảnh: dữ liệu EXIF chứa model máy ảnh, phần mềm sử dụng, GPS nếu được bật</span></li>
-
-<li><strong>Tool:</strong> <code>exiftool filename</code> — <span class="en">works on 100+ file formats</span><span class="vi">Hỗ trợ 100+ định dạng file</span></li>
-
-<li><strong>IR use:</strong> <span class="en">Attacker document metadata reveals their OS, Office version, username — attribution value</span><span class="vi">Metadata tài liệu của kẻ tấn công tiết lộ OS, phiên bản Office, username — có giá trị truy dấu nguồn gốc</span></li>
-
-</ul>
-
-<p class="sub-heading">Application Fingerprinting</p>
-
+<details class="tier reference" id="b5-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Sources of version evidence</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Source</th><th>What It Reveals</th><th>Example</th></tr>
-
-<tr><td>Service banners</td><td>Server software + version</td><td><code>SSH-2.0-OpenSSH_8.9p1 Ubuntu</code></td></tr>
-
-<tr><td>HTTP Server header</td><td>Web server + version</td><td><code>Server: Apache/2.4.41 (Ubuntu)</code></td></tr>
-
-<tr><td>HTTP X-Powered-By</td><td>Backend language / framework</td><td><code>X-Powered-By: PHP/7.4.3</code></td></tr>
-
-<tr><td>User-Agent string</td><td>Browser + OS + version</td><td><code>Mozilla/5.0 (Windows NT 10.0; Win64; x64)...</code></td></tr>
-
-<tr><td>Email headers (X-Mailer)</td><td>Email client used</td><td><code>X-Mailer: Microsoft Outlook 16.0</code></td></tr>
-
-<tr><td>Document metadata</td><td>Office version, OS, username</td><td>ExifTool: <code>Creator Tool: Microsoft Word 2019</code></td></tr>
-
-<tr><td>TLS certificate</td><td>Organization, software stack</td><td>CN, SAN fields, certificate authority used</td></tr>
-
-<tr><td>JA3 / JA3S hash</td><td>TLS client / server fingerprint</td><td>Hash of TLS hello parameters — identifies malware families</td></tr>
-
+<tr><th>Source</th><th>Reveals</th></tr>
+<tr><td>Service banner</td><td>Server software + version (SSH/SMTP/FTP/HTTP)</td></tr>
+<tr><td>HTTP headers (Server, X-Powered-By)</td><td>Web server / app framework</td></tr>
+<tr><td>TLS certificate</td><td>Subject/issuer/SAN — host &amp; CA</td></tr>
+<tr><td>User-Agent string</td><td>Client browser + OS</td></tr>
+<tr><td>Email X-Mailer / User-Agent</td><td>Mail client + version</td></tr>
+<tr><td>Document metadata</td><td>Authoring app + version</td></tr>
 </table></div>
 
-<p><em>PKI Certificate fields are covered under B11 — Understanding Common Data Formats.</em></p>
+<h4>Example reads</h4>
+<div class="table-wrap"><table>
+<tr><th>String</th><th>Interpretation</th></tr>
+<tr><td>SSH-2.0-OpenSSH_7.4</td><td>OpenSSH 7.4 — check CVEs</td></tr>
+<tr><td>Server: Apache/2.4.49</td><td>Apache 2.4.49 (path-traversal CVE era)</td></tr>
+<tr><td>MSIE 6.0; Windows NT 5.1</td><td>IE6 on Windows XP</td></tr>
+<tr><td>X-Mailer: Outlook 16.0</td><td>Composed in Outlook 2016</td></tr>
+</table></div>
+</div></details>
 
-
-<h3 class="qz-theory"><span class="en">Application &amp; Service Fingerprinting</span><span class="vi">Nhận dạng ứng dụng &amp; dịch vụ</span></h3>
+<details class="tier deep-dive" id="b5-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Thu banner/raw response và metadata mà không làm thay đổi dịch vụ.</li>
+<li>So nhiều nguồn: TLS certificate, HTTP headers/body, favicon, protocol capability và error page.</li>
+<li>Tách product, version, platform và component phía trước như CDN/WAF/reverse proxy.</li>
+<li>Chấm confidence và kiểm tra version có bị che/giả.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><strong><span class="en">Service banners:</span><span class="vi">Banner dịch vụ:</span></strong> <span class="en">Many services announce software + version on connect (<code>Server: Apache/2.4.49</code>, <code>SSH-2.0-OpenSSH_7.4</code>, SMTP/FTP banners). Reading them (banner grabbing — active) maps the exact version to known CVEs.</span><span class="vi">Nhiều dịch vụ tự khai phần mềm + phiên bản khi kết nối (<code>Server: Apache/2.4.49</code>, <code>SSH-2.0-OpenSSH_7.4</code>, banner SMTP/FTP). Đọc chúng (banner grabbing — chủ động) ánh xạ phiên bản chính xác tới CVE đã biết.</span></li>
-<li><strong><span class="en">Client cues:</span><span class="vi">Manh mối client:</span></strong> <span class="en">HTTP <code>User-Agent</code> and email <code>X-Mailer</code> headers reveal the client software/OS; document metadata reveals authoring app versions.</span><span class="vi">Header HTTP <code>User-Agent</code> và email <code>X-Mailer</code> lộ phần mềm/OS client; metadata tài liệu lộ phiên bản app soạn thảo.</span></li>
-<li><strong><span class="en">Caveat:</span><span class="vi">Lưu ý:</span></strong> <span class="en">All banners/headers are spoofable — corroborate. Precise versioning matters because it enables CVE mapping (how a breach likely occurred).</span><span class="vi">Mọi banner/header đều có thể giả — cần đối chiếu. Xác định phiên bản chính xác quan trọng vì cho phép ánh xạ CVE (cách xảy ra xâm nhập khả dĩ).</span></li></ul>
-`;
+<li>Server/X-Powered-By, SMTP/SSH banner, SMB dialect, TLS ALPN/certificate.</li>
+<li>User-Agent/client hints, email X-Mailer, Office/PDF producer metadata.</li>
+<li>Hash favicon/static assets và default page/error wording.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-active">NETWORK-ACTIVE</span>
+<code>curl -vkI https://host</code>, <code>openssl s_client -connect host:443</code>
+</li>
+<li>
+<span class="cmd-safety cmd-active">NETWORK-ACTIVE</span>
+<code>nmap -sV</code> chỉ khi active enumeration được phép.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>Header nói nginx nhưng cookie/JSESSIONID và lỗi Java cho thấy nginx chỉ reverse proxy trước ứng dụng Java; báo cả hai tầng.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>Banner dễ sửa và có thể thuộc proxy.</li>
+<li>Version không tự chứng minh vulnerability; cần build/patch/config.</li>
+<li>Metadata client có thể do template hoặc mail gateway tạo.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> RFC 9110; TLS RFC 8446; vendor protocol documentation.</p>
+</div>
+</details>`;

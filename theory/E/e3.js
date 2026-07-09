@@ -1,100 +1,104 @@
-/* Theory — E3 (Appendix E). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["e3"]=`<h2>E3 — Windows File System Essentials</h2><ul>
+/* Theory — E3 (Appendix E). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["e3"]=`<h2>E3 — Windows File System Essentials</h2>
 
-<li><span class="en">Partitioning: MBR / GPT, volumes, file-system type, unallocated space.</span><span class="vi">Phân vùng: MBR / GPT, volume, loại hệ thống tập tin, không gian chưa phân bổ.</span></li>
+<div class="tier recall" id="e3-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Partitioning:</strong> <span class="en">MBR (legacy, ≤2 TB, 4 primary) vs GPT (modern, UEFI). The partition table maps volumes on the disk.</span><span class="vi">MBR (cũ, ≤2 TB, 4 primary) vs GPT (mới, UEFI). Bảng phân vùng ánh xạ các volume trên đĩa.</span></li>
+<li><strong>FAT:</strong> <span class="en">File Allocation Table tracks cluster chains; directory entries hold name, size, cluster, timestamps (2-sec resolution).</span><span class="vi">File Allocation Table theo dõi chuỗi cluster; directory entry chứa tên, kích thước, cluster, mốc thời gian (độ phân giải 2 giây).</span></li>
+<li><strong>NTFS $MFT:</strong> <span class="en">The Master File Table — one record per file with metadata; small files are resident inside the record.</span><span class="vi">Master File Table — mỗi file một record kèm metadata; file nhỏ nằm "resident" ngay trong record.</span></li>
+<li><strong>NTFS $Bitmap:</strong> <span class="en">Tracks which clusters are allocated vs free.</span><span class="vi">$Bitmap theo dõi cluster nào đã cấp phát vs còn trống.</span></li>
+<li><strong>ACLs &amp; SIDs:</strong> <span class="en">NTFS permissions are an ACL of ACEs; each principal (user/group) is a SID.</span><span class="vi">Quyền NTFS là một ACL gồm các ACE; mỗi principal (user/group) là một SID.</span></li>
+<li><strong>Deleted ≠ necessarily gone:</strong> <span class="en">Deletion commonly marks metadata/clusters reusable; remnants may persist until reuse, TRIM or other storage behaviour removes them. Recovery is not guaranteed.</span><span class="vi">Xóa thường đánh dấu metadata/cluster có thể tái sử dụng; tàn dư có thể còn cho tới khi bị tái dùng, TRIM hoặc cơ chế storage khác loại bỏ. Không bảo đảm khôi phục được.</span></li>
+<li><strong>Encryption:</strong> <span class="en">EFS encrypts individual files/folders per user; BitLocker encrypts the whole volume.</span><span class="vi">EFS mã hóa từng file/thư mục theo user; BitLocker mã hóa cả volume.</span></li>
+</ul></div></div>
 
-<li><span class="en">FAT: file allocation table and directory entries; simpler metadata, local-time timestamp concerns.</span><span class="vi">FAT: bảng phân bổ tập tin và mục thư mục; metadata đơn giản hơn, lo ngại về timestamp giờ địa phương.</span></li>
+<details class="tier concept" id="e3-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Phân vùng đĩa</h4>
+<p><strong>MBR</strong>: bảng phân vùng cũ, tối đa ~2 TB, 4 phân vùng primary. <strong>GPT</strong>: hiện đại, dùng với UEFI, nhiều phân vùng, có bản sao dự phòng. Bảng phân vùng cho biết các volume nằm ở đâu — bước đầu khi phân tích đĩa.</p>
 
-<li><span class="en">NTFS: $MFT, $Bitmap, $LogFile, $UsnJrnl, $Secure, alternate data streams, ACLs / SIDs.</span><span class="vi">NTFS: $MFT, $Bitmap, $LogFile, $UsnJrnl, $Secure, luồng dữ liệu thay thế, ACL / SID.</span></li>
+<h4>FAT vs NTFS</h4>
+<p><strong>FAT</strong>: đơn giản, dùng bảng cấp phát (FAT) theo dõi chuỗi cluster; directory entry chứa metadata cơ bản, timestamp độ phân giải 2 giây (giờ địa phương). <strong>NTFS</strong>: dùng <strong>$MFT</strong> — mỗi file một record chứa thuộc tính ($STANDARD_INFORMATION, $FILE_NAME, $DATA). File rất nhỏ được lưu <strong>resident</strong> ngay trong MFT record (không tốn cluster riêng). <strong>$Bitmap</strong> cho biết cluster nào đang dùng.</p>
 
-<li><span class="en">Unallocated space and file carving can recover deleted content but filenames / metadata may be lost.</span><span class="vi">Không gian chưa phân bổ và file carving có thể phục hồi nội dung đã xóa nhưng tên file / metadata có thể bị mất.</span></li>
+<h4>ACL &amp; SID</h4>
+<p>Quyền truy cập NTFS = một <strong>ACL</strong> (danh sách các <strong>ACE</strong> — cho phép/từ chối). Mỗi user/group được định danh bằng một <strong>SID</strong> (không phải tên). Khi phân tích, ánh xạ SID → tài khoản giúp biết ai có quyền gì (xem thêm B9).</p>
 
-<li><span class="en">EFS and BitLocker affect accessibility; collect keys / recovery material when available.</span><span class="vi">EFS và BitLocker ảnh hưởng đến khả năng truy cập; thu thập khóa / tài liệu phục hồi khi có.</span></li>
+<h4>Unallocated space &amp; file carving</h4>
+<p>Khi xóa file thông thường, NTFS đánh dấu metadata/cluster có thể tái sử dụng; một phần nội dung <em>có thể</em> còn trong unallocated space cho tới khi bị tái dùng hoặc bị TRIM/garbage collection và cơ chế khác xử lý. <strong>File carving</strong> quét dữ liệu thô theo signature/structure nhưng có thể mất filename/path/timestamp, bỏ sót file phân mảnh hoặc sinh false positive. <strong>File slack</strong> cũng có thể chứa tàn dư, tùy cách ghi và media.</p>
 
-</ul>
+<h4>EFS vs BitLocker</h4>
+<p><strong>EFS</strong>: mã hóa <em>từng file/thư mục</em> gắn với khóa của user — image đĩa vẫn thấy file nhưng không đọc được nội dung nếu thiếu khóa. <strong>BitLocker</strong>: mã hóa <em>toàn bộ volume</em> — image "dead" cần khóa khôi phục; nên image <strong>live</strong> khi volume còn mở khóa.</p>
+</div></details>
 
-<h3>Disk Partitioning</h3>
-
+<details class="tier reference" id="e3-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>FAT vs NTFS</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Scheme</th><th>Max Partitions</th><th>Max Disk</th><th>Notes</th></tr>
-
-<tr><td>MBR (Master Boot Record)</td><td>4 primary (or 3+1 extended with logical)</td><td>2 TB</td><td>Legacy BIOS. Bootloader in first 446 bytes. Bootkits target MBR.</td></tr>
-
-<tr><td>GPT (GUID Partition Table)</td><td>128 (Windows default)</td><td>18 EB</td><td>UEFI systems. Contains protective MBR. Partition GUIDs useful for forensic identification.</td></tr>
-
+<tr><th></th><th>FAT / exFAT</th><th>NTFS</th></tr>
+<tr><td>Core structure</td><td>File Allocation Table + directory entries</td><td>$MFT (one record per file)</td></tr>
+<tr><td>Free-space map</td><td>FAT entries</td><td>$Bitmap</td></tr>
+<tr><td>Permissions</td><td>None (basic)</td><td>ACLs (ACE) with SIDs</td></tr>
+<tr><td>Small files</td><td>Always use clusters</td><td>Resident in MFT</td></tr>
+<tr><td>Timestamps</td><td>2-sec, local time</td><td>100-ns MACB ($SI/$FN)</td></tr>
 </table></div>
 
-<h3>FAT — File Allocation Table</h3>
-
-<ul>
-
-<li><strong>Variants:</strong> <span class="en">FAT12 (floppy), FAT16 (old hard drives), FAT32 (USB / memory cards, max 4GB file), exFAT (flash media, no 4GB limit)</span><span class="vi">FAT12 (đĩa mềm), FAT16 (ổ cứng cũ), FAT32 (USB / thẻ nhớ, giới hạn file tối đa 4GB), exFAT (bộ nhớ flash, không giới hạn 4GB)</span></li>
-
-<li><strong>Structure:</strong> <span class="en">Boot sector → FAT table (cluster allocation map) → Root directory entries → Data area</span><span class="vi">Boot sector → Bảng FAT (bản đồ phân bổ cluster) → Mục thư mục gốc → Vùng dữ liệu</span></li>
-
-<li><strong>Directory entries:</strong> <span class="en">Fixed 32-byte records: 8.3 filename, attributes, first cluster, file size, created / modified / accessed timestamps</span><span class="vi">Bản ghi cố định 32 byte: tên file 8.3, thuộc tính, cluster đầu tiên, kích thước file, timestamp tạo / sửa đổi / truy cập</span></li>
-
-<li><strong>Long File Names (LFN):</strong> <span class="en">Multiple consecutive entries with attribute 0x0F store names up to 255 chars</span><span class="vi">Nhiều mục liên tiếp với thuộc tính 0x0F lưu tên lên đến 255 ký tự</span></li>
-
-<li><strong>Deletion:</strong> First byte of directory entry set to 0xE5. Data clusters marked free in FAT but NOT zeroed → recoverable until overwritten.</li>
-
-<li><strong>No journaling:</strong> FAT has no transaction log. Fewer forensic artifacts than NTFS but easier to carve deleted files.</li>
-
-</ul>
-
-<h3>NTFS — Key Structures</h3>
-
+<h4>Key NTFS metafiles</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Structure</th><th>Description</th><th>Forensic Value</th></tr>
-
-<tr><td><code>$MFT</code></td><td>Master File Table — one 1KB record per file / folder containing all metadata</td><td>All MACB timestamps, file size, data runs, parent directory. Deleted files have entries marked "not in use" — recoverable.</td></tr>
-
-<tr><td><code>$Bitmap</code></td><td>Tracks which clusters are allocated (1) or free (0)</td><td>Identify unallocated space for carving. Mismatch with MFT = potential hiding.</td></tr>
-
-<tr><td><code>$LogFile</code></td><td>NTFS transaction journal — records metadata changes</td><td>Recover file names even after MFT record reuse.</td></tr>
-
-<tr><td><code>$UsnJrnl</code></td><td>Update Sequence Number journal — change log for all files</td><td>Timeline of all file create/modify/delete/rename. Reconstruct attacker file activity.</td></tr>
-
-<tr><td>ADS (Alternate Data Streams)</td><td>Additional data streams on any file: <code>file.txt:hidden</code></td><td>Malware hides payloads in ADS. Zone.Identifier stream marks downloaded files. Detect: <code>dir /r</code>.</td></tr>
-
-<tr><td>EFS</td><td>Per-file NTFS encryption using user certificate</td><td>Files appear as random data without user private key or EFS recovery agent key.</td></tr>
-
-<tr><td>BitLocker</td><td>Full volume encryption</td><td>Entire volume is random data. Need 48-digit recovery key. Obtain from AD or client before acquisition.</td></tr>
-
+<tr><th>File</th><th>Holds</th></tr>
+<tr><td>$MFT</td><td>Record of every file + metadata</td></tr>
+<tr><td>$Bitmap</td><td>Allocated vs free clusters</td></tr>
+<tr><td>$LogFile / $UsnJrnl</td><td>Transaction / change journals</td></tr>
 </table></div>
 
-<h3>ACLs, SIDs and File Permissions</h3>
+<h4>Encryption &amp; recovery concepts</h4>
+<div class="table-wrap"><table>
+<tr><th>Concept</th><th>Meaning</th></tr>
+<tr><td>EFS</td><td>Per-file/folder encryption tied to a user</td></tr>
+<tr><td>BitLocker</td><td>Full-volume encryption (needs key for dead image)</td></tr>
+<tr><td>Unallocated space</td><td>Freed clusters holding recoverable deleted data</td></tr>
+<tr><td>File carving</td><td>Recover files by signature, ignoring metadata</td></tr>
+<tr><td>File slack</td><td>Leftover data after a file's end in its last cluster</td></tr>
+</table></div>
+</div></details>
 
+<details class="tier deep-dive" id="e3-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Parse partition table/filesystem geometry rồi xác định allocated/unallocated/slack.</li>
+<li>Trên NTFS theo MFT record, attributes, data runs, $Bitmap, $LogFile và $UsnJrnl.</li>
+<li>Carve theo signature rồi xác minh structure/context; map SID/ACL và encryption.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-
-<li><span class="en">Every NTFS file / folder has a security descriptor containing DACL (who can access), SACL (what to audit), owner SID</span><span class="vi">Mọi file / thư mục NTFS đều có security descriptor chứa DACL (ai có thể truy cập), SACL (những gì cần kiểm tra), SID chủ sở hữu</span></li>
-
-<li><strong>Forensic check:</strong> <span class="en">Unexpected SID with Full Control on sensitive files = backdoor permission</span><span class="vi">SID không mong đợi có Full Control trên file nhạy cảm = quyền truy cập cửa hậu</span></li>
-
-<li><strong>Unallocated space:</strong> Clusters marked free in $Bitmap but may contain deleted file data. Carve with Foremost, Scalpel, or Autopsy.</li>
-
+<li>MBR/GPT, boot sector; FAT directory/cluster chain; NTFS $MFT/$Bitmap.</li>
+<li>MACB, resident/non-resident data, ADS, deleted flag, EFS/BitLocker metadata.</li>
 </ul>
-
-<h3>NTFS Timestamp Storage vs Display</h3>
-
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
 <ul>
-
-<li><span class="en">NTFS stores all timestamps in <strong>UTC</strong> (Universal Coordinated Time) in the $MFT.</span><span class="vi">NTFS lưu trữ tất cả timestamp theo <strong>UTC</strong> (Giờ phối hợp Quốc tế) trong $MFT.</span></li>
-
-<li><span class="en">Windows Explorer displays timestamps in the <strong>local time</strong> of the system.</span><span class="vi">Windows Explorer hiển thị timestamp theo <strong>giờ địa phương</strong> của hệ thống.</span></li>
-
-<li><span class="en">When mounting a forensic image on an analyst machine in a different timezone → timestamps display incorrectly → <strong>always convert to UTC before building a timeline</strong>.</span><span class="vi">Khi gắn ảnh pháp y trên máy điều tra viên ở múi giờ khác → timestamp hiển thị sai → <strong>luôn chuyển đổi sang UTC trước khi xây dựng timeline</strong>.</span></li>
-
-<li><span class="en">FAT filesystem stores local time with no timezone metadata → ambiguous when the victim system's timezone is unknown.</span><span class="vi">FAT lưu giờ địa phương không có metadata múi giờ → không rõ ràng khi múi giờ hệ thống nạn nhân không biết.</span></li>
-
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Autopsy/TSK: <code>mmls</code>, <code>fsstat</code>, <code>fls</code>, <code>icat</code>.</li>
 </ul>
-
-
-<h3 class="qz-theory"><span class="en">NTFS Essentials — MFT, slack &amp; encryption</span><span class="vi">NTFS cốt lõi — MFT, slack &amp; mã hóa</span></h3>
+<h4>Tình huống diễn giải</h4>
+<p>Carved JPEG khôi phục nội dung nhưng mất filename/path/timestamps; MFT record còn lại cung cấp context mạnh hơn.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
 <ul>
-<li><strong>$MFT:</strong> <span class="en">The Master File Table holds one record per file (timestamps in $SI and $FN, size, attributes, run lists). Small files can be <em>resident</em> — data held inside the MFT entry itself; larger files are non-resident with run lists pointing to clusters.</span><span class="vi">Master File Table giữ một bản ghi cho mỗi file (mốc thời gian ở $SI và $FN, kích thước, thuộc tính, run list). File nhỏ có thể <em>resident</em> — dữ liệu nằm ngay trong bản ghi MFT; file lớn hơn non-resident với run list trỏ tới cluster.</span></li>
-<li><strong><span class="en">Recovery surfaces:</span><span class="vi">Bề mặt khôi phục:</span></strong> <span class="en">Deleting just flags the MFT record and clusters free — data persists until overwritten (undelete/carving). <em>Unallocated space</em> holds remnants of deleted files; <em>file slack</em> (between file end and cluster end) can hold older data. The <code>$LogFile</code>/<code>$UsnJrnl</code> journal recent file-system operations.</span><span class="vi">Xóa chỉ đánh dấu bản ghi MFT và cluster là trống — dữ liệu còn tới khi bị ghi đè (undelete/carving). <em>Không gian chưa cấp phát</em> giữ tàn dư file đã xóa; <em>file slack</em> (giữa cuối file và cuối cluster) có thể giữ dữ liệu cũ. <code>$LogFile</code>/<code>$UsnJrnl</code> ghi nhật ký các thao tác hệ thống tệp gần đây.</span></li>
-<li><strong>Encryption:</strong> <span class="en"><strong>BitLocker</strong> = full-volume — a dead image yields only ciphertext, so capture live while unlocked or obtain the recovery key (often in AD/Azure AD). <strong>EFS</strong> = per-file/folder, tied to a user's key/certificate.</span><span class="vi"><strong>BitLocker</strong> = toàn volume — image lúc tắt chỉ cho ciphertext, nên bắt lúc đang mở khóa hoặc lấy recovery key (thường trong AD/Azure AD). <strong>EFS</strong> = theo từng file/thư mục, gắn với khóa/chứng chỉ người dùng.</span></li></ul>
-`;
+<li>SMF trong README có khả năng là typo của MFT; nên học MFT.</li>
+<li>File carving có false positive và fragment.</li>
+<li>Unallocated không đồng nghĩa dữ liệu nguyên vẹn, đặc biệt SSD/TRIM.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> Microsoft NTFS documentation; The Sleuth Kit; FAT specification.</p>
+</div>
+</details>`;

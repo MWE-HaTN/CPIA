@@ -1,32 +1,95 @@
-/* Theory — B9 (Appendix B). Edit the HTML below. */
+/* Theory — B9 (Appendix B). 3-tier layout: Recall / Concept / Reference. */
 (window.CPIA_THEORY=window.CPIA_THEORY||{})["b9"]=`<h2>B9 — File System Permissions</h2>
 
-<h3>Linux file permissions</h3>
+<div class="tier recall" id="b9-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>NTFS = ACL of ACEs:</strong> <span class="en">Each object has a DACL (allow/deny entries); each principal is a SID, not a name.</span><span class="vi">Mỗi đối tượng có một DACL (mục cho phép/từ chối); mỗi principal là một SID, không phải tên.</span></li>
+<li><strong>Permission types:</strong> <span class="en">Read, Write/Modify, Read &amp; Execute, List Folder, Full Control; Modify on a binary is dangerous.</span><span class="vi">Read, Write/Modify, Read &amp; Execute, List Folder, Full Control; quyền Modify trên một binary là nguy hiểm.</span></li>
+<li><strong>Share vs NTFS:</strong> <span class="en">When both apply over the network, the effective permission is the MOST restrictive.</span><span class="vi">Khi cả hai cùng áp qua mạng, quyền hiệu lực là cái HẠN CHẾ NHẤT.</span></li>
+<li><strong>Escalation via weak ACL:</strong> <span class="en">Write/Modify on a service binary (or its folder) lets a low-priv user replace it and escalate.</span><span class="vi">Quyền Write/Modify trên binary của service (hoặc thư mục) cho user thấp thay thế nó và leo thang.</span></li>
+<li><strong>Registry ACLs:</strong> <span class="en">Registry keys also have ACLs — weak ACL on a service's ImagePath lets an attacker point it at a malicious binary.</span><span class="vi">Key registry cũng có ACL — ACL yếu trên ImagePath của service cho phép trỏ tới binary độc hại.</span></li>
+<li><strong>SID basics:</strong> <span class="en">SID identifies a user/group/computer; RID 500 = built-in Administrator.</span><span class="vi">SID định danh user/group/máy; RID 500 = Administrator dựng sẵn.</span></li>
+</ul></div></div>
 
-<div class="table-wrap"><table><tr><th>Concept</th><th>Example</th><th>Meaning</th></tr><tr><td>Numeric chmod</td><td>chmod 755 file</td><td>Owner rwx, group r-x, others r-x.</td></tr><tr><td>Symbolic chmod</td><td>chmod u+x file</td><td>Add execute permission for owner.</td></tr><tr><td>chown</td><td>chown root:root file</td><td>Change owner and group.</td></tr><tr><td>chgrp</td><td>chgrp www-data file</td><td>Change group ownership.</td></tr><tr><td>setuid</td><td>chmod u+s binary</td><td>Runs with file owner's privileges; dangerous on root-owned binaries.</td></tr><tr><td>setgid</td><td>chmod g+s directory</td><td>Files inherit group; on binaries, runs with group privileges.</td></tr><tr><td>sticky bit</td><td>chmod +t /tmp</td><td>Only owner / root can delete files in shared directory.</td></tr></table></div>
+<details class="tier concept" id="b9-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>ACL, ACE, SID, DACL</h4>
+<p>Quyền truy cập NTFS được biểu diễn bằng <strong>DACL</strong> (Discretionary ACL) — một danh sách các <strong>ACE</strong> (cho phép hoặc từ chối) gắn cho từng <strong>SID</strong> (định danh user/group/máy, không phải tên). Khi phân tích, ánh xạ SID → tài khoản để biết <em>ai có quyền gì</em>. ACE "deny" thường được ưu tiên trước "allow".</p>
 
-<ul><li><strong>/etc/passwd:</strong> <span class="en">World-readable account metadata; should not contain password hashes on modern systems.</span><span class="vi">Metadata tài khoản có thể đọc công khai; không nên chứa hash mật khẩu trên hệ thống hiện đại.</span></li><li><strong>/etc/shadow:</strong> <span class="en">Password hashes; should be readable only by root or shadow group.</span><span class="vi">Hash mật khẩu; chỉ nên đọc được bởi root hoặc nhóm shadow.</span></li></ul>
+<h4>Quyền hiệu lực: share vs NTFS</h4>
+<p>Truy cập qua mạng tới một share chịu <em>cả hai</em> lớp quyền: <strong>share permission</strong> và <strong>NTFS permission</strong>. Quyền hiệu lực là <strong>giao của hai</strong> — tức <em>hạn chế nhất</em> thắng. (Truy cập cục bộ chỉ chịu NTFS.)</p>
 
+<h4>ACL yếu = đường leo thang</h4>
+<p>Nếu một user quyền thấp có <strong>Write/Modify</strong> trên file binary của một service (hoặc thư mục chứa nó), họ có thể <em>thay binary bằng mã độc</em> — service chạy nó với quyền cao (thường SYSTEM) → leo thang đặc quyền. Tương tự, <strong>ACL yếu trên key registry</strong> điều khiển <code>ImagePath</code> của service cho phép trỏ service tới binary độc hại. Đây là lỗi cấu hình hay bị khai thác.</p>
+</div></details>
+
+<details class="tier reference" id="b9-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>NTFS permissions</h4>
+<div class="table-wrap"><table>
+<tr><th>Permission</th><th>Allows</th></tr>
+<tr><td>Read</td><td>View contents/attributes</td></tr>
+<tr><td>Read &amp; Execute</td><td>Read + run executables</td></tr>
+<tr><td>Write / Modify</td><td>Change/replace content (risk on binaries)</td></tr>
+<tr><td>List Folder Contents</td><td>Enumerate a directory</td></tr>
+<tr><td>Full Control</td><td>Everything incl. change permissions</td></tr>
+</table></div>
+
+<h4>Access-control concepts</h4>
+<div class="table-wrap"><table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>DACL / ACE</td><td>Permission list / a single allow-or-deny entry</td></tr>
+<tr><td>SID</td><td>Security principal ID (user/group/computer)</td></tr>
+<tr><td>RID 500</td><td>Built-in Administrator</td></tr>
+<tr><td>Effective (share+NTFS)</td><td>Most restrictive wins</td></tr>
+<tr><td>Weak ACL on ImagePath</td><td>Service-binary hijack → escalation</td></tr>
+</table></div>
+</div></details>
+
+<details class="tier deep-dive" id="b9-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Xác định object, owner, inheritance và DACL; phân biệt explicit/inherited allow/deny.</li>
+<li>Tính effective access theo token user/group/SID và share+NTFS.</li>
+<li>Tìm writable executable/service path, weak registry ACL và quyền tạo file trong parent.</li>
+<li>Xác minh bằng account test có kiểm soát, không chỉ đọc GUI.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-
-<li><strong>Windows ACLs:</strong> <span class="en">Permissions are ACEs inside a DACL; SIDs identify users / groups.</span><span class="vi">Quyền là các ACE bên trong DACL; SID xác định người dùng / nhóm.</span></li>
-
-<li><strong>Common permissions:</strong> <span class="en">Read, Write, Modify, Full Control, Execute, Delete, Change Permissions, Take Ownership.</span><span class="vi">Đọc, Ghi, Sửa đổi, Toàn quyền, Thực thi, Xóa, Thay đổi quyền, Lấy quyền sở hữu.</span></li>
-
-<li><strong>Inheritance:</strong> <span class="en">Child files / folders may inherit permissions from parent folders unless inheritance is disabled.</span><span class="vi">File / thư mục con có thể kế thừa quyền từ thư mục cha trừ khi tắt kế thừa.</span></li>
-
-<li><strong>Security issue:</strong> <span class="en">Everyone / Users writable directories under service paths enable privilege escalation.</span><span class="vi">Thư mục Everyone / Users có thể ghi dưới đường dẫn dịch vụ cho phép leo thang đặc quyền.</span></li>
-
-<li><strong>Registry ACLs:</strong> <span class="en">Weak permissions on service or autorun keys can enable persistence or privilege escalation.</span><span class="vi">Quyền yếu trên khóa service hoặc autorun có thể cho phép persistence hoặc leo thang đặc quyền.</span></li>
-
+<li>Owner, ACE type, SID, mask, inheritance flags và integrity level.</li>
+<li>Share permission, NTFS DACL/SACL; registry key ACL.</li>
+<li>Service account token, nested group và deny ACE.</li>
 </ul>
-
-<div class="callout danger"><strong>Exam trap — Null DACL vs Empty DACL</strong><p><span class="en"><strong>Null DACL</strong> (NULL) = no access control list = everyone has full control → extremely dangerous. <strong>Empty DACL</strong> (empty list) = no ACEs = no one has access = denied all. Null ≠ Empty. Null = unrestricted. Empty = denied all. This distinction is a common exam trap.</span><span class="vi"><strong>Null DACL</strong> (NULL) = không có danh sách kiểm soát truy cập = mọi người có toàn quyền → cực kỳ nguy hiểm. <strong>Empty DACL</strong> (danh sách rỗng) = không có ACE = không ai có quyền truy cập = từ chối tất cả. Null ≠ Empty. Null = không giới hạn. Empty = từ chối tất cả. Phân biệt này là bẫy thi phổ biến.</span></p></div>
-
-<h3>DLL Hijacking and Unquoted Service Paths</h3><ul><li><strong>DLL hijacking:</strong> <span class="en">Windows searches DLL in order — same dir first, then System32, then PATH. Attacker places malicious DLL in earlier search path to load instead of legitimate one.</span><span class="vi">Windows tìm DLL theo thứ tự — cùng thư mục trước, rồi System32, rồi PATH. Kẻ tấn công đặt DLL độc hại vào đường dẫn tìm kiếm trước để tải thay vì DLL hợp lệ.</span></li><li><strong>DLL side-loading:</strong> <span class="en">Legit signed app + malicious DLL of expected name in same folder. App loads malicious DLL — app passes signature check, DLL does not.</span><span class="vi">Ứng dụng đã ký hợp lệ + DLL độc hại có tên mong đợi trong cùng thư mục. Ứng dụng tải DLL độc hại — ứng dụng qua kiểm tra chữ ký, DLL thì không.</span></li><li><strong>Unquoted service paths:</strong> <span class="en"><code>C:\\Program Files\\My App\\svc.exe</code> unquoted → Windows tries <code>C:\\Program.exe</code> first. If that path is writable → privilege escalation to SYSTEM.</span><span class="vi"><code>C:\\Program Files\\My App\\svc.exe</code> không có dấu nháy → Windows thử <code>C:\\Program.exe</code> trước. Nếu đường dẫn đó có thể ghi → leo thang đặc quyền lên SYSTEM.</span></li><li><strong>Detection:</strong> <span class="en">Sysmon Event 7 (ImageLoaded) for unexpected DLL path. PowerShell: <code>Get-WmiObject Win32_Service | Where-Object {$_.PathName -notmatch '"'}  </code></span><span class="vi">Sysmon Event 7 (ImageLoaded) cho đường dẫn DLL bất ngờ. PowerShell: <code>Get-WmiObject Win32_Service | Where-Object {$_.PathName -notmatch '"'}  </code></span></li></ul>
-<h3 class="qz-theory"><span class="en">NTFS Permissions, SIDs &amp; Weak ACLs</span><span class="vi">Quyền NTFS, SID &amp; ACL yếu</span></h3>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
 <ul>
-<li><strong>SID:</strong> <span class="en">A Security Identifier uniquely identifies a principal (user/group/computer); ACEs in the DACL grant/deny that SID rights. Well-known SIDs: <code>S-1-5-18</code> = SYSTEM, <code>S-1-5-32-544</code> = Administrators. SIDs persist even after a rename.</span><span class="vi">Security Identifier định danh duy nhất một chủ thể (user/nhóm/máy); các ACE trong DACL cấp/từ chối quyền cho SID đó. SID nổi tiếng: <code>S-1-5-18</code> = SYSTEM, <code>S-1-5-32-544</code> = Administrators. SID tồn tại kể cả sau khi đổi tên.</span></li>
-<li><strong><span class="en">Weak-permission privilege escalation:</span><span class="vi">Leo thang đặc quyền do quyền yếu:</span></strong> <span class="en">If a low-privileged user has Write/Modify on a binary (or its folder) that runs as SYSTEM — or can edit a service's <code>ImagePath</code> registry value — they can substitute a malicious executable that runs as SYSTEM.</span><span class="vi">Nếu người dùng quyền thấp có Write/Modify trên một binary (hoặc thư mục) chạy dưới SYSTEM — hoặc sửa được giá trị registry <code>ImagePath</code> của service — họ có thể thay file thực thi độc hại chạy dưới SYSTEM.</span></li>
-<li><strong><span class="en">Share vs NTFS:</span><span class="vi">Share vs NTFS:</span></strong> <span class="en">For network access both apply and the <strong>most restrictive</strong> wins; locally only NTFS applies.</span><span class="vi">Với truy cập mạng cả hai áp dụng và quyền <strong>hạn chế nhất</strong> thắng; cục bộ chỉ NTFS áp dụng.</span></li></ul>
-`;
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>
+<code>icacls path</code>, <code>whoami /groups</code>, PowerShell <code>Get-Acl</code>
+</li>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Registry: <code>Get-Acl HKLM:\...</code>.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>User không sửa service binary nhưng có Modify trên thư mục cha nên có thể thay file sau rename/delete; phải đánh giá quyền trên cả path.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>Deny thường ưu tiên nhưng ordering/inheritance và owner privilege tạo nuance.</li>
+<li>Share và NTFS kết hợp theo quyền hiệu lực hạn chế hơn khi truy cập mạng.</li>
+<li>Administrator không tự động đọc mọi file nếu token/UAC/ACL chặn.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> Microsoft Access Control Model; Windows security descriptors; NIST least privilege guidance.</p>
+</div>
+</details>`;

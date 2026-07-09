@@ -1,34 +1,100 @@
-/* Theory — E7 (Appendix E). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["e7"]=`<h2>E7 — Identifying Suspect Files</h2><ul>
+/* Theory — E7 (Appendix E). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["e7"]=`<h2>E7 — Identifying Suspect Files</h2>
 
-<li><span class="en">Hash tables: compare to known-good / known-bad sets; use SHA-256 primarily.</span><span class="vi">Bảng hash: so sánh với tập đã biết là tốt / xấu; ưu tiên dùng SHA-256.</span></li>
+<div class="tier recall" id="e7-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Known-good hash sets (NSRL):</strong> <span class="en">Filter OUT known OS/app files to focus on the unknown — it is NOT a malware blocklist.</span><span class="vi">Lọc BỎ các file OS/ứng dụng đã biết để tập trung vào file lạ — KHÔNG phải danh sách chặn malware.</span></li>
+<li><strong>Strings:</strong> <span class="en">Reveal URLs, IPs, paths, registry keys, API names — fast first-pass triage.</span><span class="vi">Lộ URL, IP, đường dẫn, khóa registry, tên API — bước phân loại nhanh đầu tiên.</span></li>
+<li><strong>Packed executable:</strong> <span class="en">High entropy + tiny import table + odd section names (UPX0) = likely packed; unpack before analysis.</span><span class="vi">Entropy cao + bảng import nhỏ + tên section lạ (UPX0) = khả năng bị pack; giải nén trước khi phân tích.</span></li>
+<li><strong>Fuzzy hashing (ssdeep):</strong> <span class="en">Finds SIMILAR variant files, where exact MD5/SHA would differ.</span><span class="vi">Tìm file BIẾN THỂ tương tự, nơi MD5/SHA chính xác sẽ khác nhau.</span></li>
+<li><strong>Signature analysis:</strong> <span class="en">Identify a file by magic bytes, not extension — a renamed .exe is still "MZ".</span><span class="vi">Nhận diện file bằng magic byte, không theo đuôi — .exe bị đổi tên vẫn là "MZ".</span></li>
+<li><strong>File path/permissions:</strong> <span class="en">svchost.exe outside System32, or odd write permissions, are red flags.</span><span class="vi">svchost.exe ngoài System32, hoặc quyền ghi lạ, là dấu hiệu đáng ngờ.</span></li>
+<li><strong>Authenticode signature:</strong> <span class="en">Tells you WHO signed it and that it is unaltered — NOT that it is safe.</span><span class="vi">Cho biết AI ký và file không bị sửa — KHÔNG có nghĩa là an toàn.</span></li>
+</ul></div></div>
 
-<li><span class="en">Strings: URLs, IPs, registry paths, commands, mutexes, user agents, errors.</span><span class="vi">Chuỗi ký tự: URL, IP, đường dẫn registry, lệnh, mutex, user agent, thông báo lỗi.</span></li>
+<details class="tier concept" id="e7-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Hash tables: known-good vs known-bad</h4>
+<p><strong>NSRL</strong> (NIST) là tập hash <em>known-good</em>: dùng để <strong>loại</strong> các file hệ điều hành/ứng dụng đã biết, thu hẹp về các file lạ cần xem. Đừng nhầm: nó không phải để "bắt malware bằng hash" (đó là known-bad list như VirusTotal/abuse.ch). Hash chính xác (MD5/SHA) chỉ khớp file <em>y hệt từng byte</em>.</p>
 
-<li><span class="en">Permissions: writable service paths or executables in unusual writable locations.</span><span class="vi">Quyền truy cập: đường dẫn dịch vụ có thể ghi hoặc file thực thi ở vị trí ghi bất thường.</span></li>
+<h4>Fuzzy hashing — vì sao cần</h4>
+<p>Malware thường tạo nhiều biến thể chỉ khác vài byte → MD5/SHA hoàn toàn khác. <strong>Fuzzy hash (ssdeep, TLSH)</strong> tính "độ tương tự" → gom nhóm các mẫu cùng họ dù không trùng byte. <strong>imphash</strong> (hash bảng import) cũng giúp gom binary cùng cách build.</p>
 
-<li><span class="en">Packed executables: high entropy, few imports, unusual sections, small import table.</span><span class="vi">File thực thi đóng gói: entropy cao, ít import, section bất thường, bảng import nhỏ.</span></li>
+<h4>Strings &amp; packing</h4>
+<p><strong>strings</strong> là triage nhanh: URL/IP/path/registry/API gợi ý chức năng. Nếu file <strong>gần như không có chuỗi nghĩa + import table rất nhỏ + entropy cao</strong> → khả năng bị <strong>pack/obfuscate</strong> (UPX, Themida...), phải <em>giải nén</em> (hoặc cho chạy động để tự bung) trước khi phân tích sâu.</p>
 
-<li><span class="en">Fuzzy hashing: ssdeep / TLSH helps find related variants.</span><span class="vi">Fuzzy hashing: ssdeep / TLSH giúp tìm các biến thể liên quan.</span></li>
+<h4>Signature analysis &amp; chữ ký số</h4>
+<p>Ưu tiên nhận diện bằng <strong>magic bytes/structure</strong> thay vì chỉ extension. <strong>Authenticode</strong> hợp lệ hỗ trợ rằng nội dung được ký chưa đổi kể từ khi ký và signature liên kết tới certificate/chain được kiểm tra; nó không tự chứng minh người vận hành private key hay file lành. Certificate có thể bị đánh cắp/lạm dụng và trust/revocation/timestamp policy đều quan trọng.</p>
+</div></details>
 
-<li><span class="en">Signature analysis: Authenticode validity, publisher, timestamp, certificate anomalies.</span><span class="vi">Phân tích chữ ký số: tính hợp lệ Authenticode, nhà xuất bản, timestamp, bất thường chứng chỉ.</span></li>
+<details class="tier reference" id="e7-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Identification techniques</h4>
+<div class="table-wrap"><table>
+<tr><th>Technique</th><th>Finds</th><th>Note</th></tr>
+<tr><td>Known-good hashes (NSRL)</td><td>Filter out known files</td><td>NOT a malware blocklist</td></tr>
+<tr><td>Known-bad hashes (VT/abuse.ch)</td><td>Match exact known malware</td><td>Exact byte match only</td></tr>
+<tr><td>Fuzzy hashing (ssdeep/TLSH)</td><td>Similar variants</td><td>Cluster families</td></tr>
+<tr><td>imphash</td><td>Same import table</td><td>Cluster by build</td></tr>
+<tr><td>Strings</td><td>URLs/IPs/APIs/paths</td><td>Fast triage</td></tr>
+<tr><td>Signature (magic bytes)</td><td>True file type</td><td>Beats renamed extensions</td></tr>
+</table></div>
 
-</ul><h3>NSRL, Import Hash, and FLOSS</h3><ul><li><strong>NSRL (National Software Reference Library):</strong> Database of hashes of legitimate software from known vendors. Use to exclude known-good files from investigation — dramatically reduces noise in large-scale triage. Available as hashset in tools like Autopsy and X-Ways.</li><li><strong>imphash (Import Hash):</strong> Hash of the PE import table in specific order. Same imports in same order = likely same malware family or compiler. Use to cluster related samples and identify variants of the same malware.</li><li><strong>FLOSS (FireEye Labs Obfuscated String Solver):</strong> Extracts obfuscated strings that <code>strings</code> tool misses — stack strings, decoded strings, XOR-encoded strings. Run: <code>floss malware.exe</code></li><li><strong>Triage workflow:</strong> Compute hash → NSRL exclude known-good → VirusTotal lookup → strings + FLOSS → imphash clustering → static analysis</li></ul>
+<h4>Packed-file indicators</h4>
+<div class="table-wrap"><table>
+<tr><th>Indicator</th><th>Meaning</th></tr>
+<tr><td>High section entropy (&gt;7.0)</td><td>Compressed/encrypted</td></tr>
+<tr><td>Tiny import table</td><td>APIs resolved at runtime</td></tr>
+<tr><td>Section names UPX0/UPX1, .themida</td><td>Known packers</td></tr>
+<tr><td>Few meaningful strings</td><td>Obfuscated</td></tr>
+</table></div>
 
-<h3>Malware Packing and Entropy Analysis</h3>
+<h4>Authenticode signature — what it does / doesn't prove</h4>
+<div class="table-wrap"><table>
+<tr><th>Supports when validation succeeds</th><th>Does NOT prove</th></tr>
+<tr><td>Who signed it; file unaltered since signing</td><td>That the file is safe (certs get stolen/abused)</td></tr>
+</table></div>
+</div></details>
 
-<p class="sub-heading"><span class="en">Packing Indicators</span><span class="vi">Chỉ báo file đóng gói</span></p><ul><li><strong>High entropy</strong> <span class="en">(&gt;7.0) in code sections → likely packed or encrypted.</span><span class="vi">(&gt;7.0) trong các section code → có thể đã đóng gói hoặc mã hóa.</span></li><li><strong>Few imports</strong> <span class="en">In the import table (only <code>LoadLibrary</code> / <code>GetProcAddress</code>).</span><span class="vi">Trong bảng import (chỉ có <code>LoadLibrary</code> / <code>GetProcAddress</code>).</span></li><li><strong>Section names:</strong> <code>UPX0</code>, <code>UPX1</code>, <code>.aspack</code>, <code>.themida</code>.</li><li><span class="en">Small original section with large appended section.</span><span class="vi">Section gốc nhỏ với section được thêm vào lớn.</span></li><li><span class="en">Unusual entry point (not at code section start).</span><span class="vi">Entry point bất thường (không nằm ở đầu section code).</span></li></ul>
-
-<h3>Common Packers (Awareness Level)</h3>
-
-<div class="table-wrap"><table><tr><th>Packer</th><th>Notes</th></tr><tr><td>UPX</td><td>Open source, easy to unpack (<code>upx -d</code>)</td></tr><tr><td>Themida / VMProtect</td><td>Commercial, anti-debug, virtualisation-based</td></tr><tr><td>ASPack</td><td>Older, common in older malware</td></tr><tr><td>Custom packers</td><td>Unique per malware family; requires dynamic analysis</td></tr></table></div>
-
-<h3><span class="en">Analysis Approach</span><span class="vi">Phương pháp phân tích</span></h3><ol><li><span class="en">Detect packing via entropy and import-table analysis.</span><span class="vi">Phát hiện đóng gói qua phân tích entropy và bảng import.</span></li><li><span class="en">Attempt automated unpacking (UPX).</span><span class="vi">Thử giải nén tự động (UPX).</span></li><li><span class="en">If automated fails: dynamic analysis — run in sandbox, dump unpacked code from memory.</span><span class="vi">Nếu tự động thất bại: phân tích động — chạy trong sandbox, dump code đã giải nén từ bộ nhớ.</span></li><li><span class="en">Static analysis of unpacked code.</span><span class="vi">Phân tích tĩnh code đã giải nén.</span></li></ol>
-
-<h3>File Permissions and Signature Analysis</h3><ul><li><strong>File permissions (Windows):</strong> Writable service executables = binary planting for privilege escalation. Check with <code>icacls</code> or Sysinternals AccessChk. World-writable directories in service path = DLL hijacking risk.</li><li><strong>File permissions (Linux):</strong> SUID (<code>chmod u+s</code>) — executable runs with file owner's privileges. Malicious SUID binary = instant privilege escalation. Find with: <code>find / -perm -4000 -type f</code>. SGID and world-writable (<code>777</code>) are also suspicious.</li><li><strong>Signature analysis / magic bytes:</strong> File type identified by header bytes, not extension. PE files: <code>4D 5A</code> (MZ). ZIP: <code>50 4B 03 04</code>. PDF: <code>25 50 44 46</code> (%PDF). ELF: <code>7F 45 4C 46</code>. Tool: <code>file filename</code> or Detect-It-Easy (DIE).</li><li><strong>Extension mismatch:</strong> File named <code>image.jpg</code> with MZ magic bytes = disguised executable. Always verify magic bytes, not just extension.</li></ul>
-<h3 class="qz-theory"><span class="en">Identifying Suspect Files</span><span class="vi">Nhận diện file nghi vấn</span></h3>
+<details class="tier deep-dive" id="e7-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Hash exact rồi kiểm known-good/bad; xác định type bằng magic.</li>
+<li>Kiểm signature, strings/imports/resources/entropy/sections và fuzzy similarity.</li>
+<li>Đưa mẫu nghiêm trọng sang static/dynamic analysis cô lập.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><strong><span class="en">Packing:</span><span class="vi">Pack:</span></strong> <span class="en">Very high entropy (near 8 bits/byte) + few meaningful strings = likely packed/encrypted (UPX, custom) — unpack before deeper static analysis.</span><span class="vi">Entropy rất cao (gần 8 bit/byte) + ít chuỗi có nghĩa = nhiều khả năng đã pack/mã hóa (UPX, tùy biến) — giải nén trước khi phân tích tĩnh sâu.</span></li>
-<li><strong>Hashing:</strong> <span class="en">Exact hashes (SHA-256) match identical files; <strong>fuzzy hashing</strong> (ssdeep) scores <em>similarity</em> to cluster malware variants; <strong>imphash</strong> hashes the import table to group samples from the same toolchain. <strong>NSRL</strong> known-good hash sets whitelist standard files so analysts focus on the unknown.</span><span class="vi">Hash chính xác (SHA-256) khớp file giống hệt; <strong>fuzzy hashing</strong> (ssdeep) chấm điểm <em>tương tự</em> để gom biến thể; <strong>imphash</strong> băm bảng import để gom mẫu cùng toolchain. Bộ hash known-good <strong>NSRL</strong> whitelist file chuẩn để analyst tập trung vào cái lạ.</span></li>
-<li><strong><span class="en">Context over name:</span><span class="vi">Bối cảnh hơn tên:</span></strong> <span class="en">Malware masquerades as system binaries in wrong locations (<code>svchost.exe</code> outside System32) — verify by path, hash and signature. A valid <strong>Authenticode</strong> signature proves who signed it and that it is unchanged, but <em>not</em> that it is benign (signed malware exists).</span><span class="vi">Mã độc giả dạng binary hệ thống ở vị trí sai (<code>svchost.exe</code> ngoài System32) — xác minh bằng đường dẫn, hash và chữ ký. Chữ ký <strong>Authenticode</strong> hợp lệ chứng minh ai ký và file không đổi, nhưng <em>không</em> nghĩa là lành tính (mã độc có chữ ký vẫn tồn tại).</span></li></ul>
-`;
+<li>SHA-256, Authenticode chain/status, ssdeep/TLSH score.</li>
+<li>Packed section, overlay, suspicious permissions, compile metadata và ACL/path.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>
+<code>Get-FileHash -Algorithm SHA256</code>, Sigcheck, strings, capa, FLOSS.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>Signed binary không tự benign: certificate có thể stolen hoặc signed binary bị DLL side-load.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>MD5 collision risk; dùng SHA-256 cho identity.</li>
+<li>Fuzzy score phụ thuộc kích thước/algorithm, không là verdict.</li>
+<li>High entropy cũng có thể là compressed resource.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> NIST hash policy; Microsoft Authenticode; YARA/capa documentation.</p>
+</div>
+</details>`;

@@ -1,62 +1,88 @@
-/* Theory — D6 (Appendix D). Edit the HTML below. */
+/* Theory — D6 (Appendix D). 3-tier layout: Recall / Concept / Reference. */
 (window.CPIA_THEORY=window.CPIA_THEORY||{})["d6"]=`<h2>D6 — Encryption</h2>
 
-<h3>Encryption vs obfuscation</h3>
+<div class="tier recall" id="d6-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>Channel fingerprinting (JA3):</strong> <span class="en">Identify a client by HOW it negotiates TLS (the ClientHello) — works without decrypting.</span><span class="vi">Nhận diện client qua CÁCH nó thỏa thuận TLS (ClientHello) — không cần giải mã.</span></li>
+<li><strong>Flow analysis without decryption:</strong> <span class="en">Volume, direction, timing and packet-size patterns still characterise an encrypted flow.</span><span class="vi">Khối lượng, chiều, thời gian và mẫu kích thước gói vẫn mô tả được một luồng mã hóa.</span></li>
+<li><strong>Entropy caveat:</strong> <span class="en">High entropy alone can't tell encryption from compression — both look near-random.</span><span class="vi">Chỉ entropy cao không phân biệt được mã hóa với nén — cả hai đều gần ngẫu nhiên.</span></li>
+<li><strong>Weak obfuscation:</strong> <span class="en">Single-byte XOR, ROL/ROR, or codebooks are weak, easily reversed (e.g. known-plaintext).</span><span class="vi">XOR một byte, ROL/ROR, hoặc codebook là yếu, dễ đảo (vd known-plaintext).</span></li>
+<li><strong>ECB tell:</strong> <span class="en">Repeating identical ciphertext blocks reveal ECB mode (patterns leak).</span><span class="vi">Các khối ciphertext giống nhau lặp lại lộ chế độ ECB (lộ mẫu).</span></li>
+</ul></div></div>
 
-<div class="table-wrap"><table><tr><th>Category</th><th>Purpose</th><th>Analysis approach</th></tr><tr><td>Encryption</td><td>Protect confidentiality with cryptographic keys.</td><td>Look at flow metadata, TLS fingerprints, certificate details, endpoint logs, and key material if available.</td></tr><tr><td>Obfuscation</td><td>Hide meaning without necessarily providing strong cryptographic security.</td><td>Attempt decoding / deobfuscation: XOR, ROL, Base64, custom codebooks, compression, or layered encodings.</td></tr></table></div>
+<details class="tier concept" id="d6-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Phân tích lưu lượng mã hóa mà không giải mã</h4>
+<p>Không cần giải mã vẫn đặc trưng hóa được một flow: <strong>channel/TLS fingerprinting (JA3/JA3S)</strong> nhận diện client/server qua cách dựng ClientHello/ServerHello (bộ cipher, extension, thứ tự) — bắt được malware dùng thư viện TLS riêng. <strong>Flow analysis</strong>: khối lượng, chiều (upload/download), QoS, thời gian, mẫu kích thước gói — vd beacon đều đặn, exfil upload lớn.</p>
 
+<h4>Entropy: mã hóa hay nén?</h4>
+<p>Dữ liệu mã hóa và dữ liệu nén <em>đều có entropy gần cực đại</em> → chỉ nhìn entropy <strong>không phân biệt</strong> được hai loại. Cần thêm ngữ cảnh (header định dạng, cấu trúc, hành vi).</p>
+
+<h4>Obfuscation yếu &amp; de-obfuscation</h4>
+<p>Nhiều malware "mã hóa" chuỗi/C2 bằng kỹ thuật yếu: <strong>XOR một byte</strong>, <strong>ROL/ROR n bit</strong>, <strong>codebook/Base64 sửa đổi</strong>. Đây là <em>obfuscation</em>, không phải mật mã thật — đảo ngược dễ: thử <strong>known-plaintext</strong> (vd XOR một header "MZ" đã biết) hoặc brute-force khóa nhỏ. <strong>ECB mode</strong> lộ qua các khối 16-byte lặp lại giống nhau.</p>
+</div></details>
+
+<details class="tier reference" id="d6-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>Analysing encrypted/obfuscated traffic</h4>
+<div class="table-wrap"><table>
+<tr><th>Technique</th><th>What it gives</th></tr>
+<tr><td>JA3 / JA3S fingerprint</td><td>Client/server TLS identity (no decryption)</td></tr>
+<tr><td>Flow analysis</td><td>Volume, direction, timing, packet sizes</td></tr>
+<tr><td>Entropy</td><td>Random-looking ≠ proof of encryption</td></tr>
+</table></div>
+
+<h4>Weak obfuscation &amp; reversal</h4>
+<div class="table-wrap"><table>
+<tr><th>Scheme</th><th>Reversal</th></tr>
+<tr><td>Single-byte XOR</td><td>Known-plaintext or brute-force 256 keys</td></tr>
+<tr><td>ROL / ROR n</td><td>Rotate back</td></tr>
+<tr><td>Codebook / modified Base64</td><td>Recover the table</td></tr>
+<tr><td>ECB mode</td><td>Identical blocks repeat (pattern leak)</td></tr>
+</table></div>
+</div></details>
+
+<details class="tier deep-dive" id="d6-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Không giải mã vẫn phân tích metadata: endpoints, timing, size, direction, handshake và fingerprint.</li>
+<li>Phân biệt encryption/compression/encoding bằng structure, entropy và decoder test.</li>
+<li>Với XOR/ROL/codebook, tìm known plaintext/key period rồi xác minh round-trip.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-
-<li><span class="en">Encrypted traffic still exposes metadata: source / destination, timing, volume, direction, SNI, certificate fields, JA3 / JA3S, DNS pre-resolution.</span><span class="vi">Lưu lượng mã hóa vẫn để lộ metadata: nguồn / đích, thời điểm, khối lượng, chiều, SNI, trường chứng chỉ, JA3 / JA3S, phân giải DNS trước.</span></li>
-
-<li><span class="en">Channel fingerprinting identifies tools / malware by TLS handshake or flow behaviour.</span><span class="vi">Fingerprinting kênh xác định công cụ / malware bằng TLS handshake hoặc hành vi flow.</span></li>
-
-<li><span class="en">Weak obfuscation: XOR, ROL / rotate, substitution / codebooks, Base64; use CyberChef or scripts to decode.</span><span class="vi">Che giấu yếu: XOR, ROL / xoay, thay thế / codebook, Base64; dùng CyberChef hoặc script để giải mã.</span></li>
-
-<li><span class="en">Flow analysis: exfil often shows unusual outbound volume, long sessions, or uploads to rare destinations.</span><span class="vi">Phân tích flow: đánh cắp dữ liệu thường cho thấy lượng outbound bất thường, phiên dài hoặc upload đến đích hiếm gặp.</span></li>
-
+<li>TLS version/cipher/SNI/ALPN/cert; flow byte/packet distribution; entropy.</li>
+<li>Repeated XOR key, rotate constant, substitution table và plaintext marker.</li>
 </ul>
-
-<h3>JA3 / JA3S and JA4+ Fingerprinting</h3>
-
-<p><strong>JA3</strong> hashes TLS ClientHello fields (version, cipher suites, extensions, elliptic curves, EC point formats) to create a client fingerprint. <strong>JA3S</strong> does the same for ServerHello. Together they fingerprint both sides of a TLS connection.</p>
-
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
 <ul>
-
-<li><strong>Use:</strong> Identify malware families by TLS client behaviour even when payload is encrypted; detect C2 frameworks by their default TLS configuration.</li>
-
-<li><strong>Limitation:</strong> Modern malware randomises cipher suites or mimics legitimate browsers to rotate JA3 hashes. JA3 alone is not definitive attribution.</li>
-
-<li><strong>Detection:</strong> Compare observed JA3 hashes against known-good (browser / update) and known-bad (Cobalt Strike, Metasploit) databases.</li>
-
+<li>
+<span class="cmd-safety cmd-active">NETWORK-ACTIVE</span>
+<code>openssl s_client</code>; Wireshark TLS fields; CyberChef offline cho XOR/ROL.</li>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>Entropy cao không tự chứng minh encryption.</li>
 </ul>
-
-<p><strong>JA4+</strong> is a newer fingerprinting suite that improves on JA3 limitations:</p>
-
+<h4>Tình huống diễn giải</h4>
+<p>Payload Base64 có entropy vừa và decode ra gzip; phải giải từng layer Base64→gzip, không gọi nhầm là encrypted.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
 <ul>
-
-<li><strong>JA4:</strong> Client fingerprint with structured format (TLS version, cipher count, extension count, ALPN, SNI presence).</li>
-
-<li><strong>JA4S:</strong> Server response fingerprint.</li>
-
-<li><strong>JA4H:</strong> HTTP client fingerprint (method, headers, order, cookies).</li>
-
-<li><strong>JA4X:</strong> X.509 certificate fingerprint.</li>
-
-<li><strong>Improvement:</strong> More resistant to randomisation; uses sorted cipher / extension lists; provides more granular identification.</li>
-
+<li>Compressed data cũng entropy cao.</li>
+<li>TLS fingerprint có collision và thay đổi theo library/config.</li>
+<li>Không thu private key/secret ngoài authority.</li>
 </ul>
-
-<p><strong>JA4 format example:</strong> <code>t13d1516h2_8daaf6152771_e5627efa2ab1</code> — where <code>t13</code> = TLS 1.3, <code>d</code> = draft, <code>15</code> = number of ciphers, <code>16</code> = number of extensions, <code>h2</code> = ALPN (HTTP/2), followed by truncated hashes of sorted ciphers and extensions.</p>
-
-<div class="callout info"><strong>Note:</strong> JA4+ is developed by FoxIO (John Althouse), not an IETF standard or RFC. It is an open-source project gaining adoption in network security tools.</div>
-
-<div class="callout info"><strong>Exam tip:</strong> JA3 helps identify C2 tools but is not proof. Correlate with other indicators (beaconing, domain age, certificate details, endpoint process telemetry).</div>
-
-
-<h3 class="qz-theory"><span class="en">Encrypted &amp; Obfuscated Traffic</span><span class="vi">Lưu lượng mã hóa &amp; làm rối</span></h3>
-<ul>
-<li><strong><span class="en">Weak obfuscation:</span><span class="vi">Làm rối yếu:</span></strong> <span class="en">Single-byte/repeating <strong>XOR</strong>, <strong>ROL/ROR</strong> and codebooks are reversible obfuscation, not cryptography — recover via brute force (256 keys), known-plaintext (e.g. a PE "MZ" header) or applying the inverse operation.</span><span class="vi"><strong>XOR</strong> một byte/lặp, <strong>ROL/ROR</strong> và codebook là làm rối đảo ngược được, không phải mật mã — khôi phục bằng brute force (256 khóa), known-plaintext (vd header "MZ" của PE) hoặc áp phép nghịch.</span></li>
-<li><strong>Entropy:</strong> <span class="en">High entropy alone cannot distinguish encryption from compression — both look near-random; use structural cues (headers, handshake presence) and statistical/timing patterns instead.</span><span class="vi">Chỉ entropy cao không phân biệt được mã hóa với nén — cả hai trông gần ngẫu nhiên; dùng manh mối cấu trúc (header, sự hiện diện handshake) và mẫu thống kê/thời điểm.</span></li>
-<li><strong><span class="en">Without decrypting TLS:</span><span class="vi">Không cần giải mã TLS:</span></strong> <span class="en">Channel/flow fingerprinting still characterises a flow — packet sizes/timing, upload/download ratio, TLS handshake fingerprints (<strong>JA3</strong>/JA3S, a hash of the ClientHello), SNI, certificate details and destination reputation. Malware using a non-browser TLS stack often yields a rare JA3.</span><span class="vi">Fingerprint kênh/flow vẫn đặc trưng hóa luồng — kích thước/thời điểm gói, tỉ lệ tải lên/xuống, dấu vân tay bắt tay TLS (<strong>JA3</strong>/JA3S, hash của ClientHello), SNI, chi tiết chứng chỉ và danh tiếng đích. Mã độc dùng stack TLS không phải trình duyệt thường cho JA3 hiếm.</span></li></ul>
-`;
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> TLS RFC 8446; NIST cryptographic guidance; Wireshark TLS documentation.</p>
+</div>
+</details>`;

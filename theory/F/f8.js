@@ -1,72 +1,101 @@
-/* Theory — F8 (Appendix F). Edit the HTML below. */
-(window.CPIA_THEORY=window.CPIA_THEORY||{})["f8"]=`<h2>F8 — Windows Executable File Formats</h2><ul>
+/* Theory — F8 (Appendix F). 3-tier layout: Recall / Concept / Reference. */
+(window.CPIA_THEORY=window.CPIA_THEORY||{})["f8"]=`<h2>F8 — Windows Executable File Formats</h2>
 
-<li><span class="en">PE / EXE / COM basics: DOS header, PE header, optional header, section table, imports, exports, resources, relocations.</span><span class="vi">Cơ bản PE / EXE / COM: DOS header, PE header, optional header, bảng section, import, export, tài nguyên, relocation.</span></li>
+<div class="tier recall" id="f8-recall">
+<div class="tier-h"><span class="tier-num">①</span><span class="en">Recall — must know</span><span class="vi">Recall — phải thuộc</span></div>
+<div class="tier-body"><ul>
+<li><strong>PE identification:</strong> <span class="en">Starts with "MZ" (DOS header); e_lfanew points to the "PE\\0\\0" signature. Identify by magic bytes, not extension.</span><span class="vi">Bắt đầu bằng "MZ" (DOS header); e_lfanew trỏ tới chữ ký "PE\\0\\0". Nhận diện bằng magic byte, không theo đuôi.</span></li>
+<li><strong>COM vs EXE:</strong> <span class="en">Legacy .COM = flat binary (no PE header); .EXE = PE-based.</span><span class="vi">.COM cũ = binary phẳng (không có header PE); .EXE = dựa trên PE.</span></li>
+<li><strong>Sections:</strong> <span class="en">.text (code), .data/.rdata (data/imports), .rsrc (resources), .reloc; IAT = imports, EAT = exports (DLLs).</span><span class="vi">.text (mã), .data/.rdata (dữ liệu/import), .rsrc (tài nguyên), .reloc; IAT = import, EAT = export (DLL).</span></li>
+<li><strong>Entry point &amp; TLS:</strong> <span class="en">AddressOfEntryPoint = where execution starts; TLS callbacks run BEFORE the entry point (anti-debug).</span><span class="vi">AddressOfEntryPoint = nơi thực thi bắt đầu; TLS callback chạy TRƯỚC entry point (anti-debug).</span></li>
+<li><strong>Packed signs:</strong> <span class="en">High entropy, tiny import table, UPX/odd section names, W+X sections = packed.</span><span class="vi">Entropy cao, bảng import nhỏ, tên section UPX/lạ, section W+X = bị pack.</span></li>
+<li><strong>Useful fields:</strong> <span class="en">TimeDateStamp (forgeable), Rich header (build toolchain), .NET = imports mscoree.dll.</span><span class="vi">TimeDateStamp (giả mạo được), Rich header (chuỗi công cụ build), .NET = import mscoree.dll.</span></li>
+</ul></div></div>
 
-<li><span class="en">Useful fields: compile timestamp, subsystem, entry point, image base, section names/sizes/entropy, imports, digital signature.</span><span class="vi">Trường hữu ích: timestamp biên dịch, subsystem, entry point, image base, tên / kích thước / entropy section, import, chữ ký số.</span></li>
+<details class="tier concept" id="f8-concept">
+<summary><span class="tier-num">②</span><span class="en">Concept — understand deeply</span><span class="vi">Concept — hiểu sâu</span></summary>
+<div class="tier-body">
+<h4>Cấu trúc PE</h4>
+<p>Mọi PE bắt đầu bằng <strong>DOS header "MZ"</strong>; trường <code>e_lfanew</code> (offset 0x3C) trỏ tới chữ ký <strong>"PE\\0\\0"</strong> rồi đến file header + optional header + bảng section. Nhận diện file bằng <em>magic byte</em> chứ không theo đuôi (ZIP="PK", PDF="%PDF", ELF=0x7F ELF). <strong>.COM</strong> cũ là binary phẳng không có header PE.</p>
 
-<li><span class="en">Suspicious signs: packed sections, RWX permissions, few imports, overlay data, invalid signature, strange entry point.</span><span class="vi">Dấu hiệu đáng ngờ: section đã đóng gói, quyền RWX, ít import, dữ liệu overlay, chữ ký không hợp lệ, entry point lạ.</span></li>
+<h4>Section, IAT, EAT, entry point</h4>
+<p>Section điển hình: <strong>.text</strong> (mã), <strong>.data/.rdata</strong> (dữ liệu/import), <strong>.rsrc</strong> (tài nguyên: icon, config nhúng), <strong>.reloc</strong>. <strong>IAT (Import Address Table)</strong> = các hàm/DLL mà binary gọi (bản đồ năng lực); loader điền địa chỉ đã phân giải — IAT hooking đổi con trỏ này. <strong>EAT (Export)</strong> liên quan tới DLL (hàm phơi ra). <strong>AddressOfEntryPoint</strong> = nơi bắt đầu chạy; <strong>TLS callback</strong> chạy <em>trước</em> entry point → hay dùng cho anti-debug.</p>
 
-<li><span class="en">Extract value: strings, resources, embedded config, certificate info, icons, URLs, mutexes, import APIs.</span><span class="vi">Trích xuất giá trị: chuỗi, tài nguyên, config nhúng, thông tin chứng chỉ, icon, URL, mutex, API import.</span></li>
+<h4>Trích thông tin giá trị &amp; dấu hiệu pack</h4>
+<p>Hữu ích: <strong>strings</strong> (URL/IP/path/API), <strong>imports</strong> (năng lực), <strong>TimeDateStamp</strong> (manh mối build nhưng <em>giả mạo/zero được</em>), <strong>Rich header</strong> (lấy dấu chuỗi công cụ build để gom mẫu), chữ ký số, tài nguyên nhúng. <strong>Dấu hiệu pack</strong>: entropy section cao (&gt;7.0), import table rất nhỏ (chỉ LoadLibrary+GetProcAddress), tên section UPX0/.themida, section W+X. <strong>.NET</strong>: import mscoree.dll + .NET metadata → dùng dnSpy/ILSpy.</p>
+</div></details>
 
-</ul>
-
-<h3>Packed vs Unpacked Indicators</h3>
-
+<details class="tier reference" id="f8-reference">
+<summary><span class="tier-num">③</span><span class="en">Reference — lookup tables</span><span class="vi">Reference — bảng tra cứu</span></summary>
+<div class="tier-body">
+<h4>PE structure</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Indicator</th><th>Packed</th><th>Unpacked / Legitimate</th></tr>
-
-<tr><td>Entropy</td><td>High (&gt;7.0) in code sections — compressed / encrypted data</td><td>Lower (5.0-6.5) — readable code and data</td></tr>
-
-<tr><td>Import table</td><td>Few imports; often only LoadLibrary + GetProcAddress</td><td>Rich import table with many specific API functions</td></tr>
-
-<tr><td>Section names</td><td>UPX0, UPX1, .aspack, .themida, .vmp0, or random names</td><td>.text, .data, .rdata, .rsrc — standard names</td></tr>
-
-<tr><td>Section sizes</td><td>Small original section + large appended section</td><td>Proportional section sizes</td></tr>
-
-<tr><td>Entry point</td><td>Not at .text start; may be in unusual section</td><td>At .text section or standard entry point</td></tr>
-
-<tr><td>Overlay data</td><td>Large data appended after PE sections</td><td>Minimal or expected overlay</td></tr>
-
+<tr><th>Part</th><th>Role</th></tr>
+<tr><td>DOS header ("MZ")</td><td>Start; e_lfanew → PE signature</td></tr>
+<tr><td>PE signature ("PE\\0\\0")</td><td>Marks the PE</td></tr>
+<tr><td>.text</td><td>Executable code</td></tr>
+<tr><td>.data / .rdata</td><td>Data / imports / constants</td></tr>
+<tr><td>.rsrc</td><td>Resources (icons, embedded config)</td></tr>
+<tr><td>IAT</td><td>Imported functions (capability map)</td></tr>
+<tr><td>EAT</td><td>Exports (DLLs)</td></tr>
+<tr><td>AddressOfEntryPoint</td><td>Where execution begins</td></tr>
+<tr><td>TLS callbacks</td><td>Run before entry point (anti-debug)</td></tr>
 </table></div>
 
-<h3>.NET Assemblies and PowerShell Obfuscation</h3>
-
-<ul>
-
-<li><strong>.NET PE:</strong> Contains CLR metadata (type definitions, method names, strings) even when obfuscated; parse with dnSpy, ILSpy, or CFF Explorer.</li>
-
-<li><strong>.NET indicators:</strong> mscoree.dll import, CLR header in PE optional header, .NET-specific sections (.text with CLR structures).</li>
-
-<li><strong>PowerShell obfuscation techniques:</strong></li>
-
-</ul>
-
+<h4>Packed vs clean</h4>
 <div class="table-wrap"><table>
-
-<tr><th>Technique</th><th>Example</th><th>Detection</th></tr>
-
-<tr><td>String concatenation</td><td><code>"Pow"+"er"+"Shell"</code></td><td>Reassemble strings; look for Invoke-Expression patterns.</td></tr>
-
-<tr><td>Base64 encoding</td><td><code>-EncodedCommand</code> flag</td><td>Decode Base64 payload; Event 4104 script block logging captures decoded commands.</td></tr>
-
-<tr><td>Character replacement</td><td><code>'IEX' -replace 'X','x'+'ec'</code></td><td>Pattern matching for -replace, -join, -f format operator.</td></tr>
-
-<tr><td>Tick insertion</td><td><code>In\`vo\`ke-Ex\`pres\`sion</code></td><td>Remove backticks and match against known cmdlet names.</td></tr>
-
-<tr><td>Environment variable expansion</td><td><code>$env:ComSpec[4,15,25]-join''</code></td><td>Expand environment variables and reconstruct strings.</td></tr>
-
-<tr><td>Type casting</td><td><code>[char]101+[char]120</code></td><td>Evaluate character codes to reconstruct strings.</td></tr>
-
+<tr><th>Signal</th><th>Packed</th><th>Clean</th></tr>
+<tr><td>Section entropy</td><td>High (&gt;7.0)</td><td>~5–6.5</td></tr>
+<tr><td>Import table</td><td>Tiny</td><td>Rich, specific APIs</td></tr>
+<tr><td>Section names</td><td>UPX0, .themida</td><td>.text/.data/.rdata</td></tr>
+<tr><td>Permissions</td><td>W+X section</td><td>Standard</td></tr>
 </table></div>
 
-<div class="callout info"><strong>Exam tip:</strong> <span class="en">PowerShell Script Block Logging (Event 4104) captures the actual commands executed, even after deobfuscation. This is the most reliable source for PowerShell-based attacks.</span><span class="vi">PowerShell Script Block Logging (Event 4104) bắt các lệnh thực sự được thực thi, ngay cả sau khi deobfuscation. Đây là nguồn đáng tin cậy nhất cho các cuộc tấn công dựa trên PowerShell.</span></div>
+<h4>Useful PE fields</h4>
+<div class="table-wrap"><table>
+<tr><th>Field</th><th>Use</th></tr>
+<tr><td>TimeDateStamp</td><td>Build clue (forgeable/zeroed)</td></tr>
+<tr><td>Rich header</td><td>Build toolchain fingerprint</td></tr>
+<tr><td>Imports mscoree.dll</td><td>.NET / managed assembly</td></tr>
+<tr><td>Overlay (after last section)</td><td>Hidden config / 2nd-stage payload</td></tr>
+</table></div>
+</div></details>
 
-<h3>PE Magic Bytes and Key Analysis Techniques</h3><ul><li><strong>Magic bytes:</strong> PE files start with <code>4D 5A</code> ("MZ") at byte 0. PE signature <code>50 45 00 00</code> ("PE\\0\\0") at offset in e_lfanew (byte 0x3C). These definitively identify PE files.</li><li><strong>Import table (IAT) capability map:</strong><ul><li><code>CreateRemoteThread + WriteProcessMemory</code> → process injection</li><li><code>CryptEncrypt / CryptGenKey</code> → cryptographic operations (ransomware, C2)</li><li><code>WinExec / ShellExecute</code> → code execution</li><li><code>RegSetValueEx</code> → registry persistence</li><li><code>InternetConnect / HttpSendRequest</code> → HTTP C2</li></ul></li><li><strong>Section entropy:</strong> Normal code ~6.0 bits / byte. Packed or encrypted section &gt;7.0 bits = compressed / encrypted — unpack before further analysis.</li><li><strong>CAPA tool:</strong> <code>capa malware.exe</code> → automatically maps binary capabilities to MITRE ATT&amp;CK framework. Best triage tool for rapid capability identification.</li></ul>
-<h3 class="qz-theory"><span class="en">Windows Executable (PE) File Format</span><span class="vi">Định dạng file thực thi Windows (PE)</span></h3>
+<details class="tier deep-dive" id="f8-deep-dive">
+<summary>
+<span class="tier-num">④</span>Deep Dive — thực hành, diễn giải &amp; giới hạn</summary>
+<div class="tier-body">
+<div class="deep-grid">
+<div class="deep-card">
+<h4>Quy trình phân tích</h4>
+<ol>
+<li>Validate MZ→e_lfanew→PE signature; parse COFF/Optional Header/data directories/sections.</li>
+<li>Map RVA↔file offset; đọc entry point, imports/exports/resources/relocations/TLS/debug/certificate/overlay.</li>
+<li>Đánh giá entropy/permissions/size mismatch và packer; extract config/payload trên copy.</li>
+</ol>
+</div>
+<div class="deep-card">
+<h4>Artefact / dữ liệu cần đọc</h4>
 <ul>
-<li><strong><span class="en">Identification:</span><span class="vi">Nhận diện:</span></strong> <span class="en">Every PE begins with the DOS "MZ" header; <code>e_lfanew</code> points to the "PE\\0\\0" signature. Identify by these magic bytes, not the extension (ZIP="PK", PDF="%PDF", ELF="\\x7FELF"). Legacy <code>.COM</code> = flat binary (no PE header).</span><span class="vi">Mọi PE bắt đầu bằng header DOS "MZ"; <code>e_lfanew</code> trỏ tới chữ ký "PE\\0\\0". Nhận diện bằng magic byte này, không theo đuôi (ZIP="PK", PDF="%PDF", ELF="\\x7FELF"). <code>.COM</code> cũ = binary phẳng (không có header PE).</span></li>
-<li><strong>Sections:</strong> <code>.text</code> <span class="en">(code)</span><span class="vi">(mã)</span>, <code>.data/.rdata</code> <span class="en">(data, imports)</span><span class="vi">(dữ liệu, import)</span>, <code>.rsrc</code> <span class="en">(resources)</span><span class="vi">(tài nguyên)</span>, <code>.reloc</code>. <strong>IAT</strong> <span class="en">(imports) reveals capability; the loader fills it with resolved function addresses — IAT hooking swaps these pointers. <strong>EAT</strong> (exports) is relevant for DLLs. <code>AddressOfEntryPoint</code> = where execution starts (OEP after unpacking). <strong>TLS callbacks</strong> run before the entry point — used for anti-debug.</span><span class="vi">(import) lộ năng lực; loader điền nó bằng địa chỉ hàm đã phân giải — IAT hooking đổi các con trỏ này. <strong>EAT</strong> (export) liên quan tới DLL. <code>AddressOfEntryPoint</code> = nơi thực thi bắt đầu (OEP sau khi giải nén). <strong>TLS callback</strong> chạy trước entry point — dùng cho anti-debug.</span></li>
-<li><strong><span class="en">Packing indicators:</span><span class="vi">Dấu hiệu pack:</span></strong> <span class="en">UPX-named sections, a W+X high-entropy section, or virtual size ≫ raw size (space for unpacked code). An <strong>overlay</strong> (data after the last section) often hides config/payload. The <strong>Rich header</strong> fingerprints the build toolchain; <code>TimeDateStamp</code> is forgeable. A PE importing <code>mscoree.dll</code> = .NET assembly (use dnSpy/ILSpy). <code>strings</code> is a fast first-pass triage.</span><span class="vi">Section tên UPX, một section W+X entropy cao, hoặc virtual size ≫ raw size (chỗ cho code giải nén). Một <strong>overlay</strong> (dữ liệu sau section cuối) thường giấu config/payload. <strong>Rich header</strong> fingerprint toolchain biên dịch; <code>TimeDateStamp</code> có thể giả. PE import <code>mscoree.dll</code> = assembly .NET (dùng dnSpy/ILSpy). <code>strings</code> là bước triage đầu nhanh.</span></li></ul>
-`;
+<li>Machine/subsystem/ImageBase/AddressOfEntryPoint, section RVA/raw size.</li>
+<li>IAT/EAT, resource, Rich header, timestamp, Authenticode, .NET metadata.</li>
+</ul>
+</div>
+</div>
+<h4>Lệnh, bộ lọc hoặc thao tác hữu ích</h4>
+<ul>
+<li>
+<span class="cmd-safety cmd-ro">READ-ONLY/OFFLINE</span>PE-bear/CFF Explorer/pefile; <code>dumpbin /headers</code>; FLOSS/capa.</li>
+</ul>
+<h4>Tình huống diễn giải</h4>
+<p>Certificate table nằm ngoài mapped image và overlay sau last section có thể chứa config/payload; không bỏ qua dữ liệu ngoài section.</p>
+<h4>Bẫy, ngoại lệ &amp; kiểm chứng</h4>
+<ul>
+<li>TimeDateStamp/Rich header giả được.</li>
+<li>W+X/high entropy là heuristic.</li>
+<li>COM là flat legacy binary; DLL/SYS cũng dùng PE.</li>
+</ul>
+<p class="deep-ref">
+<strong>Nguồn nên đọc tiếp:</strong> Microsoft Learn “PE Format” (current PE/COFF structure, including DOS header, PE signature, COFF/optional headers and data directories); Microsoft Authenticode documentation; ECMA-335 .NET metadata specification.</p>
+</div>
+</details>`;
